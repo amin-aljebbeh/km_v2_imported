@@ -179,7 +179,7 @@ class _SalesReportState extends State<SalesReport> {
           header: Center(
             child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(response.warehouses[i].name, style: TextStyle(fontFamily: fontFamily, fontSize: 25))),
+                child: Text(response.warehouses[i].name, style: mainStyle.copyWith(fontSize: 25))),
           ),
         ));
       }

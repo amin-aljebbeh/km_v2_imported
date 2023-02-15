@@ -162,11 +162,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(widget.product.name,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: primaryColor,
-                                    fontFamily: fontFamily,
-                                    fontSize: 25)))),
+                                style: mainStyle.copyWith(
+                                    fontWeight: FontWeight.bold, color: primaryColor, fontSize: 25)))),
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -299,11 +296,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Text(numberOfOrders.toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                  fontFamily: fontFamily,
-                                  fontSize: 35)),
+                              style:
+                                  mainStyle.copyWith(fontWeight: FontWeight.w600, color: Colors.black, fontSize: 35)),
                         ),
                         const SizedBox(width: 10),
                         Padding(
@@ -324,8 +318,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               border: Border.all(color: primaryColor, width: 4)),
                           child: Center(
                               child: Text(outOfStock,
-                                  style:
-                                      TextStyle(fontSize: 25, fontWeight: FontWeight.bold, fontFamily: fontFamily)))),
+                                  style: mainStyle.copyWith(fontSize: 25, fontWeight: FontWeight.bold)))),
                     KammunButton(
                       text:
                           '$addToCart  (${StringUtils().oCcy.format(numberOfOrders * int.parse(price.split('.')[0]))})',

@@ -6,6 +6,8 @@ TextStyle mainStyle = TextStyle(fontFamily: fontFamily);
 
 TextStyle dialogStyle = mainStyle;
 
+TextStyle boldStyle = mainStyle.copyWith(fontWeight: FontWeight.bold);
+
 TextStyle decisionButtonStyle = mainStyle.copyWith(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w500);
 
 TextStyle paragraphStyle = mainStyle.copyWith(color: primaryColor, fontSize: 18, fontWeight: FontWeight.bold);

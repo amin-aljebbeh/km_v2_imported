@@ -78,7 +78,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
         onPressed: () {},
-        child: Text(total.toString(), style: const TextStyle(fontSize: 20)),
+        child: Text(total.toString(), style: mainStyle.copyWith(fontSize: 20)),
       ),
       appBar: InventorySearchTextField(
           onReload: () {

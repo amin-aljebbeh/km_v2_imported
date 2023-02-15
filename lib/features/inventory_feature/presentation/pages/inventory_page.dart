@@ -112,11 +112,7 @@ class _InventoryPageState extends State<InventoryPage> {
                   : state.inventoryState.products.isEmpty && !state.loadingState.isLoading
                       ? Padding(
                           padding: const EdgeInsets.only(top: 30.0),
-                          child: Center(
-                            child: Text('لا يوجد منتجات',
-                                style: TextStyle(
-                                    color: Colors.black, fontWeight: FontWeight.bold, fontFamily: fontFamily)),
-                          ))
+                          child: Center(child: Text('لا يوجد منتجات', style: boldStyle)))
                       : Expanded(
                           child: NotificationListener<ScrollNotification>(
                             onNotification: (ScrollNotification scrollInfo) {

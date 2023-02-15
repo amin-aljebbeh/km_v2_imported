@@ -87,7 +87,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                               const BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0))),
                       child: Center(
                           child: Text('منتجات نفذت أثناء التسوق',
-                              style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: fontFamily))),
+                              style: mainStyle.copyWith(fontSize: 20, color: Colors.white))),
                     )
                   : Container(),
               widget.notActiveProducts.isNotEmpty
@@ -123,7 +123,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                               const BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0))),
                       child: Center(
                           child: Text('منتجات تغير سعرها أثناء التسوق',
-                              style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: fontFamily))),
+                              style: mainStyle.copyWith(fontSize: 20, color: Colors.white))),
                     )
                   : Container(),
               widget.pricesChangesProducts.isNotEmpty
@@ -204,12 +204,11 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       children: <Widget>[
                         Text(
                           orderArray[index].name,
-                          style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18),
+                          style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18),
                         ),
                         Text(
                           orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400, color: greyColor, fontFamily: fontFamily, fontSize: 17),
+                          style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: greyColor, fontSize: 17),
                         ),
                       ],
                     ),
@@ -263,24 +262,15 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          orderArray[index].name,
-                          style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18),
-                        ),
+                        Text(orderArray[index].name,
+                            style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                         const SizedBox(height: 6),
-                        Text(
-                          orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400, color: greyColor, fontFamily: fontFamily, fontSize: 17),
-                        ),
+                        Text(orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
+                            style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: greyColor, fontSize: 17)),
                         const SizedBox(height: 8),
                         Text(
                             '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: primaryColor,
-                                fontFamily: fontFamily,
-                                fontSize: 18)),
+                            style: mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                       ],
                     ),
                   ),

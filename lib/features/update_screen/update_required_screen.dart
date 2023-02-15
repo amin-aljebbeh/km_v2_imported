@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/core_importer.dart';
 
 class UpdateScreen extends StatelessWidget {
-  static const String routeName = "/update";
+  static const String routeName = '/update';
 
   const UpdateScreen({Key key}) : super(key: key);
 
@@ -39,25 +39,17 @@ class UpdateScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image.asset('assets/update.png', width: 100, height: 150),
-                Text(
-                  "تحديث مطلوب",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 25.0, fontWeight: FontWeight.w500, fontFamily: fontFamily),
-                ),
+                Text('تحديث مطلوب',
+                    style: mainStyle.copyWith(color: Colors.black, fontSize: 25.0, fontWeight: FontWeight.w500)),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 10, left: 30, right: 15),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      " لديك نسخة قديمة من التطبيق يرجى التحديث حتى تتمكن من الإستفادة من خدمات كمّون ",
+                      ' لديك نسخة قديمة من التطبيق يرجى التحديث حتى تتمكن من الإستفادة من خدمات كمّون ',
                       textDirection: TextDirection.rtl,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontSize: 18,
-                        fontFamily: fontFamily,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: mainStyle.copyWith(color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),

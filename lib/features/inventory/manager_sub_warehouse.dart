@@ -5,6 +5,7 @@ import 'services/inventory_services.dart';
 
 class GetSubWarehouse extends StatefulWidget {
   static const String routeName = '/GetSubWarehouse';
+
   const GetSubWarehouse({Key key}) : super(key: key);
 
   @override
@@ -25,7 +26,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    List<SubWarehouse> response = await InventoryServices.getAdmin(adminId: prefs.getString("adminId"));
+    List<SubWarehouse> response = await InventoryServices.getAdmin(adminId: prefs.getString('adminId'));
     if (response != null) {
       setState(() {
         listOfWubWarehouse.addAll(response);
@@ -53,9 +54,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-          backgroundColor: primaryColor,
-          title: Text(kammun, style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold))),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text(kammun, style: boldStyle)),
       body: Container(
         child: isLoading
             ? const Loader()
@@ -63,9 +62,9 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                 padding: const EdgeInsets.all(20.0),
                 child: ListView(
                   children: [
-                    Text("يرجى إختيار المستودع", style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold)),
+                    Text('يرجى إختيار المستودع', style: boldStyle),
                     ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                       title: Column(
                         children: listOfWubWarehouse
                             .map((data) => Container(
@@ -130,9 +129,9 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                       const UpdateProductInfoWidget(
                         isForPriceRate: true,
                         title: ' عتبة التقييم:',
-                        textHint: "تقييم الأسعار",
+                        textHint: 'تقييم الأسعار',
                         inputType: TextInputType.number,
-                        bodyKey: "rate",
+                        bodyKey: 'rate',
                         productId: 0,
                         isForSubWarehouse: false,
                         initialText: '50',

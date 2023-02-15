@@ -108,10 +108,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           ),
                           InkWell(
                             onTap: () => Navigator.of(context).pop('updatePrice'),
-                            child: Text(
-                              shoppingCart,
-                              style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 30),
-                            ),
+                            child: Text(shoppingCart,
+                                style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 30)),
                           ),
                         ],
                       ),
@@ -138,20 +136,13 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       children: <Widget>[
                         Text(
                           subtotalString,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).primaryColorDark,
-                            fontFamily: fontFamily,
-                            fontSize: 17.0,
-                          ),
+                          style: mainStyle.copyWith(
+                              fontWeight: FontWeight.w400, color: Theme.of(context).primaryColorDark, fontSize: 17.0),
                         ),
                         Text(
                           '${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).primaryColorDark,
-                              fontFamily: fontFamily,
-                              fontSize: 17.0),
+                          style: mainStyle.copyWith(
+                              fontWeight: FontWeight.w500, color: Theme.of(context).primaryColorDark, fontSize: 17.0),
                         ),
                       ],
                     ),
@@ -160,19 +151,15 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(delivery,
-                            style: TextStyle(
+                            style: mainStyle.copyWith(
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: fontFamily,
                               fontSize: 16.0,
                             )),
                         Text(
                           '${StringUtils().oCcy.format(Services.deliveryPrice)} ${LoadingScreenServices.companyInformation.currency}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).primaryColorDark,
-                              fontFamily: fontFamily,
-                              fontSize: 16),
+                          style: mainStyle.copyWith(
+                              fontWeight: FontWeight.w500, color: Theme.of(context).primaryColorDark, fontSize: 16),
                         ),
                       ],
                     ),
@@ -181,19 +168,15 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(totalString,
-                            style: TextStyle(
+                            style: mainStyle.copyWith(
                               fontWeight: FontWeight.w700,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: fontFamily,
                               fontSize: 19.0,
                             )),
                         Text(
                           '${StringUtils().oCcy.format(total)} ${LoadingScreenServices.companyInformation.currency}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Theme.of(context).primaryColorDark,
-                              fontFamily: fontFamily,
-                              fontSize: 19),
+                          style: mainStyle.copyWith(
+                              fontWeight: FontWeight.w700, color: Theme.of(context).primaryColorDark, fontSize: 19),
                         ),
                       ],
                     ),
@@ -230,10 +213,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                           child: Text(
                                             'إضافة ملاحظة',
                                             textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: fontFamily),
+                                            style: mainStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                       ),
@@ -262,13 +242,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                             children: <Widget>[
                                               Padding(
                                                 padding: const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  'ملاحظات على الطلب',
-                                                  style: TextStyle(
-                                                      fontWeight: FontWeight.w700,
-                                                      fontFamily: fontFamily,
-                                                      fontSize: 18),
-                                                ),
+                                                child: Text('ملاحظات على الطلب',
+                                                    style:
+                                                        mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                                               ),
                                               Container(
                                                 padding: const EdgeInsets.only(left: 8, right: 8),
@@ -280,7 +256,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                                   textAlign: TextAlign.right,
                                                   keyboardType: TextInputType.multiline,
                                                   maxLines: 5,
-                                                  style: TextStyle(fontFamily: fontFamily),
+                                                  style: mainStyle,
                                                 ),
                                               ),
                                               KammunButton(
@@ -358,24 +334,15 @@ class _CartViewFinalState extends State<CartViewFinal> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          orderArray[index].name,
-                          style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18),
-                        ),
+                        Text(orderArray[index].name,
+                            style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                         const SizedBox(height: 6),
-                        Text(
-                          orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400, color: greyColor, fontFamily: fontFamily, fontSize: 17),
-                        ),
+                        Text(orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
+                            style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: greyColor, fontSize: 17)),
                         const SizedBox(height: 8),
                         Text(
                             '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: primaryColor,
-                                fontFamily: fontFamily,
-                                fontSize: 18)),
+                            style: mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                       ],
                     ),
                   ),
@@ -405,11 +372,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                 ),
                 const SizedBox(height: 5),
                 Text(orderArray[index].productCount.toString(),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).primaryColorDark,
-                        fontFamily: fontFamily,
-                        fontSize: 18)),
+                    style: mainStyle.copyWith(
+                        fontWeight: FontWeight.w500, color: Theme.of(context).primaryColorDark, fontSize: 18)),
                 const SizedBox(height: 5),
                 Container(
                   width: 30,

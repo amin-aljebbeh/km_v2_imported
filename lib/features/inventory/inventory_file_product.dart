@@ -75,7 +75,7 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: primaryColor,
-        child: Text(showList.length.toString(), style: const TextStyle(fontSize: 20)),
+        child: Text(showList.length.toString(), style: mainStyle.copyWith(fontSize: 20)),
       ),
       body: SafeArea(
         child: SizedBox(

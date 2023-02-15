@@ -10,35 +10,9 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen> {
   bool isLoading = false;
   bool isError = false;
-  AnimationController animationController;
-  Animation animation;
-
-  @override
-  void initState() {
-    super.initState();
-
-    animationController = AnimationController(duration: const Duration(seconds: 5), vsync: this);
-    animation = CurvedAnimation(parent: animationController, curve: Curves.decelerate);
-    animationController.forward();
-    animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        animationController.reverse(from: 1.0);
-      } else if (status == AnimationStatus.dismissed) {
-        animationController.forward();
-      }
-    });
-
-    animationController.addListener(() => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    animationController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +51,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       child: Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Center(
-                          child: Text(
-                            'الرقم الشخصي',
-                            style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 20),
-                          ),
+                          child: Text('الرقم الشخصي',
+                              style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 20)),
                         ),
                       ),
                     ),
@@ -98,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5.0),
                             child: Text(LoadingScreenServices.admin.phone ?? 'لا يوجد',
-                                style: TextStyle(fontFamily: fontFamily, fontSize: 25, color: Colors.black)),
+                                style: mainStyle.copyWith(fontSize: 25, color: Colors.black)),
                           ),
                           onTap: () {},
                         ),
@@ -111,12 +83,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 20.0),
                                   child: Center(
-                                    child: Text(
-                                      'المستودع',
-                                      style:
-                                          TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 20),
-                                    ),
-                                  ),
+                                      child: Text('المستودع',
+                                          style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 20))),
                                 ),
                               ),
                               Center(
@@ -134,8 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                 padding: const EdgeInsets.all(5),
                                                 decoration: const BoxDecoration(color: Colors.white),
                                                 child: Text(subWarehouse.name,
-                                                    style: TextStyle(
-                                                        fontFamily: fontFamily, fontSize: 25, color: Colors.black))))
+                                                    style: mainStyle.copyWith(fontSize: 25, color: Colors.black))))
                                             .toList()),
                                   ),
                                 ),
@@ -144,8 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   padding: const EdgeInsets.all(8.0),
                                   child: Center(
                                       child: Text('الجهة المفضلة لاستخدام الهاتف',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 20)))),
+                                          style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 20)))),
                               Center(
                                 child: Container(
                                   margin: const EdgeInsets.all(15),
@@ -180,9 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
-                        child: Text(logout,
-                            style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 20)),
-                      ),
+                          child: Text(logout, style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 20))),
                     ),
                     Center(
                       child: Container(
@@ -199,8 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   icon: Icon(Icons.logout, color: kmColors, size: 30))),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5.0),
-                            child: Text(logout,
-                                style: TextStyle(fontFamily: fontFamily, fontSize: 25, color: Colors.black)),
+                            child: Text(logout, style: mainStyle.copyWith(fontSize: 25, color: Colors.black)),
                           ),
                           onTap: () {},
                         ),

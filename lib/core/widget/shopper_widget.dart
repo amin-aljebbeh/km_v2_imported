@@ -43,8 +43,7 @@ class ShopperWidgetState extends State<ShopperWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(widget.shopper.name,
-                          style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18)),
+                      Text(widget.shopper.name, style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                       Wrap(
                         children: [
                           InkWell(

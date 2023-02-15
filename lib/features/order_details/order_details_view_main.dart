@@ -151,10 +151,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                               Text(
                                 '${StringUtils().oCcy.format(widget.remaining)}'
                                 ' ${LoadingScreenServices.companyInformation.currency}',
-                                style: TextStyle(
+                                style: mainStyle.copyWith(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
-                                  fontFamily: fontFamily,
                                   fontSize: 17.0,
                                 ),
                               ),
@@ -170,10 +169,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                               Text(
                                 '${StringUtils().oCcy.format(widget.totalDiscount)}'
                                 ' ${LoadingScreenServices.companyInformation.currency}',
-                                style: TextStyle(
+                                style: mainStyle.copyWith(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
-                                  fontFamily: fontFamily,
                                   fontSize: 17.0,
                                 ),
                               ),
@@ -189,10 +187,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                               Text(
                                 '${StringUtils().oCcy.format(widget.subTotal)}'
                                 ' ${LoadingScreenServices.companyInformation.currency}',
-                                style: TextStyle(
+                                style: mainStyle.copyWith(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
-                                  fontFamily: fontFamily,
                                   fontSize: 17.0,
                                 ),
                               ),

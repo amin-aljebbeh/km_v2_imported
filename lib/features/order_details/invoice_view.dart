@@ -38,9 +38,7 @@ class _InvoiceViewState extends State<InvoiceView> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-          backgroundColor: primaryColor,
-          title: Text('فاتورة الزبون', style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold))),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('فاتورة الزبون', style: boldStyle)),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,

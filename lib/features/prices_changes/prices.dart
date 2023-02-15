@@ -58,7 +58,7 @@ class _PricesState extends State<Prices> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: primaryColor,
-        child: Text('$numberOfProducts', style: const TextStyle(fontSize: 20)),
+        child: Text('$numberOfProducts', style: mainStyle.copyWith(fontSize: 20)),
       ),
       backgroundColor: Colors.white,
       appBar: InventorySearchTextField(onReload: () => _loadData(), controller: _controller, context: context),
@@ -81,10 +81,8 @@ class _PricesState extends State<Prices> {
                       ? Padding(
                           padding: const EdgeInsets.only(top: 30.0),
                           child: Center(
-                            child: Text('لا يوجد منتجات تغير سعرها اليوم',
-                                style: TextStyle(
-                                    color: Colors.black, fontWeight: FontWeight.bold, fontFamily: fontFamily)),
-                          ),
+                              child: Text('لا يوجد منتجات تغير سعرها اليوم',
+                                  style: mainStyle.copyWith(color: Colors.black, fontWeight: FontWeight.bold))),
                         )
                       : Expanded(
                           child: ListView.builder(

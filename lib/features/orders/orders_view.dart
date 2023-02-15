@@ -263,12 +263,8 @@ class OrdersViewState extends State<OrdersView> {
                             child: Center(
                               child: Text(
                                 'لا يوجد أي طلبات سابقة',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: greyColor,
-                                  fontFamily: fontFamily,
-                                  fontSize: 20.0,
-                                ),
+                                style:
+                                    mainStyle.copyWith(fontWeight: FontWeight.w700, color: greyColor, fontSize: 20.0),
                               ),
                             ),
                           )
@@ -558,10 +554,7 @@ class OrdersViewState extends State<OrdersView> {
                     ? Container(
                         height: 50.0,
                         color: Colors.transparent,
-                        child: Center(
-                          child: Text('تم جلب جميع الطلبات',
-                              style: TextStyle(fontWeight: FontWeight.bold, fontFamily: fontFamily)),
-                        ),
+                        child: Center(child: Text('تم جلب جميع الطلبات', style: boldStyle)),
                       )
                     : Container(),
               ],

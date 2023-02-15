@@ -32,7 +32,7 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
             SizedBox(
               height: MediaQuery.of(context).size.height,
               child: QrCamera(
-                onError: (context, error) => Text(error.toString(), style: const TextStyle(color: Colors.red)),
+                onError: (context, error) => Text(error.toString(), style: mainStyle.copyWith(color: Colors.red)),
                 qrCodeCallback: (code) {
                   setState(() async {
                     barcode = code;
@@ -41,7 +41,7 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                         case BarcodeRequestType.search:
                           Navigator.of(context).pop();
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => ProductsView(barcode: barcode, categoryId: "0")));
+                              MaterialPageRoute(builder: (context) => ProductsView(barcode: barcode, categoryId: '0')));
                           break;
                         case BarcodeRequestType.addBarcode:
                         case BarcodeRequestType.addProduct:

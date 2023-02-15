@@ -57,11 +57,10 @@ class ShopByCategoryState extends State<ShopByCategory> {
                     tag: widget.index,
                     child: Text(
                       widget.categoryName,
-                      style: TextStyle(
+                      style: mainStyle.copyWith(
                         color: Colors.white,
                         fontSize: ResponsiveFlutter.of(context).fontSize(3),
                         fontWeight: FontWeight.bold,
-                        fontFamily: fontFamily,
                       ),
                       textAlign: TextAlign.center,
                     ),

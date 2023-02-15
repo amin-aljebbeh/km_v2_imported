@@ -19,8 +19,7 @@ class ServerUpdate extends StatelessWidget {
                 Image.asset('assets/system_update.gif'),
                 Text(
                   'تحديثات ضمن النظام',
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 25.0, fontWeight: FontWeight.w500, fontFamily: fontFamily),
+                  style: mainStyle.copyWith(color: Colors.black, fontSize: 25.0, fontWeight: FontWeight.w500),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 10, left: 30, right: 15),
@@ -30,12 +29,7 @@ class ServerUpdate extends StatelessWidget {
                       LoadingScreenServices.systemMaintenanceMessages,
                       textDirection: TextDirection.rtl,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontSize: 18,
-                        fontFamily: fontFamily,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: mainStyle.copyWith(color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),

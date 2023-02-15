@@ -156,12 +156,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                           child: Center(
                             child: Text(
                               'لا يوجد أي طلبات سابقة',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: greyColor,
-                                fontFamily: fontFamily,
-                                fontSize: 20.0,
-                              ),
+                              style: mainStyle.copyWith(fontWeight: FontWeight.w700, color: greyColor, fontSize: 20.0),
                             ),
                           ),
                         )

@@ -56,7 +56,7 @@ class _AddComplaintPageState extends State<AddComplaintPage> {
                               ),
                               keyboardType: TextInputType.multiline,
                               maxLines: 5,
-                              style: TextStyle(fontFamily: fontFamily),
+                              style: mainStyle,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),

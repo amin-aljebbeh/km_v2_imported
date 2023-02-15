@@ -77,8 +77,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(widget.product.name,
-                        style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18)),
+                    Text(widget.product.name, style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -91,18 +90,14 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               widget.product.unit != 'null'
                                   ? widget.product.quantity + ' ' + widget.product.unit
                                   : widget.product.quantity,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400, color: greyColor, fontFamily: fontFamily, fontSize: 17),
+                              style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: greyColor, fontSize: 17),
                             ),
                             const SizedBox(height: 8),
                             Text(
                                 StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() +
                                     ' ${LoadingScreenServices.companyInformation.currency}',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: primaryColor,
-                                    fontFamily: fontFamily,
-                                    fontSize: 18)),
+                                style:
+                                    mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                           ],
                         ),
                         if (Services.isProductsController())
@@ -148,12 +143,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                         (widget.product.rate != -1
                                             ? StringUtils().oCcy.format(widget.product.rate).toString()
                                             : '0'),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      color: primaryColor,
-                                      fontFamily: fontFamily,
-                                      fontSize: 13,
-                                    ),
+                                    style: mainStyle.copyWith(
+                                        fontWeight: FontWeight.w700, color: primaryColor, fontSize: 13),
                                   )
                                 : Container(),
                             const SizedBox(height: 5),
@@ -166,12 +157,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                                 .format(int.parse(widget.product.availableQuantity.split('.')[0]))
                                                 .toString()
                                             : ' '),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      color: primaryColor,
-                                      fontFamily: fontFamily,
-                                      fontSize: 13,
-                                    ),
+                                    style: mainStyle.copyWith(
+                                        fontWeight: FontWeight.w700, color: primaryColor, fontSize: 13),
                                   )
                                 : Container(),
                           ],

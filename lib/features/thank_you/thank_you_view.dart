@@ -37,22 +37,14 @@ class ThankYouViewState extends State<ThankYouView> {
                 children: <Widget>[
                   Image.asset('assets/like.png', width: 200, height: 200),
                   const SizedBox(height: 50),
-                  Text(
-                    thankYou,
-                    style: TextStyle(
-                        color: primaryColor, fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 30),
-                  ),
+                  Text(thankYou,
+                      style: mainStyle.copyWith(color: primaryColor, fontWeight: FontWeight.w700, fontSize: 30)),
                   Padding(
                     padding: const EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
                     child: Text(
                       thankYouDescribe,
                       textAlign: TextAlign.justify,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: primaryColor,
-                        fontFamily: fontFamily,
-                        fontSize: 16.0,
-                      ),
+                      style: mainStyle.copyWith(fontWeight: FontWeight.w600, color: primaryColor, fontSize: 16.0),
                     ),
                   ),
                   Padding(
@@ -60,12 +52,7 @@ class ThankYouViewState extends State<ThankYouView> {
                     child: Text(
                       widget.orderMessage.toString(),
                       textAlign: TextAlign.justify,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: kmColors,
-                        fontFamily: fontFamily,
-                        fontSize: 16.0,
-                      ),
+                      style: mainStyle.copyWith(fontWeight: FontWeight.bold, color: kmColors, fontSize: 16.0),
                     ),
                   ),
                   const SizedBox(height: 40),

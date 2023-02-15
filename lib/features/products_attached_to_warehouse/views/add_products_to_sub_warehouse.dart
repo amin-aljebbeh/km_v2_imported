@@ -103,10 +103,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
               : ListView(
                   shrinkWrap: true,
                   children: [
-                    Text(
-                      'يرجى إختيار المستودع التابع لهذه المادة',
-                      style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold),
-                    ),
+                    Text('يرجى إختيار المستودع التابع لهذه المادة', style: boldStyle),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
@@ -116,7 +113,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                   child: RadioListTile(
                                     controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
-                                    title: Text(data.name, style: TextStyle(fontFamily: fontFamily)),
+                                    title: Text(data.name, style: mainStyle),
                                     groupValue: _selectedValue,
                                     value: data.id,
                                     onChanged: (val) => setState(() => _selectedValue = data.id),

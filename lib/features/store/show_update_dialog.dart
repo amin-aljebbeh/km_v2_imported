@@ -25,11 +25,8 @@ void showUpdateDialog({BuildContext context}) {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(right: 10.0),
-                    child: Text(
-                      'تحديث متوفر',
-                      style: TextStyle(
-                          fontSize: 17, color: primaryColor, fontWeight: FontWeight.bold, fontFamily: fontFamily),
-                    ),
+                    child: Text('تحديث متوفر',
+                        style: mainStyle.copyWith(fontSize: 17, color: primaryColor, fontWeight: FontWeight.bold)),
                   ),
                   IconButton(
                     icon: const Icon(Icons.close),
@@ -53,8 +50,7 @@ void showUpdateDialog({BuildContext context}) {
                   children: <TextSpan>[
                     TextSpan(
                       text: 'إصدار جديد من التطبيق اصبح متوفراً ! ',
-                      style: TextStyle(
-                          color: Colors.grey[900], fontSize: 20, fontWeight: FontWeight.normal, fontFamily: fontFamily),
+                      style: mainStyle.copyWith(color: Colors.grey[900], fontSize: 20, fontWeight: FontWeight.normal),
                     ),
                   ],
                 ),

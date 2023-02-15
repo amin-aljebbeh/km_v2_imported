@@ -162,8 +162,7 @@ class _AddProductsViewState extends State<AddProductsView> {
               : ListView(
                   shrinkWrap: true,
                   children: [
-                    Text('يرجى إختيار المستودع التابع لهذه المادة',
-                        style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold)),
+                    Text('يرجى إختيار المستودع التابع لهذه المادة', style: boldStyle),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
@@ -246,8 +245,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                       ],
                     ),
                     Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                      Text('السماح بتفعيل المنتاج تلقائيا',
-                          style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold)),
+                      Text('السماح بتفعيل المنتاج تلقائيا', style: boldStyle),
                       SizedBox(
                         width: 110,
                         child: Container(

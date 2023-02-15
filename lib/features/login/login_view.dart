@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         obscureText: true,
         cursorColor: primaryColor,
         decoration: InputDecoration(
-          floatingLabelStyle: TextStyle(fontFamily: fontFamily, fontSize: 30, color: primaryColor),
+          floatingLabelStyle: mainStyle.copyWith(fontSize: 30, color: primaryColor),
           labelText: 'كلمة المرور',
           labelStyle: mainStyle.copyWith(fontSize: 30),
           hintStyle: mainStyle.copyWith(color: Colors.black45),
@@ -98,9 +98,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         autofillHints: const [AutofillHints.username],
         decoration: InputDecoration(
           labelText: 'اسم المستخدم',
-          floatingLabelStyle: TextStyle(fontFamily: fontFamily, fontSize: 30, color: primaryColor),
-          labelStyle: TextStyle(fontFamily: fontFamily, fontSize: 30),
-          hintStyle: const TextStyle(color: Colors.black45),
+          floatingLabelStyle: mainStyle.copyWith(fontSize: 30, color: primaryColor),
+          labelStyle: mainStyle.copyWith(fontSize: 30),
+          hintStyle: mainStyle.copyWith(color: Colors.black45),
           border:
               OutlineInputBorder(borderSide: BorderSide(color: primaryColor), borderRadius: BorderRadius.circular(5.0)),
           focusedBorder:

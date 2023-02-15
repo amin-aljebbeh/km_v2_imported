@@ -78,21 +78,13 @@ class AlertMessages extends StatelessWidget {
               children: <TextSpan>[
                 TextSpan(
                   text: headerText,
-                  style: TextStyle(
-                      color: headerTextColor,
-                      fontSize: headerTextSize ?? 15,
-                      fontWeight: FontWeight.w700,
-                      height: 1.5,
-                      fontFamily: fontFamily),
+                  style: mainStyle.copyWith(
+                      color: headerTextColor, fontSize: headerTextSize ?? 15, fontWeight: FontWeight.w700, height: 1.5),
                 ),
                 TextSpan(
                   text: text,
-                  style: TextStyle(
-                      color: textColor,
-                      fontSize: messageTextSize ?? 15,
-                      height: 1.5,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: fontFamily),
+                  style: mainStyle.copyWith(
+                      color: textColor, fontSize: messageTextSize ?? 15, height: 1.5, fontWeight: FontWeight.w400),
                 ),
               ],
             ),

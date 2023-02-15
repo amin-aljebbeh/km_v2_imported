@@ -118,11 +118,10 @@ class _SubCategoryState extends State<SubCategory> {
                 padding: const EdgeInsets.only(left: 75.0, right: 90.0),
                 child: Center(
                   child: Text("لا يوجد اصناف متوفرة حالياً، سيتم إضافة اصناف في المستقبل",
-                      style: TextStyle(
+                      style: mainStyle.copyWith(
                           color: primaryColor,
                           fontSize: ResponsiveFlutter.of(context).fontSize(3),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: fontFamily)),
+                          fontWeight: FontWeight.bold)),
                 ),
               ),
             )
@@ -170,10 +169,9 @@ class _SubCategoryState extends State<SubCategory> {
                                   alignment: Alignment.center,
                                   child: Text(
                                     eachProduct.name,
-                                    style: TextStyle(
+                                    style: mainStyle.copyWith(
                                         fontSize: ResponsiveFlutter.of(context).fontSize(4),
-                                        color: Colors.white,
-                                        fontFamily: fontFamily),
+                                        color: Colors.white),
                                     softWrap: true,
                                     overflow: TextOverflow.fade,
                                   ),
