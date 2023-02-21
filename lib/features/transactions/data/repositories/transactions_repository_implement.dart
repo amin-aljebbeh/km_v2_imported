@@ -1,3 +1,6 @@
+import 'package:dartz/dartz.dart';
+import 'package:kammun_app/features/transactions/domain/entities/transaction_request_entity.dart';
+
 import '../../../../core/core_importer.dart';
 import '../../domain/repositories/transactions_repository.dart';
 import '../data_sources/transactions_remote_data_source.dart';
@@ -7,4 +10,41 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   final RepositoryFactory repositoryFactory;
 
   TransactionsRepositoryImplement({this.transactionsRemoteDataSource, this.repositoryFactory});
+
+  @override
+  Future<Either<Failure, Unit>> createTransactionRequest({TransactionRequestEntity transactionRequestEntity}) async {
+    return await repositoryFactory.failureUnitRepo(
+        function: () =>
+            transactionsRemoteDataSource.createTransactionRequest(transactionRequestModel: transactionRequestEntity));
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteTransactionRequest({TransactionRequestEntity transactionRequestEntity}) async {
+    return await repositoryFactory.failureUnitRepo(
+        function: () =>
+            transactionsRemoteDataSource.deleteTransactionRequest(transactionRequestModel: transactionRequestEntity));
+  }
+
+  @override
+  Future<Either<Failure, List<TransactionRequestEntity>>> getTransactionRequests() async {
+    try {
+      List<TransactionRequestEntity> requests = await transactionsRemoteDataSource.getTransactionRequests();
+      return Right(requests);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> updateTransactionRequest({TransactionRequestEntity transactionRequestEntity}) async {
+    return await repositoryFactory.failureUnitRepo(
+        function: () =>
+            transactionsRemoteDataSource.updateTransactionRequest(transactionRequestModel: transactionRequestEntity));
+  }
 }
