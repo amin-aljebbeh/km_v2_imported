@@ -401,13 +401,24 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           Services.isProductsController() || Services.isAdmin() || Services.isSuperAdmin()
                               ? Column(
                                   children: [
+                                    //todo: implement when permission is ready
+                                    // UpdateProductInfoWidget(
+                                    //   title: 'نسبة الزيادة:',
+                                    //   textHint: widget.product.increasePercentage.toString(),
+                                    //   inputType: TextInputType.text,
+                                    //   bodyKey: 'increase_percentage',
+                                    //   productId: widget.product.id,
+                                    //   productData: widget.product,
+                                    //   initialText: widget.product.increasePercentage.toString(),
+                                    //   onSavePressed: (newValue, result) =>
+                                    //       setState(() => widget.product.increasePercentage = int.parse(newValue)),
+                                    // ),
                                     UpdateProductInfoWidget(
                                       title: edit + ' ' + priority + ' :',
                                       textHint: widget.product.priority.toString(),
                                       inputType: TextInputType.text,
                                       bodyKey: 'priority',
                                       productId: widget.product.id,
-                                      isForSubWarehouse: true,
                                       productData: widget.product,
                                       initialText: widget.product.priority.toString(),
                                       onSavePressed: (newValue, result) =>

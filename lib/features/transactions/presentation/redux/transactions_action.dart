@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
+
 import '../../domain/entities/transaction_request_entity.dart';
 
 class CreateTransactionRequestAction {
@@ -26,4 +28,16 @@ class UpdateTransactionRequestAction {
   UpdateTransactionRequestAction({this.transactionRequestEntity});
 }
 
-// todo next page and end of requests
+class NextTransactionRequestsPage {}
+
+class EndOfTransactionsRequests {}
+
+class FirstPage {}
+
+class GetTransactionCategoriesAction {}
+
+class SetTransactionCategoriesAction {
+  final List<TransactionCategoryEntity> categories;
+
+  SetTransactionCategoriesAction({this.categories});
+}

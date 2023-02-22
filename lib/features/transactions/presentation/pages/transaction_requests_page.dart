@@ -1,3 +1,6 @@
+import 'package:kammun_app/features/transactions/presentation/redux/transactions_action.dart';
+import 'package:kammun_app/features/transactions/presentation/widgets/transaction_request_widget.dart';
+
 import '../../../../core/core_importer.dart';
 
 class TransactionRequestsPage extends StatelessWidget {
@@ -17,11 +20,11 @@ class TransactionRequestsPage extends StatelessWidget {
                 children: <Widget>[
                   state.loadingState.isLoading
                       ? const Center(child: Loader())
-                      : state.errorState.isError && state.couponState.coupons.isEmpty
+                      : state.errorState.isError && state.transactionsState.requests.isEmpty
                           ? Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(child: Text(state.errorState.errorMessage, style: paragraphStyle)))
-                          : state.couponState.coupons.isEmpty && !state.loadingState.isLoading
+                          : state.transactionsState.requests.isEmpty && !state.loadingState.isLoading
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Center(child: Text('ليس لديك أكواد حسم', style: paragraphStyle)))
@@ -29,10 +32,9 @@ class TransactionRequestsPage extends StatelessWidget {
                                   child: NotificationListener<ScrollEndNotification>(
                                     onNotification: (ScrollEndNotification scrollInfo) {
                                       if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
-                                          state.couponState.hasNext) {
-                                        // StoreProvider.of<AppState>(context).dispatch(NextCouponsPage());
-                                        // StoreProvider.of<AppState>(context).dispatch(GetCouponsAction(
-                                        //     code: controller.text, isForDelivery: [0, 1].contains(type) ? type : null));
+                                          state.transactionsState.hasNextRequests) {
+                                        StoreProvider.of<AppState>(context).dispatch(NextTransactionRequestsPage());
+                                        StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
                                       }
                                       return;
                                     },
@@ -41,14 +43,15 @@ class TransactionRequestsPage extends StatelessWidget {
                                         primary: false,
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
-                                        itemCount: state.couponState.coupons.length,
-                                        itemBuilder: (BuildContext context, int index) => Container()),
+                                        itemCount: state.transactionsState.requests.length,
+                                        itemBuilder: (BuildContext context, int index) => TransactionRequestWidget(
+                                            transactionRequestEntity: state.transactionsState.requests[index])),
                                   ),
                                 ),
-                  if (!state.couponState.hasNext && !state.loadingState.isLoading)
+                  if (!state.transactionsState.hasNextRequests && !state.loadingState.isLoading)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Center(child: Text('تم جلب جميع الأكواد', style: paragraphStyle)),
+                      child: Center(child: Text('تم عرض جميع الطلبات', style: paragraphStyle)),
                     )
                 ],
               ),

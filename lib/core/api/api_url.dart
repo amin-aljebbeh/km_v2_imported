@@ -23,6 +23,8 @@ const attachUserToCouponApi = couponApi + 'attach_user_to_coupon/';
 const userTransactionApi = 'user_transaction/';
 const depositApi = userTransactionApi + 'deposit/';
 const transactionApi = '/';
+const transactionRequestApi = '/';
+const transactionCategoryApi = '/';
 //Orders:
 const String order = 'order/';
 const String deliveryViewsHisOwnOrders = order + 'delivery_views_his_own_orders';

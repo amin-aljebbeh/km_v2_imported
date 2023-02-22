@@ -3,12 +3,13 @@ import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/products_attached_to_warehouse/services/added_products_services.dart';
 
 class ProductsServices {
-  static Future<bool> updateProductsDetails(
-      {String bodyKey,
-      String value,
-      @required String productId,
-      bool isForSubWarehouse = true,
-      String subWarehouseId}) async {
+  static Future<bool> updateProductsDetails({
+    String bodyKey,
+    String value,
+    @required String productId,
+    bool isForSubWarehouse = true,
+    String subWarehouseId,
+  }) async {
     try {
       Map<String, String> body;
 

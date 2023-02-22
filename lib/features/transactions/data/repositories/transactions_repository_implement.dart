@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
 import 'package:kammun_app/features/transactions/domain/entities/transaction_request_entity.dart';
 
 import '../../../../core/core_importer.dart';
@@ -46,5 +47,21 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
     return await repositoryFactory.failureUnitRepo(
         function: () =>
             transactionsRemoteDataSource.updateTransactionRequest(transactionRequestModel: transactionRequestEntity));
+  }
+
+  @override
+  Future<Either<Failure, List<TransactionCategoryEntity>>> getTransactionCategories() async {
+    try {
+      List<TransactionCategoryEntity> categories = await transactionsRemoteDataSource.getTransactionCategories();
+      return Right(categories);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
   }
 }

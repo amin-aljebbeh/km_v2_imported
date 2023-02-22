@@ -1,5 +1,6 @@
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/order_details/invoice_view.dart';
+import 'package:kammun_app/features/transactions/presentation/pages/add_transaction_request_page.dart';
 
 import 'full_screen_image.dart';
 import 'services/order_details_services.dart';
@@ -213,6 +214,15 @@ class _OrderAccountingState extends State<OrderAccounting> {
                       },
                       text: addTransaction,
                       width: MediaQuery.of(context).size.width * 0.9,
+                      height: 50,
+                    ),
+                  if (Services.isShopper())
+                    KammunButton(
+                      onTap: () => Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const AddTransactionRequestPage())),
+                      text: 'طلب تعويض',
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      color: kmColors,
                       height: 50,
                     ),
                   if (Services.isAgent())
