@@ -1,6 +1,7 @@
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:kammun_app/features/cart/services/cart_services.dart';
 import 'package:kammun_app/features/prices_changes/services/prices_changes_services.dart';
+import 'package:kammun_app/features/product_detail_view/remove_from_warehouse.dart';
 import 'package:kammun_app/features/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 import 'package:search_choices/search_choices.dart';
@@ -618,10 +619,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                       text: 'الإضافة لصنف جديد',
                                       color: Theme.of(context).primaryColor,
                                       onTap: () async {
-                                        bool result = await _saveCategory(
-                                            categoryId: selectedValueCategoryValue,
-                                            context: context,
-                                            productId: widget.product.id);
+                                        bool result = await ProductsServices.updateProductsDetails(
+                                            bodyKey: 'category_id',
+                                            value: selectedValueCategoryValue,
+                                            productId: widget.product.id.toString());
                                         if (result) {
                                           setState(() {
                                             widget.product.categories.add(CategoryOriginalData(
@@ -636,6 +637,12 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                     .imageFileName));
                                           });
                                         }
+                                        snackBar(
+                                            success: result,
+                                            context: context,
+                                            message: result
+                                                ? 'تم إضاقة المنتج للصنف بنجاح'
+                                                : 'فشلت عملية إضاقة المنتج للصنف يرجى المحاولة مجدداً');
                                       },
                                     ),
                                     Row(
@@ -755,48 +762,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             children: [
                                               if (LoadingScreenServices.subWarehouses
                                                   .any((element) => element.id == widget.product.subWarehouseId))
-                                                KammunButton(
-                                                  height: 50,
-                                                  text: 'إزالة من المستودع',
-                                                  color: Colors.red,
-                                                  onTap: () {
-                                                    List<DialogButton> dialogButtons = [
-                                                      DialogButton(
-                                                        text: yes,
-                                                        onTap: () async {
-                                                          Navigator.of(context).pop();
-                                                          bool result = await AddedProductsServices
-                                                              .unAttachProductsToSubWarehouseService(
-                                                                  productsId: widget.product.id.toString(),
-                                                                  subWarehouse:
-                                                                      widget.product.subWarehouseId.toString());
-                                                          if (result) {
-                                                            int count = 0;
-                                                            Navigator.of(context).popUntil((_) => count++ >= 1);
-                                                          }
-                                                          if (result) {
-                                                            snackBar(
-                                                                success: result,
-                                                                message: 'تم إزالة المنتج من المستودع بنجاح',
-                                                                context: context);
-                                                          } else {
-                                                            snackBar(
-                                                                success: result,
-                                                                message:
-                                                                    'فشلت عملية إزالة المنتج من المستودع يرجى المحاولة مجدداً',
-                                                                context: context);
-                                                          }
-                                                        },
-                                                      ),
-                                                      DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
-                                                    ];
-                                                    showMyDialog(
-                                                        context: context,
-                                                        title: '',
-                                                        text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
-                                                        dialogButtons: dialogButtons);
-                                                  },
-                                                ),
+                                                RemoveFromWarehouse(product: widget.product),
                                               KammunButton(
                                                 height: 50,
                                                 text: 'حذف المنتج',
@@ -841,48 +807,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               : Services.isSupplierManager() &&
                                       (LoadingScreenServices.subWarehouses
                                           .any((element) => element.id == widget.product.subWarehouseId))
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(bottom: 20.0),
-                                      child: KammunButton(
-                                        height: 50,
-                                        text: 'إزالة من المستودع',
-                                        color: Colors.red,
-                                        onTap: () {
-                                          List<DialogButton> dialogButtons = [
-                                            DialogButton(
-                                              text: yes,
-                                              onTap: () async {
-                                                Navigator.of(context).pop();
-                                                bool result =
-                                                    await AddedProductsServices.unAttachProductsToSubWarehouseService(
-                                                        productsId: widget.product.id.toString(),
-                                                        subWarehouse: widget.product.subWarehouseId.toString());
-                                                if (result) {
-                                                  int count = 0;
-                                                  Navigator.of(context).popUntil((_) => count++ >= 1);
-                                                  snackBar(
-                                                      success: result,
-                                                      message: 'تم إزالة المنتج من المستودع بنجاح',
-                                                      context: context);
-                                                } else {
-                                                  snackBar(
-                                                      success: result,
-                                                      message:
-                                                          'فشلت عملية إزالة المنتج من المستودع يرجى المحاولة مجدداً',
-                                                      context: context);
-                                                }
-                                              },
-                                            ),
-                                            DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
-                                          ];
-                                          showMyDialog(
-                                              context: context,
-                                              title: '',
-                                              text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
-                                              dialogButtons: dialogButtons);
-                                        },
-                                      ),
-                                    )
+                                  ? RemoveFromWarehouse(product: widget.product)
                                   : Container(),
                         ],
                       ),
@@ -895,16 +820,4 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
       ),
     );
   }
-}
-
-Future<bool> _saveCategory({BuildContext context, int productId, String categoryId}) async {
-  bool result = await ProductsServices.updateProductsDetails(
-      bodyKey: 'category_id', value: categoryId, productId: productId.toString());
-
-  if (result) {
-    snackBar(success: result, message: 'تم إضاقة المنتج للصنف بنجاح', context: context);
-  } else {
-    snackBar(success: result, message: 'فشلت عملية إضاقة المنتج للصنف يرجى المحاولة مجدداً', context: context);
-  }
-  return result;
 }

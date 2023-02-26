@@ -86,6 +86,8 @@ List<Widget> getDrawerChildren(BuildContext context) {
                     ),
                   SideBarRow(
                       onTap: () {
+                        StoreProvider.of<AppState>(context).dispatch(SetSearchFilter(searchFilter: ''));
+                        StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: 0));
                         StoreProvider.of<AppState>(context).dispatch(NoError());
                         StoreProvider.of<AppState>(context)
                             .dispatch(SetInventoryType(inventoryType: InventoryTypes.underCheckAvailability));
@@ -95,6 +97,8 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       text: inventory),
                   SideBarRow(
                       onTap: () {
+                        StoreProvider.of<AppState>(context).dispatch(SetSearchFilter(searchFilter: ''));
+                        StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: 0));
                         StoreProvider.of<AppState>(context).dispatch(NoError());
                         StoreProvider.of<AppState>(context)
                             .dispatch(SetInventoryType(inventoryType: InventoryTypes.notification));
@@ -104,6 +108,8 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       text: 'المنتجات على قائمة الانتظار'),
                   SideBarRow(
                       onTap: () {
+                        StoreProvider.of<AppState>(context).dispatch(SetSearchFilter(searchFilter: ''));
+                        StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: 0));
                         StoreProvider.of<AppState>(context).dispatch(NoError());
                         StoreProvider.of<AppState>(context)
                             .dispatch(SetInventoryType(inventoryType: InventoryTypes.prime));

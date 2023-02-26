@@ -14,7 +14,7 @@ class _InventoryPageState extends State<InventoryPage> {
   final TextEditingController controller = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int subWarehouseFilter = LoadingScreenServices.subWarehouses.length;
-  int isActiveFilter = 1;
+  int isActiveFilter = 0;
   List<String> activeList = ['بحاجة تفعيل', 'بحاجة إيقاف تفعيل'];
 
   @override
@@ -23,15 +23,14 @@ class _InventoryPageState extends State<InventoryPage> {
       if (StoreProvider.of<AppState>(context).state.inventoryState.inventoryType ==
           InventoryTypes.underCheckAvailability) {
         activeList.add('الجميع');
-        isActiveFilter = 0;
       }
       StoreProvider.of<AppState>(context).dispatch(StartLoading());
       StoreProvider.of<AppState>(context).dispatch(NoError());
       StoreProvider.of<AppState>(context).dispatch(ClearInventory());
       StoreProvider.of<AppState>(context).dispatch(GetInventory());
     });
-    controller.addListener(() =>
-        setState(() => StoreProvider.of<AppState>(context).dispatch(SetSearchFilter(searchFilter: controller.text))));
+    controller.addListener(
+        () => StoreProvider.of<AppState>(context).dispatch(SetSearchFilter(searchFilter: controller.text)));
     super.initState();
   }
 
