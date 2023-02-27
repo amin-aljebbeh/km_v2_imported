@@ -26,5 +26,5 @@ class ComplaintsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [complaints, complaintTypes];
+  List<Object> get props => [complaints, complaintTypes, complaintsUseCases];
 }

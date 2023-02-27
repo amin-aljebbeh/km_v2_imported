@@ -6,6 +6,7 @@ import '../login/Services/login_services.dart';
 import '../management_view/management_view.dart';
 
 List<Widget> getDrawerChildren(BuildContext context) {
+  var store = StoreProvider.of<AppState>(context);
   return [
     SideBarRow(icon: Icons.phone, text: 'الإتصال بكمون', onTap: () => Services.openUrl('number')),
     SideBarRow(icon: Icons.share, text: 'إرسال التطبيق للأصدقاء', onTap: () => Services.shareApp()),
@@ -86,33 +87,30 @@ List<Widget> getDrawerChildren(BuildContext context) {
                     ),
                   SideBarRow(
                       onTap: () {
-                        StoreProvider.of<AppState>(context).dispatch(SetSearchFilter(searchFilter: ''));
-                        StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: 0));
-                        StoreProvider.of<AppState>(context).dispatch(NoError());
-                        StoreProvider.of<AppState>(context)
-                            .dispatch(SetInventoryType(inventoryType: InventoryTypes.underCheckAvailability));
+                        store.dispatch(SetSearchFilter(searchFilter: ''));
+                        store.dispatch(SetIsActive(isActive: 0));
+                        store.dispatch(NoError());
+                        store.dispatch(SetInventoryType(inventoryType: InventoryTypes.underCheckAvailability));
                         Navigator.pushNamed(context, InventoryPage.routeName);
                       },
                       icon: Icons.fact_check,
                       text: inventory),
                   SideBarRow(
                       onTap: () {
-                        StoreProvider.of<AppState>(context).dispatch(SetSearchFilter(searchFilter: ''));
-                        StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: 0));
-                        StoreProvider.of<AppState>(context).dispatch(NoError());
-                        StoreProvider.of<AppState>(context)
-                            .dispatch(SetInventoryType(inventoryType: InventoryTypes.notification));
+                        store.dispatch(SetSearchFilter(searchFilter: ''));
+                        store.dispatch(SetIsActive(isActive: 0));
+                        store.dispatch(NoError());
+                        store.dispatch(SetInventoryType(inventoryType: InventoryTypes.notification));
                         Navigator.pushNamed(context, InventoryPage.routeName);
                       },
                       icon: Icons.notifications_active_rounded,
                       text: 'المنتجات على قائمة الانتظار'),
                   SideBarRow(
                       onTap: () {
-                        StoreProvider.of<AppState>(context).dispatch(SetSearchFilter(searchFilter: ''));
-                        StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: 0));
-                        StoreProvider.of<AppState>(context).dispatch(NoError());
-                        StoreProvider.of<AppState>(context)
-                            .dispatch(SetInventoryType(inventoryType: InventoryTypes.prime));
+                        store.dispatch(SetSearchFilter(searchFilter: ''));
+                        store.dispatch(SetIsActive(isActive: 0));
+                        store.dispatch(NoError());
+                        store.dispatch(SetInventoryType(inventoryType: InventoryTypes.prime));
                         Navigator.pushNamed(context, InventoryPage.routeName);
                       },
                       icon: Icons.label_important_rounded,
@@ -155,7 +153,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
         icon: Icons.report_problem_rounded,
         text: 'الشكاوى',
         onTap: () {
-          StoreProvider.of<AppState>(context).dispatch(GetComplaintAction(context: context));
+          store.dispatch(GetComplaintAction(context: context));
           Navigator.of(context).pushNamed(ComplaintsPage.routeName);
         },
       ),

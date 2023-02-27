@@ -30,4 +30,5 @@ final Map<String, WidgetBuilder> routes = {
   InventoryPage.routeName: (_) => const InventoryPage(),
   ComplaintsPage.routeName: (_) => const ComplaintsPage(),
   AddComplaintPage.routeName: (_) => const AddComplaintPage(),
+  TransactionRequestsPage.routeName: (_) => const TransactionRequestsPage(),
 };

@@ -18,5 +18,5 @@ class AdminsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [admins];
+  List<Object> get props => [admins, adminsUseCases];
 }

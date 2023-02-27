@@ -7,9 +7,9 @@ import 'package:kammun_app/features/supplier/presentation/redux/supplier_reducer
 import 'package:kammun_app/features/transactions/presentation/redux/transactions_reducer.dart';
 import 'package:kammun_app/features/users/presentation/redux/users_reducer.dart';
 
+import '../core/core_importer.dart';
 import '../features/complaints/presentation/redux/complaints_reducer.dart';
 import '../features/coupons/presentation/redux/coupon_reducer.dart';
-import 'redux_importer.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   if (action is RestartApp) return AppState.initial();

@@ -7,6 +7,7 @@ import '../../domain/entities/user_entity.dart';
 class UsersState extends Equatable {
   final UsersUseCases usersUseCases;
   final UserEntity userEntity;
+
   const UsersState({this.usersUseCases, this.userEntity});
 
   factory UsersState.initial() {
@@ -18,5 +19,5 @@ class UsersState extends Equatable {
   }
 
   @override
-  List<Object> get props => [userEntity];
+  List<Object> get props => [userEntity, usersUseCases];
 }

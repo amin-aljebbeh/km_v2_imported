@@ -4,6 +4,7 @@ import 'package:kammun_app/features/transactions/presentation/widgets/transactio
 import '../../../../core/core_importer.dart';
 
 class TransactionRequestsPage extends StatelessWidget {
+  static String routeName = '/TransactionRequestsPage';
   const TransactionRequestsPage({Key key}) : super(key: key);
 
   @override
@@ -27,7 +28,7 @@ class TransactionRequestsPage extends StatelessWidget {
                           : state.transactionsState.requests.isEmpty && !state.loadingState.isLoading
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text('ليس لديك أكواد حسم', style: paragraphStyle)))
+                                  child: Center(child: Text('لا يوجد طلبات', style: paragraphStyle)))
                               : Expanded(
                                   child: NotificationListener<ScrollEndNotification>(
                                     onNotification: (ScrollEndNotification scrollInfo) {

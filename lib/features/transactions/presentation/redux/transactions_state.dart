@@ -40,5 +40,5 @@ class TransactionsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [transactionsUseCase];
+  List<Object> get props => [transactionsUseCase, requests, categories, requestPage, hasNextRequests];
 }

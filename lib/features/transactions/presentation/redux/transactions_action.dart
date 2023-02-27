@@ -36,8 +36,8 @@ class FirstPage {}
 
 class GetTransactionCategoriesAction {}
 
-class SetTransactionCategoriesAction {
+class SetTransactionCategories {
   final List<TransactionCategoryEntity> categories;
 
-  SetTransactionCategoriesAction({this.categories});
+  SetTransactionCategories({this.categories});
 }
