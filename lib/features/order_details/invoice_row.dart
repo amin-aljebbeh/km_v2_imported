@@ -42,7 +42,7 @@ class _InvoiceRowState extends State<InvoiceRow> {
                   Text(
                       widget.info.replaceAll('-', '') +
                           ' ' +
-                          (widget.info != '' ? LoadingScreenServices.companyInformation.currency : ''),
+                          (widget.info != '' ? StaticVariables.companyInformation.currency : ''),
                       style: widget.info.contains('-') ? loseStyle : paragraphStyle)
                 ],
               ),

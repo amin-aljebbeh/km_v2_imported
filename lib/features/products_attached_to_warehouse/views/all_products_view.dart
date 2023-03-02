@@ -26,14 +26,14 @@ class _AllProductsState extends State<AllProducts> {
       isLoading = true;
       isError = false;
     });
-    if (LoadingScreenServices.allProducts.isNotEmpty) {
-      productsList.addAll(LoadingScreenServices.allProducts);
+    if (StaticVariables.allProducts.isNotEmpty) {
+      productsList.addAll(StaticVariables.allProducts);
       setState(() => isLoading = false);
     } else {
       try {
         var response = await AddedProductsServices.getAllProducts();
         if (response != null) {
-          LoadingScreenServices.allProducts.addAll(response);
+          StaticVariables.allProducts.addAll(response);
           productsList.addAll(response);
           setState(() => isLoading = false);
         } else {
@@ -69,7 +69,7 @@ class _AllProductsState extends State<AllProducts> {
       backgroundColor: Colors.white,
       appBar: InventorySearchTextField(
           onReload: () {
-            LoadingScreenServices.allProducts.clear();
+            StaticVariables.allProducts.clear();
             _loadData();
           },
           controller: _controller,
@@ -108,7 +108,7 @@ class _AllProductsState extends State<AllProducts> {
                               id = productsList[index].subWarehouseId.toString();
                             } else {
                               List<int> subWarehousesIds =
-                                  LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
+                                  StaticVariables.subWarehouses.map((warehouse) => warehouse.id).toList();
                               List<int> productIds = productsList[index]
                                   .warehouses
                                   .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))

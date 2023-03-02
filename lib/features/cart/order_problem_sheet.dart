@@ -191,7 +191,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
           children: <Widget>[
             KCacheImage(
               tag: index + 100,
-              image: LoadingScreenServices.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
+              image: StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -241,7 +241,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   child: Image(
                     image: orderArray[index].images.isNotEmpty
                         ? AdvImageCache(
-                            LoadingScreenServices.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
+                            StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
                             useMemCache: true,
                             diskCacheExpire: const Duration(days: 400))
                         : const AssetImage('assets/kmIcon.png'),
@@ -269,7 +269,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                             style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: greyColor, fontSize: 17)),
                         const SizedBox(height: 8),
                         Text(
-                            '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
+                            '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${StaticVariables.companyInformation.currency}',
                             style: mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                       ],
                     ),

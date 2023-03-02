@@ -18,7 +18,7 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
     productsAry.addAll(widget.order.products);
     productsAry.removeWhere((product) => product.pivot.deletedAt == 'null');
 
-    if (LoadingScreenServices.subWarehouses.length == 1) {
+    if (StaticVariables.subWarehouses.length == 1) {
       productsAry.sort((a, b) {
         if (a.pivot.subWarehouseId > b.pivot.subWarehouseId) {
           return -1;
@@ -86,7 +86,7 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                                 color: searchGreyColor,
                                 child: Center(
                                   child: Text(
-                                    LoadingScreenServices.subWarehouses
+                                    StaticVariables.subWarehouses
                                         .firstWhere(
                                             (subWarehouse) => subWarehouse.id == productDetail.pivot.subWarehouseId,
                                             orElse: () => SubWarehouse(name: 'No element'))

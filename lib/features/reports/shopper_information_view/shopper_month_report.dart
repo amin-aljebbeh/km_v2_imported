@@ -26,7 +26,7 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
     loading = false;
     if (Services.isShopper()) {
       loading = true;
-      getMonthlyReports(shopperId: Services.shopper.id.toString());
+      getMonthlyReports(shopperId: StaticVariables.shopper.id.toString());
     }
     super.initState();
   }

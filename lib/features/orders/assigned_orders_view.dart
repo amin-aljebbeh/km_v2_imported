@@ -18,11 +18,11 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   void initState() {
     filterOrders = 0;
 
-    if (LoadingScreenServices.myOrdersList.isEmpty) {
+    if (StaticVariables.myOrdersList.isEmpty) {
       getOrders = _getOrder();
     } else {
       getOrders = _initialFunction();
-      orderDataList = LoadingScreenServices.myOrdersList;
+      orderDataList = StaticVariables.myOrdersList;
     }
     super.initState();
   }
@@ -48,17 +48,17 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       orderDataList.clear();
     });
     List<OrdersOriginalData> orderList;
-    if (LoadingScreenServices.myOrdersList.isEmpty) {
+    if (StaticVariables.myOrdersList.isEmpty) {
       if (Services.isShopper()) orderList = await OrderServices.getShopperOrders(pageNumber: page);
       if (Services.isSupplierManager()) orderList = await OrderServices.getSupplierOrders(pageNumber: page);
     } else {
-      orderList = LoadingScreenServices.myOrdersList;
+      orderList = StaticVariables.myOrdersList;
     }
     if (orderList != null) {
       if (orderList.isEmpty) {
         setState(() {
-          LoadingScreenServices.myOrdersList = orderDataList;
-          if (LoadingScreenServices.myOrdersList.isNotEmpty) theEndOfOrders = true;
+          StaticVariables.myOrdersList = orderDataList;
+          if (StaticVariables.myOrdersList.isNotEmpty) theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -73,7 +73,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
           }
 
           orderDataList.removeWhere((order) => order.products.isEmpty);
-          LoadingScreenServices.myOrdersList = orderDataList;
+          StaticVariables.myOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -221,7 +221,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                       if (x.success) {
                                         setState(() {
                                           orderDataList[index] = x.order;
-                                          LoadingScreenServices.myOrdersList[index] = x.order;
+                                          StaticVariables.myOrdersList[index] = x.order;
                                           isLoading = false;
                                         });
                                       } else {
@@ -263,7 +263,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                                   if (x.success) {
                                                     setState(() {
                                                       orderDataList[index] = x.order;
-                                                      LoadingScreenServices.myOrdersList[index] = x.order;
+                                                      StaticVariables.myOrdersList[index] = x.order;
                                                       isLoading = false;
                                                     });
                                                   } else {

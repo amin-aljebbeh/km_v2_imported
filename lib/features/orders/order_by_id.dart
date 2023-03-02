@@ -47,7 +47,7 @@ class _OrderByIDState extends State<OrderByID> {
 
     if (orderList != null) {
       order = orderList;
-      LoadingScreenServices.phoneOrderList = [order];
+      StaticVariables.phoneOrderList = [order];
       if (Services.isShopper() || order.shopper != null) {
         order.orderArithmeticOperations();
         order.orderProfits();
@@ -146,7 +146,7 @@ class _OrderByIDState extends State<OrderByID> {
                                       if (x.success) {
                                         setState(() {
                                           order = x.order;
-                                          LoadingScreenServices.phoneOrderList = [x.order];
+                                          StaticVariables.phoneOrderList = [x.order];
                                           isLoading = false;
                                         });
                                       } else {
@@ -175,7 +175,7 @@ class _OrderByIDState extends State<OrderByID> {
                                             if (x.success) {
                                               setState(() {
                                                 order = x.order;
-                                                LoadingScreenServices.phoneOrderList = [x.order];
+                                                StaticVariables.phoneOrderList = [x.order];
                                                 isLoading = false;
                                               });
                                             } else {
@@ -211,7 +211,7 @@ class _OrderByIDState extends State<OrderByID> {
                                             if (x.success) {
                                               setState(() {
                                                 order = x.order;
-                                                LoadingScreenServices.phoneOrderList = [x.order];
+                                                StaticVariables.phoneOrderList = [x.order];
                                                 isLoading = false;
                                               });
                                             } else {
@@ -258,7 +258,7 @@ class _OrderByIDState extends State<OrderByID> {
                                             message: 'تم تغيير حالة الطلب بنجاح',
                                             context: context);
                                         order = result.order;
-                                        LoadingScreenServices.phoneOrderList = [result.order];
+                                        StaticVariables.phoneOrderList = [result.order];
                                       } else {
                                         snackBar(
                                             success: result.success,
@@ -422,7 +422,7 @@ class _OrderByIDState extends State<OrderByID> {
       productsQuantity += CartServices.cartProducts[i].productCount.toString() + ';';
     }
     prefs.setString('userCart', productsId + '@' + productsQuantity);
-    LoadingScreenServices.phoneOrderList = [order];
+    StaticVariables.phoneOrderList = [order];
     Navigator.of(context).pushNamedAndRemoveUntil(CartView.fromUpdateRouteName, (Route<dynamic> route) => false);
   }
 }

@@ -7,3 +7,9 @@ class SetAdmins {
 
   SetAdmins({this.admins});
 }
+
+class SetAdmin {
+  final AdminEntity admin;
+
+  SetAdmin({this.admin});
+}

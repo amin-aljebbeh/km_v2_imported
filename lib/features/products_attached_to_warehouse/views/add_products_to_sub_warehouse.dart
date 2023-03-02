@@ -107,7 +107,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
-                        children: LoadingScreenServices.subWarehouses
+                        children: StaticVariables.subWarehouses
                             .map((data) => Container(
                                   decoration: const BoxDecoration(color: Colors.white),
                                   child: RadioListTile(

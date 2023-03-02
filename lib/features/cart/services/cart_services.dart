@@ -50,7 +50,7 @@ class CartServices {
 
   static addProductToCart(ProductData product) {
     bool added = false;
-    if (LoadingScreenServices.categoryList.isEmpty) {
+    if (StaticVariables.categoryList.isEmpty) {
       CartServices.cartProducts.add(product);
       added = true;
     }

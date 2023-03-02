@@ -95,7 +95,7 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                 id = productsList[index].subWarehouseId.toString();
                               } else {
                                 List<int> subWarehousesIds =
-                                    LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
+                                    StaticVariables.subWarehouses.map((warehouse) => warehouse.id).toList();
                                 List<int> productIds = productsList[index]
                                     .warehouses
                                     .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))

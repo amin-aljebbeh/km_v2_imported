@@ -26,8 +26,8 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
     empty = true;
     loading = false;
     setState(() => profitLoading = true);
-    getMonthlyProfit(Services.shopper.id.toString());
-    getTransaction(Services.shopper.id.toString());
+    getMonthlyProfit(StaticVariables.shopper.id.toString());
+    getTransaction(StaticVariables.shopper.id.toString());
     super.initState();
   }
 
@@ -190,8 +190,8 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                     height: 50,
                     text: '  المستحقات  ',
                     color: primaryColor,
-                    onTap: () =>
-                        ReportsServices.financialDues(context: context, shopperId: Services.shopper.id.toString()),
+                    onTap: () => ReportsServices.financialDues(
+                        context: context, shopperId: StaticVariables.shopper.id.toString()),
                   ),
                   KammunButton(
                     height: 50,

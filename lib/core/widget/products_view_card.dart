@@ -69,7 +69,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
               KCacheImage(
                 tag: widget.index + 100,
                 image: widget.product.images.isNotEmpty
-                    ? LoadingScreenServices.imagePrefixUrl + widget.product.images[0].imageFileName
+                    ? StaticVariables.imagePrefixUrl + widget.product.images[0].imageFileName
                     : '',
               ),
               const SizedBox(width: 10),
@@ -95,7 +95,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             const SizedBox(height: 8),
                             Text(
                                 StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() +
-                                    ' ${LoadingScreenServices.companyInformation.currency}',
+                                    ' ${StaticVariables.companyInformation.currency}',
                                 style:
                                     mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                           ],
@@ -121,8 +121,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
               widget.product.subWarehouseId != -1
                   ? Column(
                       children: [
-                        if (LoadingScreenServices.subWarehouses
-                            .any((element) => element.id == widget.product.subWarehouseId))
+                        if (StaticVariables.subWarehouses.any((element) => element.id == widget.product.subWarehouseId))
                           SwitchProductStatusWidget(
                             isForSubWarehouse: true,
                             height: MediaQuery.of(context).size.height * 0.05,

@@ -79,7 +79,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                             items: Services.transactionTypesNames(),
                             onChanged: (value) => setState(() {
                               transactionTypeIndex = value;
-                              transactionTypeString = LoadingScreenServices.transactionTypes
+                              transactionTypeString = StaticVariables.transactionTypes
                                   .where((type) => type.automatic == 0)
                                   .toList()[transactionTypeIndex]
                                   .arabicName;
@@ -145,7 +145,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                             bool result = await ReportsServices.addTransactionService(
                               shopperId: shopperId,
                               value: moneyController.text,
-                              transactionTypeId: LoadingScreenServices.transactionTypes
+                              transactionTypeId: StaticVariables.transactionTypes
                                   .where((type) => type.automatic == 0)
                                   .toList()[transactionTypeIndex]
                                   .id
@@ -184,7 +184,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
 
   bool completeData() {
     if (transactionTypeIndex != null) {
-      if (LoadingScreenServices.transactionTypes
+      if (StaticVariables.transactionTypes
               .where((type) => type.automatic == 0)
               .toList()[transactionTypeIndex]
               .arabicName ==

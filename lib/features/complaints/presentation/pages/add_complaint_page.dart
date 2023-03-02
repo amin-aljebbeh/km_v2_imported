@@ -85,7 +85,7 @@ class _AddComplaintPageState extends State<AddComplaintPage> {
                                       items: Services.dropdownStringList(widget.orderData?.orderAccountingRows
                                               ?.map((row) => row.subWarehouseName)
                                               ?.toList() ??
-                                          LoadingScreenServices.subWarehouses
+                                          StaticVariables.subWarehouses
                                               .map((subWarehouse) => subWarehouse.name)
                                               .toList()),
                                       onChanged: (value) => setState(() => supplier = value),

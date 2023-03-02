@@ -49,7 +49,7 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
               FirebaseMessaging.instance.getToken().then((value) {
                 if (value != null) {
                   prefs.setString('FCM_token_v3', value);
-                  if (prefs.getString('userToken') != null) LoadingScreenServices().updateFirebaseTokenService(value);
+                  if (prefs.getString('userToken') != null) GeneralApis.updateFirebaseTokenService(value);
                 }
               });
             }
@@ -81,7 +81,7 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
             FirebaseMessaging.instance.getToken().then((value) {
               if (value != null) {
                 prefs.setString('FCM_token_v3', value);
-                if (prefs.getString('userToken') != null) LoadingScreenServices().updateFirebaseTokenService(value);
+                if (prefs.getString('userToken') != null) GeneralApis.updateFirebaseTokenService(value);
               }
             });
           }

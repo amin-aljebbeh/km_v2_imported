@@ -13,7 +13,6 @@ String cancelOrder = 'إلغاء الطلب';
 String edit = 'تعديل';
 
 String editOrder = 'تعديل الطلب';
-String submitFeedback = 'تقييم الطلب';
 
 //Labels
 String signIn = 'تسجيل الدخول';

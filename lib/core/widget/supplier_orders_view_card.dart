@@ -83,7 +83,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                       rightSideText: bill,
                       leftSideText:
                           '${StringUtils().oCcy.format(int.parse(widget.order.total.split('.')[0])).toString()}'
-                          ' ${LoadingScreenServices.companyInformation.currency.toString()}',
+                          ' ${StaticVariables.companyInformation.currency.toString()}',
                       leftSideStyle: informationStyle,
                     ),
                     Container(

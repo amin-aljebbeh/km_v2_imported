@@ -57,14 +57,13 @@ class _OrderAccountingState extends State<OrderAccounting> {
               context,
               MaterialPageRoute(
                   builder: (_) => FullScreenImage(
-                      imageUrl:
-                          LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName,
+                      imageUrl: StaticVariables.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName,
                       tag: 'generate_a_unique_tag')));
         },
         child: widget.orderData.images != null && widget.orderData.images.isNotEmpty
             ? KCacheImage(
                 tag: widget.orderData.images[i].imageFileName,
-                image: LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName)
+                image: StaticVariables.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName)
             : const AssetImage('assets/kmIcon.png'),
       ));
     }

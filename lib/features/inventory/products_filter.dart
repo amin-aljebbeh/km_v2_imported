@@ -220,9 +220,8 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                       if (eachProduct.subWarehouseId != -1) {
                                         id = eachProduct.subWarehouseId.toString();
                                       } else {
-                                        List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
-                                            .map((warehouse) => warehouse.id)
-                                            .toList();
+                                        List<int> subWarehousesIds =
+                                            StaticVariables.subWarehouses.map((warehouse) => warehouse.id).toList();
                                         List<int> productIds = eachProduct.warehouses
                                             .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
                                             .toList();

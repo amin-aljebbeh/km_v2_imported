@@ -66,7 +66,7 @@ class Transaction extends StatelessWidget {
                 Stack(
                   children: [
                     KTableElement(
-                      text: LoadingScreenServices.transactionTypes
+                      text: StaticVariables.transactionTypes
                           .firstWhere((type) => type.id == int.parse(transaction.transactionTypeId))
                           .arabicName,
                     ),

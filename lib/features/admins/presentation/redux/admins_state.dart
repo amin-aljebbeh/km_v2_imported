@@ -7,16 +7,17 @@ import '../../../../core/core_importer.dart';
 class AdminsState extends Equatable {
   final AdminsUseCases adminsUseCases;
   final List<AdminEntity> admins;
-  const AdminsState({this.adminsUseCases, this.admins});
+  final AdminEntity admin;
+  const AdminsState({this.admin, this.adminsUseCases, this.admins});
 
   factory AdminsState.initial() {
-    return AdminsState(admins: const [], adminsUseCases: sl<AdminsUseCases>());
+    return AdminsState(admins: const [], admin: null, adminsUseCases: sl<AdminsUseCases>());
   }
 
-  AdminsState copyWith({List<AdminEntity> admins}) {
-    return AdminsState(adminsUseCases: adminsUseCases, admins: admins ?? this.admins);
+  AdminsState copyWith({List<AdminEntity> admins, AdminEntity admin}) {
+    return AdminsState(adminsUseCases: adminsUseCases, admins: admins ?? this.admins, admin: admin ?? this.admin);
   }
 
   @override
-  List<Object> get props => [admins, adminsUseCases];
+  List<Object> get props => [admins, adminsUseCases, admin];
 }

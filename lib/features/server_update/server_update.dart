@@ -26,7 +26,7 @@ class ServerUpdate extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      LoadingScreenServices.systemMaintenanceMessages,
+                      StaticVariables.systemMaintenanceMessages,
                       textDirection: TextDirection.rtl,
                       textAlign: TextAlign.center,
                       style: mainStyle.copyWith(color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.w500),

@@ -31,7 +31,7 @@ void showUpdateDialog({BuildContext context}) {
                   IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: () {
-                      Services.updateOption = false;
+                      StaticVariables.updateOption = false;
                       Navigator.of(context).pop(true);
                     },
                   )
@@ -71,7 +71,7 @@ void showUpdateDialog({BuildContext context}) {
                       height: 50,
                       color: Colors.grey[700],
                       onTap: () {
-                        Services.updateOption = false;
+                        StaticVariables.updateOption = false;
                         Navigator.of(context).pop(true);
                       },
                     ),

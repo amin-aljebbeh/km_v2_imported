@@ -1,8 +1,9 @@
-import 'package:kammun_app/core/models/models_importer.dart';
 import 'package:kammun_app/features/admins/domain/entities/admins_entity.dart';
 
+import '../../../../core/core_importer.dart';
+
 class AdminModel extends AdminEntity {
-  const AdminModel({id, username, name, phone, apiToken, subWarehouses, roles, shopper})
+  const AdminModel({id, username, name, phone, apiToken, subWarehouses, roles, shopper, permissions})
       : super(
           id: id,
           name: name,
@@ -12,6 +13,7 @@ class AdminModel extends AdminEntity {
           roles: roles,
           subWarehouses: subWarehouses,
           username: username,
+          permissions: permissions,
         );
 
   factory AdminModel.fromJson(Map<String, dynamic> json) => AdminModel(
@@ -20,6 +22,7 @@ class AdminModel extends AdminEntity {
         name: json['name'],
         phone: json['phone'],
         apiToken: json['api_token'],
+        permissions: json['permissions'] != null ? List<String>.from(json['permissions'].map((x) => x)) : [''],
         subWarehouses: json['sub_warehouses'] == null
             ? null
             : List<SubWarehouse>.from(json['sub_warehouses'].map((x) => SubWarehouse.fromJson(x))),

@@ -29,7 +29,7 @@ class _SupplierRemainingAccountsState extends State<SupplierRemainingAccounts> {
     if (response != null) {
       accounts = response;
       if (Services.isSupplierManager()) {
-        accounts.removeWhere((account) => !LoadingScreenServices.subWarehouses
+        accounts.removeWhere((account) => !StaticVariables.subWarehouses
             .map((subWarehouse) => subWarehouse.id)
             .toList()
             .contains(account.subWarehouseId));

@@ -32,9 +32,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
   _getClientInfo() async {
     try {
       await Firebase.initializeApp();
-      bool userLoggedIn = await LoadingScreenServices().checkIfUserLoggedIn();
+      bool userLoggedIn = await Services.checkIfUserLoggedIn();
       if (userLoggedIn) {
-        bool x = await LoadingScreenServices().fetchStartInformation(context: context);
+        bool x = await GeneralApis.fetchStartInformation(context: context);
         return x;
       }
       return 'userNotLoggedIn';
@@ -75,9 +75,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
         if (snapShot.connectionState == ConnectionState.done) {
           if (snapShot.hasError || snapShot.data == false) {
             return const InternetError();
-          } else if (LoadingScreenServices.updateRequired) {
+          } else if (StaticVariables.updateRequired) {
             return const UpdateScreen();
-          } else if (LoadingScreenServices.serverMaintain) {
+          } else if (StaticVariables.serverMaintain) {
             return const ServerUpdate();
           } else {
             final child = HomeView(routeIndex: 0, notificationValue: notificationValue);

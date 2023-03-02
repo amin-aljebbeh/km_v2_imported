@@ -107,7 +107,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                   KCacheImage(
                     tag: widget.productData.id + widget.index,
                     image: widget.productData.images.isNotEmpty
-                        ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
+                        ? StaticVariables.imagePrefixUrl + widget.productData.images[0].imageFileName
                         : '',
                   ),
                   const SizedBox(width: 10),
@@ -185,10 +185,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        widget.supplierCode != null &&
-                                LoadingScreenServices.subSupplierCodeHint.hasMatch(widget.supplierCode) &&
-                                widget.isActive != null &&
-                                widget.id != null
+                        widget.supplierCode != null && widget.isActive != null && widget.id != null
                             ? Padding(
                                 padding: const EdgeInsets.only(left: 15.0),
                                 child: SwitchProductStatusWidget(
@@ -229,7 +226,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                   ? IconButton(
                                       icon: const Icon(Icons.close_sharp, color: Colors.red),
                                       onPressed: () {
-                                        subWarehouseName = LoadingScreenServices.subWarehouses
+                                        subWarehouseName = StaticVariables.subWarehouses
                                             .firstWhere((subWarehouse) => subWarehouse.id.toString() == widget.id,
                                                 orElse: () => SubWarehouse(name: 'المستودع'))
                                             .name;
@@ -266,7 +263,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                           icon: const Icon(Icons.add, color: Colors.green),
                                           onPressed: () {
                                             if (widget.productData.id == 0) {
-                                              Services.productToAddName = widget.productData.name;
+                                              StaticVariables.productToAddName = widget.productData.name;
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(

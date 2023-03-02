@@ -27,7 +27,7 @@ class ShopByCategoryState extends State<ShopByCategory> {
             Image(
               image: widget.img != 'null'
                   ? AdvImageCache(
-                      LoadingScreenServices.imagePrefixUrl + widget.img,
+                      StaticVariables.imagePrefixUrl + widget.img,
                       useMemCache: true,
                       diskCacheExpire: const Duration(days: 400),
                     )

@@ -24,14 +24,14 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
       isLoading = true;
       isError = false;
     });
-    if (LoadingScreenServices.notAddedProducts.isNotEmpty) {
-      productsList.addAll(LoadingScreenServices.notAddedProducts);
+    if (StaticVariables.notAddedProducts.isNotEmpty) {
+      productsList.addAll(StaticVariables.notAddedProducts);
       setState(() => isLoading = false);
     } else {
       try {
         var response = await AddedProductsServices.getNotAddedProductsToWarehouseService();
         if (response != null) {
-          LoadingScreenServices.notAddedProducts.addAll(response);
+          StaticVariables.notAddedProducts.addAll(response);
           productsList.addAll(response);
           productsList.sort((a, b) {
             if (a.id > b.id) {
@@ -73,7 +73,7 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
       backgroundColor: Colors.white,
       appBar: InventorySearchTextField(
         onReload: () {
-          LoadingScreenServices.notAddedProducts.clear();
+          StaticVariables.notAddedProducts.clear();
           _loadData();
         },
         controller: _controller,
@@ -113,7 +113,7 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                               id = productsList[index].subWarehouseId.toString();
                             } else {
                               List<int> subWarehousesIds =
-                                  LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
+                                  StaticVariables.subWarehouses.map((warehouse) => warehouse.id).toList();
                               List<int> productIds = productsList[index]
                                   .warehouses
                                   .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))

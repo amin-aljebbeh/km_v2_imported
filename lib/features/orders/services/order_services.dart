@@ -54,8 +54,7 @@ class OrderServices {
       var response = await ApiProvider.sendRequest(url: lockOrder + orderId, method: HttpMethods.put);
       if (response.data == null) return null;
       if (response.statusCode == successCode && response.data['success']) {
-        orderUnderUpdateIndex =
-            LoadingScreenServices.myOrdersList.indexWhere((order) => order.id == int.parse(orderId));
+        orderUnderUpdateIndex = StaticVariables.myOrdersList.indexWhere((order) => order.id == int.parse(orderId));
         if (orderUnderUpdateIndex == -1) {
           orderUnderUpdateIndex = 0;
         }
@@ -67,7 +66,7 @@ class OrderServices {
 
         //! Order Under Update Delivery Price !//
 
-        Services.deliveryPrice =
+        StaticVariables.deliveryPrice =
             int.parse(supportedCityCost.split('.')[0]) + int.parse(deliveryMethodCost.split('.')[0]);
 
         //! Order Under Update Note !//
@@ -111,12 +110,12 @@ class OrderServices {
       var response = await ApiProvider.sendRequest(
           url: shopperViewsHisOwnOrders, method: HttpMethods.get, queryParameters: {'page': pageNumber});
 
-      LoadingScreenServices.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
+      StaticVariables.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
           .data
           .data
-          .where((order) => !LoadingScreenServices.myOrdersList.contains(order)));
+          .where((order) => !StaticVariables.myOrdersList.contains(order)));
 
-      return LoadingScreenServices.myOrdersList;
+      return StaticVariables.myOrdersList;
     } catch (e) {
       return null;
     }
@@ -127,12 +126,12 @@ class OrderServices {
       var response = await ApiProvider.sendRequest(
           url: getSupplierOrder, method: HttpMethods.get, queryParameters: {'page': pageNumber});
 
-      LoadingScreenServices.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
+      StaticVariables.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
           .data
           .data
-          .where((order) => !LoadingScreenServices.myOrdersList.contains(order)));
+          .where((order) => !StaticVariables.myOrdersList.contains(order)));
 
-      return LoadingScreenServices.myOrdersList;
+      return StaticVariables.myOrdersList;
     } catch (e) {
       return null;
     }
@@ -202,9 +201,9 @@ class OrderServices {
           queryParameters: {'page': pageNumber, 'filter_evaluated_orders': filterEvaluatedOrders});
 
       if (response.statusCode == successCode) {
-        LoadingScreenServices.allOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
+        StaticVariables.allOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
       }
-      return LoadingScreenServices.allOrdersList;
+      return StaticVariables.allOrdersList;
     } catch (e) {
       return null;
     }
@@ -213,9 +212,9 @@ class OrderServices {
   static double gasAllowance({String deliveryDistance, int levelId}) {
     Level orderLevel;
     if (Services.isShopper()) {
-      orderLevel = Services.shopper.level;
+      orderLevel = StaticVariables.shopper.level;
     } else {
-      orderLevel = LoadingScreenServices.levels.firstWhere((level) => level.id == levelId);
+      orderLevel = StaticVariables.levels.firstWhere((level) => level.id == levelId);
     }
     return (int.parse(orderLevel.pricePerKilo.split('.')[0]) * (int.parse(deliveryDistance) / 1000));
   }

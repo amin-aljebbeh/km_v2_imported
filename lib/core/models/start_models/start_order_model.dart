@@ -31,23 +31,17 @@ class PageData {
 class OrdersOriginalData {
   OrdersOriginalData({
     this.id,
-    this.expectedTimeMinutes,
     this.deliveryCost,
     this.supportedCityCost,
     this.orderStatusId,
-    this.paymentMethodId,
     this.deliveryMethodId,
     this.warehouseId,
-    this.addressId,
     this.userId,
-    this.couponId,
     this.userDeliveryRating,
-    this.userPriceRating,
     this.total,
     this.userNotes,
     this.supportedCityId,
     this.underUpdate,
-    this.deliveryStaffId,
     this.products,
     this.address,
     this.userData,
@@ -69,18 +63,13 @@ class OrdersOriginalData {
   });
 
   int id;
-  String expectedTimeMinutes;
   String deliveryCost;
   String supportedCityCost;
   String orderStatusId;
-  String paymentMethodId;
   String deliveryMethodId;
   String warehouseId;
-  String addressId;
   String userId;
-  dynamic couponId;
   String userDeliveryRating;
-  dynamic userPriceRating;
   String total;
   String userFeedback;
   DateTime createdAt;
@@ -92,7 +81,6 @@ class OrdersOriginalData {
   String userNotes;
   String supportedCityId;
   String underUpdate;
-  dynamic deliveryStaffId;
   List<OrderProduct> products;
   List<OrderImage> images;
   Assigned shopper;
@@ -108,18 +96,13 @@ class OrdersOriginalData {
 
   factory OrdersOriginalData.fromJson(Map<String, dynamic> json) => OrdersOriginalData(
       id: json['id'],
-      expectedTimeMinutes: json['expected_time_minutes'].toString(),
       deliveryCost: json['delivery_cost'].toString(),
       supportedCityCost: json['supported_city_cost'].toString(),
       orderStatusId: json['order_status_id'].toString(),
-      paymentMethodId: json['payment_method_id'].toString(),
       deliveryMethodId: json['delivery_method_id'].toString(),
       warehouseId: json['warehouse_id'].toString(),
-      addressId: json['address_id'].toString(),
       userId: json['user_id'].toString(),
-      couponId: json['coupon_id'].toString(),
       userDeliveryRating: json['user_delivery_rating'].toString(),
-      userPriceRating: json['user_price_rating'].toString(),
       total: json['total'].toString(),
       userData: json['user'] == null ? null : UserModel.fromJson(json['user']),
       address: json['address'] == null ? null : OrderAddress.fromJson(json['address']),
@@ -127,7 +110,6 @@ class OrdersOriginalData {
       createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),
       supportedCityId: json['supported_city_id'].toString(),
       underUpdate: json['under_update'].toString(),
-      deliveryStaffId: json['delivery_staff_id'].toString(),
       products: List<OrderProduct>.from(json['products'].map((x) => OrderProduct.fromJson(x))),
       shopper: json['shopper'] == null ? null : Assigned.fromJson(json['shopper']),
       images: json['images'] == null ? [] : List<OrderImage>.from(json['images'].map((x) => OrderImage.fromJson(x))),
@@ -148,18 +130,13 @@ class OrdersOriginalData {
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'expected_time_minutes': expectedTimeMinutes,
         'delivery_cost': deliveryCost,
         'supported_city_cost': supportedCityCost,
         'order_status_id': orderStatusId,
-        'payment_method_id': paymentMethodId,
         'delivery_method_id': deliveryMethodId,
         'warehouse_id': warehouseId,
-        'address_id': addressId,
         'user_id': userId,
-        'coupon_id': couponId,
         'user_delivery_rating': userDeliveryRating,
-        'user_price_rating': userPriceRating,
         'total': total,
         'created_at': createdAt.toIso8601String(),
         'user_notes': userNotes,
@@ -167,7 +144,6 @@ class OrdersOriginalData {
         'user': userData.toJson(),
         'supported_city_id': supportedCityId,
         'under_update': underUpdate,
-        'delivery_staff_id': deliveryStaffId,
         'products': List<dynamic>.from(products.map((x) => x.toJson())),
       };
 
@@ -181,7 +157,7 @@ class OrdersOriginalData {
         directDiscount: 0);
     kammunProfit = 0;
     shopperProfit = 0;
-    orderAccountingRows = LoadingScreenServices.subWarehouses
+    orderAccountingRows = StaticVariables.subWarehouses
         .where((subWarehouse) => products.map((product) => product.subWarehouseId).contains(subWarehouse.id))
         .map((subWarehouse) => OrderAccountingRow(
             subWarehouseId: subWarehouse.id,
@@ -219,9 +195,9 @@ class OrdersOriginalData {
     } else {
       Level orderLevel;
       if (Services.isShopper()) {
-        orderLevel = Services.shopper.level;
+        orderLevel = StaticVariables.shopper.level;
       } else {
-        orderLevel = LoadingScreenServices.levels.firstWhere((level) => level.id == shopper.levelId);
+        orderLevel = StaticVariables.levels.firstWhere((level) => level.id == shopper.levelId);
       }
       for (int i = 0; i < orderAccountingRows.length; i++) {
         double shopperSubWarehouseProfit = 0.0;

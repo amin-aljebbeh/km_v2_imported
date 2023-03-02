@@ -51,7 +51,7 @@ class _CouponWidgetState extends State<CouponWidget> {
                             : TextSpan(
                                 text: StringUtils().oCcy.format(widget.couponEntity.amount) +
                                     ' ' +
-                                    LoadingScreenServices.companyInformation.currency,
+                                    StaticVariables.companyInformation.currency,
                                 style: mainStyle.copyWith(color: Colors.black)),
                       ],
                     ),

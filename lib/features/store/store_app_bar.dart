@@ -19,7 +19,7 @@ class _StoreAppBarState extends State<StoreAppBar> {
       child: AppBar(
         iconTheme: const IconThemeData(color: Colors.transparent),
         backgroundColor: Services.isShopper()
-            ? Services.shopper.status == 1
+            ? StaticVariables.shopper.status == 1
                 ? kmColors
                 : searchGreyColor
             : kmColors,
@@ -45,13 +45,14 @@ class _StoreAppBarState extends State<StoreAppBar> {
                   Services.isShopper()
                       ? Switch(
                           activeColor: Colors.white,
-                          value: Services.shopper.status == 1,
+                          value: StaticVariables.shopper.status == 1,
                           onChanged: (value) async {
-                            bool success = await Services.changeShopperStatusService(
-                                shopperId: Services.shopper.id.toString(),
-                                newStatus: Services.shopper.status == 1 ? '0' : '1');
+                            bool success = await GeneralApis.changeShopperStatusService(
+                                shopperId: StaticVariables.shopper.id.toString(),
+                                newStatus: StaticVariables.shopper.status == 1 ? '0' : '1');
                             if (success) {
-                              setState(() => Services.shopper.status = Services.shopper.status == 1 ? 0 : 1);
+                              setState(
+                                  () => StaticVariables.shopper.status = StaticVariables.shopper.status == 1 ? 0 : 1);
                             } else {
                               Toast.show('يرجى الاتصال بالإنترنت', context,
                                   duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);

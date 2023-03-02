@@ -1,7 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 
 import '../../core/core_importer.dart';
-import 'services/inventory_services.dart';
+import '../login/Services/login_services.dart';
 
 class GetSubWarehouse extends StatefulWidget {
   static const String routeName = '/GetSubWarehouse';
@@ -18,7 +18,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
 
   List<SubWarehouse> listOfWubWarehouse = [];
 
-  _getSubWarehouse() async {
+  _getSubWarehouse({BuildContext context}) async {
     setState(() {
       isLoading = true;
       isError = false;
@@ -26,7 +26,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    List<SubWarehouse> response = await InventoryServices.getAdmin(adminId: prefs.getString('adminId'));
+    List<SubWarehouse> response = await LoginServices.getAdmin(adminId: prefs.getString('adminId'), context: context);
     if (response != null) {
       setState(() {
         listOfWubWarehouse.addAll(response);
@@ -43,7 +43,10 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
 
   @override
   void initState() {
-    _getSubWarehouse();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getSubWarehouse(context: context);
+    });
+
     super.initState();
   }
 

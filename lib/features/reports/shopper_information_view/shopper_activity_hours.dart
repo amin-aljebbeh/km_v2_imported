@@ -90,7 +90,7 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                     if (validDates() && (Services.isShopper() || shopperName != null)) {
                       getHours(
                           shopperId: Services.isShopper()
-                              ? Services.shopper.id.toString()
+                              ? StaticVariables.shopper.id.toString()
                               : Services.selectedShopperId(shopperName));
                     } else {
                       Toast.show('الرجاء إدخال كافة البيانات', context,

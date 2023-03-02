@@ -134,7 +134,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     rightSideText: bill,
                     leftSideText: StringUtils().oCcy.format(int.parse(widget.orderData.cashValue.split('.')[0]).abs()) +
                         ' ' +
-                        LoadingScreenServices.companyInformation.currency,
+                        StaticVariables.companyInformation.currency,
                     leftSideStyle: int.parse(widget.orderData.cashValue.split('.')[0]).isNegative
                         ? informationStyle.copyWith(color: Colors.red)
                         : informationStyle,
@@ -275,7 +275,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   leftSideStyle: informationStyle),
               LabelRow(
                   rightSideText: city,
-                  leftSideText: LoadingScreenServices.supportedCitiesListIntro
+                  leftSideText: StaticVariables.supportedCitiesListIntro
                           .where((supportedCity) => supportedCity.id == widget.orderData.supportedCityId)
                           .first
                           .name +

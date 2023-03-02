@@ -28,8 +28,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AutoSizeText(LoadingScreenServices.admin.name ?? '', style: userNameStyle.copyWith(fontSize: 25)),
-                  AutoSizeText(LoadingScreenServices.admin.username ?? '', style: userNameStyle),
+                  AutoSizeText(StaticVariables.admin.name ?? '', style: userNameStyle.copyWith(fontSize: 25)),
+                  AutoSizeText(StaticVariables.admin.username ?? '', style: userNameStyle),
                 ],
                 textDirection: TextDirection.ltr,
               ),
@@ -69,14 +69,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: Icon(FontAwesomeIcons.phone, color: kmColors, size: 30)),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5.0),
-                            child: Text(LoadingScreenServices.admin.phone ?? 'لا يوجد',
+                            child: Text(StaticVariables.admin.phone ?? 'لا يوجد',
                                 style: mainStyle.copyWith(fontSize: 25, color: Colors.black)),
                           ),
                           onTap: () {},
                         ),
                       ),
                     ),
-                    Services.roles.isNotEmpty
+                    StaticVariables.roles.isNotEmpty
                         ? Column(
                             children: [
                               Center(
@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Center(
                                     child: Column(
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: LoadingScreenServices.subWarehouses
+                                        children: StaticVariables.subWarehouses
                                             .map((subWarehouse) => Container(
                                                 padding: const EdgeInsets.all(5),
                                                 decoration: const BoxDecoration(color: Colors.white),
@@ -124,18 +124,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     children: [
                                       IconButton(
                                         icon: Icon(Icons.library_add_check_outlined,
-                                            color: LoadingScreenServices.preferLeftSide ? searchGreyColor : kmColors2),
-                                        onPressed: () => setState(() => LoadingScreenServices.preferLeftSide
-                                            ? LoadingScreenServices.setPreferLeftSide(false)
-                                            : {}),
+                                            color: StaticVariables.preferLeftSide ? searchGreyColor : kmColors2),
+                                        onPressed: () => setState(() =>
+                                            StaticVariables.preferLeftSide ? Services.setPreferLeftSide(false) : {}),
                                       ), //right side
                                       IconButton(
                                           icon: Icon(Icons.library_add_check_outlined,
-                                              color:
-                                                  LoadingScreenServices.preferLeftSide ? kmColors2 : searchGreyColor),
-                                          onPressed: () => setState(() => LoadingScreenServices.preferLeftSide
-                                              ? {}
-                                              : LoadingScreenServices.setPreferLeftSide(true)))
+                                              color: StaticVariables.preferLeftSide ? kmColors2 : searchGreyColor),
+                                          onPressed: () => setState(() =>
+                                              StaticVariables.preferLeftSide ? {} : Services.setPreferLeftSide(true)))
                                     ],
                                   ),
                                 ),

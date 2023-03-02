@@ -13,7 +13,7 @@ class InventoryPage extends StatefulWidget {
 class _InventoryPageState extends State<InventoryPage> {
   final TextEditingController controller = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  int subWarehouseFilter = LoadingScreenServices.subWarehouses.length;
+  int subWarehouseFilter = StaticVariables.subWarehouses.length;
   int isActiveFilter = 0;
   List<String> activeList = ['بحاجة تفعيل', 'بحاجة إيقاف تفعيل'];
 
@@ -67,8 +67,8 @@ class _InventoryPageState extends State<InventoryPage> {
                         onChanged: (value) {
                           subWarehouseFilter = value;
                           StoreProvider.of<AppState>(context).dispatch(SetSubWarehouseId(
-                              subWarehouseId: value != LoadingScreenServices.subWarehouses.length
-                                  ? LoadingScreenServices.subWarehouses[value].id
+                              subWarehouseId: value != StaticVariables.subWarehouses.length
+                                  ? StaticVariables.subWarehouses[value].id
                                   : -1));
                           StoreProvider.of<AppState>(context).dispatch(StartLoading());
                           StoreProvider.of<AppState>(context).dispatch(NoError());
@@ -143,7 +143,7 @@ class _InventoryPageState extends State<InventoryPage> {
                                     id = state.inventoryState.products[index].subWarehouseId.toString();
                                   } else {
                                     List<int> subWarehousesIds =
-                                        LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
+                                        StaticVariables.subWarehouses.map((warehouse) => warehouse.id).toList();
                                     List<int> productIds = state.inventoryState.products[index].warehouses
                                         .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
                                         .toList();

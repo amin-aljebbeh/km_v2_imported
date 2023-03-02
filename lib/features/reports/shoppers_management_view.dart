@@ -12,7 +12,7 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
   bool loading;
 
   loadShopper() async {
-    await Services.getShoppers();
+    await GeneralApis.getShoppers();
     setState(() => loading = false);
   }
 
@@ -36,9 +36,9 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
                 primary: false,
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount: LoadingScreenServices.allShoppers == null ? 0 : LoadingScreenServices.allShoppers.length,
+                itemCount: StaticVariables.allShoppers == null ? 0 : StaticVariables.allShoppers.length,
                 itemBuilder: (BuildContext context, int index) =>
-                    ShopperWidget(shopper: LoadingScreenServices.allShoppers[index]),
+                    ShopperWidget(shopper: StaticVariables.allShoppers[index]),
               ),
       ),
     );

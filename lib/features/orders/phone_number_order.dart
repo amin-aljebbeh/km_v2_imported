@@ -23,7 +23,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
     filterOrders = 0;
     setState(() => phoneNumber = widget.phoneNumber);
     getOrders = _getOrder();
-    orderDataList = LoadingScreenServices.phoneOrderList;
+    orderDataList = StaticVariables.phoneOrderList;
     super.initState();
   }
 
@@ -45,17 +45,17 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
       if (!theEndOfOrders) isLoading = true;
       errorMessage = false;
       orderDataList.clear();
-      LoadingScreenServices.phoneOrderList = [];
+      StaticVariables.phoneOrderList = [];
     });
     List<OrdersOriginalData> orderList;
-    LoadingScreenServices.phoneOrderList =
+    StaticVariables.phoneOrderList =
         await OrderServices.getOrdersByUserNumberService(phoneNumber: phoneNumber, pageNumber: page);
-    orderList = LoadingScreenServices.phoneOrderList;
+    orderList = StaticVariables.phoneOrderList;
 
     if (orderList != null) {
       if (orderList.isEmpty) {
         setState(() {
-          if (LoadingScreenServices.phoneOrderList.isNotEmpty) theEndOfOrders = true;
+          if (StaticVariables.phoneOrderList.isNotEmpty) theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -72,7 +72,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
           }
 
           orderDataList.removeWhere((order) => order.products.isEmpty);
-          LoadingScreenServices.phoneOrderList = orderDataList;
+          StaticVariables.phoneOrderList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -233,7 +233,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                       if (x.success) {
                                         setState(() {
                                           orderDataList[index] = x.order;
-                                          LoadingScreenServices.phoneOrderList[index] = x.order;
+                                          StaticVariables.phoneOrderList[index] = x.order;
                                           isLoading = false;
                                         });
                                       } else {
@@ -265,7 +265,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                             if (x.success) {
                                               setState(() {
                                                 orderDataList[index] = x.order;
-                                                LoadingScreenServices.phoneOrderList[index] = x.order;
+                                                StaticVariables.phoneOrderList[index] = x.order;
                                                 isLoading = false;
                                               });
                                             } else {
@@ -307,7 +307,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                             if (x.success) {
                                               setState(() {
                                                 orderDataList[index] = x.order;
-                                                LoadingScreenServices.phoneOrderList[index] = x.order;
+                                                StaticVariables.phoneOrderList[index] = x.order;
                                                 isLoading = false;
                                               });
                                             } else {
@@ -354,7 +354,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                       if (result.success) {
                                         snackBar(success: true, message: 'تم تغيير حالة الطلب بنجاح', context: context);
                                         orderDataList[index] = result.order;
-                                        LoadingScreenServices.phoneOrderList[index] = result.order;
+                                        StaticVariables.phoneOrderList[index] = result.order;
                                       } else {
                                         snackBar(
                                             success: false,

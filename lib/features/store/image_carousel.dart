@@ -15,7 +15,7 @@ class ImageCarousel extends StatelessWidget {
           child: Carousel(
             borderRadius: true,
             boxFit: BoxFit.fill,
-            images: LoadingScreenServices.bannerListNetwork,
+            images: StaticVariables.bannerListNetwork,
             autoplay: true,
             animationCurve: Curves.fastLinearToSlowEaseIn,
             animationDuration: const Duration(milliseconds: 1000),

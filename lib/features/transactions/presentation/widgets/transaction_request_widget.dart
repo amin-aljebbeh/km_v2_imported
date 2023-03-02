@@ -10,13 +10,13 @@ class TransactionRequestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KCard(
-      padding: const EdgeInsets.all(8),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            SizedBox(
-                width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -63,9 +63,9 @@ class TransactionRequestWidget extends StatelessWidget {
                               ));
                         })
                   ],
-                ))
-          ],
-        ),
+                ),
+              ))
+        ],
       ),
       radius: const BorderRadius.all(Radius.circular(8)),
     );

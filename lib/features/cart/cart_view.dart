@@ -44,7 +44,7 @@ class CartViewState extends State<CartView> {
     super.initState();
     orderArray = CartServices.cartProducts;
 
-    if (LoadingScreenServices.subWarehouses.length == 1) {
+    if (StaticVariables.subWarehouses.length == 1) {
       orderArray.sort((a, b) {
         if (a.subWarehouseId > b.subWarehouseId) {
           return -1;
@@ -112,7 +112,7 @@ class CartViewState extends State<CartView> {
                 children: <Widget>[
                   Text(subtotalString, style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 19.0)),
                   Text(
-                    '${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}',
+                    '${StringUtils().oCcy.format(subtotal)} ${StaticVariables.companyInformation.currency}',
                     style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 19),
                   ),
                 ],
@@ -148,7 +148,7 @@ class CartViewState extends State<CartView> {
             KCacheImage(
               tag: index + 100,
               image: orderArray[index].images.isNotEmpty
-                  ? LoadingScreenServices.imagePrefixUrl + orderArray[index].images[0].imageFileName
+                  ? StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName
                   : '',
             ),
             const SizedBox(width: 10),
@@ -188,7 +188,7 @@ class CartViewState extends State<CartView> {
                                     ),
                                   )
                                 : Text(
-                                    '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
+                                    '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${StaticVariables.companyInformation.currency}',
                                     style: mainStyle.copyWith(
                                         fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                             indexToEdit == index

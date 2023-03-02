@@ -48,82 +48,69 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.75,
-              child: TextFieldRow(
-                hint: widget.textHint,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                controller: textController,
-                text: widget.title,
-                inputType: widget.inputType,
-                width: 150,
-              ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.75,
+            child: TextFieldRow(
+              hint: widget.textHint,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              controller: textController,
+              text: widget.title,
+              inputType: widget.inputType,
+              width: 150,
             ),
-            IconButton(
-              icon: Icon(Icons.save, color: kmColors, size: 30),
-              onPressed: () async {
-                if (textController.text.isNotEmpty) {
-                  if (widget.isForPriceRate) {
-                    bool result = await InventoryServices.updatePriceRateThresholdService(textController.text);
-                    if (result) {
-                      snackBar(success: result, message: 'تم التعديل بنجاح', context: context);
-                    } else {
-                      snackBar(success: result, message: 'فشلت عملية التعديل يرجى المحاولة مجدداً', context: context);
-                    }
+          ),
+          IconButton(
+            icon: Icon(Icons.save, color: kmColors, size: 30),
+            onPressed: () async {
+              if (textController.text.isNotEmpty) {
+                if (widget.isForPriceRate) {
+                  bool result = await InventoryServices.updatePriceRateThresholdService(textController.text);
+                  if (result) {
+                    snackBar(success: result, message: 'تم التعديل بنجاح', context: context);
                   } else {
-                    if (widget.bodyKey == 'supplier_code' &&
-                        !LoadingScreenServices.subSupplierCodeHint.hasMatch(textController.text)) {
-                      snackBar(
-                          success: false,
-                          message: 'فشل عملية التعديل يجب أن يحتوي رمز المادة على الرمز الخاص بك',
-                          context: context);
-                    } else {
-                      String newValue = textController.text;
-                      if (widget.bodyKey == 'price') {
-                        double tempValue = double.parse(newValue.split('.')[0]);
-                        tempValue *= widget.priceFactor;
-                        tempValue += widget.increasePercentage;
-                        newValue = tempValue.toString();
-                      }
-                      bool result = await ProductsServices.updateProductsDetails(
-                          bodyKey: widget.bodyKey,
-                          value: newValue,
-                          isForSubWarehouse: widget.isForSubWarehouse,
-                          subWarehouseId: widget.productData.subWarehouseId.toString(),
-                          productId: widget.productId.toString());
-
-                      if (result) {
-                        widget.onSavePressed(newValue, result);
-                        if (Services.isSupplierManager()) {
-                          if (widget.bodyKey == 'price') {
-                            newValue = (int.parse(newValue.split('.')[0]) - widget.increasePercentage ?? 0).toString();
-                          }
-                        }
-
-                        setState(() => textController.text = newValue);
-                      }
-                      if (result) {
-                        snackBar(success: result, message: 'تم التعديل بنجاح', context: context);
-                      } else {
-                        snackBar(success: result, message: 'فشلت عملية التعديل يرجى المحاولة مجدداً', context: context);
-                      }
-                    }
+                    snackBar(success: result, message: 'فشلت عملية التعديل يرجى المحاولة مجدداً', context: context);
                   }
                 } else {
-                  Toast.show('الحقل فارغ !', context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                  String newValue = textController.text;
+                  if (widget.bodyKey == 'price') {
+                    double tempValue = double.parse(newValue.split('.')[0]);
+                    tempValue *= widget.priceFactor;
+                    tempValue += widget.increasePercentage;
+                    newValue = tempValue.toString();
+                  }
+                  bool result = await ProductsServices.updateProductsDetails(
+                      bodyKey: widget.bodyKey,
+                      value: newValue,
+                      isForSubWarehouse: widget.isForSubWarehouse,
+                      subWarehouseId: widget.productData.subWarehouseId.toString(),
+                      productId: widget.productId.toString());
+                  if (result) {
+                    widget.onSavePressed(newValue, result);
+                    if (Services.isSupplierManager() && widget.bodyKey == 'price') {
+                      newValue = (int.parse(newValue.split('.')[0]) - widget.increasePercentage ?? 0).toString();
+                    }
+
+                    setState(() => textController.text = newValue);
+                  }
+                  if (result) {
+                    snackBar(success: result, message: 'تم التعديل بنجاح', context: context);
+                  } else {
+                    snackBar(success: result, message: 'فشلت عملية التعديل يرجى المحاولة مجدداً', context: context);
+                  }
                 }
-              },
-            ),
-          ],
-        ),
-        const SizedBox(height: 30),
-      ],
+              } else {
+                Toast.show('الحقل فارغ !', context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 }

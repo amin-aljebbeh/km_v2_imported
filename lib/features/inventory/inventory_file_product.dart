@@ -133,9 +133,8 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                                       if (showList[index].subWarehouseId != -1) {
                                         id = showList[index].subWarehouseId.toString();
                                       } else {
-                                        List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
-                                            .map((warehouse) => warehouse.id)
-                                            .toList();
+                                        List<int> subWarehousesIds =
+                                            StaticVariables.subWarehouses.map((warehouse) => warehouse.id).toList();
                                         List<int> productIds = showList[index]
                                             .warehouses
                                             .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))

@@ -26,8 +26,7 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
     super.initState();
     setState(() {
       categoryListHome.clear();
-      categoryListHome =
-          LoadingScreenServices.categoryList.where((category) => category.parentCategoryId == 'null').toList();
+      categoryListHome = StaticVariables.categoryList.where((category) => category.parentCategoryId == 'null').toList();
     });
   }
 
@@ -63,7 +62,7 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
 
   // Function to be called on click
   void _onTileClicked(String index) {
-    List<CategoryOriginalData> subCategoryList = LoadingScreenServices.categoryList
+    List<CategoryOriginalData> subCategoryList = StaticVariables.categoryList
         .where((category) => category.parentCategoryId.toString() == index.toString())
         .toList();
 

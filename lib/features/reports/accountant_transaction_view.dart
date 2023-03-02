@@ -37,7 +37,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
     profitLoading = false;
     if (widget.shopperId != null) {
       shopperId = widget.shopperId;
-      shopperFilter = LoadingScreenServices.allShoppers
+      shopperFilter = StaticVariables.allShoppers
           .firstWhere((shopper) => shopper.id.toString() == widget.shopperId, orElse: () => ShopperModel(name: ''))
           .name;
       page = 1;

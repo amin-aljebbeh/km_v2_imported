@@ -1,28 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/inventory/model/inventory_model_importer.dart';
-import 'package:kammun_app/features/login/models/login_admin_model.dart';
 
 class InventoryServices {
-  static Future<List<SubWarehouse>> getAdmin({String adminId}) async {
-    var response = await ApiProvider.sendRequest(url: admin + adminId, method: HttpMethods.get);
-
-    if (response.statusCode == successCode && response.data['success']) {
-      final result = adminLoginResponseFromJson(jsonEncode(response.data));
-
-      if (result.data.roles.isNotEmpty) {
-        Services.roles = result.data.roles;
-        if (result.data.shopper != null) {
-          Services.shopper = result.data.shopper;
-          Services.shopper.level = await Services.getLevelService(result.data.shopper.levelId.toString());
-        }
-      }
-      LoadingScreenServices.admin = result.data;
-      return result.data.subWarehouses;
-    }
-    return null;
-  }
-
   static Future<List<ProductData>> getSubWarehouseProductsService({String subWarehouseId}) async {
     var response = await ApiProvider.sendRequest(url: subWarehouse + subWarehouseId, method: HttpMethods.get);
     if (response.statusCode == successCode && response.data['success']) {

@@ -70,13 +70,13 @@ class ShopperWidgetState extends State<ShopperWidget> {
                           preState: widget.shopper.status,
                           onChange: (int active, bool widgetResult) async {
                             setState(() => loading = true);
-                            bool result = await Services.changeShopperStatusService(
+                            bool result = await GeneralApis.changeShopperStatusService(
                                 shopperId: widget.shopper.id.toString(),
                                 newStatus: widget.shopper.status == 1 ? '0' : '1');
                             setState(() {
                               loading = false;
                               if (result) {
-                                LoadingScreenServices.allShoppers
+                                StaticVariables.allShoppers
                                     .firstWhere((shopper) => shopper.id == widget.shopper.id)
                                     .status = active;
                                 widget.shopper.status = active;

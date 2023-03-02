@@ -47,7 +47,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     cards = List<int>.generate(orderArray.length, (i) => i + 1);
 
     subtotal = orderArray.fold(0, (sum, order) => sum + (int.parse(order.price.split('.')[0]) * order.productCount));
-    total = subtotal + Services.deliveryPrice;
+    total = subtotal + StaticVariables.deliveryPrice;
 
     if (OrderServices.updateOrderNote != null) WidgetsBinding.instance.addPostFrameCallback((_) => _userNotesInitial());
 
@@ -140,7 +140,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               fontWeight: FontWeight.w400, color: Theme.of(context).primaryColorDark, fontSize: 17.0),
                         ),
                         Text(
-                          '${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}',
+                          '${StringUtils().oCcy.format(subtotal)} ${StaticVariables.companyInformation.currency}',
                           style: mainStyle.copyWith(
                               fontWeight: FontWeight.w500, color: Theme.of(context).primaryColorDark, fontSize: 17.0),
                         ),
@@ -157,7 +157,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               fontSize: 16.0,
                             )),
                         Text(
-                          '${StringUtils().oCcy.format(Services.deliveryPrice)} ${LoadingScreenServices.companyInformation.currency}',
+                          '${StringUtils().oCcy.format(StaticVariables.deliveryPrice)} ${StaticVariables.companyInformation.currency}',
                           style: mainStyle.copyWith(
                               fontWeight: FontWeight.w500, color: Theme.of(context).primaryColorDark, fontSize: 16),
                         ),
@@ -174,7 +174,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               fontSize: 19.0,
                             )),
                         Text(
-                          '${StringUtils().oCcy.format(total)} ${LoadingScreenServices.companyInformation.currency}',
+                          '${StringUtils().oCcy.format(total)} ${StaticVariables.companyInformation.currency}',
                           style: mainStyle.copyWith(
                               fontWeight: FontWeight.w700, color: Theme.of(context).primaryColorDark, fontSize: 19),
                         ),
@@ -313,7 +313,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                   child: Image(
                     image: orderArray[index].images.isNotEmpty
                         ? AdvImageCache(
-                            LoadingScreenServices.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
+                            StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
                             useMemCache: true,
                             diskCacheExpire: const Duration(days: 400),
                           )
@@ -341,7 +341,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: greyColor, fontSize: 17)),
                         const SizedBox(height: 8),
                         Text(
-                            '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
+                            '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${StaticVariables.companyInformation.currency}',
                             style: mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                       ],
                     ),

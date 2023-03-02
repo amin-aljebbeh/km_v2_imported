@@ -26,7 +26,7 @@ class _SubCategoryState extends State<SubCategory> {
   @override
   Widget build(BuildContext context) {
     void _onTileClicked(int index) {
-      List<CategoryOriginalData> subCategoryList = LoadingScreenServices.categoryList
+      List<CategoryOriginalData> subCategoryList = StaticVariables.categoryList
           .where((category) => category.parentCategoryId.toString() == index.toString())
           .toList();
 
@@ -149,7 +149,7 @@ class _SubCategoryState extends State<SubCategory> {
                               borderRadius: const BorderRadius.all(Radius.circular(30)),
                               child: Image(
                                 image: AdvImageCache(
-                                  LoadingScreenServices.imagePrefixUrl + eachProduct.imageFileName,
+                                  StaticVariables.imagePrefixUrl + eachProduct.imageFileName,
                                   useMemCache: true,
                                   diskCacheExpire: const Duration(days: 400),
                                 ),
@@ -170,8 +170,7 @@ class _SubCategoryState extends State<SubCategory> {
                                   child: Text(
                                     eachProduct.name,
                                     style: mainStyle.copyWith(
-                                        fontSize: ResponsiveFlutter.of(context).fontSize(4),
-                                        color: Colors.white),
+                                        fontSize: ResponsiveFlutter.of(context).fontSize(4), color: Colors.white),
                                     softWrap: true,
                                     overflow: TextOverflow.fade,
                                   ),

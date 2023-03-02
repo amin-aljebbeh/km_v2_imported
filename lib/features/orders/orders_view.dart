@@ -26,17 +26,17 @@ class OrdersViewState extends State<OrdersView> {
     idController = TextEditingController();
     orderDataList = [];
     warehouses = ['جميع المستودعات'];
-    warehouses.addAll(LoadingScreenServices.warehouses.map((warehouse) => warehouse.name).toList());
+    warehouses.addAll(StaticVariables.warehouses.map((warehouse) => warehouse.name).toList());
     rated = 0;
-    ordersFilter = LoadingScreenServices.ordersViewFilter;
+    ordersFilter = StaticVariables.ordersViewFilter;
     ordersTypeFilter = 0;
     warehouseFilter = 0;
 
-    if (LoadingScreenServices.allOrdersList.isEmpty) {
+    if (StaticVariables.allOrdersList.isEmpty) {
       getOrders = _getOrders();
     } else {
       getOrders = _initialFunction();
-      orderDataList = LoadingScreenServices.allOrdersList;
+      orderDataList = StaticVariables.allOrdersList;
     }
     super.initState();
   }
@@ -67,16 +67,16 @@ class OrdersViewState extends State<OrdersView> {
       orderDataList.clear();
     });
     List<OrdersOriginalData> orderList;
-    if (LoadingScreenServices.allOrdersList.isEmpty) {
+    if (StaticVariables.allOrdersList.isEmpty) {
       orderList = await OrderServices.getAllOrders(pageNumber: indexPage, filterEvaluatedOrders: rated);
     } else {
-      orderList = LoadingScreenServices.allOrdersList;
+      orderList = StaticVariables.allOrdersList;
     }
 
     if (orderList != null) {
       if (orderList.isEmpty) {
         setState(() {
-          if (LoadingScreenServices.allOrdersList.isNotEmpty) theEndOfOrders = true;
+          if (StaticVariables.allOrdersList.isNotEmpty) theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -107,7 +107,7 @@ class OrdersViewState extends State<OrdersView> {
           }
 
           orderDataList.removeWhere((order) => order.products.isEmpty);
-          LoadingScreenServices.allOrdersList = orderDataList;
+          StaticVariables.allOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -149,7 +149,7 @@ class OrdersViewState extends State<OrdersView> {
                           onChanged: (value) {
                             setState(() {
                               ordersFilter = value;
-                              LoadingScreenServices.ordersViewFilter = value;
+                              StaticVariables.ordersViewFilter = value;
                               page = 1;
                               indexPage = 1;
                               pageController.clear();
@@ -323,7 +323,7 @@ class OrdersViewState extends State<OrdersView> {
                                       if (x.success) {
                                         setState(() {
                                           orderDataList[index] = x.order;
-                                          LoadingScreenServices.allOrdersList[index] = x.order;
+                                          StaticVariables.allOrdersList[index] = x.order;
                                           isLoading = false;
                                         });
                                       } else {
@@ -349,7 +349,7 @@ class OrdersViewState extends State<OrdersView> {
                                             if (x.success) {
                                               setState(() {
                                                 orderDataList[index] = x.order;
-                                                LoadingScreenServices.allOrdersList[index] = x.order;
+                                                StaticVariables.allOrdersList[index] = x.order;
                                                 isLoading = false;
                                               });
                                             } else {
@@ -385,7 +385,7 @@ class OrdersViewState extends State<OrdersView> {
                                             if (x.success) {
                                               setState(() {
                                                 orderDataList[index] = x.order;
-                                                LoadingScreenServices.allOrdersList[index] = x.order;
+                                                StaticVariables.allOrdersList[index] = x.order;
                                                 isLoading = false;
                                               });
                                             } else {
@@ -429,7 +429,7 @@ class OrdersViewState extends State<OrdersView> {
                                             message: 'تم تغيير حالة الطلب بنجاح',
                                             context: context);
                                         orderDataList[index] = result.order;
-                                        LoadingScreenServices.allOrdersList[index] = result.order;
+                                        StaticVariables.allOrdersList[index] = result.order;
                                       } else {
                                         snackBar(
                                             success: result.success,

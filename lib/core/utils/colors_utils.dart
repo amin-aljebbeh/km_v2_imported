@@ -8,8 +8,6 @@ Color kmColors = const Color.fromARGB(255, 210, 178, 2);
 
 Color kmColors2 = HexColor('e5cb37');
 List<Color> warehousesColors = [primaryColor, kmColors, kmColors2];
-Color vegetableColor = Colors.green[800];
-const Color normalColor = Colors.transparent;
 
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {

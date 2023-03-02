@@ -19,7 +19,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
   List<DropdownMenuItem> subWarehouseList = [];
   @override
   void initState() {
-    subWarehouseList = LoadingScreenServices.subWarehouses
+    subWarehouseList = StaticVariables.subWarehouses
         .where((subWarehouse) =>
             subWarehouse.id == widget.productData.subWarehouseId ||
             subWarehouse.allowShopperAssign == '1' ||
@@ -45,7 +45,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
           children: <Widget>[
             ProductCheckWidget(
               product: widget.productData,
-              preferLeftSide: !LoadingScreenServices.preferLeftSide,
+              preferLeftSide: !StaticVariables.preferLeftSide,
               productCount: widget.productData.pivot.quantity,
               productName: widget.productData.name,
               index: widget.index,
@@ -57,13 +57,13 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                   MaterialPageRoute(
                       builder: (_) => FullScreenImage(
                           imageUrl: widget.productData.images.isNotEmpty
-                              ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
+                              ? StaticVariables.imagePrefixUrl + widget.productData.images[0].imageFileName
                               : '',
                           tag: 'generate_a_unique_tag'))),
               child: KCacheImage(
                 tag: widget.index + int.parse(widget.productData.pivot.productId),
                 image: widget.productData.images.isNotEmpty
-                    ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
+                    ? StaticVariables.imagePrefixUrl + widget.productData.images[0].imageFileName
                     : '',
               ),
             ),
@@ -75,20 +75,18 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                   Text(widget.productData.name,
                       style: mainStyle.copyWith(color: Colors.black, fontWeight: FontWeight.bold)),
                   Text(widget.productData.quantity + ' ' + (widget.productData.unit ?? ''), style: darkBold),
-                  Text(
-                      StringUtils().oCcy.format(purchasePrice) +
-                          ' ${LoadingScreenServices.companyInformation.currency}',
+                  Text(StringUtils().oCcy.format(purchasePrice) + ' ${StaticVariables.companyInformation.currency}',
                       style: paragraphStyle),
                   if (Services.isSuperAdmin() &&
                       purchasePrice - int.parse(widget.productData.pivot.purchasePrice.split('.')[0]) != 0)
                     Text(
                         StringUtils().oCcy.format(int.parse(widget.productData.pivot.purchasePrice.split('.')[0])) +
-                            ' ${LoadingScreenServices.companyInformation.currency}',
+                            ' ${StaticVariables.companyInformation.currency}',
                         style: warningStyle),
                   if (Services.isSupplierManager())
                     Text(
                       StringUtils().oCcy.format(purchasePrice - (purchasePrice * discountPercentage)).toString() +
-                          ' ${LoadingScreenServices.companyInformation.currency}',
+                          ' ${StaticVariables.companyInformation.currency}',
                       style: paragraphStyle,
                     ),
                   Text('كمية المستودع : ' + widget.productData.availableQuantity,
@@ -120,7 +118,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
             ),
             ProductCheckWidget(
               product: widget.productData,
-              preferLeftSide: LoadingScreenServices.preferLeftSide,
+              preferLeftSide: StaticVariables.preferLeftSide,
               productCount: widget.productData.pivot.quantity,
               productName: widget.productData.name,
               index: widget.index,

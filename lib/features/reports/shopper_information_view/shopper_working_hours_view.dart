@@ -27,7 +27,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
     groupValue = DateFilter.day;
     if (Services.isShopper()) {
       loading = true;
-      getWorkingHours(shopperId: Services.shopper.id.toString(), filter: DateFilter.day);
+      getWorkingHours(shopperId: StaticVariables.shopper.id.toString(), filter: DateFilter.day);
     }
     super.initState();
   }
@@ -98,7 +98,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                           loading = true;
                           getWorkingHours(
                               shopperId: Services.isShopper()
-                                  ? Services.shopper.id.toString()
+                                  ? StaticVariables.shopper.id.toString()
                                   : Services.selectedShopperId(shopperName),
                               filter: groupValue);
                         }
@@ -117,7 +117,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                           loading = true;
                           getWorkingHours(
                               shopperId: Services.isShopper()
-                                  ? Services.shopper.id.toString()
+                                  ? StaticVariables.shopper.id.toString()
                                   : Services.selectedShopperId(shopperName),
                               filter: groupValue);
                         }
@@ -136,7 +136,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                           loading = true;
                           getWorkingHours(
                               shopperId: Services.isShopper()
-                                  ? Services.shopper.id.toString()
+                                  ? StaticVariables.shopper.id.toString()
                                   : Services.selectedShopperId(shopperName),
                               filter: groupValue);
                         }

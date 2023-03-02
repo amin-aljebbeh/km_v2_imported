@@ -24,7 +24,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
     productsAry.addAll(widget.order.products);
     productsAry.removeWhere((product) => product.pivot.deletedAt != 'null');
 
-    if (LoadingScreenServices.subWarehouses.length == 1) {
+    if (StaticVariables.subWarehouses.length == 1) {
       productsAry.sort((a, b) {
         if (a.pivot.subWarehouseId > b.pivot.subWarehouseId) {
           return -1;
@@ -92,7 +92,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                 color: searchGreyColor,
                                 child: Center(
                                   child: Text(
-                                    LoadingScreenServices.subWarehouses
+                                    StaticVariables.subWarehouses
                                         .firstWhere(
                                             (subWarehouse) => subWarehouse.id == productDetail.pivot.subWarehouseId,
                                             orElse: () => SubWarehouse(name: 'No element'))
@@ -108,19 +108,19 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                 setState(() {
                                   switch (widget.orderType) {
                                     case OrderTypes.myOrder:
-                                      LoadingScreenServices.myOrdersList
+                                      StaticVariables.myOrdersList
                                           .firstWhere((order) => order.id == widget.order.id)
                                           .products
                                           .removeWhere((product) => product.id == productDetail.id);
                                       break;
                                     case OrderTypes.allOrder:
-                                      LoadingScreenServices.allOrdersList
+                                      StaticVariables.allOrdersList
                                           .firstWhere((order) => order.id == widget.order.id)
                                           .products
                                           .removeWhere((product) => product.id == productDetail.id);
                                       break;
                                     case OrderTypes.search:
-                                      LoadingScreenServices.phoneOrderList
+                                      StaticVariables.phoneOrderList
                                           .firstWhere((order) => order.id == widget.order.id)
                                           .products
                                           .removeWhere((product) => product.id == productDetail.id);
@@ -150,7 +150,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                               Text('الزوائد', style: darkBold),
                               Text(
                                 '${StringUtils().oCcy.format(widget.remaining)}'
-                                ' ${LoadingScreenServices.companyInformation.currency}',
+                                ' ${StaticVariables.companyInformation.currency}',
                                 style: mainStyle.copyWith(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
@@ -168,7 +168,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                               Text('إجمالي الحسم', style: darkBold),
                               Text(
                                 '${StringUtils().oCcy.format(widget.totalDiscount)}'
-                                ' ${LoadingScreenServices.companyInformation.currency}',
+                                ' ${StaticVariables.companyInformation.currency}',
                                 style: mainStyle.copyWith(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
@@ -186,7 +186,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                               Text(subtotalString, style: darkBold),
                               Text(
                                 '${StringUtils().oCcy.format(widget.subTotal)}'
-                                ' ${LoadingScreenServices.companyInformation.currency}',
+                                ' ${StaticVariables.companyInformation.currency}',
                                 style: mainStyle.copyWith(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,

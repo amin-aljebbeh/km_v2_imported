@@ -111,7 +111,7 @@ class _AddProductsViewState extends State<AddProductsView> {
   @override
   void initState() {
     if (widget.supplierCode != null) supplierCodeController.text = widget.supplierCode;
-    if (Services.productToAddName != 'null') nameController.text = Services.productToAddName;
+    if (StaticVariables.productToAddName != 'null') nameController.text = StaticVariables.productToAddName;
     super.initState();
   }
 
@@ -166,7 +166,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
-                        children: LoadingScreenServices.subWarehouses
+                        children: StaticVariables.subWarehouses
                             .map((data) => Container(
                                   decoration: const BoxDecoration(color: Colors.white),
                                   child: RadioListTile(

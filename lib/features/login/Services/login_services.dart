@@ -1,4 +1,5 @@
 import 'package:kammun_app/core/core_importer.dart';
+import 'package:kammun_app/features/admins/presentation/redux/admins_action.dart';
 import 'package:kammun_app/features/login/models/login_admin_model.dart';
 
 class LoginServices {
@@ -64,7 +65,6 @@ class LoginServices {
         final newResponse = adminLoginResponseFromJson(jsonEncode(response.data));
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('userToken', newResponse.data.apiToken);
-        prefs.setString('adminRoll', username);
         prefs.setString('adminId', newResponse.data.id.toString());
         prefs.setBool('preferLeftSide', true);
         LoadingScreen.userToken = newResponse.data.apiToken;
@@ -77,13 +77,37 @@ class LoginServices {
   }
 
   static Future<void> logOutAdmin(BuildContext context) async {
-    LoadingScreenServices.allOrdersList = [];
-    LoadingScreenServices.myOrdersList = [];
-    LoadingScreenServices.phoneOrderList = [];
-    LoadingScreenServices.ordersViewFilter = 0;
+    StaticVariables.allOrdersList = [];
+    StaticVariables.myOrdersList = [];
+    StaticVariables.phoneOrderList = [];
+    StaticVariables.ordersViewFilter = 0;
     SharedPreferences preferences = await SharedPreferences.getInstance();
     baseUrl = appUrl;
     await preferences.clear();
     KammunRestart.restartApp(context);
+  }
+
+  static Future<List<SubWarehouse>> getAdmin({String adminId, BuildContext context}) async {
+    try {
+      var response = await ApiProvider.sendRequest(url: admin + adminId, method: HttpMethods.get);
+
+      if (response.statusCode == successCode && response.data['success']) {
+        final result = adminLoginResponseFromJson(jsonEncode(response.data));
+
+        StoreProvider.of<AppState>(context).dispatch(SetAdmin(admin: result.data));
+        if (result.data.roles.isNotEmpty) {
+          StaticVariables.roles = result.data.roles;
+          if (result.data.shopper != null) {
+            StaticVariables.shopper = result.data.shopper;
+            StaticVariables.shopper.level = await GeneralApis.getLevelService(result.data.shopper.levelId.toString());
+          }
+        }
+        StaticVariables.admin = result.data;
+        return result.data.subWarehouses;
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
   }
 }
