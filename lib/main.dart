@@ -57,6 +57,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-/*todo:
-get admins for transactions
-*  */

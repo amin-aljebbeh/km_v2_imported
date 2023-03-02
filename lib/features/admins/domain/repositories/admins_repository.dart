@@ -4,4 +4,5 @@ import 'package:kammun_app/features/admins/domain/entities/admins_entity.dart';
 
 abstract class AdminsRepository {
   Future<Either<Failure, List<AdminEntity>>> getAdmins();
+  Future<Either<Failure, List<AdminEntity>>> getTransactionsActors({int categoryId});
 }

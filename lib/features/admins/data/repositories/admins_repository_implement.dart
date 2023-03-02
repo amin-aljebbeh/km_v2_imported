@@ -24,4 +24,20 @@ class AdminsRepositoryImplement implements AdminsRepository {
       return Left(InternalFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<AdminEntity>>> getTransactionsActors({int categoryId}) async {
+    try {
+      List<AdminEntity> admins = await adminsRemoteDataSource.getTransactionsActors(categoryId: categoryId);
+      return Right(admins);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
+  }
 }

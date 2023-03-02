@@ -6,6 +6,7 @@ import 'admins_action.dart';
 Reducer<AdminsState> adminsReducer = combineReducers<AdminsState>([
   TypedReducer<AdminsState, SetAdmins>(setAdmins),
   TypedReducer<AdminsState, SetAdmin>(setAdmin),
+  TypedReducer<AdminsState, SetTransactionsActors>(transactionsActors),
 ]);
 
 AdminsState setAdmins(AdminsState state, SetAdmins action) {
@@ -14,4 +15,8 @@ AdminsState setAdmins(AdminsState state, SetAdmins action) {
 
 AdminsState setAdmin(AdminsState state, SetAdmin action) {
   return state.copyWith(admin: action.admin);
+}
+
+AdminsState transactionsActors(AdminsState state, SetTransactionsActors action) {
+  return state.copyWith(transactionsActors: action.admins);
 }
