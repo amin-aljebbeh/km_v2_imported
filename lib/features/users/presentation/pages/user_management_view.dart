@@ -1,4 +1,3 @@
-import 'package:kammun_app/features/coupons/presentation/pages/coupons_page.dart';
 import 'package:kammun_app/features/users/presentation/pages/user_wallet_page.dart';
 
 import '../../../../core/core_importer.dart';
@@ -15,44 +14,55 @@ class _UserManagementState extends State<UserManagement> with SingleTickerProvid
 
   @override
   void initState() {
-    controller = TabController(vsync: this, length: 2);
+    controller = TabController(vsync: this, length: 3);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(kToolbarHeight),
-          child: Container(
-              color: kmColors,
-              child: SafeArea(
-                  child: Row(
-                children: [
-                  IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white)),
-                  Expanded(
-                    child: TabBar(
-                      controller: controller,
-                      indicatorColor: Colors.white,
-                      labelColor: Colors.white,
-                      tabs: [
-                        Tab(child: Center(child: Text('الأكواد', style: tabStyle))),
-                        Tab(child: Center(child: Text('المحفظة', style: tabStyle)))
-                      ],
-                    ),
-                  ),
-                ],
-              ))),
-        ),
-        body: TabBarView(
-            controller: controller,
-            children: const [CouponsPage(), UserWalletPage()],
-            physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics())),
-      ),
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) {
+        return DefaultTabController(
+          length: 3,
+          child: Scaffold(
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(kToolbarHeight),
+              child: Container(
+                  color: kmColors,
+                  child: SafeArea(
+                      child: Row(
+                    children: [
+                      IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white)),
+                      Expanded(
+                        child: TabBar(
+                          controller: controller,
+                          indicatorColor: Colors.white,
+                          labelColor: Colors.white,
+                          tabs: [
+                            Tab(
+                                child: Center(
+                                    child: Text('أكواد المستخدم', style: tabStyle, textAlign: TextAlign.center))),
+                            Tab(
+                                child:
+                                    Center(child: Text('أكواد الحسم', style: tabStyle, textAlign: TextAlign.center))),
+                            Tab(child: Center(child: Text('المحفظة', style: tabStyle, textAlign: TextAlign.center))),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ))),
+            ),
+            body: TabBarView(
+                controller: controller,
+                children: const [UserCouponsPage(), CouponsPage(), UserWalletPage()],
+                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics())),
+          ),
+        );
+      },
     );
   }
 }

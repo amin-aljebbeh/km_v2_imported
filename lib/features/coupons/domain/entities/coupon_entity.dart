@@ -19,9 +19,11 @@ class CouponEntity extends Equatable {
   final int isGeneral;
   final int isActive;
   final int isAllCity;
+  final PivotEntity pivot;
 
   const CouponEntity({
     this.expirationPeriod,
+    this.pivot,
     this.description,
     this.msgContent,
     this.maxOrders,
@@ -40,6 +42,7 @@ class CouponEntity extends Equatable {
     this.descriptionUser,
     this.isActive,
   });
+
   @override
   List<Object> get props => [
         expirationPeriod,
@@ -56,9 +59,30 @@ class CouponEntity extends Equatable {
         isGeneral,
         isAllCity,
         id,
+        pivot,
         code,
         expirationDate,
         descriptionUser,
         isActive,
       ];
+}
+
+class PivotEntity {
+  PivotEntity({
+    this.userId,
+    this.couponId,
+    this.availability,
+    this.nUsage,
+    this.usageExpiration,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  int userId;
+  int couponId;
+  int availability;
+  int nUsage;
+  DateTime usageExpiration;
+  DateTime createdAt;
+  DateTime updatedAt;
 }

@@ -31,4 +31,6 @@ final Map<String, WidgetBuilder> routes = {
   ComplaintsPage.routeName: (_) => const ComplaintsPage(),
   AddComplaintPage.routeName: (_) => const AddComplaintPage(),
   TransactionRequestsPage.routeName: (_) => const TransactionRequestsPage(),
+  CouponsPage.routeName: (_) => const CouponsPage(),
+  UserCouponsPage.routeName: (_) => const UserCouponsPage(),
 };

@@ -228,6 +228,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const UserManagement()));
                           StoreProvider.of<AppState>(context).dispatch(FirstCouponsPage());
                           StoreProvider.of<AppState>(context).dispatch(GetCouponsAction());
+                          StoreProvider.of<AppState>(context)
+                              .dispatch(GetUserCouponsAction(userId: widget.orderData.userData.id));
                         },
                       ),
                     if (Services.isOperationManager())

@@ -20,8 +20,9 @@ class StoreViewState extends State<StoreView> {
   @override
   void initState() {
     super.initState();
-    if (StaticVariables.updateOption)
+    if (StaticVariables.updateOption) {
       WidgetsBinding.instance.addPostFrameCallback((_) => showUpdateDialog(context: context));
+    }
   }
 
   @override

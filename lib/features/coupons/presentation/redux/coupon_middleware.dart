@@ -15,6 +15,12 @@ Future<void> couponMiddleware(Store<AppState> store, action, NextDispatcher next
       store.dispatch(SetCoupons(coupons: result.data.coupons));
     });
     store.dispatch(StopLoading());
+  } else if (action is GetUserCouponsAction) {
+    store.dispatch(StartLoading());
+    Either either = await store.state.couponState.couponsUseCase.getUSerCouponsUseCase(userId: action.userId);
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')),
+        (coupons) => store.dispatch(SetUserCoupons(coupons: coupons)));
+    store.dispatch(StopLoading());
   }
   next(action);
 }

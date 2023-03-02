@@ -8,6 +8,7 @@ Reducer<CouponState> couponReducer = combineReducers<CouponState>([
   TypedReducer<CouponState, FirstCouponsPage>(firstCouponsPage),
   TypedReducer<CouponState, NextCouponsPage>(nextCouponsPage),
   TypedReducer<CouponState, EndOfCoupons>(endOfCoupons),
+  TypedReducer<CouponState, SetUserCoupons>(setUserCoupons),
 ]);
 
 CouponState setCoupons(CouponState state, SetCoupons action) {
@@ -15,6 +16,10 @@ CouponState setCoupons(CouponState state, SetCoupons action) {
   coupons.addAll(state.coupons);
   coupons.addAll(action.coupons);
   return state.copyWith(coupons: coupons);
+}
+
+CouponState setUserCoupons(CouponState state, SetUserCoupons action) {
+  return state.copyWith(userCoupons: action.coupons);
 }
 
 CouponState firstCouponsPage(CouponState state, FirstCouponsPage action) {

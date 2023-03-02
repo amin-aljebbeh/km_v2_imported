@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'utils_importer.dart';
 
-TextStyle mainStyle = TextStyle(fontFamily: fontFamily);
+TextStyle mainStyle = TextStyle(fontFamily: fontFamily, color: Colors.black);
 
 TextStyle dialogStyle = mainStyle;
 

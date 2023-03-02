@@ -90,7 +90,7 @@ class CouponsPageState extends State<CouponsPage> {
                           : state.couponState.coupons.isEmpty && !state.loadingState.isLoading
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Center(child: Text('ليس لديك أكواد حسم', style: paragraphStyle)))
+                                  child: Center(child: Text('لا يوجد أكواد حسم', style: paragraphStyle)))
                               : Expanded(
                                   child: NotificationListener<ScrollEndNotification>(
                                     onNotification: (ScrollEndNotification scrollInfo) {

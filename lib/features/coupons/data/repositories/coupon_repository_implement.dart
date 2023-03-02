@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:kammun_app/features/coupons/domain/entities/coupon_entity.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../domain/repositories/coupon_repository.dart';
@@ -15,6 +16,22 @@ class CouponsRepositoryImplement implements CouponsRepository {
     try {
       GetCouponsResponseModel coupons = await couponRemoteDataSource.getCoupons(
           isGeneral: isGeneral, isForDelivery: isForDelivery, code: code, page: page);
+      return Right(coupons);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CouponEntity>>> getUserCoupons({int userId}) async {
+    try {
+      List<CouponEntity> coupons = await couponRemoteDataSource.getUserCoupons(userId: userId);
       return Right(coupons);
     } on CacheException {
       return Left(CacheFailure());
