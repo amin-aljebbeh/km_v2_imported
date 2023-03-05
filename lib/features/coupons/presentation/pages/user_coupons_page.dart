@@ -1,4 +1,5 @@
 import '../../../../core/core_importer.dart';
+import '../../domain/entities/coupon_entity.dart';
 import '../widgets/user_coupon_widget.dart';
 
 class UserCouponsPage extends StatefulWidget {
@@ -11,11 +12,25 @@ class UserCouponsPage extends StatefulWidget {
 }
 
 class UserCouponsPageState extends State<UserCouponsPage> {
+  final FocusNode focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       builder: (context, state) {
+        List<CouponEntity> active = [];
+        List<CouponEntity> nonActive = [];
+        List<CouponEntity> coupons = [];
+        coupons.addAll(state.couponState.userCoupons);
+        for (int i = 0; i < coupons.length; i++) {
+          if ((coupons[i].pivot.availability == coupons[i].pivot.nUsage) ||
+              coupons[i].pivot.usageExpiration.isBefore(DateTime.now())) {
+            nonActive.add(coupons[i]);
+          } else {
+            active.add(coupons[i]);
+          }
+        }
         return TemporaryLoading(
           child: Scaffold(
             body: SafeArea(
@@ -25,23 +40,72 @@ class UserCouponsPageState extends State<UserCouponsPage> {
                 children: <Widget>[
                   state.loadingState.isLoading
                       ? const Center(child: Loader())
-                      : state.errorState.isError && state.couponState.userCoupons.isEmpty
+                      : state.errorState.isError && coupons.isEmpty
                           ? Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(child: Text(state.errorState.errorMessage, style: paragraphStyle)))
-                          : state.couponState.userCoupons.isEmpty && !state.loadingState.isLoading
+                          : coupons.isEmpty && !state.loadingState.isLoading
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Center(child: Text('لا يوجد أكواد حسم', style: paragraphStyle)))
                               : Expanded(
-                                  child: ListView.builder(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SingleChildScrollView(
                                       physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                                      primary: false,
-                                      scrollDirection: Axis.vertical,
-                                      shrinkWrap: true,
-                                      itemCount: state.couponState.userCoupons.length,
-                                      itemBuilder: (BuildContext context, int index) =>
-                                          UserCouponWidget(couponEntity: state.couponState.userCoupons[index])),
+                                      child: Column(
+                                        children: [
+                                          if (active.isNotEmpty)
+                                            Container(
+                                              decoration: const BoxDecoration(
+                                                  borderRadius: BorderRadius.all(Radius.circular(15))),
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context).size.width,
+                                                child: Column(
+                                                  children: [
+                                                    Padding(
+                                                        padding: const EdgeInsets.only(top: 15),
+                                                        child: Text('الأكواد الفعالة', style: informationStyle)),
+                                                    SizedBox(
+                                                      width: MediaQuery.of(context).size.width,
+                                                      child: Column(
+                                                        children: active
+                                                            .map((coupon) => UserCouponWidget(couponEntity: coupon))
+                                                            .toList(),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          if (nonActive.isNotEmpty)
+                                            Container(
+                                              margin: const EdgeInsets.only(top: 15),
+                                              decoration: const BoxDecoration(
+                                                  borderRadius: BorderRadius.all(Radius.circular(15))),
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context).size.width,
+                                                child: Column(
+                                                  children: [
+                                                    Padding(
+                                                        padding: const EdgeInsets.only(top: 15),
+                                                        child: Text('الأكواد الغير الفعالة', style: informationStyle)),
+                                                    SizedBox(
+                                                      width: MediaQuery.of(context).size.width,
+                                                      child: Column(
+                                                        children: nonActive
+                                                            .map((coupon) => UserCouponWidget(couponEntity: coupon))
+                                                            .toList(),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ),
                 ],
               ),
