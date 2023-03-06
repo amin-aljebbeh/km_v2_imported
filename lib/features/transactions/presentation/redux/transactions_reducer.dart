@@ -7,6 +7,7 @@ Reducer<TransactionsState> transactionsReducer = combineReducers<TransactionsSta
   TypedReducer<TransactionsState, SetTransactionCategories>(setTransactionCategories),
   TypedReducer<TransactionsState, NextTransactionRequestsPage>(nextTransactionRequestsPage),
   TypedReducer<TransactionsState, EndOfTransactionsRequests>(endOfTransactionsRequests),
+  TypedReducer<TransactionsState, SetTransactions>(setTransactions),
   TypedReducer<TransactionsState, FirstPage>(firstPage),
 ]);
 
@@ -25,3 +26,6 @@ TransactionsState firstPage(TransactionsState state, FirstPage action) =>
 
 TransactionsState setTransactionCategories(TransactionsState state, SetTransactionCategories action) =>
     state.copyWith(categories: action.categories);
+
+TransactionsState setTransactions(TransactionsState state, SetTransactions action) =>
+    state.copyWith(transactions: action.transactions);

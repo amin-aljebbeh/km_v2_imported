@@ -18,3 +18,4 @@ export 'server_update/server_update.dart';
 export 'store/store_view.dart';
 export 'supplier/presentation/pages/supplier_statement_accounts.dart';
 export 'transactions/presentation/pages/transaction_requests_page.dart';
+export 'transactions/presentation/pages/transactions_page.dart';

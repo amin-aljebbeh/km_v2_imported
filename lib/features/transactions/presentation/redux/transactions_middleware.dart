@@ -31,6 +31,12 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
         (requests) => store.dispatch(SetTransactionRequests(requests: requests)));
     store.dispatch(StopLoading());
+  } else if (action is GetTransactionsAction) {
+    store.dispatch(StartLoading());
+    Either either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase();
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
+        (transactions) => store.dispatch(SetTransactions(transactions: transactions)));
+    store.dispatch(StopLoading());
   } else if (action is GetTransactionCategoriesAction) {
     store.dispatch(StartLoading());
     Either either = await store.state.transactionsState.transactionsUseCase.getTransactionCategoriesUseCase();

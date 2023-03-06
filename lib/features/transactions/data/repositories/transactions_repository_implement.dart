@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:kammun_app/features/transactions/data/models/transaction_model.dart';
 import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
+import 'package:kammun_app/features/transactions/domain/entities/transaction_entity.dart';
 import 'package:kammun_app/features/transactions/domain/entities/transaction_request_entity.dart';
 
 import '../../../../core/core_importer.dart';
@@ -54,6 +56,39 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
     try {
       List<TransactionCategoryEntity> categories = await transactionsRemoteDataSource.getTransactionCategories();
       return Right(categories);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> createTransaction({TransactionEntity transactionEntity}) async {
+    return await repositoryFactory.failureUnitRepo(
+        function: () => transactionsRemoteDataSource.createTransaction(
+                transactionModel: TransactionModel(
+              orderId: transactionEntity.orderId,
+              userId: transactionEntity.userId,
+              id: transactionEntity.id,
+              description: transactionEntity.description,
+              value: transactionEntity.value,
+              adminId: transactionEntity.adminId,
+              date: transactionEntity.date,
+              actorId: transactionEntity.actorId,
+              transactionCategoryId: transactionEntity.transactionCategoryId,
+            )));
+  }
+
+  @override
+  Future<Either<Failure, List<TransactionEntity>>> getTransactions() async {
+    try {
+      List<TransactionEntity> transactions = await transactionsRemoteDataSource.getTransactions();
+      return Right(transactions);
     } on CacheException {
       return Left(CacheFailure());
     } on ServerException {
