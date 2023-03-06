@@ -336,39 +336,58 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   leftSideStyle: informationStyle),
               if (Services.isOperationManager())
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     if (widget.orderData.shopper != null)
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: KammunButton(
-                                color: kmColors,
-                                width: 100,
-                                text: 'تحويل',
-                                onTap: () {
-                                  showMyDialog(
-                                      context: context,
-                                      title: 'تحويل',
-                                      text: 'هل أنت متأكد من رغبتك في تحويل الطلب لكابتن جديد ؟',
-                                      dialogButtons: [
-                                        KammunButton(
-                                            color: kmColors,
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                              StoreProvider.of<AppState>(context)
-                                                  .dispatch(ReAssignOrderAction(orderId: widget.orderData.id));
-                                            },
-                                            width: 100,
-                                            text: yes),
-                                        KammunButton(
-                                            color: kmColors, onTap: () => Navigator.pop(context), width: 100, text: no),
-                                      ]);
-                                })),
-                      ),
+                      Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: KammunButton(
+                              color: kmColors,
+                              width: MediaQuery.of(context).size.width / 4,
+                              text: 'تحويل',
+                              onTap: () {
+                                showMyDialog(
+                                    context: context,
+                                    title: 'تحويل',
+                                    text: 'هل أنت متأكد من رغبتك في تحويل الطلب لكابتن جديد ؟',
+                                    dialogButtons: [
+                                      KammunButton(
+                                          color: kmColors,
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                            StoreProvider.of<AppState>(context)
+                                                .dispatch(ReAssignOrderAction(orderId: widget.orderData.id));
+                                          },
+                                          width: 100,
+                                          text: yes),
+                                      KammunButton(
+                                          color: kmColors, onTap: () => Navigator.pop(context), width: 100, text: no),
+                                    ]);
+                              })),
+                    if (Services.isAgent())
+                      if (widget.orderData.shopper != null)
+                        if (widget.orderData.shopper.admin != null)
+                          if (widget.orderData.shopper.admin.phone != null)
+                            Wrap(
+                              children: [
+                                InkWell(
+                                  child: Icon(Icons.contact_phone_rounded, color: kmColors),
+                                  onTap: () {
+                                    Clipboard.setData(ClipboardData(text: widget.orderData.shopper.admin.phone));
+                                    Toast.show('تم نسخ رقم الكابتن', context,
+                                        duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
+                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8),
+                                  child: InkWell(
+                                    child: Icon(Icons.phone_rounded, color: kmColors),
+                                    onTap: () => Services.makePhoneCall(widget.orderData.shopper.admin.phone),
+                                  ),
+                                ),
+                              ],
+                            ),
                     Expanded(
-                      flex: 2,
                       child: KSearchableDropdown(
                         hint: widget.orderData.shopper != null ? widget.orderData.shopper.name : chooseShopper,
                         search: shopper,
