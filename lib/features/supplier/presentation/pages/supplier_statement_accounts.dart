@@ -21,7 +21,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
       distinct: true,
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(backgroundColor: primaryColor, title: Text('كشف حساب مورد', style: mainStyle)),
+          appBar: AppBar(backgroundColor: primaryColor, title: Text('كشف حساب مورد', style: appBarStyle)),
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(8.0),

@@ -24,7 +24,7 @@ class _AddComplaintPageState extends State<AddComplaintPage> {
       distinct: true,
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: Text('إضافة شكوى', style: mainStyle), backgroundColor: kmColors),
+          appBar: AppBar(title: Text('إضافة شكوى', style: appBarStyle), backgroundColor: kmColors),
           body: TemporaryLoading(
             child: SafeArea(
               child: Column(

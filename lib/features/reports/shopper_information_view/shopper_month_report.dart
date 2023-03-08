@@ -57,7 +57,7 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(backgroundColor: primaryColor, title: Text('معلومات المتسوق الشهرية', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('معلومات المتسوق الشهرية', style: appBarStyle)),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,

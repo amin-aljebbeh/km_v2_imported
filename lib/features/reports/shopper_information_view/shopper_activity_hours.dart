@@ -55,7 +55,7 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(backgroundColor: primaryColor, title: Text('أوقات تفعيل التطبيق', style: mainStyle)),
+        appBar: AppBar(backgroundColor: primaryColor, title: Text('أوقات تفعيل التطبيق', style: appBarStyle)),
         body: SafeArea(
           child: Container(
             padding: const EdgeInsets.all(10),

@@ -6,6 +6,8 @@ TextStyle mainStyle = TextStyle(fontFamily: fontFamily, color: Colors.black);
 
 TextStyle dialogStyle = mainStyle;
 
+TextStyle appBarStyle = mainStyle.copyWith(color: Colors.white);
+
 TextStyle boldStyle = mainStyle.copyWith(fontWeight: FontWeight.bold);
 
 TextStyle decisionButtonStyle = mainStyle.copyWith(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w500);
@@ -36,7 +38,7 @@ TextStyle lightProfitStyle = mainStyle.copyWith(color: Colors.green);
 
 TextStyle lightLoseStyle = mainStyle.copyWith(color: Colors.red);
 
-TextStyle userNameStyle = mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 15);
+TextStyle userNameStyle = mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 15, color: Colors.white);
 
 TextStyle blackBold = flushBarStyle.copyWith(color: Colors.black);
 

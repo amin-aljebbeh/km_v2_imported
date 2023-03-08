@@ -71,7 +71,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(backgroundColor: primaryColor, title: Text('كشف حساب متسوق', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('كشف حساب متسوق', style: appBarStyle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),

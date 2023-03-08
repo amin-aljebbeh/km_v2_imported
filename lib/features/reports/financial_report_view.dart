@@ -183,7 +183,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: primaryColor, title: Text('الأرباح والمستحقات المالية', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('الأرباح والمستحقات المالية', style: appBarStyle)),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(10),

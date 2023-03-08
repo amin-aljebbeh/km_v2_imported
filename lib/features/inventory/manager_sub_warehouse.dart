@@ -57,7 +57,8 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(backgroundColor: primaryColor, title: Text(kammun, style: boldStyle)),
+      appBar:
+          AppBar(backgroundColor: primaryColor, title: Text(kammun, style: boldStyle.copyWith(color: Colors.white))),
       body: Container(
         child: isLoading
             ? const Loader()

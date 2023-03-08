@@ -13,7 +13,7 @@ class ComplaintsPage extends StatelessWidget {
       distinct: true,
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: Text('الشكاوى', style: mainStyle), backgroundColor: kmColors),
+          appBar: AppBar(title: Text('الشكاوى', style: appBarStyle), backgroundColor: kmColors),
           floatingActionButton:
               FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add_rounded), backgroundColor: kmColors),
           body: TemporaryLoading(

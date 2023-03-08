@@ -126,7 +126,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Text('كشف حساب متسوق', style: mainStyle),
+        title: Text('كشف حساب متسوق', style: appBarStyle),
       ),
       body: SafeArea(
         child: Padding(

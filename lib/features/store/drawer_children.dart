@@ -158,20 +158,5 @@ List<Widget> getDrawerChildren(BuildContext context) {
         },
       ),
     SideBarRow(icon: Icons.logout, text: 'تسجيل الخروج', onTap: () async => await LoginServices.logOutAdmin(context)),
-    Divider(color: kmColors, height: 20),
-    Padding(
-      padding: const EdgeInsets.only(top: 20.0),
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const <Widget>[
-            MediaIcon(icon: FontAwesomeIcons.facebookF, url: 'facebook'),
-            MediaIcon(icon: FontAwesomeIcons.instagram, url: 'instagram'),
-            MediaIcon(icon: FontAwesomeIcons.facebookMessenger, url: 'messenger'),
-            MediaIcon(icon: FontAwesomeIcons.whatsapp, url: 'whatsapp'),
-          ],
-        ),
-      ),
-    ),
   ];
 }

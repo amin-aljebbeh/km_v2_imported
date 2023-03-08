@@ -6,6 +6,7 @@ import 'services/reports_services.dart';
 
 class SalesCharts extends StatefulWidget {
   static const String routeName = '/SalesCharts';
+
   const SalesCharts({Key key}) : super(key: key);
 
   @override
@@ -169,10 +170,7 @@ class _SalesChartsState extends State<SalesCharts> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: primaryColor,
-          title: Text('إحصائيات المبيعات', style: mainStyle),
-        ),
+        appBar: AppBar(backgroundColor: primaryColor, title: Text('إحصائيات المبيعات', style: appBarStyle)),
         body: SafeArea(
           child: Container(
             padding: const EdgeInsets.all(10),

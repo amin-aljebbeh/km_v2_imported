@@ -26,7 +26,7 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: primaryColor, title: Text('فريق التوصيل', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('فريق التوصيل', style: appBarStyle)),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: loading

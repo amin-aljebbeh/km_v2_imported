@@ -72,6 +72,8 @@ class LoginServices {
       }
       return false;
     } catch (e) {
+      Tools.logToConsole('exception');
+      Tools.logToConsole(e.toString());
       return false;
     }
   }

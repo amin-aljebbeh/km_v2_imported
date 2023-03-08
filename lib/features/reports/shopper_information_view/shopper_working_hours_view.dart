@@ -59,7 +59,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(backgroundColor: primaryColor, title: Text('ساعات دوام المتسوق', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('ساعات دوام المتسوق', style: appBarStyle)),
       body: SafeArea(
         child: Column(
           children: [

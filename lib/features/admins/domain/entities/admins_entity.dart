@@ -10,6 +10,7 @@ class AdminEntity extends Equatable {
   final List<Role> roles;
   final ShopperModel shopper;
   final List<String> permissions;
+  final int balance;
 
   const AdminEntity({
     this.id,
@@ -21,8 +22,9 @@ class AdminEntity extends Equatable {
     this.roles,
     this.shopper,
     this.permissions,
+    this.balance,
   });
 
   @override
-  List<Object> get props => [id, username, name, phone, apiToken, subWarehouses, roles, shopper, permissions];
+  List<Object> get props => [id, username, name, phone, apiToken, subWarehouses, roles, shopper, permissions, balance];
 }

@@ -54,7 +54,7 @@ class _SupplierRemainingAccountsState extends State<SupplierRemainingAccounts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: primaryColor, title: Text('كشف حساب مورد', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('كشف حساب مورد', style: appBarStyle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

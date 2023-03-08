@@ -41,7 +41,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(backgroundColor: primaryColor, title: Text('إضافة مناقلة', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('إضافة مناقلة', style: appBarStyle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),

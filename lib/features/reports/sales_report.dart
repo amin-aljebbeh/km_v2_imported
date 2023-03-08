@@ -208,7 +208,7 @@ class _SalesReportState extends State<SalesReport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: primaryColor, title: Text('تقرير المبيعات', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('تقرير المبيعات', style: appBarStyle)),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(10),
