@@ -87,8 +87,6 @@ class GeneralApis {
       }
       return false;
     } catch (e) {
-      Tools.logToConsole('exception 2');
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -193,8 +191,6 @@ class GeneralApis {
       }
       return false;
     } catch (e) {
-      Tools.logToConsole('exception 1');
-      Tools.logToConsole(e.toString());
       return false;
     }
   }

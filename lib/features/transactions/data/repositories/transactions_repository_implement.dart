@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:kammun_app/features/transactions/data/models/transaction_model.dart';
+import 'package:kammun_app/features/transactions/data/models/admin_transaction_model.dart';
 import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
-import 'package:kammun_app/features/transactions/domain/entities/transaction_entity.dart';
+import 'package:kammun_app/features/transactions/domain/entities/admin_transaction_entity.dart';
 import 'package:kammun_app/features/transactions/domain/entities/transaction_request_entity.dart';
 
 import '../../../../core/core_importer.dart';
@@ -68,10 +68,10 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> createTransaction({TransactionEntity transactionEntity}) async {
+  Future<Either<Failure, Unit>> createTransaction({AdminTransactionEntity transactionEntity}) async {
     return await repositoryFactory.failureUnitRepo(
         function: () => transactionsRemoteDataSource.createTransaction(
-                transactionModel: TransactionModel(
+                transactionModel: AdminTransactionModel(
               orderId: transactionEntity.orderId,
               userId: transactionEntity.userId,
               id: transactionEntity.id,
@@ -85,9 +85,9 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionEntity>>> getTransactions() async {
+  Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions() async {
     try {
-      List<TransactionEntity> transactions = await transactionsRemoteDataSource.getTransactions();
+      List<AdminTransactionEntity> transactions = await transactionsRemoteDataSource.getTransactions();
       return Right(transactions);
     } on CacheException {
       return Left(CacheFailure());

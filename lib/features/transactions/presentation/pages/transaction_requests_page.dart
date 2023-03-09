@@ -14,6 +14,7 @@ class TransactionRequestsPage extends StatelessWidget {
       builder: (context, state) {
         return TemporaryLoading(
           child: Scaffold(
+            appBar: AppBar(backgroundColor: primaryColor, title: Text('طلبات المناقلات', style: appBarStyle)),
             body: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

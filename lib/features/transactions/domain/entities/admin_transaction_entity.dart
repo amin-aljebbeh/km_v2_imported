@@ -1,15 +1,20 @@
-class TransactionEntity {
+class AdminTransactionEntity {
   final int id;
   final int transactionCategoryId;
   final int adminId;
   final int orderId;
   final int value;
+  final int companyValue;
+  final int shopperValue;
   final String description;
   final int actorId;
   final int userId;
   final String date;
+  final DateTime createdAt;
 
-  TransactionEntity({
+  AdminTransactionEntity({
+    this.companyValue,
+    this.shopperValue,
     this.id,
     this.transactionCategoryId,
     this.adminId,
@@ -19,5 +24,6 @@ class TransactionEntity {
     this.actorId,
     this.userId,
     this.date,
+    this.createdAt,
   });
 }

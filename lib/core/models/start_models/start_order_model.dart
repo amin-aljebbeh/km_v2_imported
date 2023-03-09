@@ -237,9 +237,6 @@ class OrdersOriginalData {
       double shopperDeliverProfit = cityCost * deliverProfit;
       shopperProfit += shopperDeliverProfit;
       kammunProfit += cityCost - shopperDeliverProfit;
-      Tools.logToConsole('profit');
-      Tools.logToConsole(shopperProfit);
-      Tools.logToConsole(kammunProfit);
     }
   }
 }

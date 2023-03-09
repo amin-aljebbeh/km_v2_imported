@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart' as intl;
 import 'package:kammun_app/features/transactions/domain/entities/transaction_request_entity.dart';
 import 'package:kammun_app/features/transactions/presentation/redux/transactions_action.dart';
 
@@ -17,51 +18,64 @@ class TransactionRequestWidget extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   children: [
-                    KammunButton(
-                        color: kmColors,
-                        width: MediaQuery.of(context).size.width / 3,
-                        text: 'قبول',
-                        onTap: () => StoreProvider.of<AppState>(context).dispatch(
-                            UpdateTransactionRequestAction(transactionRequestEntity: transactionRequestEntity))),
-                    KammunButton(
-                        color: Colors.red,
-                        width: MediaQuery.of(context).size.width / 3,
-                        text: 'رفض',
-                        onTap: () {
-                          TextEditingController reasonController = TextEditingController();
-                          showMyDialog(
-                              title: 'رفض',
-                              context: context,
-                              dialogButtons: [
-                                KammunButton(
-                                    color: Colors.red,
-                                    width: MediaQuery.of(context).size.width / 3,
-                                    text: 'رفض',
-                                    onTap: () {
-                                      if (reasonController.text.isNotEmpty) {
-                                        StoreProvider.of<AppState>(context).dispatch(UpdateTransactionRequestAction(
-                                            transactionRequestEntity: transactionRequestEntity));
-                                      }
-                                    })
-                              ],
-                              content: Column(
-                                children: [
-                                  RichText(
-                                      text: TextSpan(children: [
-                                    TextSpan(
-                                        text: 'هل أنت متأكد من رغبتك في رفض الطلب؟\n',
-                                        style: dialogStyle.copyWith(color: Colors.black)),
-                                    TextSpan(
-                                        text: 'الرجاء كتابة سبب الرفض',
-                                        style: dialogStyle.copyWith(color: Colors.black))
-                                  ])),
-                                  EntryField(controller: reasonController, hint: 'سبب الرفض')
-                                ],
-                              ));
-                        })
+                    Text(
+                        StringUtils().oCcy.format(transactionRequestEntity.value) +
+                            ' ' +
+                            StaticVariables.companyInformation.currency,
+                        style: informationStyle),
+                    Text(transactionRequestEntity.description,
+                        style: informationStyle, textDirection: TextDirection.rtl),
+                    Text(intl.DateFormat('a h:mm - dd-MM-yyyy').format(transactionRequestEntity.createdAt),
+                        style: informationStyle, textDirection: TextDirection.rtl),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        KammunButton(
+                            color: kmColors,
+                            width: MediaQuery.of(context).size.width / 3,
+                            text: 'قبول',
+                            onTap: () => StoreProvider.of<AppState>(context).dispatch(
+                                UpdateTransactionRequestAction(transactionRequestEntity: transactionRequestEntity))),
+                        KammunButton(
+                            color: Colors.red,
+                            width: MediaQuery.of(context).size.width / 3,
+                            text: 'رفض',
+                            onTap: () {
+                              TextEditingController reasonController = TextEditingController();
+                              showMyDialog(
+                                  title: 'رفض',
+                                  context: context,
+                                  dialogButtons: [
+                                    KammunButton(
+                                        color: Colors.red,
+                                        width: MediaQuery.of(context).size.width / 3,
+                                        text: 'رفض',
+                                        onTap: () {
+                                          if (reasonController.text.isNotEmpty) {
+                                            StoreProvider.of<AppState>(context).dispatch(UpdateTransactionRequestAction(
+                                                transactionRequestEntity: transactionRequestEntity));
+                                          }
+                                        })
+                                  ],
+                                  content: Column(
+                                    children: [
+                                      RichText(
+                                          text: TextSpan(children: [
+                                        TextSpan(
+                                            text: 'هل أنت متأكد من رغبتك في رفض الطلب؟\n',
+                                            style: dialogStyle.copyWith(color: Colors.black)),
+                                        TextSpan(
+                                            text: 'الرجاء كتابة سبب الرفض',
+                                            style: dialogStyle.copyWith(color: Colors.black))
+                                      ])),
+                                      EntryField(controller: reasonController, hint: 'سبب الرفض')
+                                    ],
+                                  ));
+                            })
+                      ],
+                    ),
                   ],
                 ),
               ))

@@ -1,7 +1,7 @@
 import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../domain/entities/transaction_entity.dart';
+import '../../domain/entities/admin_transaction_entity.dart';
 import '../../domain/entities/transaction_request_entity.dart';
 import '../../domain/use_cases/transactions_use_cases.dart';
 
@@ -9,7 +9,7 @@ import '../../domain/use_cases/transactions_use_cases.dart';
 class TransactionsState extends Equatable {
   final TransactionsUseCase transactionsUseCase;
   final List<TransactionRequestEntity> requests;
-  final List<TransactionEntity> transactions;
+  final List<AdminTransactionEntity> transactions;
   final List<TransactionCategoryEntity> categories;
   final int requestPage;
   final bool hasNextRequests;
@@ -39,7 +39,7 @@ class TransactionsState extends Equatable {
     int requestPage,
     bool hasNextRequests,
     List<TransactionCategoryEntity> categories,
-    List<TransactionEntity> transactions,
+    List<AdminTransactionEntity> transactions,
   }) {
     return TransactionsState(
       requests: requests ?? this.requests,

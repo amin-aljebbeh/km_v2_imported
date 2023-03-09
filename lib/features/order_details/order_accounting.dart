@@ -1,6 +1,6 @@
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/order_details/invoice_view.dart';
-import 'package:kammun_app/features/transactions/presentation/pages/add_transaction_request_page.dart';
+import 'package:kammun_app/features/transactions/presentation/pages/add_transaction_page.dart';
 
 import 'full_screen_image.dart';
 import 'services/order_details_services.dart';
@@ -8,6 +8,7 @@ import 'services/order_details_services.dart';
 class OrderAccounting extends StatefulWidget {
   final OrdersOriginalData orderData;
   final Function onDelete;
+
   const OrderAccounting({Key key, @required this.orderData, this.onDelete}) : super(key: key);
 
   @override
@@ -207,8 +208,8 @@ class _OrderAccountingState extends State<OrderAccounting> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AddTransactionView(
-                                      orderId: widget.orderData.id, shopperName: widget.orderData.shopper.name)));
+                                  builder: (context) =>
+                                      AddTransactionPage(orderId: widget.orderData.id, orderRequired: 1)));
                         }
                       },
                       text: addTransaction,
@@ -218,7 +219,10 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   if (Services.isShopper())
                     KammunButton(
                       onTap: () => Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => const AddTransactionRequestPage())),
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AddTransactionPage(orderId: widget.orderData.id, orderRequired: 1))),
                       text: 'طلب تعويض',
                       width: MediaQuery.of(context).size.width * 0.9,
                       color: kmColors,

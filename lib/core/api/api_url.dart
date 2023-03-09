@@ -14,7 +14,8 @@ const userCouponsApi = user + 'coupons/';
 const attachUserToCouponApi = couponApi + 'attach_user_to_coupon/';
 const userTransactionApi = 'user_transaction/';
 const depositApi = userTransactionApi + 'deposit/';
-const transactionApi = '/';
+const transactionApi = 'transaction/';
+const addTransactionApiTemp = transactionApi + 'add_transaction/';
 const transactionRequestApi = '/';
 const transactionCategoryApi = '/';
 //Orders:

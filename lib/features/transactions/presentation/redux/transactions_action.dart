@@ -1,6 +1,6 @@
 import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
 
-import '../../domain/entities/transaction_entity.dart';
+import '../../domain/entities/admin_transaction_entity.dart';
 import '../../domain/entities/transaction_request_entity.dart';
 
 class CreateTransactionRequestAction {
@@ -10,7 +10,7 @@ class CreateTransactionRequestAction {
 }
 
 class CreateTransactionAction {
-  final TransactionEntity transactionEntity;
+  final AdminTransactionEntity transactionEntity;
 
   CreateTransactionAction({this.transactionEntity});
 }
@@ -32,7 +32,7 @@ class SetTransactionRequests {
 }
 
 class SetTransactions {
-  final List<TransactionEntity> transactions;
+  final List<AdminTransactionEntity> transactions;
 
   SetTransactions({this.transactions});
 }
