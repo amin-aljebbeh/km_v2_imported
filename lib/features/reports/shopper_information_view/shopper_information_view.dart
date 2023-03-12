@@ -2,6 +2,7 @@ import '../../../core/core_importer.dart';
 import '../../management_view/management_view.dart';
 
 class ShopperInformation extends StatelessWidget {
+  static const String routeName = '/ShopperInformation';
   const ShopperInformation({Key key}) : super(key: key);
 
   @override

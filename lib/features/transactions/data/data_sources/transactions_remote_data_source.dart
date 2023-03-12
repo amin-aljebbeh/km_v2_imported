@@ -1,17 +1,24 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/core_importer.dart';
-import '../models/transaction_category_model.dart';
 import '../models/admin_transaction_model.dart';
+import '../models/categories_response_model.dart';
+import '../models/transaction_category_model.dart';
 import '../models/transaction_request_model.dart';
 
 abstract class TransactionRemoteDataSource {
   Future<List<TransactionCategoryModel>> getTransactionCategories();
+
   Future<List<TransactionRequestModel>> getTransactionRequests();
+
   Future<List<AdminTransactionModel>> getTransactions();
+
   Future<Unit> updateTransactionRequest({TransactionRequestModel transactionRequestModel});
+
   Future<Unit> deleteTransactionRequest({TransactionRequestModel transactionRequestModel});
+
   Future<Unit> createTransactionRequest({TransactionRequestModel transactionRequestModel});
+
   Future<Unit> createTransaction({AdminTransactionModel transactionModel});
 }
 
@@ -64,7 +71,11 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
   Future<List<TransactionCategoryModel>> getTransactionCategories() async {
     Response response = await ApiProvider.sendRequest(url: transactionCategoryApi, method: HttpMethods.get);
     try {
-      if (response != null) if (response.statusCode == successCode) return Future.value(null);
+      if (response != null) {
+        if (response.statusCode == successCode) {
+          return categoriesResponseModelFromJson(jsonEncode(response.data)).categories;
+        }
+      }
     } catch (e) {
       throw (InternalException(message: e.toString()));
     }
@@ -85,7 +96,7 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
 
   @override
   Future<List<AdminTransactionModel>> getTransactions() async {
-    Response response = await ApiProvider.sendRequest(url: transactionCategoryApi, method: HttpMethods.get);
+    Response response = await ApiProvider.sendRequest(url: transactionApi, method: HttpMethods.get);
     try {
       if (response != null) if (response.statusCode == successCode) return Future.value(null);
     } catch (e) {

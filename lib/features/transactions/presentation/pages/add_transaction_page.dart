@@ -3,20 +3,25 @@ import 'package:kammun_app/features/transactions/presentation/redux/transactions
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/admin_transaction_entity.dart';
+import '../../domain/entities/transaction_category_entity.dart';
 
 class AddTransactionPage extends StatefulWidget {
   final int orderRequired;
   final int orderId;
+  final int userId;
+  final int adminId;
 
-  const AddTransactionPage({Key key, this.orderRequired, this.orderId}) : super(key: key);
+  const AddTransactionPage({Key key, this.orderRequired, this.orderId, this.userId, this.adminId}) : super(key: key);
 
   @override
   _AddTransactionPageState createState() => _AddTransactionPageState();
 }
 
 class _AddTransactionPageState extends State<AddTransactionPage> {
+  TransactionCategoryEntity category;
   int categoryId;
   int actorId;
+  int adminId;
   String deliveryDate;
   final moneyController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -42,21 +47,29 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                             padding: const EdgeInsets.all(8.0),
                             child: DropdownButton(
                                 items: state.transactionsState.categories
-                                    .where((category) => category.orderRequired == widget.orderRequired)
+                                    .where((category) =>
+                                        category.orderRequired == widget.orderRequired || category.orderRequired == 2)
                                     .map((category) => DropdownMenuItem<int>(
                                         child: Text(category.name, style: mainStyle), value: category.id))
                                     .toList(),
-                                onChanged: (value) {}),
+                                hint: Text('اختر نوع المناقلة', style: mainStyle),
+                                value: categoryId,
+                                onChanged: (value) => setState(() {
+                                      category = state.transactionsState.categories
+                                          .firstWhere((category) => category.id == value);
+                                      categoryId = value;
+                                    })),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: DropdownButton(
-                                items: state.adminsState.transactionsActors
-                                    .map((actor) => DropdownMenuItem<int>(
-                                        child: Text(actor.name, style: mainStyle), value: actor.id))
-                                    .toList(),
-                                onChanged: (value) {}),
-                          ),
+                          if (chooseAdmin())
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: DropdownButton(
+                                  items: state.adminsState.transactionsActors
+                                      .map((actor) => DropdownMenuItem<int>(
+                                          child: Text(actor.name, style: mainStyle), value: actor.id))
+                                      .toList(),
+                                  onChanged: (value) {}),
+                            ),
                           IconButton(
                               onPressed: () {
                                 showDatePicker(
@@ -119,8 +132,10 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 Navigator.of(context).pop();
                                 StoreProvider.of<AppState>(context).dispatch(CreateTransactionAction(
                                     transactionEntity: AdminTransactionEntity(
-                                        transactionCategoryId: categoryId,
+                                        transactionCategoryId: category.id,
                                         actorId: actorId,
+                                        userId: widget.userId,
+                                        adminId: adminId,
                                         date: deliveryDate,
                                         value: int.parse(moneyController.text),
                                         description: descriptionController.text,
@@ -132,7 +147,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                           showMyDialog(
                             context: context,
                             title: state.transactionsState.categories
-                                .firstWhere((category) => category.id == categoryId)
+                                .firstWhere((category) => category.id == category.id)
                                 .name,
                             text: 'هل تريد تأكيد إتمام العملية ؟',
                             dialogButtons: decisionButton,
@@ -150,10 +165,22 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     );
   }
 
+  bool chooseAdmin() {
+    TransactionCategoryEntity category = this.category ??
+        StoreProvider.of<AppState>(context)
+            .state
+            .transactionsState
+            .categories
+            .firstWhere((category) => category.orderRequired == widget.orderRequired || category.orderRequired == 2);
+    return ((category.requestRequired == 0 && category.transactionOperation.affectActor == 0) ||
+            (category.requestRequired != 0 && category.transactionOperation.affectActor != 0)) &&
+        category.transactionOperation.affectUser == 0;
+  }
+
   bool completeData() {
     return shopperName != null &&
         descriptionController.text.isNotEmpty &&
         moneyController.text.isNotEmpty &&
-        categoryId != null;
+        category != null;
   }
 }

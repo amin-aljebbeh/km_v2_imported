@@ -81,16 +81,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: LabelRow(
-                              rightSideText: 'الرصيد: ',
-                              leftSideText: StringUtils().oCcy.format(state.adminsState.admin.balance) +
-                                  ' ' +
-                                  StaticVariables.companyInformation.currency,
-                              leftSideStyle:
-                                  state.adminsState.admin.balance.isNegative ? warningStyle : informationStyle),
-                        ),
+                        if (state.adminsState.admin.balance != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: LabelRow(
+                                rightSideText: 'الرصيد: ',
+                                leftSideText: StringUtils().oCcy.format(state.adminsState.admin.balance) +
+                                    ' ' +
+                                    StaticVariables.companyInformation.currency,
+                                leftSideStyle:
+                                    state.adminsState.admin.balance.isNegative ? warningStyle : informationStyle),
+                          ),
                         StaticVariables.roles.isNotEmpty
                             ? Column(
                                 children: [

@@ -4,6 +4,7 @@ import 'package:kammun_app/features/inventory_feature/presentation/redux/invento
 import '../../core/core_importer.dart';
 import '../login/Services/login_services.dart';
 import '../management_view/management_view.dart';
+import '../transactions/presentation/pages/add_transaction_page.dart';
 
 List<Widget> getDrawerChildren(BuildContext context) {
   var store = StoreProvider.of<AppState>(context);
@@ -31,16 +32,20 @@ List<Widget> getDrawerChildren(BuildContext context) {
                     pushedRoute: AccountantTransactionView.routeName,
                     icon: Icons.featured_play_list,
                     text: 'كشف حساب المتسوق'),
-                SideBarRow(pushedRoute: AddTransactionView.routeName, icon: Icons.money, text: addTransaction),
+                SideBarRow(
+                    onTap: () => Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const AddTransactionPage(orderRequired: 0))),
+                    icon: Icons.money,
+                    text: addTransaction),
                 const SideBarRow(
                     pushedRoute: SupplierRemainingAccounts.routeName,
                     icon: Icons.account_balance_wallet_outlined,
                     text: 'أرصدة الموردين'),
-                SideBarRow(
-                    icon: Icons.delivery_dining_rounded,
-                    text: 'معلومات المتسوقين',
-                    onTap: () =>
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ShopperInformation()))),
+                const SideBarRow(
+                  icon: Icons.delivery_dining_rounded,
+                  text: 'معلومات المتسوقين',
+                  pushedRoute: ShopperInformation.routeName,
+                ),
               ],
             ),
           ),

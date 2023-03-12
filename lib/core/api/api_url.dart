@@ -17,7 +17,7 @@ const depositApi = userTransactionApi + 'deposit/';
 const transactionApi = 'transaction/';
 const addTransactionApiTemp = transactionApi + 'add_transaction/';
 const transactionRequestApi = '/';
-const transactionCategoryApi = '/';
+const transactionCategoryApi = transactionApi + 'get_categories_for_creator/';
 //Orders:
 const String order = 'order/';
 const String shopperViewsHisOwnOrders = order + 'shopper_views_his_own_orders';
