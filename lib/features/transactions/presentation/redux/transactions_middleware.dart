@@ -15,8 +15,10 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
     store.dispatch(StartLoading());
     Either either = await store.state.transactionsState.transactionsUseCase
         .createTransactionUseCase(transactionEntity: action.transactionEntity);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (_) => store.dispatch(ViewMessage(message: 'تمت العملية بنجاح')));
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
+      snackBar(success: true, context: action.context, message: 'تمت العملية بنجاح');
+      Navigator.pop(action.context);
+    });
     store.dispatch(StopLoading());
   } else if (action is UpdateTransactionRequestAction) {
     store.dispatch(StartLoading());

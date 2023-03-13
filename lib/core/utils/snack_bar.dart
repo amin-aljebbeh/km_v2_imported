@@ -13,5 +13,5 @@ snackBar({String message, bool success, BuildContext context}) {
         elevation: 0,
         behavior: SnackBarBehavior.floating,
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        duration: Duration(seconds: success ? 1 : 2)));
+        duration: const Duration(seconds: 2)));
 }

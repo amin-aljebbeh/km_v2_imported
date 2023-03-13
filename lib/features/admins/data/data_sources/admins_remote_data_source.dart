@@ -24,7 +24,7 @@ class AdminsRemoteDataSourceImplement extends AdminsRemoteDataSource {
   @override
   Future<List<AdminModel>> getTransactionsActors({int categoryId}) async {
     Response response = await ApiProvider.sendRequest(
-        url: transactionsActorsApi, method: HttpMethods.get, queryParameters: {'category_id': categoryId});
+        url: transactionsActorsApi, method: HttpMethods.get, queryParameters: {'transaction_category_id': categoryId});
     try {
       if (response != null) {
         if (response.statusCode == successCode) return getAdminsResponseModelFromJson(jsonEncode(response.data)).admins;

@@ -116,6 +116,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                 onTap: () async {
                                   Navigator.of(context).pop();
                                   StoreProvider.of<AppState>(context).dispatch(CreateTransactionAction(
+                                      context: context,
                                       transactionEntity: AdminTransactionEntity(
                                           transactionCategoryId: 1,
                                           userId: int.parse(widget.orderData.userId),

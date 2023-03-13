@@ -9,10 +9,12 @@ Future<void> adminsMiddleware(Store<AppState> store, action, NextDispatcher next
     either.fold(
         (failure) => store.dispatch(SetAdmins(admins: [])), (admins) => store.dispatch(SetAdmins(admins: admins)));
   } else if (action is GetTransactionsActorsAction) {
+    store.dispatch(StartLoading());
     Either either =
         await store.state.adminsState.adminsUseCases.getTransactionsActorsUseCase(categoryId: action.categoryId);
     either.fold((failure) => store.dispatch(SetTransactionsActors(admins: [])),
         (admins) => store.dispatch(SetTransactionsActors(admins: admins)));
+    store.dispatch(StopLoading());
   }
   next(action);
 }
