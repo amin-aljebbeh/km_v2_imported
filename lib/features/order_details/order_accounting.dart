@@ -117,8 +117,11 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                   Navigator.of(context).pop();
                                   StoreProvider.of<AppState>(context).dispatch(CreateTransactionAction(
                                       context: context,
+                                      pop: false,
                                       transactionEntity: AdminTransactionEntity(
-                                          transactionCategoryId: 1,
+                                          transactionCategoryId: state.transactionsState.categories
+                                              .firstWhere((category) => category.slug == 'compensation-request')
+                                              .id,
                                           userId: int.parse(widget.orderData.userId),
                                           adminId: state.adminsState.admin.id,
                                           value: int.parse(moneyController.text),
@@ -135,7 +138,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                 content: Column(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                                      padding: const EdgeInsets.all(8),
                                       child: TextFieldRow(
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         controller: moneyController,

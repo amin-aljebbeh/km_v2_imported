@@ -1,3 +1,7 @@
+import 'package:kammun_app/features/admins/domain/entities/admins_entity.dart';
+
+import 'transaction_request_status_entity.dart';
+
 class TransactionRequestEntity {
   final int id;
   final int categoryId;
@@ -11,8 +15,14 @@ class TransactionRequestEntity {
   final int changedBy;
   final int transactionId;
   final DateTime createdAt;
+  final TransactionRequestStatusEntity requestStatus;
+  final AdminEntity creator;
+  final AdminEntity actor;
 
   TransactionRequestEntity({
+    this.requestStatus,
+    this.creator,
+    this.actor,
     this.id,
     this.categoryId,
     this.creatorId,

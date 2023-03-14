@@ -17,7 +17,7 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
         .createTransactionUseCase(transactionEntity: action.transactionEntity);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
       snackBar(success: true, context: action.context, message: 'تمت العملية بنجاح');
-      Navigator.pop(action.context);
+      if (action.pop) Navigator.pop(action.context);
     });
     store.dispatch(StopLoading());
   } else if (action is UpdateTransactionRequestAction) {
@@ -36,13 +36,19 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
     store.dispatch(StopLoading());
   } else if (action is GetTransactionRequestsAction) {
     store.dispatch(StartLoading());
-    Either either = await store.state.transactionsState.transactionsUseCase.getTransactionRequestsUseCase();
+    Either either = await store.state.transactionsState.transactionsUseCase.getTransactionRequestsUseCase(
+        transactionCategoryId: action.transactionCategoryId,
+        assignedToMe: action.assignedToMe,
+        createdByMe: action.createdByMe,
+        pageNumber: store.state.transactionsState.requestsPage,
+        transactionStatusId: action.transactionStatusId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
         (requests) => store.dispatch(SetTransactionRequests(requests: requests)));
     store.dispatch(StopLoading());
   } else if (action is GetTransactionsAction) {
     store.dispatch(StartLoading());
-    Either either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase();
+    Either either = await store.state.transactionsState.transactionsUseCase
+        .getTransactionsUseCase(pageNumber: store.state.transactionsState.transactionsPage);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
         (transactions) => store.dispatch(SetTransactions(transactions: transactions)));
     store.dispatch(StopLoading());

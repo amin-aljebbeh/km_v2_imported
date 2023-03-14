@@ -36,8 +36,8 @@ class TransactionsPage extends StatelessWidget {
                                     onNotification: (ScrollEndNotification scrollInfo) {
                                       if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
                                           state.transactionsState.hasNextRequests) {
-                                        StoreProvider.of<AppState>(context).dispatch(NextTransactionRequestsPage());
-                                        StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
+                                        StoreProvider.of<AppState>(context).dispatch(NextTransactionsPage());
+                                        StoreProvider.of<AppState>(context).dispatch(GetTransactionsAction());
                                       }
                                       return;
                                     },

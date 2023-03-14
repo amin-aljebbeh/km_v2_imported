@@ -1,3 +1,6 @@
+import 'package:kammun_app/features/admins/data/models/admin_model.dart';
+import 'package:kammun_app/features/transactions/data/models/transaction_request_status_model.dart';
+
 import '../../domain/entities/transaction_request_entity.dart';
 
 class TransactionRequestModel extends TransactionRequestEntity {
@@ -14,6 +17,9 @@ class TransactionRequestModel extends TransactionRequestEntity {
     changedBy,
     transactionId,
     createdAt,
+    requestStatus,
+    creator,
+    actor,
   }) : super(
           id: id,
           categoryId: categoryId,
@@ -27,10 +33,17 @@ class TransactionRequestModel extends TransactionRequestEntity {
           changedBy: changedBy,
           transactionId: transactionId,
           createdAt: createdAt,
+          actor: actor,
+          creator: creator,
+          requestStatus: requestStatus,
         );
 
   factory TransactionRequestModel.fromJson(Map<String, dynamic> json) => TransactionRequestModel(
         id: json['id'],
+        actor: json['actor'] == null ? null : AdminModel.fromJson(json['actor']),
+        creator: json['creator'] == null ? null : AdminModel.fromJson(json['creator']),
+        requestStatus:
+            json['requests_status'] == null ? null : TransactionRequestStatusModel.fromJson(json['requests_status']),
         categoryId: json['trns_category_id'],
         creatorId: json['creator_id'],
         value: json['value'],

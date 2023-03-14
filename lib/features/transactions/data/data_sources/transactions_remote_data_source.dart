@@ -5,13 +5,15 @@ import '../models/admin_transaction_model.dart';
 import '../models/categories_response_model.dart';
 import '../models/transaction_category_model.dart';
 import '../models/transaction_request_model.dart';
+import '../models/transaction_requests_response_model.dart';
 
 abstract class TransactionRemoteDataSource {
   Future<List<TransactionCategoryModel>> getTransactionCategories();
 
-  Future<List<TransactionRequestModel>> getTransactionRequests();
+  Future<List<TransactionRequestModel>> getTransactionRequests(
+      {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber});
 
-  Future<List<AdminTransactionModel>> getTransactions();
+  Future<List<AdminTransactionModel>> getTransactions({int pageNumber});
 
   Future<Unit> updateTransactionRequest({TransactionRequestModel transactionRequestModel});
 
@@ -46,10 +48,21 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
   }
 
   @override
-  Future<List<TransactionRequestModel>> getTransactionRequests() async {
-    Response response = await ApiProvider.sendRequest(url: transactionRequestApi, method: HttpMethods.get);
+  Future<List<TransactionRequestModel>> getTransactionRequests(
+      {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber}) async {
+    Response response = await ApiProvider.sendRequest(url: getMyRequestsApi, method: HttpMethods.get, queryParameters: {
+      'page': pageNumber,
+      'assigned_to_me': assignedToMe,
+      'created_by_me': createdByMe,
+      'transaction_status_id': transactionStatusId,
+      'transaction_category_id': transactionCategoryId
+    });
     try {
-      if (response != null) if (response.statusCode == successCode) return Future.value(null);
+      if (response != null) {
+        if (response.statusCode == successCode) {
+          return transactionRequestsResponseModelFromJson(jsonEncode(response.data)).requests;
+        }
+      }
     } catch (e) {
       throw (InternalException(message: e.toString()));
     }
@@ -95,8 +108,9 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
   }
 
   @override
-  Future<List<AdminTransactionModel>> getTransactions() async {
-    Response response = await ApiProvider.sendRequest(url: transactionApi, method: HttpMethods.get);
+  Future<List<AdminTransactionModel>> getTransactions({int pageNumber}) async {
+    Response response = await ApiProvider.sendRequest(
+        url: transactionApi, method: HttpMethods.get, queryParameters: {'page': pageNumber});
     try {
       if (response != null) if (response.statusCode == successCode) return Future.value(null);
     } catch (e) {

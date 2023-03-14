@@ -4,7 +4,9 @@ import 'package:kammun_app/features/inventory_feature/presentation/redux/invento
 import '../../core/core_importer.dart';
 import '../login/Services/login_services.dart';
 import '../management_view/management_view.dart';
+import '../transactions/domain/entities/admin_transaction_entity.dart';
 import '../transactions/presentation/pages/add_transaction_page.dart';
+import '../transactions/presentation/redux/transactions_action.dart';
 
 List<Widget> getDrawerChildren(BuildContext context) {
   var store = StoreProvider.of<AppState>(context);
@@ -16,8 +18,66 @@ List<Widget> getDrawerChildren(BuildContext context) {
       const SideBarRow(
           pushedRoute: ShopperManagementView.routeName, icon: Icons.supervisor_account_sharp, text: 'فريق التوصيل'),
     if (Services.isShopper())
-      const SideBarRow(
-          pushedRoute: ShopperTransactionView.routeName, icon: Icons.featured_play_list, text: 'كشف حساب المتسوق'),
+      Column(
+        children: [
+          const SideBarRow(
+              pushedRoute: ShopperTransactionView.routeName, icon: Icons.featured_play_list, text: 'كشف حساب المتسوق'),
+          SideBarRow(
+              onTap: () {
+                final moneyController = TextEditingController();
+                final descriptionController = TextEditingController();
+                List<Widget> decisionButton = [
+                  DialogButton(
+                    text: 'نعم',
+                    onTap: () async {
+                      Navigator.of(context).pop();
+                      StoreProvider.of<AppState>(context).dispatch(CreateTransactionAction(
+                          context: context,
+                          pop: false,
+                          transactionEntity: AdminTransactionEntity(
+                              transactionCategoryId: store.state.transactionsState.categories
+                                  .firstWhere((category) => category.slug == 'shopper-payment')
+                                  .id,
+                              adminId: store.state.adminsState.admin.id,
+                              value: int.parse(moneyController.text),
+                              description: descriptionController.text)));
+                    },
+                  ),
+                  const CloseWidget()
+                ];
+                showMyDialog(
+                    title: 'طلب تعويض',
+                    context: context,
+                    dialogButtons: decisionButton,
+                    content: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: TextFieldRow(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            controller: moneyController,
+                            text: 'المبلغ :         ',
+                            inputType: TextInputType.text,
+                            width: 150,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: TextFieldRow(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            controller: descriptionController,
+                            text: 'الوصف :',
+                            inputType: TextInputType.text,
+                            width: 150,
+                          ),
+                        ),
+                      ],
+                    ));
+              },
+              icon: Icons.payments_rounded,
+              text: 'طلب تسديد مستحقات'),
+        ],
+      ),
     if (Services.isAccounting())
       SideBarRow(
         text: financial,
@@ -32,6 +92,15 @@ List<Widget> getDrawerChildren(BuildContext context) {
                     pushedRoute: AccountantTransactionView.routeName,
                     icon: Icons.featured_play_list,
                     text: 'كشف حساب المتسوق'),
+                SideBarRow(
+                    onTap: () {
+                      store.dispatch(NoError());
+                      store.dispatch(FirstRequestsPage());
+                      store.dispatch(GetTransactionRequestsAction());
+                      Navigator.pushNamed(context, TransactionRequestsPage.routeName);
+                    },
+                    icon: Icons.list_rounded,
+                    text: 'طلبات مالية'),
                 SideBarRow(
                     onTap: () => Navigator.push(
                         context, MaterialPageRoute(builder: (context) => const AddTransactionPage(orderRequired: 0))),

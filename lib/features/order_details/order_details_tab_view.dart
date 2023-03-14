@@ -55,21 +55,26 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: screenList.length,
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(kToolbarHeight),
-          child: Container(
-              color: primaryColor,
-              child: SafeArea(
-                  child: TabBar(
-                      controller: controller, indicatorColor: Colors.white, labelColor: Colors.white, tabs: tabList))),
+    return TemporaryLoading(
+      child: DefaultTabController(
+        length: screenList.length,
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: Container(
+                color: primaryColor,
+                child: SafeArea(
+                    child: TabBar(
+                        controller: controller,
+                        indicatorColor: Colors.white,
+                        labelColor: Colors.white,
+                        tabs: tabList))),
+          ),
+          body: TabBarView(
+              controller: controller,
+              children: screenList,
+              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics())),
         ),
-        body: TabBarView(
-            controller: controller,
-            children: screenList,
-            physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics())),
       ),
     );
   }

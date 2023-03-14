@@ -11,10 +11,11 @@ class CreateTransactionRequestAction {
 }
 
 class CreateTransactionAction {
+  final bool pop;
   final BuildContext context;
   final AdminTransactionEntity transactionEntity;
 
-  CreateTransactionAction({this.transactionEntity, this.context});
+  CreateTransactionAction({this.transactionEntity, this.context, this.pop = true});
 }
 
 class DeleteTransactionRequestAction {
@@ -23,7 +24,15 @@ class DeleteTransactionRequestAction {
   DeleteTransactionRequestAction({this.transactionRequestEntity});
 }
 
-class GetTransactionRequestsAction {}
+class GetTransactionRequestsAction {
+  final int assignedToMe;
+  final int createdByMe;
+  final int transactionStatusId;
+  final int transactionCategoryId;
+
+  GetTransactionRequestsAction(
+      {this.assignedToMe, this.createdByMe, this.transactionStatusId, this.transactionCategoryId});
+}
 
 class GetTransactionsAction {}
 
@@ -49,7 +58,13 @@ class NextTransactionRequestsPage {}
 
 class EndOfTransactionsRequests {}
 
-class FirstPage {}
+class NextTransactionsPage {}
+
+class EndOfTransactions {}
+
+class FirstRequestsPage {}
+
+class FirstTransactionsPage {}
 
 class GetTransactionCategoriesAction {}
 

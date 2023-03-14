@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/features/transactions/data/models/admin_transaction_model.dart';
-import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
 import 'package:kammun_app/features/transactions/domain/entities/admin_transaction_entity.dart';
+import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
 import 'package:kammun_app/features/transactions/domain/entities/transaction_request_entity.dart';
 
 import '../../../../core/core_importer.dart';
@@ -29,9 +29,15 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionRequestEntity>>> getTransactionRequests() async {
+  Future<Either<Failure, List<TransactionRequestEntity>>> getTransactionRequests(
+      {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber}) async {
     try {
-      List<TransactionRequestEntity> requests = await transactionsRemoteDataSource.getTransactionRequests();
+      List<TransactionRequestEntity> requests = await transactionsRemoteDataSource.getTransactionRequests(
+          transactionCategoryId: transactionCategoryId,
+          assignedToMe: assignedToMe,
+          createdByMe: createdByMe,
+          pageNumber: pageNumber,
+          transactionStatusId: transactionStatusId);
       return Right(requests);
     } on CacheException {
       return Left(CacheFailure());
@@ -85,9 +91,10 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   }
 
   @override
-  Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions() async {
+  Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions({int pageNumber}) async {
     try {
-      List<AdminTransactionEntity> transactions = await transactionsRemoteDataSource.getTransactions();
+      List<AdminTransactionEntity> transactions =
+          await transactionsRemoteDataSource.getTransactions(pageNumber: pageNumber);
       return Right(transactions);
     } on CacheException {
       return Left(CacheFailure());

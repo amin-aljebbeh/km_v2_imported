@@ -11,11 +11,15 @@ class TransactionsState extends Equatable {
   final List<TransactionRequestEntity> requests;
   final List<AdminTransactionEntity> transactions;
   final List<TransactionCategoryEntity> categories;
-  final int requestPage;
+  final int requestsPage;
   final bool hasNextRequests;
+  final int transactionsPage;
+  final bool hasNextTransactions;
 
   const TransactionsState({
-    this.requestPage,
+    this.transactionsPage,
+    this.hasNextTransactions,
+    this.requestsPage,
     this.transactionsUseCase,
     this.requests,
     this.hasNextRequests,
@@ -27,30 +31,45 @@ class TransactionsState extends Equatable {
     return TransactionsState(
       requests: const [],
       transactionsUseCase: sl<TransactionsUseCase>(),
-      requestPage: 1,
+      requestsPage: 1,
       hasNextRequests: true,
       categories: const [],
       transactions: const [],
+      hasNextTransactions: true,
+      transactionsPage: 1,
     );
   }
 
   TransactionsState copyWith({
     List<TransactionRequestEntity> requests,
-    int requestPage,
+    int requestsPage,
     bool hasNextRequests,
     List<TransactionCategoryEntity> categories,
     List<AdminTransactionEntity> transactions,
+    int transactionsPage,
+    bool hasNextTransactions,
   }) {
     return TransactionsState(
       requests: requests ?? this.requests,
       transactionsUseCase: transactionsUseCase,
       hasNextRequests: hasNextRequests ?? this.hasNextRequests,
-      requestPage: requestPage ?? this.requestPage,
+      requestsPage: requestsPage ?? this.requestsPage,
       categories: categories ?? this.categories,
       transactions: transactions ?? this.transactions,
+      transactionsPage: transactionsPage ?? this.transactionsPage,
+      hasNextTransactions: hasNextTransactions ?? this.hasNextTransactions,
     );
   }
 
   @override
-  List<Object> get props => [transactionsUseCase, requests, categories, requestPage, hasNextRequests, transactions];
+  List<Object> get props => [
+        transactionsUseCase,
+        requests,
+        categories,
+        requestsPage,
+        hasNextRequests,
+        transactions,
+        transactionsPage,
+        hasNextTransactions
+      ];
 }

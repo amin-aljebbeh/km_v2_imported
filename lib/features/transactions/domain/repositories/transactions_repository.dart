@@ -7,10 +7,17 @@ import '../entities/transaction_request_entity.dart';
 
 abstract class TransactionsRepository {
   Future<Either<Failure, List<TransactionCategoryEntity>>> getTransactionCategories();
-  Future<Either<Failure, List<TransactionRequestEntity>>> getTransactionRequests();
-  Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions();
+
+  Future<Either<Failure, List<TransactionRequestEntity>>> getTransactionRequests(
+      {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber});
+
+  Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions({int pageNumber});
+
   Future<Either<Failure, Unit>> updateTransactionRequest({TransactionRequestEntity transactionRequestEntity});
+
   Future<Either<Failure, Unit>> deleteTransactionRequest({TransactionRequestEntity transactionRequestEntity});
+
   Future<Either<Failure, Unit>> createTransactionRequest({TransactionRequestEntity transactionRequestEntity});
+
   Future<Either<Failure, Unit>> createTransaction({AdminTransactionEntity transactionEntity});
 }
