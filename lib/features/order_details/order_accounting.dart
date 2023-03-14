@@ -1,9 +1,6 @@
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/order_details/invoice_view.dart';
-import 'package:kammun_app/features/transactions/presentation/pages/add_transaction_page.dart';
 
-import '../transactions/domain/entities/admin_transaction_entity.dart';
-import '../transactions/presentation/redux/transactions_action.dart';
 import 'services/order_details_services.dart';
 
 class OrderAccounting extends StatefulWidget {
@@ -97,72 +94,12 @@ class _OrderAccountingState extends State<OrderAccounting> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          AddTransactionPage(orderId: widget.orderData.id, orderRequired: 1)));
+                                      builder: (context) => AddTransactionView(
+                                          orderId: widget.orderData.id, shopperName: widget.orderData.shopper.name)));
                             }
                           },
                           text: addTransaction,
                           width: MediaQuery.of(context).size.width * 0.9,
-                          height: 50,
-                        ),
-                      if (Services.isShopper())
-                        KammunButton(
-                          onTap: () {
-                            final moneyController = TextEditingController();
-                            final descriptionController = TextEditingController();
-                            List<Widget> decisionButton = [
-                              DialogButton(
-                                text: 'نعم',
-                                onTap: () async {
-                                  Navigator.of(context).pop();
-                                  StoreProvider.of<AppState>(context).dispatch(CreateTransactionAction(
-                                      context: context,
-                                      pop: false,
-                                      transactionEntity: AdminTransactionEntity(
-                                          transactionCategoryId: state.transactionsState.categories
-                                              .firstWhere((category) => category.slug == 'compensation-request')
-                                              .id,
-                                          userId: int.parse(widget.orderData.userId),
-                                          adminId: state.adminsState.admin.id,
-                                          value: int.parse(moneyController.text),
-                                          description: descriptionController.text,
-                                          orderId: widget.orderData.id)));
-                                },
-                              ),
-                              const CloseWidget()
-                            ];
-                            showMyDialog(
-                                title: 'طلب تعويض',
-                                context: context,
-                                dialogButtons: decisionButton,
-                                content: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: TextFieldRow(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        controller: moneyController,
-                                        text: 'المبلغ :         ',
-                                        inputType: TextInputType.text,
-                                        width: 150,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                                      child: TextFieldRow(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        controller: descriptionController,
-                                        text: 'الوصف :',
-                                        inputType: TextInputType.text,
-                                        width: 150,
-                                      ),
-                                    ),
-                                  ],
-                                ));
-                          },
-                          text: 'طلب تعويض',
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          color: kmColors,
                           height: 50,
                         ),
                       if (Services.isAgent())

@@ -9,7 +9,8 @@ class GetNotificationProductsUseCase {
 
   GetNotificationProductsUseCase({this.inventoryRepository});
 
-  Future<Either<Failure, FilteredProductsModel>> call({int pageNumber}) async {
-    return await inventoryRepository.getNotificationProducts(pageNumber: pageNumber);
+  Future<Either<Failure, FilteredProductsModel>> call({int pageNumber, int subWarehouseId, int isActive}) async {
+    return await inventoryRepository.getNotificationProducts(
+        pageNumber: pageNumber, subWarehouseId: subWarehouseId, isActive: isActive);
   }
 }

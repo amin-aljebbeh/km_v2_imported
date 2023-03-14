@@ -9,10 +9,13 @@ class InventoryRepositoryImplement implements InventoryRepository {
   final RemoteInventoryDataSource remoteInventoryDataSource;
 
   InventoryRepositoryImplement({this.remoteInventoryDataSource});
+
   @override
-  Future<Either<Failure, FilteredProductsModel>> getNotificationProducts({int pageNumber}) async {
+  Future<Either<Failure, FilteredProductsModel>> getNotificationProducts(
+      {int pageNumber, int subWarehouseId, int isActive}) async {
     try {
-      FilteredProductsModel products = await remoteInventoryDataSource.getNotificationProducts(pageNumber: pageNumber);
+      FilteredProductsModel products = await remoteInventoryDataSource.getNotificationProducts(
+          pageNumber: pageNumber, isActive: isActive, subWarehouseId: subWarehouseId);
       return Right(products);
     } on CacheException {
       return Left(CacheFailure());

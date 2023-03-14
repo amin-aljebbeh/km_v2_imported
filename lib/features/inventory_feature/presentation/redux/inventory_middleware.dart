@@ -19,8 +19,10 @@ Future<void> inventoryMiddleware(Store<AppState> store, action, NextDispatcher n
         break;
     }
   } else if (action is GetNotificationProductsAction) {
-    Either either = await store.state.inventoryState.inventoryUseCase
-        .getNotificationProductsUseCase(pageNumber: store.state.inventoryState.pageNumber);
+    Either either = await store.state.inventoryState.inventoryUseCase.getNotificationProductsUseCase(
+        pageNumber: store.state.inventoryState.pageNumber,
+        subWarehouseId: store.state.inventoryState.subWarehouseId,
+        isActive: store.state.inventoryState.isActive);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
       FilteredProductsModel filteredProductsModel = products;
       store.dispatch(SetInventoryProducts(products: filteredProductsModel.data.products));

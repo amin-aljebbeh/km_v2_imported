@@ -4,16 +4,18 @@ import '../../../inventory/model/inventory_model_importer.dart';
 import '../models/prime_products_response_model.dart';
 
 abstract class RemoteInventoryDataSource {
-  Future<FilteredProductsModel> getNotificationProducts({int pageNumber});
+  Future<FilteredProductsModel> getNotificationProducts({int pageNumber, int subWarehouseId, int isActive});
   Future<FilteredProductsModel> getPrimeProducts({int pageNumber, int subWarehouseId, int isActive});
   Future<List<ProductData>> getUnderCheckAvailability({int subWarehouseId});
 }
 
 class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
   @override
-  Future<FilteredProductsModel> getNotificationProducts({int pageNumber}) async {
+  Future<FilteredProductsModel> getNotificationProducts({int pageNumber, int subWarehouseId, int isActive}) async {
     Response response = await ApiProvider.sendRequest(
-        url: getProductsOfWaitingListApi, method: HttpMethods.get, queryParameters: {'page': pageNumber});
+        url: getProductsOfWaitingListApi,
+        method: HttpMethods.get,
+        queryParameters: {'page': pageNumber, 'sub_warehouse_id': subWarehouseId, 'is_active': isActive});
     try {
       if (response != null) {
         if (response.statusCode == successCode) return filteredProductsModelFromJson(jsonEncode(response.data));

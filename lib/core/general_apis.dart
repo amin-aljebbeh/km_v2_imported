@@ -1,5 +1,3 @@
-import 'package:kammun_app/features/transactions/presentation/redux/transactions_action.dart';
-
 import '../features/complaints/presentation/redux/complaints_action.dart';
 import '../features/login/Services/login_services.dart';
 import '../features/reports/services/reports_services.dart';
@@ -174,7 +172,6 @@ class GeneralApis {
           getCategoryService(),
           GeneralApis.getWarehousesService(),
           StoreProvider.of<AppState>(context).dispatch(GetComplaintTypesAction()),
-          StoreProvider.of<AppState>(context).dispatch(GetTransactionCategoriesAction()),
           Services.initializeVariables()
         ]);
         if (Services.isOperationManager() || Services.isSuperAdmin() || Services.isAdmin() || Services.isAccounting()) {

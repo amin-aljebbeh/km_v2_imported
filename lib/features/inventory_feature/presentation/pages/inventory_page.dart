@@ -54,43 +54,41 @@ class _InventoryPageState extends State<InventoryPage> {
               context: context),
           body: Column(
             children: <Widget>[
-              if (state.inventoryState.inventoryType == InventoryTypes.prime ||
-                  state.inventoryState.inventoryType == InventoryTypes.underCheckAvailability)
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      DropdownButton(
-                        value: subWarehouseFilter,
-                        items: Services.inventorySubWarehouseNames(),
-                        onChanged: (value) {
-                          subWarehouseFilter = value;
-                          StoreProvider.of<AppState>(context).dispatch(SetSubWarehouseId(
-                              subWarehouseId: value != StaticVariables.subWarehouses.length
-                                  ? StaticVariables.subWarehouses[value].id
-                                  : -1));
-                          StoreProvider.of<AppState>(context).dispatch(StartLoading());
-                          StoreProvider.of<AppState>(context).dispatch(NoError());
-                          StoreProvider.of<AppState>(context).dispatch(ClearInventory());
-                          StoreProvider.of<AppState>(context).dispatch(GetInventory());
-                        },
-                      ),
-                      DropdownButton(
-                        value: isActiveFilter,
-                        items: Services.dropdownStringList(activeList),
-                        onChanged: (value) {
-                          isActiveFilter = value;
-                          StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: value));
-                          StoreProvider.of<AppState>(context).dispatch(StartLoading());
-                          StoreProvider.of<AppState>(context).dispatch(NoError());
-                          StoreProvider.of<AppState>(context).dispatch(ClearInventory());
-                          StoreProvider.of<AppState>(context).dispatch(GetInventory());
-                        },
-                      ),
-                    ],
-                  ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    DropdownButton(
+                      value: subWarehouseFilter,
+                      items: Services.inventorySubWarehouseNames(),
+                      onChanged: (value) {
+                        subWarehouseFilter = value;
+                        StoreProvider.of<AppState>(context).dispatch(SetSubWarehouseId(
+                            subWarehouseId: value != StaticVariables.subWarehouses.length
+                                ? StaticVariables.subWarehouses[value].id
+                                : -1));
+                        StoreProvider.of<AppState>(context).dispatch(StartLoading());
+                        StoreProvider.of<AppState>(context).dispatch(NoError());
+                        StoreProvider.of<AppState>(context).dispatch(ClearInventory());
+                        StoreProvider.of<AppState>(context).dispatch(GetInventory());
+                      },
+                    ),
+                    DropdownButton(
+                      value: isActiveFilter,
+                      items: Services.dropdownStringList(activeList),
+                      onChanged: (value) {
+                        isActiveFilter = value;
+                        StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: value));
+                        StoreProvider.of<AppState>(context).dispatch(StartLoading());
+                        StoreProvider.of<AppState>(context).dispatch(NoError());
+                        StoreProvider.of<AppState>(context).dispatch(ClearInventory());
+                        StoreProvider.of<AppState>(context).dispatch(GetInventory());
+                      },
+                    ),
+                  ],
                 ),
+              ),
               state.errorState.isError
                   ? Expanded(
                       child: Column(
