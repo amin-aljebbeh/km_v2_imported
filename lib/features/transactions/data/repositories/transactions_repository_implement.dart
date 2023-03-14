@@ -15,13 +15,6 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   TransactionsRepositoryImplement({this.transactionsRemoteDataSource, this.repositoryFactory});
 
   @override
-  Future<Either<Failure, Unit>> createTransactionRequest({TransactionRequestEntity transactionRequestEntity}) async {
-    return await repositoryFactory.failureUnitRepo(
-        function: () =>
-            transactionsRemoteDataSource.createTransactionRequest(transactionRequestModel: transactionRequestEntity));
-  }
-
-  @override
   Future<Either<Failure, Unit>> deleteTransactionRequest({TransactionRequestEntity transactionRequestEntity}) async {
     return await repositoryFactory.failureUnitRepo(
         function: () =>

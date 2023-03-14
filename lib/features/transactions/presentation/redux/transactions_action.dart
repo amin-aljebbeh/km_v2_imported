@@ -4,12 +4,6 @@ import '../../../../core/core_importer.dart';
 import '../../domain/entities/admin_transaction_entity.dart';
 import '../../domain/entities/transaction_request_entity.dart';
 
-class CreateTransactionRequestAction {
-  final TransactionRequestEntity transactionRequestEntity;
-
-  CreateTransactionRequestAction({this.transactionRequestEntity});
-}
-
 class CreateTransactionAction {
   final bool pop;
   final BuildContext context;

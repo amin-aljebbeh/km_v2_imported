@@ -19,23 +19,10 @@ abstract class TransactionRemoteDataSource {
 
   Future<Unit> deleteTransactionRequest({TransactionRequestModel transactionRequestModel});
 
-  Future<Unit> createTransactionRequest({TransactionRequestModel transactionRequestModel});
-
   Future<Unit> createTransaction({AdminTransactionModel transactionModel});
 }
 
 class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource {
-  @override
-  Future<Unit> createTransactionRequest({TransactionRequestModel transactionRequestModel}) async {
-    Response response = await ApiProvider.sendRequest(url: transactionRequestApi, method: HttpMethods.post);
-    try {
-      if (response != null) if (response.statusCode == successCode) return Future.value(unit);
-    } catch (e) {
-      throw (InternalException(message: e.toString()));
-    }
-    throw (ServerException());
-  }
-
   @override
   Future<Unit> deleteTransactionRequest({TransactionRequestModel transactionRequestModel}) async {
     Response response = await ApiProvider.sendRequest(url: transactionRequestApi, method: HttpMethods.delete);

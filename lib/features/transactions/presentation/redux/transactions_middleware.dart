@@ -4,14 +4,7 @@ import 'package:kammun_app/features/transactions/presentation/redux/transactions
 import '../../../../core/core_importer.dart';
 
 Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatcher next) async {
-  if (action is CreateTransactionRequestAction) {
-    store.dispatch(StartLoading());
-    Either either = await store.state.transactionsState.transactionsUseCase
-        .createTransactionRequestUseCase(transactionRequestEntity: action.transactionRequestEntity);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (_) => store.dispatch(ViewMessage(message: 'تمت العملية بنجاح')));
-    store.dispatch(StopLoading());
-  } else if (action is CreateTransactionAction) {
+  if (action is CreateTransactionAction) {
     store.dispatch(StartLoading());
     Either either = await store.state.transactionsState.transactionsUseCase
         .createTransactionUseCase(transactionEntity: action.transactionEntity);

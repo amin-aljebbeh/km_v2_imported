@@ -17,7 +17,5 @@ abstract class TransactionsRepository {
 
   Future<Either<Failure, Unit>> deleteTransactionRequest({TransactionRequestEntity transactionRequestEntity});
 
-  Future<Either<Failure, Unit>> createTransactionRequest({TransactionRequestEntity transactionRequestEntity});
-
   Future<Either<Failure, Unit>> createTransaction({AdminTransactionEntity transactionEntity});
 }
