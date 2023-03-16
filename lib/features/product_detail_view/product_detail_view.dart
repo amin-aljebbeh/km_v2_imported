@@ -766,51 +766,49 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             ),
                                           ],
                                         ),
-                                        (Services.isAdmin() || Services.isProductsController())
-                                            ? Column(
-                                                children: [
-                                                  if (StaticVariables.subWarehouses
-                                                      .any((element) => element.id == widget.product.subWarehouseId))
-                                                    RemoveFromWarehouse(product: widget.product),
-                                                  KammunButton(
-                                                    height: 50,
-                                                    text: 'حذف المنتج',
-                                                    color: Colors.red,
-                                                    onTap: () {
-                                                      List<DialogButton> dialogButtons = [
-                                                        DialogButton(
-                                                          text: yes,
-                                                          onTap: () async {
-                                                            bool result = await ProductsServices.deleteProductService(
-                                                                widget.product.id.toString());
-                                                            if (result) {
-                                                              int count = 0;
-                                                              Navigator.of(context).popUntil((_) => count++ >= 2);
-                                                              snackBar(
-                                                                  success: result,
-                                                                  message: 'تم حذف المنتج بنجاح',
-                                                                  context: context);
-                                                            } else {
-                                                              snackBar(
-                                                                  success: result,
-                                                                  message: 'فشلت عملية حذف المنتج يرجى المحاولة مجدداً',
-                                                                  context: context);
-                                                            }
-                                                          },
-                                                        ),
-                                                        DialogButton(
-                                                            text: no, onTap: () => Navigator.of(context).pop()),
-                                                      ];
-                                                      showMyDialog(
-                                                          context: context,
-                                                          title: '',
-                                                          text: 'هل تريد حذف ${widget.product.name} نهائياً ؟',
-                                                          dialogButtons: dialogButtons);
-                                                    },
-                                                  ),
-                                                ],
-                                              )
-                                            : Container(),
+                                        if (Services.isAdmin() || Services.isProductsController())
+                                          Column(
+                                            children: [
+                                              if (StaticVariables.subWarehouses
+                                                  .any((element) => element.id == widget.product.subWarehouseId))
+                                                RemoveFromWarehouse(product: widget.product),
+                                              KammunButton(
+                                                height: 50,
+                                                text: 'حذف المنتج',
+                                                color: Colors.red,
+                                                onTap: () {
+                                                  List<DialogButton> dialogButtons = [
+                                                    DialogButton(
+                                                      text: yes,
+                                                      onTap: () async {
+                                                        bool result = await ProductsServices.deleteProductService(
+                                                            widget.product.id.toString());
+                                                        if (result) {
+                                                          int count = 0;
+                                                          Navigator.of(context).popUntil((_) => count++ >= 2);
+                                                          snackBar(
+                                                              success: result,
+                                                              message: 'تم حذف المنتج بنجاح',
+                                                              context: context);
+                                                        } else {
+                                                          snackBar(
+                                                              success: result,
+                                                              message: 'فشلت عملية حذف المنتج يرجى المحاولة مجدداً',
+                                                              context: context);
+                                                        }
+                                                      },
+                                                    ),
+                                                    DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
+                                                  ];
+                                                  showMyDialog(
+                                                      context: context,
+                                                      title: '',
+                                                      text: 'هل تريد حذف ${widget.product.name} نهائياً ؟',
+                                                      dialogButtons: dialogButtons);
+                                                },
+                                              ),
+                                            ],
+                                          ),
                                         const SizedBox(height: 30),
                                       ],
                                     )

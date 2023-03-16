@@ -124,7 +124,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
           );
         },
       ),
-    if (Services.isAdmin() || Services.isSuperAdmin())
+    if (Services.isSuperAdmin())
       SideBarRow(
         text: adminPanel,
         icon: Icons.admin_panel_settings,

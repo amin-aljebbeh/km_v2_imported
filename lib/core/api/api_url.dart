@@ -46,6 +46,7 @@ const String supplierApi = 'supplier/';
 const String shopperTransaction = 'transaction_shopper/';
 const String getSupplierOrder = order + 'get_supplier_order';
 const String login = 'auth/admin_login';
+const String targetSubWarehouse = subWarehouse + 'external_sub_warehouse_inventory_synchronization/';
 const String updateFirebaseToken = admin + 'update_firebase_token/';
 const String transactionsActorsApi = transactionApi + 'get_category_handler_admins/';
 const String underCheckAvailabilityApi = product + 'product_under_check_availability';

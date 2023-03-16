@@ -43,3 +43,7 @@ class SetIsActive {
 
   SetIsActive({this.isActive});
 }
+
+class TargetInventoryAction {
+  TargetInventoryAction();
+}

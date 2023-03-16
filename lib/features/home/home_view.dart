@@ -47,9 +47,7 @@ class HomeViewState extends State<HomeView> {
     List<BottomNavigationBarItem> bottomList = [];
     bottomList.add(BottomBarItem.build(text: store, icon: Icons.store));
     bottomList.add(BottomBarItem.build(text: cart, icon: Icons.shopping_cart));
-    if (Services.isOperationManager()) {
-      bottomList.add(BottomBarItem.build(text: orders, icon: Icons.reorder));
-    }
+    if (Services.isOperationManager()) bottomList.add(BottomBarItem.build(text: orders, icon: Icons.reorder));
     if (Services.isShopper() || Services.isSupplierManager()) {
       bottomList.add(BottomBarItem.build(text: myOrders, icon: Icons.playlist_add_check_outlined));
     }

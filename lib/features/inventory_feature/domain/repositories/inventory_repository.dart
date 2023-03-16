@@ -10,4 +10,6 @@ abstract class InventoryRepository {
   Future<Either<Failure, FilteredProductsModel>> getPrimeProducts({int pageNumber, int subWarehouseId, int isActive});
 
   Future<Either<Failure, List<ProductData>>> getUnderCheckAvailability({int subWarehouseId});
+
+  Future<Either<Failure, Unit>> targetInventory();
 }

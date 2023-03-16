@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
 
 import '../../../inventory/model/inventory_model_importer.dart';
@@ -7,6 +8,7 @@ abstract class RemoteInventoryDataSource {
   Future<FilteredProductsModel> getNotificationProducts({int pageNumber, int subWarehouseId, int isActive});
   Future<FilteredProductsModel> getPrimeProducts({int pageNumber, int subWarehouseId, int isActive});
   Future<List<ProductData>> getUnderCheckAvailability({int subWarehouseId});
+  Future<Unit> targetInventory();
 }
 
 class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
@@ -59,6 +61,17 @@ class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
           return products;
         }
       }
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<Unit> targetInventory() async {
+    Response response = await ApiProvider.sendRequest(url: targetSubWarehouse + '62', method: HttpMethods.post);
+    try {
+      if (response != null) if (response.statusCode == successCode) return Future.value(unit);
     } catch (e) {
       throw (InternalException(message: e.toString()));
     }

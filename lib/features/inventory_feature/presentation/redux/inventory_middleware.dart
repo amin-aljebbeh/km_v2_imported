@@ -52,6 +52,12 @@ Future<void> inventoryMiddleware(Store<AppState> store, action, NextDispatcher n
       store.dispatch(EndOfProducts());
     });
     store.dispatch(StopLoading());
+  } else if (action is TargetInventoryAction) {
+    store.dispatch(StartLoading());
+    Either either = await store.state.inventoryState.inventoryUseCase.targetInventoryUseCase();
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')),
+        (_) => store.dispatch(ViewMessage(message: 'تم البدء برفع الجرد')));
+    store.dispatch(StopLoading());
   }
   next(action);
 }

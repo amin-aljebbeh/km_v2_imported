@@ -45,7 +45,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
 
   @override
   void initState() {
-    deletedProducts = (Services.isAdmin() || Services.isOperationManager()) &&
+    deletedProducts = (Services.isOperationManager()) &&
         widget.orderData.products.where((product) => product.pivot.deletedAt != 'null').toList().isNotEmpty;
     tabBarList();
     controller = TabController(vsync: this, length: tabList.length);
