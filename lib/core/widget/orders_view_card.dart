@@ -141,7 +141,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   ),
                   Container(
                     padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(border: Border.all(color: greyColor.withOpacity(0.2))),
+                    decoration: BoxDecoration(border: Border.all(color: primaryColor.withOpacity(0.2))),
                     child: Text(
                       widget.orderData.products.where((product) => product.pivot.deletedAt == 'null').length.toString(),
                       style: paragraphStyle,

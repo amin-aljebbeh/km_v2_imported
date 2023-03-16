@@ -19,13 +19,31 @@ class DeleteTransactionRequestAction {
 }
 
 class GetTransactionRequestsAction {
-  final int assignedToMe;
-  final int createdByMe;
+  GetTransactionRequestsAction();
+}
+
+class SetTransactionStatusId {
   final int transactionStatusId;
+
+  SetTransactionStatusId({this.transactionStatusId});
+}
+
+class SetTransactionCategoryId {
   final int transactionCategoryId;
 
-  GetTransactionRequestsAction(
-      {this.assignedToMe, this.createdByMe, this.transactionStatusId, this.transactionCategoryId});
+  SetTransactionCategoryId({this.transactionCategoryId});
+}
+
+class SetCreatedByMe {
+  final int createdByMe;
+
+  SetCreatedByMe({this.createdByMe});
+}
+
+class SetAssignedToMe {
+  final int assignedToMe;
+
+  SetAssignedToMe({this.assignedToMe});
 }
 
 class GetTransactionsAction {}
@@ -34,6 +52,12 @@ class SetTransactionRequests {
   final List<TransactionRequestEntity> requests;
 
   SetTransactionRequests({this.requests});
+}
+
+class ClearTransactionRequests {
+  final List<TransactionRequestEntity> requests;
+
+  ClearTransactionRequests({this.requests});
 }
 
 class SetTransactions {

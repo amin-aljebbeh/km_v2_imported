@@ -338,7 +338,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                         const SizedBox(height: 6),
                         Text(orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
-                            style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: greyColor, fontSize: 17)),
+                            style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: primaryColor, fontSize: 17)),
                         const SizedBox(height: 8),
                         Text(
                             '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${StaticVariables.companyInformation.currency}',
@@ -356,7 +356,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                 Container(
                   width: 30,
                   height: 30,
-                  decoration: BoxDecoration(shape: BoxShape.circle, color: greyColor.withOpacity(0.2)),
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: searchGreyColor.withOpacity(0.2)),
                   child: InkWell(
                     onTap: () {
                       setState(() {
@@ -378,7 +378,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                 Container(
                   width: 30,
                   height: 30,
-                  decoration: BoxDecoration(shape: BoxShape.circle, color: greyColor.withOpacity(0.2)),
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: searchGreyColor.withOpacity(0.2)),
                   child: InkWell(
                     onTap: () {
                       setState(() {

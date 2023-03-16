@@ -4,11 +4,12 @@ import '../../../../core/core_importer.dart';
 import '../entities/admin_transaction_entity.dart';
 import '../entities/transaction_category_entity.dart';
 import '../entities/transaction_request_entity.dart';
+import '../entities/transaction_requests_response_entity.dart';
 
 abstract class TransactionsRepository {
   Future<Either<Failure, List<TransactionCategoryEntity>>> getTransactionCategories();
 
-  Future<Either<Failure, List<TransactionRequestEntity>>> getTransactionRequests(
+  Future<Either<Failure, RequestsPaginationEntity>> getTransactionRequests(
       {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber});
 
   Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions({int pageNumber});

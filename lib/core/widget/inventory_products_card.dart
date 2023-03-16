@@ -124,7 +124,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                               widget.productData.quantity +
                                   ' ' +
                                   (widget.productData.unit != 'null' ? widget.productData.unit : ''),
-                              style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: greyColor, fontSize: 17),
+                              style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: primaryColor, fontSize: 17),
                             ),
                             const SizedBox(height: 8),
                             Wrap(

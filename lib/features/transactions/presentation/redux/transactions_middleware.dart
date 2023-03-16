@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:kammun_app/features/transactions/domain/entities/transaction_requests_response_entity.dart';
 import 'package:kammun_app/features/transactions/presentation/redux/transactions_action.dart';
 
 import '../../../../core/core_importer.dart';
@@ -30,13 +31,17 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
   } else if (action is GetTransactionRequestsAction) {
     store.dispatch(StartLoading());
     Either either = await store.state.transactionsState.transactionsUseCase.getTransactionRequestsUseCase(
-        transactionCategoryId: action.transactionCategoryId,
-        assignedToMe: action.assignedToMe,
-        createdByMe: action.createdByMe,
-        pageNumber: store.state.transactionsState.requestsPage,
-        transactionStatusId: action.transactionStatusId);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (requests) => store.dispatch(SetTransactionRequests(requests: requests)));
+      transactionCategoryId: store.state.transactionsState.transactionCategoryId,
+      assignedToMe: store.state.transactionsState.assignedToMe,
+      createdByMe: store.state.transactionsState.createdByMe,
+      transactionStatusId: store.state.transactionsState.transactionStatusId,
+      pageNumber: store.state.transactionsState.requestsPage,
+    );
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (requests) {
+      RequestsPaginationEntity req = requests;
+      if (req.currentPage == req.lastPage) store.dispatch(EndOfTransactionsRequests());
+      store.dispatch(SetTransactionRequests(requests: req.requests));
+    });
     store.dispatch(StopLoading());
   } else if (action is GetTransactionsAction) {
     store.dispatch(StartLoading());

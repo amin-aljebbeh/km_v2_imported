@@ -15,8 +15,16 @@ class TransactionsState extends Equatable {
   final bool hasNextRequests;
   final int transactionsPage;
   final bool hasNextTransactions;
+  final int assignedToMe;
+  final int createdByMe;
+  final int transactionStatusId;
+  final int transactionCategoryId;
 
   const TransactionsState({
+    this.assignedToMe,
+    this.createdByMe,
+    this.transactionStatusId,
+    this.transactionCategoryId,
     this.transactionsPage,
     this.hasNextTransactions,
     this.requestsPage,
@@ -37,6 +45,10 @@ class TransactionsState extends Equatable {
       transactions: const [],
       hasNextTransactions: true,
       transactionsPage: 1,
+      assignedToMe: 0,
+      createdByMe: 0,
+      transactionCategoryId: null,
+      transactionStatusId: null,
     );
   }
 
@@ -48,6 +60,10 @@ class TransactionsState extends Equatable {
     List<AdminTransactionEntity> transactions,
     int transactionsPage,
     bool hasNextTransactions,
+    int assignedToMe,
+    int createdByMe,
+    int transactionStatusId,
+    int transactionCategoryId,
   }) {
     return TransactionsState(
       requests: requests ?? this.requests,
@@ -58,6 +74,10 @@ class TransactionsState extends Equatable {
       transactions: transactions ?? this.transactions,
       transactionsPage: transactionsPage ?? this.transactionsPage,
       hasNextTransactions: hasNextTransactions ?? this.hasNextTransactions,
+      assignedToMe: assignedToMe ?? this.assignedToMe,
+      createdByMe: createdByMe ?? this.createdByMe,
+      transactionStatusId: transactionStatusId == -1 ? null : transactionStatusId ?? this.transactionStatusId,
+      transactionCategoryId: transactionCategoryId == -1 ? null : transactionCategoryId ?? this.transactionCategoryId,
     );
   }
 
@@ -70,6 +90,10 @@ class TransactionsState extends Equatable {
         hasNextRequests,
         transactions,
         transactionsPage,
-        hasNextTransactions
+        hasNextTransactions,
+        assignedToMe,
+        createdByMe,
+        transactionStatusId,
+        transactionCategoryId,
       ];
 }

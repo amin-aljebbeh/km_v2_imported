@@ -11,8 +11,8 @@ class ScreenMessage extends StatelessWidget {
         height: 50.0,
         color: Colors.transparent,
         child: Center(
-          child:
-              Text(message, style: mainStyle.copyWith(fontWeight: FontWeight.w700, color: greyColor, fontSize: 20.0)),
+          child: Text(message,
+              style: mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 20.0)),
         ),
       ),
     );

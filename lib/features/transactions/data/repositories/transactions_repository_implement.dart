@@ -5,6 +5,7 @@ import 'package:kammun_app/features/transactions/domain/entities/transaction_cat
 import 'package:kammun_app/features/transactions/domain/entities/transaction_request_entity.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../domain/entities/transaction_requests_response_entity.dart';
 import '../../domain/repositories/transactions_repository.dart';
 import '../data_sources/transactions_remote_data_source.dart';
 
@@ -22,10 +23,10 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionRequestEntity>>> getTransactionRequests(
+  Future<Either<Failure, RequestsPaginationEntity>> getTransactionRequests(
       {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber}) async {
     try {
-      List<TransactionRequestEntity> requests = await transactionsRemoteDataSource.getTransactionRequests(
+      RequestsPaginationEntity requests = await transactionsRemoteDataSource.getTransactionRequests(
           transactionCategoryId: transactionCategoryId,
           assignedToMe: assignedToMe,
           createdByMe: createdByMe,
