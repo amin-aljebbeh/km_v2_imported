@@ -18,6 +18,7 @@ Reducer<TransactionsState> transactionsReducer = combineReducers<TransactionsSta
   TypedReducer<TransactionsState, SetTransactionCategoryId>(setTransactionCategoryId),
   TypedReducer<TransactionsState, SetCreatedByMe>(setCreatedByMe),
   TypedReducer<TransactionsState, SetAssignedToMe>(setAssignedToMe),
+  TypedReducer<TransactionsState, RequestDeleted>(requestDeleted),
 ]);
 
 TransactionsState setTransactionRequests(TransactionsState state, SetTransactionRequests action) {
@@ -46,6 +47,13 @@ TransactionsState firstRequestsPage(TransactionsState state, FirstRequestsPage a
       createdByMe: 0,
       assignedToMe: 0,
     );
+
+TransactionsState requestDeleted(TransactionsState state, RequestDeleted action) {
+  List<TransactionRequestEntity> requests = [];
+  requests.addAll(state.requests);
+  requests.removeWhere((request) => request.id == action.requestId);
+  return state.copyWith(requests: requests);
+}
 
 TransactionsState setTransactionCategories(TransactionsState state, SetTransactionCategories action) =>
     state.copyWith(categories: action.categories);

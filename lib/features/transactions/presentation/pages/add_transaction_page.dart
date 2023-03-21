@@ -21,11 +21,16 @@ class AddTransactionPage extends StatefulWidget {
 class _AddTransactionPageState extends State<AddTransactionPage> {
   TransactionCategoryEntity category;
   int categoryId;
-  int actorId;
   int adminId;
   String deliveryDate;
   final moneyController = TextEditingController();
   final descriptionController = TextEditingController();
+
+  @override
+  void initState() {
+    adminId = widget.adminId;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +172,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                           context: context,
                                           transactionEntity: AdminTransactionEntity(
                                               transactionCategoryId: category.id,
-                                              actorId: actorId,
+                                              actorId: adminId,
                                               userId: widget.userId,
                                               adminId: adminId,
                                               date: deliveryDate,
@@ -215,9 +220,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   }
 
   bool completeData() {
-    return descriptionController.text.isNotEmpty &&
-        moneyController.text.isNotEmpty &&
-        adminId != null &&
-        category != null;
+    return (descriptionController.text.isNotEmpty &&
+            moneyController.text.isNotEmpty &&
+            adminId != null &&
+            category != null) ||
+        (descriptionController.text.isNotEmpty &&
+            moneyController.text.isNotEmpty &&
+            category != null &&
+            !chooseAdmin());
   }
 }

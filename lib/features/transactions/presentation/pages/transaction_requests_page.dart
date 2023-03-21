@@ -37,99 +37,99 @@ class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(left: 8),
-                              decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                  border: Border.all(
-                                      color: state.transactionsState.assignedToMe == 1 ? primaryColor : Colors.grey,
-                                      width: 5)),
-                              child: Row(
-                                children: [
-                                  Checkbox(
-                                      value: state.transactionsState.assignedToMe == 1,
-                                      onChanged: (bool value) {
-                                        StoreProvider.of<AppState>(context).dispatch(FirstRequestsPage());
-                                        if (value) {
-                                          StoreProvider.of<AppState>(context)
-                                              .dispatch(SetAssignedToMe(assignedToMe: 1));
-                                        } else {
-                                          StoreProvider.of<AppState>(context)
-                                              .dispatch(SetAssignedToMe(assignedToMe: 0));
-                                        }
-                                        StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
-                                      },
-                                      activeColor: primaryColor),
-                                  Text('مسندة لي', style: decisionButtonStyle.copyWith(color: Colors.black)),
-                                ],
-                              ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 8),
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                border: Border.all(
+                                    color: state.transactionsState.assignedToMe == 1 ? primaryColor : Colors.grey,
+                                    width: 5)),
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: state.transactionsState.assignedToMe == 1,
+                                    onChanged: (bool value) {
+                                      StoreProvider.of<AppState>(context).dispatch(FirstRequestsPage());
+                                      if (value) {
+                                        StoreProvider.of<AppState>(context).dispatch(SetAssignedToMe(assignedToMe: 1));
+                                      } else {
+                                        StoreProvider.of<AppState>(context).dispatch(SetAssignedToMe(assignedToMe: 0));
+                                      }
+                                      StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
+                                    },
+                                    activeColor: primaryColor),
+                                Text('مسندة لي', style: decisionButtonStyle.copyWith(color: Colors.black)),
+                              ],
                             ),
-                            const Expanded(child: SizedBox()),
-                            DropdownButton(
-                                items: categories,
-                                hint: Text('نوع المناقلة', style: mainStyle),
-                                value: state.transactionsState.transactionCategoryId,
-                                onChanged: (value) {
-                                  StoreProvider.of<AppState>(context).dispatch(FirstRequestsPage());
-                                  StoreProvider.of<AppState>(context)
-                                      .dispatch(SetTransactionCategoryId(transactionCategoryId: value));
-                                  StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
-                                  setState(() {});
-                                })
-                          ],
-                        ),
+                          ),
+                          DropdownButton(
+                              items: categories,
+                              hint: Text('نوع المناقلة', style: mainStyle),
+                              value: state.transactionsState.transactionCategoryId,
+                              onChanged: (value) {
+                                StoreProvider.of<AppState>(context).dispatch(FirstRequestsPage());
+                                StoreProvider.of<AppState>(context)
+                                    .dispatch(SetTransactionCategoryId(transactionCategoryId: value));
+                                StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
+                                setState(() {});
+                              })
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(left: 8),
-                              decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                  border: Border.all(
-                                      color: state.transactionsState.createdByMe == 1 ? primaryColor : Colors.grey,
-                                      width: 5)),
-                              child: Row(
-                                children: [
-                                  Checkbox(
-                                      value: state.transactionsState.createdByMe == 1,
-                                      onChanged: (bool value) {
-                                        StoreProvider.of<AppState>(context).dispatch(FirstRequestsPage());
-                                        if (value) {
-                                          StoreProvider.of<AppState>(context).dispatch(SetCreatedByMe(createdByMe: 1));
-                                        } else {
-                                          StoreProvider.of<AppState>(context).dispatch(SetCreatedByMe(createdByMe: 0));
-                                        }
-                                        StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
-                                      },
-                                      activeColor: primaryColor),
-                                  Text('أنا أنشأتها', style: decisionButtonStyle.copyWith(color: Colors.black)),
-                                ],
-                              ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 8),
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                border: Border.all(
+                                    color: state.transactionsState.createdByMe == 1 ? primaryColor : Colors.grey,
+                                    width: 5)),
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                    value: state.transactionsState.createdByMe == 1,
+                                    onChanged: (bool value) {
+                                      StoreProvider.of<AppState>(context).dispatch(FirstRequestsPage());
+                                      if (value) {
+                                        StoreProvider.of<AppState>(context).dispatch(SetCreatedByMe(createdByMe: 1));
+                                      } else {
+                                        StoreProvider.of<AppState>(context).dispatch(SetCreatedByMe(createdByMe: 0));
+                                      }
+                                      StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
+                                    },
+                                    activeColor: primaryColor),
+                                Text('أنا أنشأتها', style: decisionButtonStyle.copyWith(color: Colors.black)),
+                              ],
                             ),
-                            const Expanded(child: SizedBox()),
-                            DropdownButton(
-                                items: items,
-                                hint: Text('حالة الطلب', style: mainStyle),
-                                value: state.transactionsState.transactionStatusId,
-                                onChanged: (value) {
-                                  StoreProvider.of<AppState>(context).dispatch(FirstRequestsPage());
-                                  StoreProvider.of<AppState>(context)
-                                      .dispatch(SetTransactionStatusId(transactionStatusId: value));
-                                  StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
-                                  setState(() {});
-                                })
-                          ],
-                        ),
+                          ),
+                          DropdownButton(
+                              items: items,
+                              hint: Text('حالة الطلب', style: mainStyle),
+                              value: state.transactionsState.transactionStatusId,
+                              onChanged: (value) {
+                                StoreProvider.of<AppState>(context).dispatch(FirstRequestsPage());
+                                StoreProvider.of<AppState>(context)
+                                    .dispatch(SetTransactionStatusId(transactionStatusId: value));
+                                StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
+                                setState(() {});
+                              })
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                   state.loadingState.isLoading
                       ? const Center(child: Loader())

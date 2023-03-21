@@ -11,14 +11,14 @@ class TransactionsUseCase {
   final CreateTransactionUseCase createTransactionUseCase;
   final DeleteTransactionRequestUseCase deleteTransactionRequestUseCase;
   final GetTransactionRequestsUseCase getTransactionRequestsUseCase;
-  final UpdateTransactionRequestUseCase updateTransactionRequestUseCase;
+  final ChangeTransactionRequestStatusUseCase changeTransactionRequestStatusUseCase;
   final GetTransactionCategoriesUseCase getTransactionCategoriesUseCase;
   final GetTransactionsUseCase getTransactionsUseCase;
 
   TransactionsUseCase({
     @required this.deleteTransactionRequestUseCase,
     @required this.getTransactionRequestsUseCase,
-    @required this.updateTransactionRequestUseCase,
+    @required this.changeTransactionRequestStatusUseCase,
     @required this.getTransactionCategoriesUseCase,
     @required this.createTransactionUseCase,
     @required this.getTransactionsUseCase,
@@ -28,7 +28,7 @@ class TransactionsUseCase {
               getTransactionRequestsUseCase != null &&
               getTransactionsUseCase != null &&
               createTransactionUseCase != null &&
-              updateTransactionRequestUseCase != null,
+              changeTransactionRequestStatusUseCase != null,
           'All use cases should be initialized.',
         );
 }

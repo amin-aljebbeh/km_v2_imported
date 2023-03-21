@@ -4,7 +4,6 @@ import '../../../../core/core_importer.dart';
 import '../models/admin_transaction_model.dart';
 import '../models/categories_response_model.dart';
 import '../models/transaction_category_model.dart';
-import '../models/transaction_request_model.dart';
 import '../models/transaction_requests_response_model.dart';
 
 abstract class TransactionRemoteDataSource {
@@ -15,17 +14,18 @@ abstract class TransactionRemoteDataSource {
 
   Future<List<AdminTransactionModel>> getTransactions({int pageNumber});
 
-  Future<Unit> updateTransactionRequest({TransactionRequestModel transactionRequestModel});
+  Future<Unit> changeTransactionRequestStatus({int requestId, int statusId, String rejectReason});
 
-  Future<Unit> deleteTransactionRequest({TransactionRequestModel transactionRequestModel});
+  Future<Unit> deleteTransactionRequest({int requestId});
 
   Future<Unit> createTransaction({AdminTransactionModel transactionModel});
 }
 
 class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource {
   @override
-  Future<Unit> deleteTransactionRequest({TransactionRequestModel transactionRequestModel}) async {
-    Response response = await ApiProvider.sendRequest(url: transactionRequestApi, method: HttpMethods.delete);
+  Future<Unit> deleteTransactionRequest({int requestId}) async {
+    Response response =
+        await ApiProvider.sendRequest(url: transactionRequestApi + requestId.toString(), method: HttpMethods.delete);
     try {
       if (response != null) if (response.statusCode == successCode) return Future.value(unit);
     } catch (e) {
@@ -57,8 +57,11 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
   }
 
   @override
-  Future<Unit> updateTransactionRequest({TransactionRequestModel transactionRequestModel}) async {
-    Response response = await ApiProvider.sendRequest(url: transactionRequestApi, method: HttpMethods.put);
+  Future<Unit> changeTransactionRequestStatus({int requestId, int statusId, String rejectReason}) async {
+    Response response = await ApiProvider.sendRequest(
+        url: changeTransactionRequestStatusApi,
+        method: HttpMethods.put,
+        body: {'transaction_request_id': requestId, 'transaction_status_id': statusId, 'reject_reasun': rejectReason});
     try {
       if (response != null) if (response.statusCode == successCode) return Future.value(unit);
     } catch (e) {

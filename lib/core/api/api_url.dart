@@ -9,16 +9,17 @@ const String productionBaseUrl = appUrl;
 const String getCategory = 'category/';
 const String syncCart = 'cart/sync_cart';
 
-const couponApi = 'coupon/';
-const userCouponsApi = user + 'coupons/';
-const attachUserToCouponApi = couponApi + 'attach_user_to_coupon/';
-const userTransactionApi = 'user_transaction/';
-const depositApi = userTransactionApi + 'deposit/';
-const transactionApi = 'transaction/';
-const addTransactionApiTemp = transactionApi + 'add_transaction/';
-const transactionRequestApi = 'transaction_request/';
-const getMyRequestsApi = transactionRequestApi + 'get_my_requests/';
-const transactionCategoryApi = transactionApi + 'get_categories_for_creator/';
+const String couponApi = 'coupon/';
+const String userCouponsApi = user + 'coupons/';
+const String attachUserToCouponApi = couponApi + 'attach_user_to_coupon/';
+const String userTransactionApi = 'user_transaction/';
+const String depositApi = userTransactionApi + 'deposit/';
+const String transactionApi = 'transaction/';
+const String addTransactionApiTemp = transactionApi + 'add_transaction/';
+const String transactionRequestApi = 'transaction_request/';
+const String changeTransactionRequestStatusApi = transactionRequestApi + 'change_status/';
+const String getMyRequestsApi = transactionRequestApi + 'get_my_requests/';
+const String transactionCategoryApi = transactionApi + 'get_categories_for_creator/';
 //Orders:
 const String order = 'order/';
 const String shopperViewsHisOwnOrders = order + 'shopper_views_his_own_orders';

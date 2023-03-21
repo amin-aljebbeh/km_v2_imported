@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:kammun_app/features/transactions/data/models/admin_transaction_model.dart';
 import 'package:kammun_app/features/transactions/domain/entities/admin_transaction_entity.dart';
 import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
-import 'package:kammun_app/features/transactions/domain/entities/transaction_request_entity.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/transaction_requests_response_entity.dart';
@@ -16,10 +15,9 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   TransactionsRepositoryImplement({this.transactionsRemoteDataSource, this.repositoryFactory});
 
   @override
-  Future<Either<Failure, Unit>> deleteTransactionRequest({TransactionRequestEntity transactionRequestEntity}) async {
+  Future<Either<Failure, Unit>> deleteTransactionRequest({int requestId}) async {
     return await repositoryFactory.failureUnitRepo(
-        function: () =>
-            transactionsRemoteDataSource.deleteTransactionRequest(transactionRequestModel: transactionRequestEntity));
+        function: () => transactionsRemoteDataSource.deleteTransactionRequest(requestId: requestId));
   }
 
   @override
@@ -45,10 +43,11 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> updateTransactionRequest({TransactionRequestEntity transactionRequestEntity}) async {
+  Future<Either<Failure, Unit>> changeTransactionRequestStatus(
+      {int requestId, int statusId, String rejectReason}) async {
     return await repositoryFactory.failureUnitRepo(
-        function: () =>
-            transactionsRemoteDataSource.updateTransactionRequest(transactionRequestModel: transactionRequestEntity));
+        function: () => transactionsRemoteDataSource.changeTransactionRequestStatus(
+            statusId: statusId, requestId: requestId, rejectReason: rejectReason));
   }
 
   @override

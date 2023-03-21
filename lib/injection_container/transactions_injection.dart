@@ -14,7 +14,7 @@ import '../features/transactions/domain/use_cases/update_transaction_request_use
 Future<void> injectTransactions() async {
   sl.registerLazySingleton(() => DeleteTransactionRequestUseCase(transactionsRepository: sl()));
   sl.registerLazySingleton(() => GetTransactionRequestsUseCase(transactionsRepository: sl()));
-  sl.registerLazySingleton(() => UpdateTransactionRequestUseCase(transactionsRepository: sl()));
+  sl.registerLazySingleton(() => ChangeTransactionRequestStatusUseCase(transactionsRepository: sl()));
   sl.registerLazySingleton(() => GetTransactionCategoriesUseCase(transactionsRepository: sl()));
   sl.registerLazySingleton(() => CreateTransactionUseCase(transactionsRepository: sl()));
   sl.registerLazySingleton(() => GetTransactionsUseCase(transactionsRepository: sl()));
@@ -22,7 +22,7 @@ Future<void> injectTransactions() async {
         deleteTransactionRequestUseCase: sl(),
         getTransactionRequestsUseCase: sl(),
         getTransactionCategoriesUseCase: sl(),
-        updateTransactionRequestUseCase: sl(),
+        changeTransactionRequestStatusUseCase: sl(),
         createTransactionUseCase: sl(),
         getTransactionsUseCase: sl(),
       ));

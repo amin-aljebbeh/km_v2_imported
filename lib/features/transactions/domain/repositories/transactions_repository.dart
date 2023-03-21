@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/core_importer.dart';
 import '../entities/admin_transaction_entity.dart';
 import '../entities/transaction_category_entity.dart';
-import '../entities/transaction_request_entity.dart';
 import '../entities/transaction_requests_response_entity.dart';
 
 abstract class TransactionsRepository {
@@ -14,9 +13,9 @@ abstract class TransactionsRepository {
 
   Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions({int pageNumber});
 
-  Future<Either<Failure, Unit>> updateTransactionRequest({TransactionRequestEntity transactionRequestEntity});
+  Future<Either<Failure, Unit>> changeTransactionRequestStatus({int requestId, int statusId, String rejectReason});
 
-  Future<Either<Failure, Unit>> deleteTransactionRequest({TransactionRequestEntity transactionRequestEntity});
+  Future<Either<Failure, Unit>> deleteTransactionRequest({int requestId});
 
   Future<Either<Failure, Unit>> createTransaction({AdminTransactionEntity transactionEntity});
 }

@@ -13,9 +13,15 @@ class CreateTransactionAction {
 }
 
 class DeleteTransactionRequestAction {
-  final TransactionRequestEntity transactionRequestEntity;
+  final int requestId;
 
-  DeleteTransactionRequestAction({this.transactionRequestEntity});
+  DeleteTransactionRequestAction({this.requestId});
+}
+
+class RequestDeleted {
+  final int requestId;
+
+  RequestDeleted({this.requestId});
 }
 
 class GetTransactionRequestsAction {
@@ -66,10 +72,12 @@ class SetTransactions {
   SetTransactions({this.transactions});
 }
 
-class UpdateTransactionRequestAction {
-  final TransactionRequestEntity transactionRequestEntity;
+class ChangeTransactionRequestStatusAction {
+  final int requestId;
+  final int statusId;
+  final String rejectReason;
 
-  UpdateTransactionRequestAction({this.transactionRequestEntity});
+  ChangeTransactionRequestStatusAction({this.requestId, this.statusId, this.rejectReason});
 }
 
 class NextTransactionRequestsPage {}

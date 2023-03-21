@@ -14,19 +14,21 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
       if (action.pop) Navigator.pop(action.context);
     });
     store.dispatch(StopLoading());
-  } else if (action is UpdateTransactionRequestAction) {
+  } else if (action is ChangeTransactionRequestStatusAction) {
     store.dispatch(StartLoading());
-    Either either = await store.state.transactionsState.transactionsUseCase
-        .updateTransactionRequestUseCase(transactionRequestEntity: action.transactionRequestEntity);
+    Either either = await store.state.transactionsState.transactionsUseCase.changeTransactionRequestStatusUseCase(
+        statusId: action.statusId, requestId: action.requestId, rejectReason: action.rejectReason);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
         (_) => store.dispatch(ViewMessage(message: 'تمت العملية بنجاح')));
     store.dispatch(StopLoading());
   } else if (action is DeleteTransactionRequestAction) {
     store.dispatch(StartLoading());
     Either either = await store.state.transactionsState.transactionsUseCase
-        .deleteTransactionRequestUseCase(transactionRequestEntity: action.transactionRequestEntity);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (_) => store.dispatch(ViewMessage(message: 'تمت العملية بنجاح')));
+        .deleteTransactionRequestUseCase(requestId: action.requestId);
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
+      store.dispatch(RequestDeleted(requestId: action.requestId));
+      store.dispatch(ViewMessage(message: 'تمت العملية بنجاح'));
+    });
     store.dispatch(StopLoading());
   } else if (action is GetTransactionRequestsAction) {
     store.dispatch(StartLoading());
