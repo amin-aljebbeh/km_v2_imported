@@ -84,7 +84,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                           }
                         },
                       ),
-                      if (Services.isOperationManager())
+                      if (state.adminsState.admin.permissions.contains('transaction-permission'))
                         KammunButton(
                           color: kmColors,
                           onTap: () {
@@ -101,22 +101,6 @@ class _OrderAccountingState extends State<OrderAccounting> {
                           },
                           text: addTransaction,
                           width: MediaQuery.of(context).size.width * 0.9,
-                          height: 50,
-                        ),
-                      if (Services.isShopper())
-                        KammunButton(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddTransactionPage(
-                                        orderId: widget.orderData.id,
-                                        orderRequired: 1,
-                                        adminId: state.adminsState.admin.id)));
-                          },
-                          text: 'طلب مناقلة',
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          color: kmColors,
                           height: 50,
                         ),
                       if (Services.isAgent())

@@ -20,7 +20,7 @@ class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       builder: (context, state) {
-        List<DropdownMenuItem<int>> categories = state.transactionsState.categories
+        List<DropdownMenuItem<int>> categories = state.transactionsState.filterCategories
             .map((category) => DropdownMenuItem<int>(child: Text(category.name, style: mainStyle), value: category.id))
             .toList();
         categories.add(DropdownMenuItem<int>(child: Text('الكل', style: mainStyle), value: null));

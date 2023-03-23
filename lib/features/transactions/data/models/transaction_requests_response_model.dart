@@ -2,6 +2,7 @@ import 'package:kammun_app/features/transactions/data/models/transaction_request
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/transaction_requests_response_entity.dart';
+import 'transaction_category_model.dart';
 
 TransactionRequestsResponseModel transactionRequestsResponseModelFromJson(String str) =>
     TransactionRequestsResponseModel.fromJson(json.decode(str));
@@ -10,7 +11,18 @@ class TransactionRequestsResponseModel extends TransactionRequestsResponseEntity
   TransactionRequestsResponseModel({success, data}) : super(success: success, data: data);
 
   factory TransactionRequestsResponseModel.fromJson(Map<String, dynamic> json) =>
-      TransactionRequestsResponseModel(success: json['success'], data: RequestsPaginationModel.fromJson(json['data']));
+      TransactionRequestsResponseModel(success: json['success'], data: RequestsDataModel.fromJson(json['data']));
+}
+
+class RequestsDataModel extends RequestsDataEntity {
+  RequestsDataModel({transactionRequest, categoryForFilter})
+      : super(categoryForFilter: categoryForFilter, transactionRequest: transactionRequest);
+
+  factory RequestsDataModel.fromJson(Map<String, dynamic> json) => RequestsDataModel(
+        transactionRequest: RequestsPaginationModel.fromJson(json['transaction_request']),
+        categoryForFilter: List<TransactionCategoryModel>.from(
+            json['category_for_filter'].map((x) => TransactionCategoryModel.fromJson(x))),
+      );
 }
 
 class RequestsPaginationModel extends RequestsPaginationEntity {

@@ -10,9 +10,8 @@ class AddTransactionPage extends StatefulWidget {
   final int orderRequired;
   final int orderId;
   final int userId;
-  final int adminId;
 
-  const AddTransactionPage({Key key, this.orderRequired, this.orderId, this.userId, this.adminId}) : super(key: key);
+  const AddTransactionPage({Key key, this.orderRequired, this.orderId, this.userId}) : super(key: key);
 
   @override
   _AddTransactionPageState createState() => _AddTransactionPageState();
@@ -28,7 +27,6 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
 
   @override
   void initState() {
-    adminId = widget.adminId;
     super.initState();
   }
 

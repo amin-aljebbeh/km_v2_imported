@@ -19,12 +19,22 @@ Reducer<TransactionsState> transactionsReducer = combineReducers<TransactionsSta
   TypedReducer<TransactionsState, SetCreatedByMe>(setCreatedByMe),
   TypedReducer<TransactionsState, SetAssignedToMe>(setAssignedToMe),
   TypedReducer<TransactionsState, RequestDeleted>(requestDeleted),
+  TypedReducer<TransactionsState, TransactionRequestChanged>(transactionRequestChangedAction),
+  TypedReducer<TransactionsState, SetFilterCategories>(setCategoryForFilter),
 ]);
 
 TransactionsState setTransactionRequests(TransactionsState state, SetTransactionRequests action) {
   List<TransactionRequestEntity> requests = [];
-  requests.addAll(requests);
+  requests.addAll(state.requests);
   requests.addAll(action.requests);
+  return state.copyWith(requests: requests);
+}
+
+TransactionsState transactionRequestChangedAction(TransactionsState state, TransactionRequestChanged action) {
+  List<TransactionRequestEntity> requests = [];
+  requests.addAll(state.requests);
+  int index = requests.indexWhere((request) => request.id == action.requestId);
+  requests[index] = requests[index].copyWith(rejectReason: action.rejectReason, statusId: action.statusId);
   return state.copyWith(requests: requests);
 }
 
@@ -57,6 +67,9 @@ TransactionsState requestDeleted(TransactionsState state, RequestDeleted action)
 
 TransactionsState setTransactionCategories(TransactionsState state, SetTransactionCategories action) =>
     state.copyWith(categories: action.categories);
+
+TransactionsState setCategoryForFilter(TransactionsState state, SetFilterCategories action) =>
+    state.copyWith(filterCategories: action.categories);
 
 TransactionsState setTransactions(TransactionsState state, SetTransactions action) =>
     state.copyWith(transactions: action.transactions);

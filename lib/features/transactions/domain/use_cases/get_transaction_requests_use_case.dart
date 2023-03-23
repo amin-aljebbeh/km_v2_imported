@@ -9,7 +9,7 @@ class GetTransactionRequestsUseCase {
 
   GetTransactionRequestsUseCase({this.transactionsRepository});
 
-  Future<Either<Failure, RequestsPaginationEntity>> call(
+  Future<Either<Failure, RequestsDataEntity>> call(
       {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber}) async {
     return await transactionsRepository.getTransactionRequests(
         transactionStatusId: transactionStatusId,

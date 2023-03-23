@@ -36,4 +36,40 @@ class TransactionRequestEntity {
     this.transactionId,
     this.createdAt,
   });
+
+  TransactionRequestEntity copyWith({
+    int id,
+    int categoryId,
+    int creatorId,
+    int value,
+    int orderId,
+    int actorId,
+    String description,
+    int statusId,
+    String rejectReason,
+    int changedBy,
+    int transactionId,
+    DateTime createdAt,
+    TransactionRequestStatusEntity requestStatus,
+    AdminEntity creator,
+    AdminEntity actor,
+  }) {
+    return TransactionRequestEntity(
+      requestStatus: requestStatus ?? this.requestStatus,
+      creator: creator ?? this.creator,
+      actor: actor ?? this.actor,
+      id: id ?? this.id,
+      categoryId: categoryId ?? this.categoryId,
+      creatorId: creatorId ?? this.creatorId,
+      value: value ?? this.value,
+      orderId: orderId ?? this.orderId,
+      actorId: actorId ?? this.actorId,
+      description: description ?? this.description,
+      statusId: statusId ?? this.statusId,
+      rejectReason: rejectReason ?? this.rejectReason,
+      changedBy: changedBy ?? this.changedBy,
+      transactionId: transactionId ?? this.transactionId,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 }

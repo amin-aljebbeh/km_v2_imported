@@ -4,9 +4,10 @@ import '../../../../core/core_importer.dart';
 import '../widgets/transaction_widget.dart';
 
 class TransactionsPage extends StatelessWidget {
-  static String routeName = '/TransactionsPage';
+  final int adminId;
+  static const String routeName = '/TransactionsPage';
 
-  const TransactionsPage({Key key}) : super(key: key);
+  const TransactionsPage({Key key, this.adminId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

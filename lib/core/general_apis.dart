@@ -2,7 +2,6 @@ import 'package:kammun_app/features/transactions/presentation/redux/transactions
 
 import '../features/complaints/presentation/redux/complaints_action.dart';
 import '../features/login/Services/login_services.dart';
-import '../features/reports/services/reports_services.dart';
 import 'core_importer.dart';
 
 class GeneralApis {
@@ -165,6 +164,7 @@ class GeneralApis {
 
   static Future<bool> fetchStartInformation({BuildContext context}) async {
     try {
+      var store = StoreProvider.of<AppState>(context);
       bool userLoggedIn = await Services.checkIfUserLoggedIn();
       if (userLoggedIn) {
         List responses;
@@ -173,16 +173,15 @@ class GeneralApis {
           getSubWarehouse(context: context),
           getCategoryService(),
           GeneralApis.getWarehousesService(),
-          StoreProvider.of<AppState>(context).dispatch(GetComplaintTypesAction()),
-          StoreProvider.of<AppState>(context).dispatch(GetTransactionCategoriesAction()),
+          store.dispatch(GetComplaintTypesAction()),
           Services.initializeVariables()
         ]);
         if (Services.isOperationManager() || Services.isSuperAdmin() || Services.isAdmin() || Services.isAccounting()) {
           await GeneralApis.getShoppers();
           StaticVariables.levels = await GeneralApis.getLevels();
         }
-        if (Services.isAccounting() || Services.isSuperAdmin() || Services.isAdmin() || Services.isShopper()) {
-          StaticVariables.transactionTypes = await ReportsServices.getTransactionTypes();
+        if (store.state.adminsState.admin.permissions.contains('transaction-permission')) {
+          store.dispatch(GetTransactionCategoriesAction());
         }
 
         if (responses[1] == null) {

@@ -9,7 +9,7 @@ import '../models/transaction_requests_response_model.dart';
 abstract class TransactionRemoteDataSource {
   Future<List<TransactionCategoryModel>> getTransactionCategories();
 
-  Future<RequestsPaginationModel> getTransactionRequests(
+  Future<RequestsDataModel> getTransactionRequests(
       {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber});
 
   Future<List<AdminTransactionModel>> getTransactions({int pageNumber});
@@ -35,7 +35,7 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
   }
 
   @override
-  Future<RequestsPaginationModel> getTransactionRequests(
+  Future<RequestsDataModel> getTransactionRequests(
       {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber}) async {
     Response response = await ApiProvider.sendRequest(url: getMyRequestsApi, method: HttpMethods.get, queryParameters: {
       'page': pageNumber,

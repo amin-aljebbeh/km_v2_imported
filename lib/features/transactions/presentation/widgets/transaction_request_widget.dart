@@ -45,7 +45,7 @@ class TransactionRequestWidget extends StatelessWidget {
                             leftSideStyle: informationStyle),
                         if (transactionRequestEntity.rejectReason != null)
                           LabelRow(
-                              rightSideText: 'سبب الرفض',
+                              rightSideText: 'سبب الرفض: ',
                               leftSideText: transactionRequestEntity.rejectReason,
                               leftSideStyle: informationStyle),
                         if (transactionRequestEntity.creator != null)
@@ -55,7 +55,7 @@ class TransactionRequestWidget extends StatelessWidget {
                               leftSideStyle: informationStyle),
                         if (transactionRequestEntity.actor != null)
                           LabelRow(
-                              rightSideText: 'مسؤول الطلب: ',
+                              rightSideText: 'الطلب موجه إلى: ',
                               leftSideText: transactionRequestEntity.actor.name,
                               leftSideStyle: informationStyle),
                         Text(intl.DateFormat('a h:mm - dd-MM-yyyy').format(transactionRequestEntity.createdAt),
@@ -67,11 +67,10 @@ class TransactionRequestWidget extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width / 3,
                                   text: 'حذف',
                                   onTap: () {
-                                    StoreProvider.of<AppState>(context).dispatch(ChangeTransactionRequestStatusAction(
-                                        statusId: 2, requestId: transactionRequestEntity.id));
                                     showMyDialog(
                                       title: 'حذف',
                                       context: context,
+                                      text: 'هل أنت متأكد من رغبتك في حذف الطلب ؟',
                                       dialogButtons: [
                                         KammunButton(
                                             color: Colors.red,

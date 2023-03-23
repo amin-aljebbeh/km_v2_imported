@@ -80,6 +80,14 @@ class ChangeTransactionRequestStatusAction {
   ChangeTransactionRequestStatusAction({this.requestId, this.statusId, this.rejectReason});
 }
 
+class TransactionRequestChanged {
+  final int requestId;
+  final int statusId;
+  final String rejectReason;
+
+  TransactionRequestChanged({this.requestId, this.statusId, this.rejectReason});
+}
+
 class NextTransactionRequestsPage {}
 
 class EndOfTransactionsRequests {}
@@ -98,4 +106,10 @@ class SetTransactionCategories {
   final List<TransactionCategoryEntity> categories;
 
   SetTransactionCategories({this.categories});
+}
+
+class SetFilterCategories {
+  final List<TransactionCategoryEntity> categories;
+
+  SetFilterCategories({this.categories});
 }

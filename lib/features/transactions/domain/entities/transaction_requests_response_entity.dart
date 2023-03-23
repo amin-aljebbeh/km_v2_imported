@@ -1,10 +1,19 @@
 import 'package:kammun_app/features/transactions/data/models/transaction_request_model.dart';
 
+import 'transaction_category_entity.dart';
+
 class TransactionRequestsResponseEntity {
   TransactionRequestsResponseEntity({this.success, this.data});
 
   bool success;
-  RequestsPaginationEntity data;
+  RequestsDataEntity data;
+}
+
+class RequestsDataEntity {
+  RequestsDataEntity({this.transactionRequest, this.categoryForFilter});
+
+  RequestsPaginationEntity transactionRequest;
+  List<TransactionCategoryEntity> categoryForFilter;
 }
 
 class RequestsPaginationEntity {

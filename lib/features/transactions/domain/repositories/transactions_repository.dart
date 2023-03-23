@@ -8,7 +8,7 @@ import '../entities/transaction_requests_response_entity.dart';
 abstract class TransactionsRepository {
   Future<Either<Failure, List<TransactionCategoryEntity>>> getTransactionCategories();
 
-  Future<Either<Failure, RequestsPaginationEntity>> getTransactionRequests(
+  Future<Either<Failure, RequestsDataEntity>> getTransactionRequests(
       {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber});
 
   Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions({int pageNumber});

@@ -6,4 +6,3 @@ export 'sales_reports_model.dart';
 export 'shopper_transaction_model.dart';
 export 'supplier_account_model.dart';
 export 'transaction_model.dart';
-export 'transaction_type_model.dart';

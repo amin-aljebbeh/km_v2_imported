@@ -18,8 +18,11 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
     store.dispatch(StartLoading());
     Either either = await store.state.transactionsState.transactionsUseCase.changeTransactionRequestStatusUseCase(
         statusId: action.statusId, requestId: action.requestId, rejectReason: action.rejectReason);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (_) => store.dispatch(ViewMessage(message: 'تمت العملية بنجاح')));
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
+      store.dispatch(TransactionRequestChanged(
+          rejectReason: action.rejectReason, requestId: action.requestId, statusId: action.statusId));
+      store.dispatch(ViewMessage(message: 'تمت العملية بنجاح'));
+    });
     store.dispatch(StopLoading());
   } else if (action is DeleteTransactionRequestAction) {
     store.dispatch(StartLoading());
@@ -40,9 +43,12 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
       pageNumber: store.state.transactionsState.requestsPage,
     );
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (requests) {
-      RequestsPaginationEntity req = requests;
-      if (req.currentPage == req.lastPage) store.dispatch(EndOfTransactionsRequests());
-      store.dispatch(SetTransactionRequests(requests: req.requests));
+      RequestsDataEntity req = requests;
+      store.dispatch(SetFilterCategories(categories: req.categoryForFilter));
+      if (req.transactionRequest.currentPage == req.transactionRequest.lastPage) {
+        store.dispatch(EndOfTransactionsRequests());
+      }
+      store.dispatch(SetTransactionRequests(requests: req.transactionRequest.requests));
     });
     store.dispatch(StopLoading());
   } else if (action is GetTransactionsAction) {

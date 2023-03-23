@@ -21,10 +21,10 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   }
 
   @override
-  Future<Either<Failure, RequestsPaginationEntity>> getTransactionRequests(
+  Future<Either<Failure, RequestsDataEntity>> getTransactionRequests(
       {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber}) async {
     try {
-      RequestsPaginationEntity requests = await transactionsRemoteDataSource.getTransactionRequests(
+      RequestsDataEntity requests = await transactionsRemoteDataSource.getTransactionRequests(
           transactionCategoryId: transactionCategoryId,
           assignedToMe: assignedToMe,
           createdByMe: createdByMe,

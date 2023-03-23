@@ -58,47 +58,6 @@ class ReportsServices {
     return null;
   }
 
-  static Future<List<TransactionModel>> getTransactions({String shopperId, int pageNumber}) async {
-    try {
-      Response response;
-
-      response = await ApiProvider.sendRequest(
-          url: getShopperTransactions + shopperId, method: HttpMethods.get, queryParameters: {'page': pageNumber});
-
-      if (response.statusCode == successCode) {
-        List<TransactionModel> transactions = [];
-        if (response.data['success'].toString() == 'true') {
-          transactions = transactionResponseFromJson(jsonEncode(response.data)).data.data;
-          return transactions;
-        }
-        return [];
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<List<TransactionModel>> getShopperTransaction() async {
-    try {
-      Response response;
-
-      response = await ApiProvider.sendRequest(url: shopperViewsHisOwnTransactions, method: HttpMethods.get);
-
-      if (response.statusCode == successCode) {
-        List<TransactionModel> transactions = [];
-        if (response.data['success'].toString() == 'true') {
-          transactions = shopperTransactionResponseFromJson(jsonEncode(response.data)).data;
-          return transactions;
-        }
-        return [];
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
   static Future<FinancialDuesModel> getShopperFinancialDues({@required String shopperId}) async {
     Response response;
 
@@ -182,18 +141,6 @@ class ReportsServices {
 
       if (response.statusCode == successCode) return response.data['success'];
       return false;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<List<TransactionTypeModel>> getTransactionTypes() async {
-    try {
-      var response = await ApiProvider.sendRequest(url: getTransactionType, method: HttpMethods.get);
-      if (response.statusCode == successCode && response.data['success'] == true) {
-        return transactionTypeResponseFromJson(jsonEncode(response.data)).data;
-      }
-      return null;
     } catch (e) {
       return null;
     }

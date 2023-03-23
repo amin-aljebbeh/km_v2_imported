@@ -73,7 +73,6 @@ const String updateOrderProducts = order + 'update_order_product/';
 const String orderImage = 'order_image/';
 const String changeShopperStatus = shopperApi + 'change_shopper_status/';
 const String getShopperTransactions = shopperApi + shopperTransaction + 'shopper_transactions/';
-const String getTransactionType = 'transaction_type';
 const String getStatisticsShopperTransaction = shopperApi + shopperTransaction + 'statistics_shopper_transaction/';
 const String shopperViewsHisOwnTransactions = shopperApi + shopperTransaction + 'shopper_views_his_own_transaction';
 const String getShopperMonthProfit = shopperApi + shopperTransaction + 'shopper_profits_for_today/';

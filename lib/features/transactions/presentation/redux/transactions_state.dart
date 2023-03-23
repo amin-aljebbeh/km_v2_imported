@@ -11,6 +11,7 @@ class TransactionsState extends Equatable {
   final List<TransactionRequestEntity> requests;
   final List<AdminTransactionEntity> transactions;
   final List<TransactionCategoryEntity> categories;
+  final List<TransactionCategoryEntity> filterCategories;
   final int requestsPage;
   final bool hasNextRequests;
   final int transactionsPage;
@@ -21,6 +22,7 @@ class TransactionsState extends Equatable {
   final int transactionCategoryId;
 
   const TransactionsState({
+    this.filterCategories,
     this.assignedToMe,
     this.createdByMe,
     this.transactionStatusId,
@@ -49,6 +51,7 @@ class TransactionsState extends Equatable {
       createdByMe: 0,
       transactionCategoryId: null,
       transactionStatusId: null,
+      filterCategories: const [],
     );
   }
 
@@ -64,6 +67,7 @@ class TransactionsState extends Equatable {
     int createdByMe,
     int transactionStatusId,
     int transactionCategoryId,
+    List<TransactionCategoryEntity> filterCategories,
   }) {
     return TransactionsState(
       requests: requests ?? this.requests,
@@ -72,6 +76,7 @@ class TransactionsState extends Equatable {
       requestsPage: requestsPage ?? this.requestsPage,
       categories: categories ?? this.categories,
       transactions: transactions ?? this.transactions,
+      filterCategories: filterCategories ?? this.filterCategories,
       transactionsPage: transactionsPage ?? this.transactionsPage,
       hasNextTransactions: hasNextTransactions ?? this.hasNextTransactions,
       assignedToMe: assignedToMe ?? this.assignedToMe,
@@ -95,5 +100,6 @@ class TransactionsState extends Equatable {
         createdByMe,
         transactionStatusId,
         transactionCategoryId,
+        filterCategories,
       ];
 }
