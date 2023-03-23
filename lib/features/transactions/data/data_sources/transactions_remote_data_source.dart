@@ -12,7 +12,8 @@ abstract class TransactionRemoteDataSource {
   Future<RequestsDataModel> getTransactionRequests(
       {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber});
 
-  Future<List<AdminTransactionModel>> getTransactions({int pageNumber});
+  Future<List<AdminTransactionModel>> getTransactions(
+      {int pageNumber, int adminId, int lastWeek, int groupingByParent});
 
   Future<Unit> changeTransactionRequestStatus({int requestId, int statusId, String rejectReason});
 
@@ -98,9 +99,17 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
   }
 
   @override
-  Future<List<AdminTransactionModel>> getTransactions({int pageNumber}) async {
+  Future<List<AdminTransactionModel>> getTransactions(
+      {int pageNumber, int adminId, int lastWeek, int groupingByParent}) async {
     Response response = await ApiProvider.sendRequest(
-        url: transactionApi, method: HttpMethods.get, queryParameters: {'page': pageNumber});
+        url: getTransactionAdminApi,
+        method: HttpMethods.get,
+        queryParameters: {
+          'page': pageNumber,
+          'admin_id': adminId,
+          'lastWeek': lastWeek,
+          'grouping_by_parent': groupingByParent
+        });
     try {
       if (response != null) if (response.statusCode == successCode) return Future.value(null);
     } catch (e) {

@@ -11,7 +11,8 @@ abstract class TransactionsRepository {
   Future<Either<Failure, RequestsDataEntity>> getTransactionRequests(
       {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber});
 
-  Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions({int pageNumber});
+  Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions(
+      {int pageNumber, int adminId, int lastWeek, int groupingByParent});
 
   Future<Either<Failure, Unit>> changeTransactionRequestStatus({int requestId, int statusId, String rejectReason});
 

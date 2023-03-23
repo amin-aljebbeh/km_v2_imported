@@ -15,6 +15,7 @@ const String attachUserToCouponApi = couponApi + 'attach_user_to_coupon/';
 const String userTransactionApi = 'user_transaction/';
 const String depositApi = userTransactionApi + 'deposit/';
 const String transactionApi = 'transaction/';
+const String getTransactionAdminApi = transactionApi + 'get_transaction_admin/';
 const String addTransactionApiTemp = transactionApi + 'add_transaction/';
 const String transactionRequestApi = 'transaction_request/';
 const String changeTransactionRequestStatusApi = transactionRequestApi + 'change_status/';

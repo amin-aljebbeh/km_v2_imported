@@ -53,8 +53,13 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
     store.dispatch(StopLoading());
   } else if (action is GetTransactionsAction) {
     store.dispatch(StartLoading());
-    Either either = await store.state.transactionsState.transactionsUseCase
-        .getTransactionsUseCase(pageNumber: store.state.transactionsState.transactionsPage);
+    Either either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
+      pageNumber: store.state.transactionsState.transactionsPage,
+      adminId: action.adminId,
+      groupingByParent:
+          store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? action.groupingByParent : 0,
+      lastWeek: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? 1 : 0,
+    );
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
         (transactions) => store.dispatch(SetTransactions(transactions: transactions)));
     store.dispatch(StopLoading());

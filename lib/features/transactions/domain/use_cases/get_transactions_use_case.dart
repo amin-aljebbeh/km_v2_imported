@@ -9,7 +9,9 @@ class GetTransactionsUseCase {
 
   GetTransactionsUseCase({this.transactionsRepository});
 
-  Future<Either<Failure, List<AdminTransactionEntity>>> call({int pageNumber}) async {
-    return await transactionsRepository.getTransactions(pageNumber: pageNumber);
+  Future<Either<Failure, List<AdminTransactionEntity>>> call(
+      {int pageNumber, int adminId, int lastWeek, int groupingByParent}) async {
+    return await transactionsRepository.getTransactions(
+        pageNumber: pageNumber, lastWeek: lastWeek, groupingByParent: groupingByParent, adminId: adminId);
   }
 }

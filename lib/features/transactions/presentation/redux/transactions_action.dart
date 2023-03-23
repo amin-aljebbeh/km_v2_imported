@@ -52,7 +52,12 @@ class SetAssignedToMe {
   SetAssignedToMe({this.assignedToMe});
 }
 
-class GetTransactionsAction {}
+class GetTransactionsAction {
+  final int adminId;
+  final int groupingByParent;
+
+  GetTransactionsAction({this.adminId, this.groupingByParent});
+}
 
 class SetTransactionRequests {
   final List<TransactionRequestEntity> requests;

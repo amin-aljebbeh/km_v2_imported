@@ -84,10 +84,11 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   }
 
   @override
-  Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions({int pageNumber}) async {
+  Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions(
+      {int pageNumber, int adminId, int lastWeek, int groupingByParent}) async {
     try {
-      List<AdminTransactionEntity> transactions =
-          await transactionsRemoteDataSource.getTransactions(pageNumber: pageNumber);
+      List<AdminTransactionEntity> transactions = await transactionsRemoteDataSource.getTransactions(
+          pageNumber: pageNumber, adminId: adminId, groupingByParent: groupingByParent, lastWeek: lastWeek);
       return Right(transactions);
     } on CacheException {
       return Left(CacheFailure());

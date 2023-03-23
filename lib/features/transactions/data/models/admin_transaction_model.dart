@@ -1,4 +1,7 @@
+import 'package:kammun_app/features/admins/data/models/admin_model.dart';
 import 'package:kammun_app/features/transactions/domain/entities/admin_transaction_entity.dart';
+
+import 'transaction_category_model.dart';
 
 class AdminTransactionModel extends AdminTransactionEntity {
   AdminTransactionModel({
@@ -14,6 +17,8 @@ class AdminTransactionModel extends AdminTransactionEntity {
     createdAt,
     companyValue,
     shopperValue,
+    category,
+    actor,
   }) : super(
           id: id,
           transactionCategoryId: transactionCategoryId,
@@ -27,6 +32,8 @@ class AdminTransactionModel extends AdminTransactionEntity {
           createdAt: createdAt,
           companyValue: companyValue,
           shopperValue: shopperValue,
+          category: category,
+          actor: actor,
         );
 
   factory AdminTransactionModel.fromJson(Map<String, dynamic> json) => AdminTransactionModel(
@@ -39,7 +46,11 @@ class AdminTransactionModel extends AdminTransactionEntity {
         createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
         description: json['description'],
         orderId: json['order_id'],
-        transactionCategoryId: json['trns_category_id'],
+        actor: json['actor'] == null ? null : AdminModel.fromJson(json['actor']),
+        transactionCategoryId: json['trns_category'],
+        category: json['transaction_category'] == null
+            ? null
+            : TransactionCategoryModel.fromJson(json['transaction_category']),
       );
 
   Map<String, dynamic> toJson() => {
