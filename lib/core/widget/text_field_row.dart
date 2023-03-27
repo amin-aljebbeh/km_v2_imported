@@ -29,7 +29,13 @@ class _TextFieldRowState extends State<TextFieldRow> {
       mainAxisAlignment: widget.mainAxisAlignment,
       children: [
         Text(widget.text, overflow: TextOverflow.clip, style: paragraphStyle),
-        EntryField(controller: widget.controller, hint: widget.hint, width: widget.width, onSubmit: (result) {}),
+        EntryField(
+          controller: widget.controller,
+          hint: widget.hint,
+          width: widget.width,
+          onSubmit: (result) {},
+          textInputType: widget.inputType,
+        ),
       ],
     );
   }

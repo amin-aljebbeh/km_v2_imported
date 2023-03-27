@@ -2,6 +2,7 @@ import 'package:kammun_app/features/transactions/domain/entities/transaction_cat
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/admin_transaction_entity.dart';
+import '../../domain/entities/shopper_report_entity.dart';
 import '../../domain/entities/transaction_request_entity.dart';
 
 class CreateTransactionAction {
@@ -59,6 +60,25 @@ class GetTransactionsAction {
   GetTransactionsAction({this.adminId, this.groupingByParent});
 }
 
+class GetAdminBalanceAction {
+  final int adminId;
+  final BuildContext context;
+
+  GetAdminBalanceAction({this.context, this.adminId});
+}
+
+class GetShopperReportAction {
+  final int shopperId;
+
+  GetShopperReportAction({this.shopperId});
+}
+
+class SetShopperReport {
+  final ShopperReportEntity shopperReport;
+
+  SetShopperReport({this.shopperReport});
+}
+
 class SetTransactionRequests {
   final List<TransactionRequestEntity> requests;
 
@@ -66,9 +86,11 @@ class SetTransactionRequests {
 }
 
 class ClearTransactionRequests {
-  final List<TransactionRequestEntity> requests;
+  ClearTransactionRequests();
+}
 
-  ClearTransactionRequests({this.requests});
+class ClearTransactions {
+  ClearTransactions();
 }
 
 class SetTransactions {

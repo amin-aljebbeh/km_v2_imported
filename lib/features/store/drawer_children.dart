@@ -2,6 +2,7 @@ import 'package:kammun_app/features/complaints/presentation/redux/complaints_act
 import 'package:kammun_app/features/inventory_feature/presentation/redux/inventory_action.dart';
 
 import '../../core/core_importer.dart';
+import '../admins/presentation/redux/admins_action.dart';
 import '../login/Services/login_services.dart';
 import '../management_view/management_view.dart';
 import '../transactions/presentation/pages/add_transaction_page.dart';
@@ -26,8 +27,23 @@ List<Widget> getDrawerChildren(BuildContext context) {
             builder: (context) => ManagementView(
               title: financial,
               children: [
-                const SideBarRow(
-                    pushedRoute: TransactionsPage.routeName, icon: Icons.featured_play_list, text: 'كشف حساب المتسوق'),
+                SideBarRow(
+                    onTap: () {
+                      store.dispatch(NoError());
+                      store.dispatch(FirstTransactionsPage());
+                      if (!store.state.adminsState.admin.permissions.contains('advanced-transaction-view')) {
+                        store.dispatch(GetTransactionsAction());
+                        if (Services.isShopper()) {
+                          store.dispatch(GetShopperReportAction(shopperId: store.state.adminsState.admin.shopper.id));
+                        }
+                      } else {
+                        store.dispatch(GetAdminsWithoutDetailsAction());
+                        store.dispatch(GetRolesAction());
+                      }
+                      Navigator.pushNamed(context, TransactionsPage.routeName);
+                    },
+                    icon: Icons.featured_play_list,
+                    text: 'كشف حساب المتسوق'),
                 SideBarRow(
                     onTap: () {
                       store.dispatch(NoError());

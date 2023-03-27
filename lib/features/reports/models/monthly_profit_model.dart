@@ -6,42 +6,35 @@ import 'dart:convert';
 
 MonthlyProfit monthlyProfitFromJson(String str) => MonthlyProfit.fromJson(json.decode(str));
 
-String monthlyProfitToJson(MonthlyProfit data) => json.encode(data.toJson());
-
 class MonthlyProfit {
   MonthlyProfit({
     this.success,
-    this.profit,
+    this.monthlyProfits,
     this.countOrderThisMonth,
     this.workingHour,
     this.avgOrderRating,
     this.avgDeliveryMinutes,
     this.deliveryDistance,
+    this.dailyProfits,
   });
 
   bool success;
-  String profit;
+  int monthlyProfits;
+  int dailyProfits;
   int countOrderThisMonth;
-  double workingHour;
+  String workingHour;
   String avgOrderRating;
   String avgDeliveryMinutes;
   String deliveryDistance;
 
   factory MonthlyProfit.fromJson(Map<String, dynamic> json) => MonthlyProfit(
-      success: json['success'],
-      profit: json['data'].toString(),
-      countOrderThisMonth: json['count_order_this_month'],
-      workingHour: json['working_hour'] == null ? 0.0.toDouble() : json['working_hour'].toDouble(),
-      avgOrderRating: json['avg_order_rating'],
-      avgDeliveryMinutes: json['avg_delivery_minutes'],
-      deliveryDistance: json['sum_distances'] == null ? '0' : json['sum_distances'].toString());
-
-  Map<String, dynamic> toJson() => {
-        'success': success,
-        'data': profit,
-        'count_order_this_month': countOrderThisMonth,
-        'working_hour': workingHour,
-        'avg_order_rating': avgOrderRating,
-        'avg_delivery_minutes': avgDeliveryMinutes,
-      };
+        success: json['success'],
+        monthlyProfits: json['monthly_profits'],
+        dailyProfits: json['daily_profits'],
+        countOrderThisMonth: json['count_order_this_month'],
+        workingHour: json['working_hour'] == null ? '0' : json['working_hour'].toString(),
+        avgOrderRating: json['avg_order_rating'],
+        avgDeliveryMinutes: json['avg_delivery_minutes'],
+        deliveryDistance: json['sum_distances'] == null ? '0' : json['sum_distances'].toString(),
+      );
 }

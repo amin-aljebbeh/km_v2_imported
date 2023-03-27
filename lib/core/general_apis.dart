@@ -176,7 +176,7 @@ class GeneralApis {
           store.dispatch(GetComplaintTypesAction()),
           Services.initializeVariables()
         ]);
-        if (Services.isOperationManager() || Services.isSuperAdmin() || Services.isAdmin() || Services.isAccounting()) {
+        if (Services.isOperationManager() || Services.isAdmin() || Services.isAccounting()) {
           await GeneralApis.getShoppers();
           StaticVariables.levels = await GeneralApis.getLevels();
         }

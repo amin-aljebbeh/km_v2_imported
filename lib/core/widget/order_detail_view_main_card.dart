@@ -77,7 +77,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                   Text(widget.productData.quantity + ' ' + (widget.productData.unit ?? ''), style: darkBold),
                   Text(StringUtils().oCcy.format(purchasePrice) + ' ${StaticVariables.companyInformation.currency}',
                       style: paragraphStyle),
-                  if (Services.isSuperAdmin() &&
+                  if (Services.isOperationManager() &&
                       purchasePrice - int.parse(widget.productData.pivot.purchasePrice.split('.')[0]) != 0)
                     Text(
                         StringUtils().oCcy.format(int.parse(widget.productData.pivot.purchasePrice.split('.')[0])) +

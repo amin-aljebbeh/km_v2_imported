@@ -2,6 +2,7 @@ import 'package:kammun_app/features/transactions/domain/entities/transaction_cat
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/admin_transaction_entity.dart';
+import '../../domain/entities/shopper_report_entity.dart';
 import '../../domain/entities/transaction_request_entity.dart';
 import '../../domain/use_cases/transactions_use_cases.dart';
 
@@ -12,6 +13,7 @@ class TransactionsState extends Equatable {
   final List<AdminTransactionEntity> transactions;
   final List<TransactionCategoryEntity> categories;
   final List<TransactionCategoryEntity> filterCategories;
+  final ShopperReportEntity shopperReport;
   final int requestsPage;
   final bool hasNextRequests;
   final int transactionsPage;
@@ -25,6 +27,7 @@ class TransactionsState extends Equatable {
     this.filterCategories,
     this.assignedToMe,
     this.createdByMe,
+    this.shopperReport,
     this.transactionStatusId,
     this.transactionCategoryId,
     this.transactionsPage,
@@ -68,6 +71,7 @@ class TransactionsState extends Equatable {
     int transactionStatusId,
     int transactionCategoryId,
     List<TransactionCategoryEntity> filterCategories,
+    ShopperReportEntity shopperReport,
   }) {
     return TransactionsState(
       requests: requests ?? this.requests,
@@ -81,6 +85,7 @@ class TransactionsState extends Equatable {
       hasNextTransactions: hasNextTransactions ?? this.hasNextTransactions,
       assignedToMe: assignedToMe ?? this.assignedToMe,
       createdByMe: createdByMe ?? this.createdByMe,
+      shopperReport: shopperReport ?? this.shopperReport,
       transactionStatusId: transactionStatusId == -1 ? null : transactionStatusId ?? this.transactionStatusId,
       transactionCategoryId: transactionCategoryId == -1 ? null : transactionCategoryId ?? this.transactionCategoryId,
     );
@@ -101,5 +106,6 @@ class TransactionsState extends Equatable {
         transactionStatusId,
         transactionCategoryId,
         filterCategories,
+        shopperReport,
       ];
 }

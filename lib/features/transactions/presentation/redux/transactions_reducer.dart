@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/transactions/domain/entities/admin_transaction_entity.dart';
+
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/transaction_request_entity.dart';
 import 'transactions_action.dart';
@@ -21,6 +23,8 @@ Reducer<TransactionsState> transactionsReducer = combineReducers<TransactionsSta
   TypedReducer<TransactionsState, RequestDeleted>(requestDeleted),
   TypedReducer<TransactionsState, TransactionRequestChanged>(transactionRequestChangedAction),
   TypedReducer<TransactionsState, SetFilterCategories>(setCategoryForFilter),
+  TypedReducer<TransactionsState, ClearTransactions>(clearTransactions),
+  TypedReducer<TransactionsState, SetShopperReport>(setShopperReportAction),
 ]);
 
 TransactionsState setTransactionRequests(TransactionsState state, SetTransactionRequests action) {
@@ -40,6 +44,14 @@ TransactionsState transactionRequestChangedAction(TransactionsState state, Trans
 
 TransactionsState clearTransactionRequests(TransactionsState state, ClearTransactionRequests action) {
   return state.copyWith(requests: []);
+}
+
+TransactionsState clearTransactions(TransactionsState state, ClearTransactions action) {
+  return state.copyWith(transactions: []);
+}
+
+TransactionsState setShopperReportAction(TransactionsState state, SetShopperReport action) {
+  return state.copyWith(shopperReport: action.shopperReport);
 }
 
 TransactionsState nextTransactionRequestsPage(TransactionsState state, NextTransactionRequestsPage action) =>
@@ -71,8 +83,12 @@ TransactionsState setTransactionCategories(TransactionsState state, SetTransacti
 TransactionsState setCategoryForFilter(TransactionsState state, SetFilterCategories action) =>
     state.copyWith(filterCategories: action.categories);
 
-TransactionsState setTransactions(TransactionsState state, SetTransactions action) =>
-    state.copyWith(transactions: action.transactions);
+TransactionsState setTransactions(TransactionsState state, SetTransactions action) {
+  List<AdminTransactionEntity> transactions = [];
+  transactions.addAll(state.transactions);
+  transactions.addAll(action.transactions);
+  return state.copyWith(transactions: transactions);
+}
 
 TransactionsState firstTransactionsPage(TransactionsState state, FirstTransactionsPage action) =>
     state.copyWith(hasNextTransactions: true, transactionsPage: 1, transactions: []);

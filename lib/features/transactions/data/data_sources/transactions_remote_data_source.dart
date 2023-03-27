@@ -1,10 +1,13 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/core_importer.dart';
+import '../models/admin_balance_model.dart';
 import '../models/admin_transaction_model.dart';
 import '../models/categories_response_model.dart';
+import '../models/shopper_report_model.dart';
 import '../models/transaction_category_model.dart';
 import '../models/transaction_requests_response_model.dart';
+import '../models/transactions_response_model.dart';
 
 abstract class TransactionRemoteDataSource {
   Future<List<TransactionCategoryModel>> getTransactionCategories();
@@ -12,7 +15,7 @@ abstract class TransactionRemoteDataSource {
   Future<RequestsDataModel> getTransactionRequests(
       {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber});
 
-  Future<List<AdminTransactionModel>> getTransactions(
+  Future<TransactionsPaginationModel> getTransactions(
       {int pageNumber, int adminId, int lastWeek, int groupingByParent});
 
   Future<Unit> changeTransactionRequestStatus({int requestId, int statusId, String rejectReason});
@@ -20,6 +23,10 @@ abstract class TransactionRemoteDataSource {
   Future<Unit> deleteTransactionRequest({int requestId});
 
   Future<Unit> createTransaction({AdminTransactionModel transactionModel});
+
+  Future<ShopperReportModel> getShopperReport({int shopperId});
+
+  Future<AdminBalanceModel> getAdminBalance({int adminId});
 }
 
 class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource {
@@ -99,19 +106,47 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
   }
 
   @override
-  Future<List<AdminTransactionModel>> getTransactions(
+  Future<TransactionsPaginationModel> getTransactions(
       {int pageNumber, int adminId, int lastWeek, int groupingByParent}) async {
-    Response response = await ApiProvider.sendRequest(
-        url: getTransactionAdminApi,
-        method: HttpMethods.get,
-        queryParameters: {
-          'page': pageNumber,
-          'admin_id': adminId,
-          'lastWeek': lastWeek,
-          'grouping_by_parent': groupingByParent
-        });
+    Map<String, dynamic> param = {
+      'page': pageNumber,
+      'admin_id': adminId,
+      'lastWeek': lastWeek,
+      'grouping_by_parent': groupingByParent
+    };
+    param.removeWhere((key, value) => value == null);
+    Response response =
+        await ApiProvider.sendRequest(url: getTransactionAdminApi, method: HttpMethods.get, queryParameters: param);
     try {
       if (response != null) if (response.statusCode == successCode) return Future.value(null);
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<ShopperReportModel> getShopperReport({int shopperId}) async {
+    Response response = await ApiProvider.sendRequest(url: shopperReportApi, method: HttpMethods.get);
+    try {
+      if (response != null) {
+        if (response.statusCode == successCode) return monthlyProfitFromJson(jsonEncode(response.data));
+      }
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<AdminBalanceModel> getAdminBalance({int adminId}) async {
+    Response response = await ApiProvider.sendRequest(url: adminBalanceApi, method: HttpMethods.get);
+    try {
+      if (response != null) {
+        if (response.statusCode == successCode) {
+          return adminBalanceResponseModelFromJson(jsonEncode(response.data)).adminBalance;
+        }
+      }
     } catch (e) {
       throw (InternalException(message: e.toString()));
     }

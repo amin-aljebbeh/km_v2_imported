@@ -357,7 +357,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         ),
                         if (Services.isProductsController() ||
                             Services.isAdmin() ||
-                            Services.isSuperAdmin() ||
                             (StaticVariables.subWarehouses
                                 .any((element) => element.id == widget.product.subWarehouseId)))
                           Column(
@@ -406,7 +405,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 onSavePressed: (newValue, result) =>
                                     setState(() => widget.product.priceFactor = newValue),
                               ),
-                              Services.isProductsController() || Services.isAdmin() || Services.isSuperAdmin()
+                              Services.isProductsController() || Services.isAdmin()
                                   ? Column(
                                       children: [
                                         if (state.adminsState.admin.permissions.contains('update-increase-percentage'))

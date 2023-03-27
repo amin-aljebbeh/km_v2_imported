@@ -7,6 +7,7 @@ class EntryField extends StatefulWidget {
   final double width;
   final Function(bool) onSubmit;
   final EdgeInsetsGeometry edgeInsetsGeometry;
+
   const EntryField({
     Key key,
     @required this.controller,
@@ -14,7 +15,7 @@ class EntryField extends StatefulWidget {
     this.width,
     this.onSubmit,
     this.edgeInsetsGeometry,
-    this.textInputType,
+    this.textInputType = TextInputType.text,
   }) : super(key: key);
 
   @override
@@ -39,7 +40,8 @@ class _EntryFieldState extends State<EntryField> {
         onFieldSubmitted: (string) => widget.onSubmit(string.isNotEmpty),
         onTap: () {},
         controller: widget.controller,
-        keyboardType: TextInputType.text, //todo const TextInputType.numberWithOptions(decimal: true, signed: true)
+        keyboardType: widget.textInputType,
+        //todo const TextInputType.numberWithOptions(decimal: true, signed: true)
         maxLines: null,
         decoration: InputDecoration(
           contentPadding: widget.edgeInsetsGeometry,

@@ -1,12 +1,18 @@
 import 'package:kammun_app/core/core_importer.dart';
 
 import 'get_admins_use_case.dart';
+import 'get_roles_use_case.dart';
 import 'get_transactions_actors_use_case.dart';
 
 class AdminsUseCases {
-  final GetAdminsUseCase getAdminsUseCase;
+  final GetAdminsWithoutDetailsUseCase getAdminsWithoutDetailsUseCase;
   final GetTransactionsActorsUseCase getTransactionsActorsUseCase;
+  final GetRolesUseCase getRolesUseCase;
 
-  AdminsUseCases({@required this.getAdminsUseCase, @required this.getTransactionsActorsUseCase})
-      : assert(getAdminsUseCase != null && getTransactionsActorsUseCase != null, 'All use cases should be initialized');
+  AdminsUseCases({
+    @required this.getAdminsWithoutDetailsUseCase,
+    @required this.getTransactionsActorsUseCase,
+    @required this.getRolesUseCase,
+  }) : assert(getAdminsWithoutDetailsUseCase != null && getTransactionsActorsUseCase != null && getRolesUseCase != null,
+            'All use cases should be initialized');
 }

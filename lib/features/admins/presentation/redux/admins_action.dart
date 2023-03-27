@@ -1,6 +1,21 @@
 import 'package:kammun_app/features/admins/domain/entities/admins_entity.dart';
+import 'package:kammun_app/features/admins/domain/entities/role_entity.dart';
 
-class GetAdminsAction {}
+class GetAdminsWithoutDetailsAction {
+  final int roleId;
+  final int warehouseId;
+  final String searchName;
+
+  GetAdminsWithoutDetailsAction({this.roleId, this.warehouseId, this.searchName});
+}
+
+class GetRolesAction {}
+
+class SetRoles {
+  final List<RoleEntity> roles;
+
+  SetRoles({this.roles});
+}
 
 class GetTransactionsActorsAction {
   final int categoryId;

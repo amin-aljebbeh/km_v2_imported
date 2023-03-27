@@ -217,7 +217,7 @@ class OrdersViewState extends State<OrdersView> {
                               ),
                             ],
                           ),
-                          if (Services.isSuperAdmin())
+                          if (Services.isAgent())
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [

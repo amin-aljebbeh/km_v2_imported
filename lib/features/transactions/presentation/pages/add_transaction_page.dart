@@ -26,11 +26,6 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   final descriptionController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
@@ -121,7 +116,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   controller: moneyController,
                                   text: 'المبلغ :         ',
-                                  inputType: TextInputType.text,
+                                  inputType: TextInputType.number,
                                   width: 150,
                                 ),
                               ),
@@ -174,7 +169,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                               userId: widget.userId,
                                               adminId: adminId,
                                               date: deliveryDate,
-                                              value: int.parse(moneyController.text),
+                                              value: int.parse(moneyController.text).abs(),
                                               description: descriptionController.text,
                                               orderId: widget.orderId)));
                                     },
@@ -214,7 +209,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
             .firstWhere((category) => category.orderRequired == widget.orderRequired || category.orderRequired == 2);
     return ((category.requestRequired == 0 && category.transactionOperation.affectActor == 0) ||
             (category.requestRequired != 0 && category.transactionOperation.affectActor != 0)) &&
-        category.transactionOperation.affectUser == 0;
+        category.transactionOperation.affectUser == 0 &&
+        category.selfTransaction == 0;
   }
 
   bool completeData() {
