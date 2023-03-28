@@ -7,10 +7,16 @@ class KSearchableDropdown extends StatefulWidget {
   final String search;
   final List<DropdownMenuItem> items;
   final Function(String) onChanged;
+  final double padding;
 
-  const KSearchableDropdown(
-      {Key key, @required this.hint, @required this.search, @required this.items, @required this.onChanged})
-      : super(key: key);
+  const KSearchableDropdown({
+    Key key,
+    @required this.hint,
+    @required this.search,
+    @required this.items,
+    @required this.onChanged,
+    this.padding = 10,
+  }) : super(key: key);
 
   @override
   _KSearchableDropdownState createState() => _KSearchableDropdownState();
@@ -18,6 +24,7 @@ class KSearchableDropdown extends StatefulWidget {
 
 class _KSearchableDropdownState extends State<KSearchableDropdown> {
   String showValue;
+
   @override
   void initState() {
     showValue = widget.search;
@@ -26,31 +33,35 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    return SearchChoices.single(
-      displayClearIcon: false,
-      onTap: () {},
-      rightToLeft: true,
-      searchInputDecoration: InputDecoration(
-          suffixIcon: Icon(Icons.search, size: 24, color: primaryColor),
-          contentPadding: const EdgeInsets.symmetric(vertical: 12)),
-      iconEnabledColor: primaryColor,
-      closeButton: TextButton(
-          child: Text(closeString, style: dropdownItemStyle.copyWith(color: primaryColor)),
-          onPressed: () => Navigator.of(context).pop()),
-      disabledHint: Center(child: Text('disabled', style: disableStyle)),
-      isCaseSensitiveSearch: false,
-      underline: Container(),
-      isExpanded: true,
-      hint: Center(child: Text(widget.hint, style: dropdownItemStyle)),
-      style: dropdownItemStyle,
-      value: showValue,
-      items: widget.items,
-      onChanged: (String value) {
-        if (value != null) {
-          setState(() => showValue = value);
-          widget.onChanged(value);
-        }
-      },
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: widget.padding == 0 ? 10 : 0),
+      child: SearchChoices.single(
+        displayClearIcon: false,
+        onTap: () {},
+        padding: widget.padding,
+        rightToLeft: true,
+        searchInputDecoration: InputDecoration(
+            suffixIcon: Icon(Icons.search, size: 24, color: primaryColor),
+            contentPadding: const EdgeInsets.symmetric(vertical: 12)),
+        iconEnabledColor: primaryColor,
+        closeButton: TextButton(
+            child: Text(closeString, style: dropdownItemStyle.copyWith(color: primaryColor)),
+            onPressed: () => Navigator.of(context).pop()),
+        disabledHint: Center(child: Text('disabled', style: disableStyle)),
+        isCaseSensitiveSearch: false,
+        underline: Container(),
+        isExpanded: true,
+        hint: Center(child: Text(widget.hint, style: dropdownItemStyle)),
+        style: dropdownItemStyle,
+        value: showValue,
+        items: widget.items,
+        onChanged: (String value) {
+          if (value != null) {
+            setState(() => showValue = value);
+            widget.onChanged(value);
+          }
+        },
+      ),
     );
   }
 }

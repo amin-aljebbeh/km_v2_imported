@@ -21,7 +21,7 @@ class ComplaintsPage extends StatelessWidget {
               child: Column(
                 children: [
                   DropdownButton(items: const [], onChanged: (value) {}),
-                  state.loadingState.isLoading
+                  state.loadingState.loading.isNotEmpty
                       ? const Center(child: Loader())
                       : state.complaintsState.complaints.isEmpty
                           ? Padding(

@@ -54,7 +54,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
                           ? Center(
                               child: AlertMessages(
                                   text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
-                          : state.loadingState.isLoading
+                          : state.loadingState.loading.isNotEmpty
                               ? const Loader()
                               : state.supplierState.accountStatement.accountStatement.isEmpty
                                   ? Container()

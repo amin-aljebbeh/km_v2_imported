@@ -7,8 +7,8 @@ class AdminTransactionEntity {
   final int adminId;
   final int orderId;
   final int value;
-  final int companyValue;
-  final int shopperValue;
+  final String companyValue;
+  final String shopperValue;
   final String description;
   final int actorId;
   final int userId;

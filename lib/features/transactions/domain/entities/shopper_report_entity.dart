@@ -1,6 +1,5 @@
 class ShopperReportEntity {
   ShopperReportEntity({
-    this.success,
     this.monthlyProfits,
     this.countOrderThisMonth,
     this.workingHour,
@@ -10,10 +9,9 @@ class ShopperReportEntity {
     this.dailyProfits,
   });
 
-  bool success;
-  int monthlyProfits;
-  int dailyProfits;
-  int countOrderThisMonth;
+  String monthlyProfits;
+  String dailyProfits;
+  String countOrderThisMonth;
   String workingHour;
   String avgOrderRating;
   String avgDeliveryMinutes;

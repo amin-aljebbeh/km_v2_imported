@@ -5,9 +5,12 @@ import '../../../../core/core_importer.dart';
 
 Future<void> adminsMiddleware(Store<AppState> store, action, NextDispatcher next) async {
   if (action is GetAdminsWithoutDetailsAction) {
-    Either either = await store.state.adminsState.adminsUseCases.getAdminsWithoutDetailsUseCase();
+    store.dispatch(StartLoading());
+    Either either = await store.state.adminsState.adminsUseCases.getAdminsWithoutDetailsUseCase(
+        warehouseId: action.warehouseId, roleId: action.roleId, searchName: action.searchName);
     either.fold(
         (failure) => store.dispatch(SetAdmins(admins: [])), (admins) => store.dispatch(SetAdmins(admins: admins)));
+    store.dispatch(StopLoading());
   } else if (action is GetTransactionsActorsAction) {
     store.dispatch(StartLoading());
     Either either =

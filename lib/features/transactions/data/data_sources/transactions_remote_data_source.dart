@@ -118,8 +118,14 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
     Response response =
         await ApiProvider.sendRequest(url: getTransactionAdminApi, method: HttpMethods.get, queryParameters: param);
     try {
-      if (response != null) if (response.statusCode == successCode) return Future.value(null);
+      if (response != null) {
+        if (response.statusCode == successCode) {
+          return transactionsResponseModelFromJson(jsonEncode(response.data)).transactionsPage;
+        }
+      }
     } catch (e) {
+      Tools.logToConsole('exception 1');
+      Tools.logToConsole(e.toString());
       throw (InternalException(message: e.toString()));
     }
     throw (ServerException());
@@ -127,10 +133,13 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
 
   @override
   Future<ShopperReportModel> getShopperReport({int shopperId}) async {
-    Response response = await ApiProvider.sendRequest(url: shopperReportApi, method: HttpMethods.get);
+    Response response =
+        await ApiProvider.sendRequest(url: shopperReportApi + shopperId.toString(), method: HttpMethods.get);
     try {
       if (response != null) {
-        if (response.statusCode == successCode) return monthlyProfitFromJson(jsonEncode(response.data));
+        if (response.statusCode == successCode) {
+          return shopperReportResponseModelFromJson(jsonEncode(response.data)).report;
+        }
       }
     } catch (e) {
       throw (InternalException(message: e.toString()));

@@ -1,13 +1,13 @@
 import 'package:intl/intl.dart' as intl;
+import 'package:kammun_app/features/transactions/presentation/widgets/specific_day_profit_widget.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/admin_transaction_entity.dart';
 
 class TransactionWidget extends StatelessWidget {
-  const TransactionWidget({Key key, this.transactionEntity, this.newTransaction, this.show}) : super(key: key);
-  final AdminTransactionEntity transactionEntity;
+  const TransactionWidget({Key key, this.transaction, this.newTransaction}) : super(key: key);
+  final AdminTransactionEntity transaction;
   final bool newTransaction;
-  final Function(DateTime) show;
 
   @override
   Widget build(BuildContext context) {
@@ -20,37 +20,34 @@ class TransactionWidget extends StatelessWidget {
             newTransaction
                 ? Column(
                     children: [
-                      Divider(thickness: 5, color: primaryColor),
+                      Divider(thickness: 5, color: primaryColor, height: 5),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            intl.DateFormat('EEEE', 'ar').format(transactionEntity.createdAt) +
+                            intl.DateFormat('EEEE', 'ar').format(transaction.createdAt) +
                                 ' ' +
-                                intl.DateFormat('dd-MM-yyyy', 'en').format(transactionEntity.createdAt),
+                                intl.DateFormat('dd-MM-yyyy', 'en').format(transaction.createdAt),
                             style: disableStyle,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 15.0),
-                            child: KammunButton(
-                              color: primaryColor,
-                              onTap: () => show(transactionEntity.createdAt),
-                              text: 'المجموع',
-                              width: MediaQuery.of(context).size.width * 0.25,
-                            ),
+                          KammunButton(
+                            color: primaryColor,
+                            onTap: () => specificDayProfitWidget(context: context, date: transaction.createdAt),
+                            text: 'المجموع',
+                            width: MediaQuery.of(context).size.width * 0.25,
                           ),
                         ],
                       ),
                       KTableRow(
                         children: [
-                          KTableElement(text: shopper),
+                          const KTableElement(text: 'actor'),
+                          const KTableElement(text: 'أدمن'),
                           KTableElement(text: kammun),
                           const KTableElement(text: 'النوع'),
                           const KTableElement(text: 'الطلب'),
                         ],
                       ),
-                      const SizedBox(height: 10),
                     ],
                   )
                 : Container(),
@@ -58,39 +55,35 @@ class TransactionWidget extends StatelessWidget {
               children: [
                 KTableRow(
                   children: [
+                    KTableElement(text: transaction.actor != null ? transaction.actor.name : '', style: mainStyle),
                     KTableElement(
-                      text: StringUtils().oCcy.format(transactionEntity.shopperValue.abs()),
-                      style: transactionEntity.shopperValue >= 0 ? lightProfitStyle : lightLoseStyle,
+                      text: StringUtils().oCcy.format(int.parse(transaction.shopperValue).abs()),
+                      style: int.parse(transaction.shopperValue) >= 0 ? lightProfitStyle : lightLoseStyle,
                     ),
                     KTableElement(
-                      text: StringUtils().oCcy.format(transactionEntity.companyValue.abs()),
-                      style: transactionEntity.companyValue >= 0 ? lightProfitStyle : lightLoseStyle,
+                      text: StringUtils().oCcy.format(int.parse(transaction.companyValue).abs()),
+                      style: int.parse(transaction.companyValue) >= 0 ? lightProfitStyle : lightLoseStyle,
                     ),
                     Stack(
                       children: [
-                        KTableElement(
-                          text: state.transactionsState.categories
-                              .firstWhere((category) => category.id == transactionEntity.transactionCategoryId)
-                              .name,
-                        ),
-                        if (transactionEntity.description != null)
+                        KTableElement(text: transaction.category.name),
+                        if (transaction.description != null)
                           IconButton(
                             icon: Icon(Icons.device_unknown, color: primaryColor),
-                            onPressed: () =>
-                                showMyDialog(context: context, title: 'الوصف', text: transactionEntity.description),
+                            onPressed: () => showMyDialog(
+                                context: context, title: transaction.category.name, text: transaction.description),
                             padding: const EdgeInsets.only(top: 25, right: 15),
                           ),
                       ],
                     ),
                     KTableElement(
-                      text: transactionEntity.orderId != null ? transactionEntity.orderId.toString() : 'null',
+                      text: transaction.orderId != null ? transaction.orderId.toString() : 'null',
                       style: mainStyle.copyWith(color: Colors.purple),
                     ),
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 10),
           ],
         );
       },

@@ -4,6 +4,7 @@ import 'package:kammun_app/features/transactions/presentation/redux/transactions
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/admin_balance_entity.dart';
+import '../../domain/entities/transactions_response_entity.dart';
 import '../widgets/admin_balance_widget.dart';
 
 Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatcher next) async {
@@ -59,11 +60,17 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
       pageNumber: store.state.transactionsState.transactionsPage,
       adminId: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? action.adminId : null,
       groupingByParent:
-          store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? action.groupingByParent : 0,
-      lastWeek: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? 1 : 0,
+          store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? action.groupingByParent : 1,
+      lastWeek: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? 0 : 1,
     );
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (transactions) => store.dispatch(SetTransactions(transactions: transactions)));
+        (transactionsPage) {
+      TransactionsPaginationEntity transactions = transactionsPage;
+      if (transactions.currentPage == transactions.lastPage) {
+        store.dispatch(EndOfTransactions());
+      }
+      store.dispatch(SetTransactions(transactions: transactionsPage.transactions));
+    });
     store.dispatch(StopLoading());
   } else if (action is GetTransactionCategoriesAction) {
     store.dispatch(StartLoading());
@@ -72,10 +79,12 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
         (categories) => store.dispatch(SetTransactionCategories(categories: categories)));
     store.dispatch(StopLoading());
   } else if (action is GetShopperReportAction) {
+    store.dispatch(StartLoading());
     Either either =
         await store.state.transactionsState.transactionsUseCase.getShopperReportUseCase(shopperId: action.shopperId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
         (shopperReport) => store.dispatch(SetShopperReport(shopperReport: shopperReport)));
+    store.dispatch(StopLoading());
   } else if (action is GetAdminBalanceAction) {
     store.dispatch(StartLoading());
     Either either =

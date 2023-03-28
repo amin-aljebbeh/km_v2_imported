@@ -30,8 +30,10 @@ class AdminBalanceModel extends AdminBalanceEntity {
   AdminBalanceModel({companyDues, totalShopperProfits})
       : super(companyDues: companyDues, totalShopperProfits: totalShopperProfits);
 
-  factory AdminBalanceModel.fromJson(Map<String, dynamic> json) =>
-      AdminBalanceModel(companyDues: json['company_dues'], totalShopperProfits: json['total_shopper_profits']);
+  factory AdminBalanceModel.fromJson(Map<String, dynamic> json) => AdminBalanceModel(
+        companyDues: json['company_dues'] == null ? '0' : json['company_dues'].toString(),
+        totalShopperProfits: json['total_shopper_profits'] == null ? '0' : json['total_shopper_profits'].toString(),
+      );
 
   Map<String, dynamic> toJson() => {'company_dues': companyDues, 'total_shopper_profits': totalShopperProfits};
 }

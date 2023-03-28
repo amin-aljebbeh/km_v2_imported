@@ -39,8 +39,8 @@ class AdminTransactionModel extends AdminTransactionEntity {
   factory AdminTransactionModel.fromJson(Map<String, dynamic> json) => AdminTransactionModel(
         userId: json['user_id'],
         id: json['id'],
-        companyValue: json['value_company'],
-        shopperValue: json['value_shopper'],
+        companyValue: json['value_company'].toString(),
+        shopperValue: json['value_shopper'].toString(),
         actorId: json['actor_id'],
         adminId: json['admin_id'],
         createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,

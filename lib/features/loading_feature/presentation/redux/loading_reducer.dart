@@ -11,9 +11,19 @@ final loadingReducer = combineReducers<LoadingState>([
 
 LoadingState initialLoading(LoadingState state, InitialLoading action) => LoadingState.initial();
 
-LoadingState startLoading(LoadingState state, StartLoading action) => state.copyWith(isLoading: true);
+LoadingState startLoading(LoadingState state, StartLoading action) {
+  List<int> loading = [];
+  loading.addAll(state.loading);
+  loading.add(1);
+  return state.copyWith(loading: loading);
+}
 
-LoadingState stopLoading(LoadingState state, StopLoading action) => state.copyWith(isLoading: false);
+LoadingState stopLoading(LoadingState state, StopLoading action) {
+  List<int> loading = [];
+  loading.addAll(state.loading);
+  loading.removeLast();
+  return state.copyWith(loading: loading);
+}
 
 LoadingState viewMessage(LoadingState state, ViewMessage action) =>
     state.copyWith(viewMessage: true, message: action.message);

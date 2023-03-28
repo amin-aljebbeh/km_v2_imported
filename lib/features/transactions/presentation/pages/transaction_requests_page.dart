@@ -131,13 +131,13 @@ class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
                       ),
                     ),
                   ),
-                  state.loadingState.isLoading
+                  state.loadingState.loading.isNotEmpty
                       ? const Center(child: Loader())
                       : state.errorState.isError && state.transactionsState.requests.isEmpty
                           ? Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(child: Text(state.errorState.errorMessage, style: paragraphStyle)))
-                          : state.transactionsState.requests.isEmpty && !state.loadingState.isLoading
+                          : state.transactionsState.requests.isEmpty && state.loadingState.loading.isEmpty
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Center(child: Text('لا يوجد طلبات', style: paragraphStyle)))
@@ -162,7 +162,7 @@ class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
                                   ),
                                 ),
                   if (!state.transactionsState.hasNextRequests &&
-                      !state.loadingState.isLoading &&
+                      state.loadingState.loading.isEmpty &&
                       state.transactionsState.requests.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
