@@ -20,7 +20,6 @@ class TransactionWidget extends StatelessWidget {
             newTransaction
                 ? Column(
                     children: [
-                      Divider(thickness: 5, color: primaryColor, height: 5),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,6 +32,7 @@ class TransactionWidget extends StatelessWidget {
                           ),
                           KammunButton(
                             color: primaryColor,
+                            padding: 0,
                             onTap: () => specificDayProfitWidget(context: context, date: transaction.createdAt),
                             text: 'المجموع',
                             width: MediaQuery.of(context).size.width * 0.25,

@@ -124,8 +124,6 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
         }
       }
     } catch (e) {
-      Tools.logToConsole('exception 1');
-      Tools.logToConsole(e.toString());
       throw (InternalException(message: e.toString()));
     }
     throw (ServerException());

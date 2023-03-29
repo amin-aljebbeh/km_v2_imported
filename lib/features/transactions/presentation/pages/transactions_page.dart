@@ -19,6 +19,7 @@ class TransactionsPage extends StatefulWidget {
 
 class _TransactionsPageState extends State<TransactionsPage> {
   String adminId;
+  String tempAdminId;
   int roleId;
   int warehouseId;
   bool grouping = false;
@@ -71,7 +72,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                                 value: grouping,
                                                 onChanged: (bool value) {
                                                   setState(() => grouping = value);
-                                                  store.dispatch(ClearTransactions());
+                                                  store.dispatch(FirstTransactionsPage());
                                                   store.dispatch(GetTransactionsAction(
                                                       adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
                                                   if (isShopper(state)) {
@@ -119,13 +120,23 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                                 value: myTransactions,
                                                 onChanged: (bool value) {
                                                   setState(() => myTransactions = value);
-                                                  store.dispatch(ClearTransactions());
-                                                  adminId = null;
-                                                  store.dispatch(GetTransactionsAction(
-                                                      adminId: state.adminsState.admin.id,
-                                                      groupingByParent: grouping ? 1 : 0));
-                                                  if (isShopper(state)) {
-                                                    store.dispatch(GetShopperReportAction(shopperId: shopperId(state)));
+                                                  if (!value && (tempAdminId == null)) {
+                                                    store.dispatch(FirstTransactionsPage());
+                                                  } else {
+                                                    if (value) {
+                                                      tempAdminId = adminId;
+                                                      adminId = state.adminsState.admin.id.toString();
+                                                    } else {
+                                                      adminId = tempAdminId;
+                                                    }
+                                                    store.dispatch(FirstTransactionsPage());
+                                                    store.dispatch(GetTransactionsAction(
+                                                        adminId: int.parse(adminId),
+                                                        groupingByParent: grouping ? 1 : 0));
+                                                    if (isShopper(state)) {
+                                                      store.dispatch(
+                                                          GetShopperReportAction(shopperId: shopperId(state)));
+                                                    }
                                                   }
                                                 },
                                                 activeColor: primaryColor),
@@ -162,7 +173,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                   myTransactions = false;
                                   adminId =
                                       state.adminsState.admins.firstWhere((admin) => admin.name == value).id.toString();
-                                  store.dispatch(ClearTransactions());
+                                  store.dispatch(FirstTransactionsPage());
                                   store.dispatch(GetTransactionsAction(
                                       adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
                                   if (isShopper(state)) {
@@ -228,29 +239,27 @@ class _TransactionsPageState extends State<TransactionsPage> {
                           KammunButton(
                             width: MediaQuery.of(context).size.width / 3,
                             height: 50,
+                            padding: 0,
                             text: addTransaction,
                             color: primaryColor,
                             onTap: () => Navigator.push(context,
                                 MaterialPageRoute(builder: (context) => const AddTransactionPage(orderRequired: 0))),
                           ),
-                          if (state.loadingState.loading.isEmpty)
-                            if ((adminId != null) ||
-                                (!state.adminsState.admin.permissions.contains('advanced-transaction-view')))
-                              if (isShopper(state))
-                                KammunButton(
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  height: 50,
-                                  text: 'المستحقات المالية',
-                                  color: primaryColor,
-                                  onTap: () {
-                                    store.dispatch(GetAdminBalanceAction(
-                                        context: context,
-                                        adminId:
-                                            state.adminsState.admin.permissions.contains('advanced-transaction-view')
-                                                ? int.parse(adminId)
-                                                : state.adminsState.admin.id));
-                                  },
-                                ),
+                          if (adminId != null)
+                            KammunButton(
+                              width: MediaQuery.of(context).size.width / 3,
+                              height: 50,
+                              padding: 0,
+                              text: 'المستحقات المالية',
+                              color: primaryColor,
+                              onTap: () {
+                                store.dispatch(GetAdminBalanceAction(
+                                    context: context,
+                                    adminId: state.adminsState.admin.permissions.contains('advanced-transaction-view')
+                                        ? int.parse(adminId)
+                                        : state.adminsState.admin.id));
+                              },
+                            ),
                         ],
                       ),
                     ),
@@ -272,6 +281,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
   bool isShopper(AppState state) {
     if (!state.adminsState.admin.permissions.contains('advanced-transaction-view')) return true;
+    if (myTransactions) return false;
     return (state.adminsState.admins.firstWhere((admin) => admin.id.toString() == adminId).shopper != null);
   }
 
