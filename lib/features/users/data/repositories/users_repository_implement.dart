@@ -15,11 +15,4 @@ class UsersRepositoryImplement extends UsersRepository {
         function: () =>
             usersRemoteDataSource.attachUserToCoupon(userId: userId, couponId: couponId, availability: availability));
   }
-
-  @override
-  Future<Either<Failure, Unit>> depositUserWalletToCoupon({int userId, int value, String description}) async {
-    return await repositoryFactory.failureUnitRepo(
-        function: () =>
-            usersRemoteDataSource.depositUserWalletToCoupon(userId: userId, value: value, description: description));
-  }
 }

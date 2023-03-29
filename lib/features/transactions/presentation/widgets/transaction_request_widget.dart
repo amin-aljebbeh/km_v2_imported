@@ -136,7 +136,8 @@ class TransactionRequestWidget extends StatelessWidget {
                                                         text: 'الرجاء كتابة سبب الرفض',
                                                         style: dialogStyle.copyWith(color: Colors.black))
                                                   ])),
-                                                  EntryField(controller: reasonController, hint: 'سبب الرفض')
+                                                  EntryField(
+                                                      controller: reasonController, hint: 'سبب الرفض', onChange: () {})
                                                 ],
                                               ));
                                         })

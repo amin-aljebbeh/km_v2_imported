@@ -225,7 +225,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           StoreProvider.of<AppState>(context).dispatch(SetUser(
                               userEntity: UserEntity(
                                   id: widget.orderData.userData.id, balance: widget.orderData.userData.balance)));
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const UserManagement()));
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => UserManagement(order: widget.orderData)));
                           StoreProvider.of<AppState>(context).dispatch(FirstCouponsPage());
                           StoreProvider.of<AppState>(context).dispatch(GetCouponsAction());
                           StoreProvider.of<AppState>(context)

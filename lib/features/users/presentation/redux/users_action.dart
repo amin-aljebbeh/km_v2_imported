@@ -9,14 +9,6 @@ class AttachUserToCouponAction {
   AttachUserToCouponAction({this.couponId, this.availability, this.context});
 }
 
-class DepositUserWalletAction {
-  final BuildContext context;
-  final int value;
-  final String description;
-
-  DepositUserWalletAction({this.value, this.context, this.description});
-}
-
 class SetUser {
   final UserEntity userEntity;
 

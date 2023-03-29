@@ -234,6 +234,7 @@ class OrdersViewState extends State<OrdersView> {
                                   child: EntryField(
                                     edgeInsetsGeometry: EdgeInsets.zero,
                                     controller: pageController,
+                                    onChange: () {},
                                     onSubmit: (notEmpty) {
                                       if (notEmpty) {
                                         if (int.parse(pageController.text) > 0) {

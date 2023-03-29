@@ -6,6 +6,7 @@ class EntryField extends StatefulWidget {
   final TextInputType textInputType;
   final double width;
   final Function(bool) onSubmit;
+  final Function onChange;
   final EdgeInsetsGeometry edgeInsetsGeometry;
 
   const EntryField({
@@ -15,6 +16,7 @@ class EntryField extends StatefulWidget {
     this.width,
     this.onSubmit,
     this.edgeInsetsGeometry,
+    this.onChange,
     this.textInputType = TextInputType.text,
   }) : super(key: key);
 
@@ -36,12 +38,14 @@ class _EntryFieldState extends State<EntryField> {
       ),
       child: TextFormField(
         cursorColor: kmColors,
-        onChanged: (value) => setState(() {}),
+        onChanged: (value) {
+          widget.onChange();
+          setState(() {});
+        },
         onFieldSubmitted: (string) => widget.onSubmit(string.isNotEmpty),
         onTap: () {},
         controller: widget.controller,
         keyboardType: widget.textInputType,
-        //todo const TextInputType.numberWithOptions(decimal: true, signed: true)
         maxLines: null,
         decoration: InputDecoration(
           contentPadding: widget.edgeInsetsGeometry,

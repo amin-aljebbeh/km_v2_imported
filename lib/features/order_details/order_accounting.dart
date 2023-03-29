@@ -95,8 +95,11 @@ class _OrderAccountingState extends State<OrderAccounting> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          AddTransactionPage(orderId: widget.orderData.id, orderRequired: 1)));
+                                      builder: (context) => AddTransactionPage(
+                                            orderId: widget.orderData.id,
+                                            orderRequired: 1,
+                                            userId: int.parse(widget.orderData.userId),
+                                          )));
                             }
                           },
                           text: addTransaction,

@@ -21,12 +21,13 @@ class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
       converter: (store) => store.state,
       builder: (context, state) {
         List<DropdownMenuItem<int>> categories = state.transactionsState.filterCategories
-            .map((category) => DropdownMenuItem<int>(child: Text(category.name, style: mainStyle), value: category.id))
+            .map((category) => DropdownMenuItem<int>(
+                child: AutoSizeText(category.name, style: mainStyle, maxFontSize: 15), value: category.id))
             .toList();
         categories.add(DropdownMenuItem<int>(child: Text('الكل', style: mainStyle), value: null));
         List<DropdownMenuItem<int>> items = statuses
-            .map((status) =>
-                DropdownMenuItem<int>(child: Text(status, style: mainStyle), value: statuses.indexOf(status) + 1))
+            .map((status) => DropdownMenuItem<int>(
+                child: AutoSizeText(status, style: mainStyle), value: statuses.indexOf(status) + 1))
             .toList();
         items.add(DropdownMenuItem<int>(child: Text('الكل', style: mainStyle), value: null));
         return TemporaryLoading(

@@ -58,6 +58,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
             width: MediaQuery.of(context).size.width * 0.75,
             child: TextFieldRow(
               hint: widget.textHint,
+              onChange: () {},
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               controller: textController,
               text: widget.title,

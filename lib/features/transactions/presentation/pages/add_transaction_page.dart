@@ -115,6 +115,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 child: TextFieldRow(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   controller: moneyController,
+                                  onChange: () => setState(() {}),
                                   text: 'المبلغ :         ',
                                   inputType: TextInputType.number,
                                   width: 150,
@@ -124,6 +125,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 padding: const EdgeInsets.symmetric(vertical: 8),
                                 child: TextFieldRow(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  onChange: () => setState(() {}),
                                   controller: descriptionController,
                                   text: 'الوصف :',
                                   inputType: TextInputType.text,
