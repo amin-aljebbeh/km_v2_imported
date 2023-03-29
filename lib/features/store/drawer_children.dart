@@ -37,8 +37,8 @@ List<Widget> getDrawerChildren(BuildContext context) {
                           store.dispatch(GetShopperReportAction(shopperId: store.state.adminsState.admin.shopper.id));
                         }
                       } else {
-                        store.dispatch(GetAdminsWithoutDetailsAction());
-                        store.dispatch(GetRolesAction());
+                        if (store.state.adminsState.admins.isEmpty) store.dispatch(GetAdminsWithoutDetailsAction());
+                        if (store.state.adminsState.roles.isEmpty) store.dispatch(GetRolesAction());
                       }
                       Navigator.pushNamed(context, TransactionsPage.routeName);
                     },
