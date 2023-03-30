@@ -147,7 +147,8 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
 
   @override
   Future<AdminBalanceModel> getAdminBalance({int adminId}) async {
-    Response response = await ApiProvider.sendRequest(url: adminBalanceApi, method: HttpMethods.get);
+    Response response = await ApiProvider.sendRequest(
+        url: adminBalanceApi, method: HttpMethods.get, queryParameters: {'admin_id': adminId});
     try {
       if (response != null) {
         if (response.statusCode == successCode) {

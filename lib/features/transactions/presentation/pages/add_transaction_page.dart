@@ -27,6 +27,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
 
   @override
   Widget build(BuildContext context) {
+    var store = StoreProvider.of<AppState>(context);
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,
@@ -66,8 +67,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                         categoryId = value;
                                       });
                                       if (chooseAdmin()) {
-                                        StoreProvider.of<AppState>(context)
-                                            .dispatch(GetTransactionsActorsAction(categoryId: value));
+                                        store.dispatch(GetTransactionsActorsAction(categoryId: value));
                                       }
                                     }),
                               ),
@@ -144,8 +144,33 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         children: [
                           KammunButton(
                             color: primaryColor,
-                            onTap: () => Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => const TransactionsPage())),
+                            onTap: () {
+                              int id;
+                              if (!state.adminsState.admin.permissions.contains('advanced-transaction-view')) {
+                                id = state.adminsState.admin.id;
+                                if (Services.isShopper()) {
+                                  store.dispatch(GetShopperReportAction(shopperId: state.adminsState.admin.shopper.id));
+                                }
+                              } else {
+                                if (store.state.adminsState.admins.isEmpty) {
+                                  store.dispatch(GetAdminsWithoutDetailsAction());
+                                }
+                                if (store.state.adminsState.roles.isEmpty) store.dispatch(GetRolesAction());
+                                if (adminId != null) {
+                                  id = adminId;
+                                  if (state.adminsState.admins.firstWhere((admin) => admin.id == adminId).shopper !=
+                                      null) {
+                                    store.dispatch(GetShopperReportAction(
+                                        shopperId: state.adminsState.admins
+                                            .firstWhere((admin) => admin.id == adminId)
+                                            .shopper
+                                            .id));
+                                  }
+                                }
+                              }
+                              Navigator.push(
+                                  context, MaterialPageRoute(builder: (context) => TransactionsPage(adminId: id)));
+                            },
                             height: 50,
                             text: 'كشف حساب',
                           ),
@@ -163,7 +188,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                     text: 'نعم',
                                     onTap: () async {
                                       Navigator.of(context).pop();
-                                      StoreProvider.of<AppState>(context).dispatch(CreateTransactionAction(
+                                      store.dispatch(CreateTransactionAction(
                                           context: context,
                                           transactionEntity: AdminTransactionEntity(
                                               transactionCategoryId: category.id,

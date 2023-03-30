@@ -29,10 +29,11 @@ List<Widget> getDrawerChildren(BuildContext context) {
               children: [
                 SideBarRow(
                     onTap: () {
+                      int adminId;
                       store.dispatch(NoError());
                       store.dispatch(FirstTransactionsPage());
                       if (!store.state.adminsState.admin.permissions.contains('advanced-transaction-view')) {
-                        store.dispatch(GetTransactionsAction());
+                        adminId = store.state.adminsState.admin.id;
                         if (Services.isShopper()) {
                           store.dispatch(GetShopperReportAction(shopperId: store.state.adminsState.admin.shopper.id));
                         }
@@ -40,7 +41,8 @@ List<Widget> getDrawerChildren(BuildContext context) {
                         if (store.state.adminsState.admins.isEmpty) store.dispatch(GetAdminsWithoutDetailsAction());
                         if (store.state.adminsState.roles.isEmpty) store.dispatch(GetRolesAction());
                       }
-                      Navigator.pushNamed(context, TransactionsPage.routeName);
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => TransactionsPage(adminId: adminId)));
                     },
                     icon: Icons.featured_play_list,
                     text: 'كشف حساب المتسوق'),

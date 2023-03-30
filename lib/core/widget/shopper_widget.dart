@@ -1,5 +1,7 @@
 import 'package:kammun_app/core/core_importer.dart';
 
+import '../../features/transactions/presentation/redux/transactions_action.dart';
+
 class ShopperWidget extends StatefulWidget {
   final ShopperModel shopper;
 
@@ -53,10 +55,14 @@ class ShopperWidgetState extends State<ShopperWidget> {
                             children: [
                               if (state.adminsState.admin.permissions.contains('transaction-permission'))
                                 InkWell(
-                                  onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => TransactionsPage(adminId: widget.shopper.adminId))),
+                                  onTap: () {
+                                    StoreProvider.of<AppState>(context)
+                                        .dispatch(GetShopperReportAction(shopperId: widget.shopper.id));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => TransactionsPage(adminId: widget.shopper.adminId)));
+                                  },
                                   child: Icon(Icons.featured_play_list, color: primaryColor),
                                 )
                             ],

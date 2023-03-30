@@ -9,7 +9,6 @@ import 'add_transaction_page.dart';
 
 class TransactionsPage extends StatefulWidget {
   final int adminId;
-  static const String routeName = '/TransactionsPage';
 
   const TransactionsPage({Key key, this.adminId}) : super(key: key);
 
@@ -24,6 +23,17 @@ class _TransactionsPageState extends State<TransactionsPage> {
   int warehouseId;
   bool grouping = false;
   bool myTransactions = false;
+
+  @override
+  void initState() {
+    adminId = widget.adminId.toString();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (adminId != null && adminId != 'null') {
+        StoreProvider.of<AppState>(context).dispatch(GetTransactionsAction(adminId: int.parse(adminId)));
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +130,14 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                                 value: myTransactions,
                                                 onChanged: (bool value) {
                                                   setState(() => myTransactions = value);
-                                                  if (!value && (tempAdminId == null)) {
+                                                  if (!value && (tempAdminId == null || tempAdminId == 'null')) {
                                                     store.dispatch(FirstTransactionsPage());
+                                                    if (value) {
+                                                      tempAdminId = adminId;
+                                                      adminId = state.adminsState.admin.id.toString();
+                                                    } else {
+                                                      adminId = tempAdminId;
+                                                    }
                                                   } else {
                                                     if (value) {
                                                       tempAdminId = adminId;
@@ -183,7 +199,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                               ),
                             ],
                           ),
-                        if ((adminId != null) ||
+                        if ((adminId != null && adminId != 'null') ||
                             (!state.adminsState.admin.permissions.contains('advanced-transaction-view')))
                           if (isShopper(state)) const ShopperReportWidget(),
                         state.loadingState.loading.isNotEmpty
@@ -245,7 +261,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                             onTap: () => Navigator.push(context,
                                 MaterialPageRoute(builder: (context) => const AddTransactionPage(orderRequired: 0))),
                           ),
-                          if (adminId != null)
+                          if (adminId != null && adminId != 'null')
                             KammunButton(
                               width: MediaQuery.of(context).size.width / 3,
                               height: 50,
@@ -280,8 +296,10 @@ class _TransactionsPageState extends State<TransactionsPage> {
   }
 
   bool isShopper(AppState state) {
-    if (!state.adminsState.admin.permissions.contains('advanced-transaction-view')) return true;
+    if (adminId == null || adminId == 'null') return false;
     if (myTransactions) return false;
+    if (Services.isShopper()) return true;
+    if (!state.adminsState.admin.permissions.contains('advanced-transaction-view')) return false;
     return (state.adminsState.admins.firstWhere((admin) => admin.id.toString() == adminId).shopper != null);
   }
 
