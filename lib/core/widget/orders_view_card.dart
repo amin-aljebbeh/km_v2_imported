@@ -148,7 +148,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  if ((Services.isAdmin() || Services.isOperationManager()) && deletedCount > 0)
+                  if (Services.isOperationManager() && deletedCount > 0)
                     Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(border: Border.all(color: Colors.red.withOpacity(0.2))),

@@ -12,6 +12,7 @@ class ProductsViewCard extends StatefulWidget {
   final Function(String) onChangeUnit;
   final Function(String) onChangeQuantity;
   final Function(String) onChangeSubWarehouse;
+
   const ProductsViewCard({
     Key key,
     this.index,
@@ -136,7 +137,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                         Column(
                           children: [
                             const SizedBox(height: 5),
-                            Services.isAdmin() || Services.isViewPriceRateRoll()
+                            Services.isAdmin() || Services.isViewPriceRateRoll() //todo make it permission
                                 ? Text(
                                     'التقييم: ' +
                                         (widget.product.rate != -1

@@ -124,6 +124,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                         store.dispatch(SetIsActive(isActive: 0));
                         store.dispatch(NoError());
                         store.dispatch(SetInventoryType(inventoryType: InventoryTypes.underCheckAvailability));
+                        store.dispatch(SetSubWarehouseId(subWarehouseId: -1));
                         Navigator.pushNamed(context, InventoryPage.routeName);
                       },
                       icon: Icons.fact_check,
@@ -134,6 +135,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                         store.dispatch(SetIsActive(isActive: 0));
                         store.dispatch(NoError());
                         store.dispatch(SetInventoryType(inventoryType: InventoryTypes.notification));
+                        store.dispatch(SetSubWarehouseId(subWarehouseId: -1));
                         Navigator.pushNamed(context, InventoryPage.routeName);
                       },
                       icon: Icons.notifications_active_rounded,
@@ -144,6 +146,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                         store.dispatch(SetIsActive(isActive: 0));
                         store.dispatch(NoError());
                         store.dispatch(SetInventoryType(inventoryType: InventoryTypes.prime));
+                        store.dispatch(SetSubWarehouseId(subWarehouseId: -1));
                         Navigator.pushNamed(context, InventoryPage.routeName);
                       },
                       icon: Icons.label_important_rounded,

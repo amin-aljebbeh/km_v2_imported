@@ -17,6 +17,7 @@ class OrderDetailViewMainCard extends StatefulWidget {
 
 class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
   List<DropdownMenuItem> subWarehouseList = [];
+
   @override
   void initState() {
     subWarehouseList = StaticVariables.subWarehouses
@@ -85,7 +86,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                         style: warningStyle),
                   if (Services.isSupplierManager())
                     Text(
-                      StringUtils().oCcy.format(purchasePrice - (purchasePrice * discountPercentage)).toString() +
+                      StringUtils().oCcy.format(purchasePrice - (purchasePrice * discountPercentage)) +
                           ' ${StaticVariables.companyInformation.currency}',
                       style: paragraphStyle,
                     ),

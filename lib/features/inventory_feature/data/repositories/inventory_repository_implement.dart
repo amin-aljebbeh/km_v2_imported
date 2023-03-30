@@ -7,12 +7,16 @@ import '../data_sources/remote_inventory_data_source.dart';
 
 class InventoryRepositoryImplement implements InventoryRepository {
   final RemoteInventoryDataSource remoteInventoryDataSource;
+  final RepositoryFactory repositoryFactory;
 
-  InventoryRepositoryImplement({this.remoteInventoryDataSource});
+  InventoryRepositoryImplement({this.remoteInventoryDataSource, this.repositoryFactory});
+
   @override
-  Future<Either<Failure, FilteredProductsModel>> getNotificationProducts({int pageNumber}) async {
+  Future<Either<Failure, FilteredProductsModel>> getNotificationProducts(
+      {int pageNumber, int subWarehouseId, int isActive}) async {
     try {
-      FilteredProductsModel products = await remoteInventoryDataSource.getNotificationProducts(pageNumber: pageNumber);
+      FilteredProductsModel products = await remoteInventoryDataSource.getNotificationProducts(
+          pageNumber: pageNumber, isActive: isActive, subWarehouseId: subWarehouseId);
       return Right(products);
     } on CacheException {
       return Left(CacheFailure());
@@ -58,5 +62,10 @@ class InventoryRepositoryImplement implements InventoryRepository {
     } catch (e) {
       return Left(InternalFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> targetInventory() async {
+    return await repositoryFactory.failureUnitRepo(function: () => remoteInventoryDataSource.targetInventory());
   }
 }
