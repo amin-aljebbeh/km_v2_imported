@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'start_model_importer.dart';
+import '../../core_importer.dart';
 
 SupportedCityOriginal supportedCityOriginalFromJson(String str) => SupportedCityOriginal.fromJson(json.decode(str));
 
@@ -47,7 +45,6 @@ class IndigoDatum {
     this.isActive,
     this.maintenanceMessages,
     this.supportPhoneNumber,
-    this.warehouse,
   });
 
   String id;
@@ -56,7 +53,6 @@ class IndigoDatum {
   String warehouseId;
   String couponTypeId;
   String isActive;
-  Warehouse warehouse;
   String supportPhoneNumber;
   String maintenanceMessages;
 
@@ -69,9 +65,6 @@ class IndigoDatum {
         isActive: json["is_active"].toString(),
         supportPhoneNumber: json["support_phone_number"].toString(),
         maintenanceMessages: json["maintenance_messages"].toString(),
-        warehouse: Warehouse.fromJson(
-          json["warehouse"],
-        ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -83,6 +76,5 @@ class IndigoDatum {
         "is_active": isActive,
         "maintenance_messages": maintenanceMessages,
         "support_phone_number": supportPhoneNumber,
-        "warehouse": warehouse.toJson(),
       };
 }
