@@ -1,4 +1,5 @@
 import 'package:kammun_app/features/transactions/domain/entities/admin_transaction_entity.dart';
+import 'package:kammun_app/features/transactions/domain/entities/transaction_request_status_entity.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/transaction_request_entity.dart';
@@ -25,6 +26,8 @@ Reducer<TransactionsState> transactionsReducer = combineReducers<TransactionsSta
   TypedReducer<TransactionsState, SetFilterCategories>(setCategoryForFilter),
   TypedReducer<TransactionsState, ClearTransactions>(clearTransactions),
   TypedReducer<TransactionsState, SetShopperReport>(setShopperReportAction),
+  TypedReducer<TransactionsState, RefreshTransactions>(refreshTransactions),
+  TypedReducer<TransactionsState, RefreshRequests>(refreshRequests),
 ]);
 
 TransactionsState setTransactionRequests(TransactionsState state, SetTransactionRequests action) {
@@ -38,7 +41,11 @@ TransactionsState transactionRequestChangedAction(TransactionsState state, Trans
   List<TransactionRequestEntity> requests = [];
   requests.addAll(state.requests);
   int index = requests.indexWhere((request) => request.id == action.requestId);
-  requests[index] = requests[index].copyWith(rejectReason: action.rejectReason, statusId: action.statusId);
+  requests[index] = requests[index].copyWith(
+      rejectReason: action.rejectReason,
+      statusId: action.statusId,
+      requestStatus:
+          TransactionRequestStatusEntity(id: action.statusId, slug: action.statusId == 2 ? 'accepted' : 'rejected'));
   return state.copyWith(requests: requests);
 }
 
@@ -69,6 +76,12 @@ TransactionsState firstRequestsPage(TransactionsState state, FirstRequestsPage a
       createdByMe: 0,
       assignedToMe: 0,
     );
+
+TransactionsState refreshTransactions(TransactionsState state, RefreshTransactions action) =>
+    state.copyWith(hasNextTransactions: true, transactionsPage: 1, transactions: []);
+
+TransactionsState refreshRequests(TransactionsState state, RefreshRequests action) =>
+    state.copyWith(hasNextRequests: true, requestsPage: 1, requests: []);
 
 TransactionsState requestDeleted(TransactionsState state, RequestDeleted action) {
   List<TransactionRequestEntity> requests = [];

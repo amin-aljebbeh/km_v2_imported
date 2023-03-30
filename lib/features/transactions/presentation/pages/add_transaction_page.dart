@@ -26,6 +26,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   final descriptionController = TextEditingController();
 
   @override
+  void initState() {
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => StoreProvider.of<AppState>(context).dispatch(SetTransactionsActors(admins: [])));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var store = StoreProvider.of<AppState>(context);
     return StoreConnector<AppState, AppState>(
@@ -49,39 +56,59 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: DropdownButton(
-                                    items: state.transactionsState.categories
-                                        .where((category) =>
-                                            category.orderRequired == widget.orderRequired ||
-                                            category.orderRequired == 2)
-                                        .map((category) => DropdownMenuItem<int>(
-                                            child: Text(category.name, style: mainStyle), value: category.id))
-                                        .toList(),
-                                    hint: Text('اختر نوع المناقلة', style: mainStyle),
-                                    value: categoryId,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        adminId = null;
-                                        category = state.transactionsState.categories
-                                            .firstWhere((category) => category.id == value);
-                                        categoryId = value;
-                                      });
-                                      if (chooseAdmin()) {
-                                        store.dispatch(GetTransactionsActorsAction(categoryId: value));
-                                      }
-                                    }),
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('نوع المناقلة: ', style: paragraphStyle),
+                                      DropdownButton(
+                                          items: state.transactionsState.categories
+                                              .where((category) =>
+                                                  category.orderRequired == widget.orderRequired ||
+                                                  category.orderRequired == 2)
+                                              .map((category) => DropdownMenuItem<int>(
+                                                  child: AutoSizeText(category.name, style: mainStyle, maxFontSize: 15),
+                                                  value: category.id))
+                                              .toList(),
+                                          hint: Text('اختر نوع المناقلة', style: mainStyle),
+                                          value: categoryId,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              adminId = null;
+                                              category = state.transactionsState.categories
+                                                  .firstWhere((category) => category.id == value);
+                                              categoryId = value;
+                                            });
+                                            if (chooseAdmin()) {
+                                              store.dispatch(GetTransactionsActorsAction(categoryId: value));
+                                            }
+                                          }),
+                                    ],
+                                  ),
+                                ),
                               ),
                               if (chooseAdmin())
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: DropdownButton(
-                                      items: state.adminsState.transactionsActors
-                                          .map((actor) => DropdownMenuItem<int>(
-                                              child: Text(actor.name, style: mainStyle), value: actor.id))
-                                          .toList(),
-                                      value: adminId,
-                                      hint: Text('اختر مسؤول', style: mainStyle),
-                                      onChanged: (value) => setState(() => adminId = value)),
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('الأدمن: ', style: paragraphStyle),
+                                        DropdownButton(
+                                            items: state.adminsState.transactionsActors
+                                                .map((actor) => DropdownMenuItem<int>(
+                                                    child: AutoSizeText(actor.name, style: mainStyle, maxFontSize: 15),
+                                                    value: actor.id))
+                                                .toList(),
+                                            value: adminId,
+                                            hint: Text('اختر مسؤول', style: mainStyle),
+                                            onChanged: (value) => setState(() => adminId = value)),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               if (state.adminsState.admin.permissions.contains('date-with-transaction'))
                                 Padding(

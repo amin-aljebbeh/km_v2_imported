@@ -137,7 +137,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                           KammunButton(
                             height: 50,
                             text: 'رفع جرد تارغت',
-                            color: greyColor,
+                            color: primaryColor,
                             onTap: () => StoreProvider.of<AppState>(context).dispatch(TargetInventoryAction()),
                           ),
                         const SizedBox(height: 10),

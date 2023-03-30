@@ -127,6 +127,10 @@ class FirstRequestsPage {}
 
 class FirstTransactionsPage {}
 
+class RefreshRequests {}
+
+class RefreshTransactions {}
+
 class GetTransactionCategoriesAction {}
 
 class SetTransactionCategories {

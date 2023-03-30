@@ -29,7 +29,8 @@ class _TransactionsPageState extends State<TransactionsPage> {
     adminId = widget.adminId.toString();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (adminId != null && adminId != 'null') {
-        StoreProvider.of<AppState>(context).dispatch(GetTransactionsAction(adminId: int.parse(adminId)));
+        StoreProvider.of<AppState>(context)
+            .dispatch(GetTransactionsAction(adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
       }
     });
     super.initState();
@@ -42,17 +43,26 @@ class _TransactionsPageState extends State<TransactionsPage> {
       converter: (store) => store.state,
       builder: (context, state) {
         List<DropdownMenuItem<int>> roles = state.adminsState.roles
-            .map((role) => DropdownMenuItem<int>(child: Text(role.name, style: mainStyle), value: role.id))
+            .map((role) => DropdownMenuItem<int>(
+                child: AutoSizeText(role.name, style: mainStyle, maxFontSize: 15), value: role.id))
             .toList();
         roles.add(DropdownMenuItem<int>(child: Text('الكل', style: mainStyle), value: null));
         List<DropdownMenuItem<int>> warehouses = StaticVariables.warehouses
-            .map((warehouse) =>
-                DropdownMenuItem<int>(child: Text(warehouse.name, style: mainStyle), value: warehouse.id))
+            .map((warehouse) => DropdownMenuItem<int>(
+                child: AutoSizeText(warehouse.name, style: mainStyle, maxFontSize: 15), value: warehouse.id))
             .toList();
         warehouses.add(DropdownMenuItem<int>(child: Text('الكل', style: mainStyle), value: null));
         return TemporaryLoading(
           child: Scaffold(
-            appBar: AppBar(backgroundColor: primaryColor, title: Text('المناقلات', style: appBarStyle)),
+            appBar: AppBar(backgroundColor: primaryColor, title: Text('المناقلات', style: appBarStyle), actions: [
+              IconButton(
+                  onPressed: () {
+                    StoreProvider.of<AppState>(context).dispatch(RefreshTransactions());
+                    StoreProvider.of<AppState>(context).dispatch(
+                        GetTransactionsAction(adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
+                  },
+                  icon: const Icon(Icons.refresh, size: 35))
+            ]),
             body: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -32,7 +32,14 @@ class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
         items.add(DropdownMenuItem<int>(child: Text('الكل', style: mainStyle), value: null));
         return TemporaryLoading(
           child: Scaffold(
-            appBar: AppBar(backgroundColor: primaryColor, title: Text('طلبات المناقلات', style: appBarStyle)),
+            appBar: AppBar(backgroundColor: primaryColor, title: Text('طلبات المناقلات', style: appBarStyle), actions: [
+              IconButton(
+                  onPressed: () {
+                    StoreProvider.of<AppState>(context).dispatch(RefreshRequests());
+                    StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
+                  },
+                  icon: const Icon(Icons.refresh, size: 35))
+            ]),
             body: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
