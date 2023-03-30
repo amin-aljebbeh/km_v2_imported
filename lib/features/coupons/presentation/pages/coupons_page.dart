@@ -81,13 +81,13 @@ class CouponsPageState extends State<CouponsPage> {
                       ],
                     ),
                   ),
-                  state.loadingState.isLoading
+                  state.loadingState.loading.isNotEmpty
                       ? const Center(child: Loader())
                       : state.errorState.isError && state.couponState.coupons.isEmpty
                           ? Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(child: Text(state.errorState.errorMessage, style: paragraphStyle)))
-                          : state.couponState.coupons.isEmpty && !state.loadingState.isLoading
+                          : state.couponState.coupons.isEmpty && state.loadingState.loading.isEmpty
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Center(child: Text('لا يوجد أكواد حسم', style: paragraphStyle)))
@@ -112,7 +112,7 @@ class CouponsPageState extends State<CouponsPage> {
                                             CouponWidget(couponEntity: state.couponState.coupons[index])),
                                   ),
                                 ),
-                  if (!state.couponState.hasNext && !state.loadingState.isLoading)
+                  if (!state.couponState.hasNext && state.loadingState.loading.isEmpty)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Center(child: Text('تم جلب جميع الأكواد', style: paragraphStyle)),

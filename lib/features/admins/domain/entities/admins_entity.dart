@@ -1,4 +1,5 @@
 import 'package:kammun_app/core/core_importer.dart';
+import 'package:kammun_app/features/admins/domain/entities/shopper_entity.dart';
 
 class AdminEntity extends Equatable {
   final int id;
@@ -11,6 +12,7 @@ class AdminEntity extends Equatable {
   final ShopperModel shopper;
   final List<String> permissions;
   final int balance;
+  final ShopperEntity shopperEntity;
 
   const AdminEntity({
     this.id,
@@ -23,6 +25,7 @@ class AdminEntity extends Equatable {
     this.shopper,
     this.permissions,
     this.balance,
+    this.shopperEntity,
   });
 
   @override

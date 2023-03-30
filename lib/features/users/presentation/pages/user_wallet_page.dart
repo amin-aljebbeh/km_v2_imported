@@ -1,9 +1,12 @@
-import 'package:kammun_app/features/users/presentation/redux/users_action.dart';
+import 'package:kammun_app/features/transactions/presentation/redux/transactions_action.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../transactions/domain/entities/admin_transaction_entity.dart';
 
 class UserWalletPage extends StatefulWidget {
-  const UserWalletPage({Key key}) : super(key: key);
+  final OrdersOriginalData order;
+
+  const UserWalletPage({Key key, this.order}) : super(key: key);
 
   @override
   _UserWalletPageState createState() => _UserWalletPageState();
@@ -13,7 +16,21 @@ class _UserWalletPageState extends State<UserWalletPage> {
   TextEditingController valueController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   bool negative = false;
-  int signFactor = 1;
+  int categoryId;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      categoryId = StoreProvider.of<AppState>(context)
+          .state
+          .transactionsState
+          .categories
+          .firstWhere((category) => category.slug == 'deposit-user')
+          .id;
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AppState>(
@@ -80,7 +97,10 @@ class _UserWalletPageState extends State<UserWalletPage> {
                                     value: negative,
                                     onChanged: (bool value) {
                                       setState(() => negative = value);
-                                      signFactor = value ? -1 : 1;
+                                      categoryId = state.transactionsState.categories
+                                          .firstWhere(
+                                              (category) => category.slug == (value ? 'deduct-user' : 'deposit-user'))
+                                          .id;
                                     },
                                     activeColor: primaryColor),
                                 Text('سالب', style: decisionButtonStyle.copyWith(color: Colors.black)),
@@ -156,10 +176,15 @@ class _UserWalletPageState extends State<UserWalletPage> {
                                     color: kmColors,
                                     onTap: () {
                                       Navigator.pop(context);
-                                      StoreProvider.of<AppState>(context).dispatch(DepositUserWalletAction(
-                                          description: descriptionController.text,
+                                      StoreProvider.of<AppState>(context).dispatch(CreateTransactionAction(
                                           context: context,
-                                          value: signFactor * int.parse(valueController.text)));
+                                          transactionEntity: AdminTransactionEntity(
+                                            description: descriptionController.text,
+                                            transactionCategoryId: categoryId,
+                                            userId: state.usersState.userEntity.id,
+                                            value: int.parse(valueController.text).abs(),
+                                            orderId: widget.order.id,
+                                          )));
                                     },
                                     width: 100,
                                     text: 'شحن',

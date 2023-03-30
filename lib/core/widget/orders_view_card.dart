@@ -141,7 +141,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   ),
                   Container(
                     padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(border: Border.all(color: greyColor.withOpacity(0.2))),
+                    decoration: BoxDecoration(border: Border.all(color: primaryColor.withOpacity(0.2))),
                     child: Text(
                       widget.orderData.products.where((product) => product.pivot.deletedAt == 'null').length.toString(),
                       style: paragraphStyle,
@@ -225,7 +225,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           StoreProvider.of<AppState>(context).dispatch(SetUser(
                               userEntity: UserEntity(
                                   id: widget.orderData.userData.id, balance: widget.orderData.userData.balance)));
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const UserManagement()));
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => UserManagement(order: widget.orderData)));
                           StoreProvider.of<AppState>(context).dispatch(FirstCouponsPage());
                           StoreProvider.of<AppState>(context).dispatch(GetCouponsAction());
                           StoreProvider.of<AppState>(context)
@@ -339,31 +340,32 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     if (widget.orderData.shopper != null)
-                      Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: KammunButton(
-                              color: kmColors,
-                              width: MediaQuery.of(context).size.width / 4,
-                              text: 'تحويل',
-                              onTap: () {
-                                showMyDialog(
-                                    context: context,
-                                    title: 'تحويل',
-                                    text: 'هل أنت متأكد من رغبتك في تحويل الطلب لكابتن جديد ؟',
-                                    dialogButtons: [
-                                      KammunButton(
-                                          color: kmColors,
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                            StoreProvider.of<AppState>(context)
-                                                .dispatch(ReAssignOrderAction(orderId: widget.orderData.id));
-                                          },
-                                          width: 100,
-                                          text: yes),
-                                      KammunButton(
-                                          color: kmColors, onTap: () => Navigator.pop(context), width: 100, text: no),
-                                    ]);
-                              })),
+                      if (int.parse(widget.orderData.orderStatusId) < 5)
+                        Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: KammunButton(
+                                color: kmColors,
+                                width: MediaQuery.of(context).size.width / 4,
+                                text: 'تحويل',
+                                onTap: () {
+                                  showMyDialog(
+                                      context: context,
+                                      title: 'تحويل',
+                                      text: 'هل أنت متأكد من رغبتك في تحويل الطلب لكابتن جديد ؟',
+                                      dialogButtons: [
+                                        KammunButton(
+                                            color: kmColors,
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                              StoreProvider.of<AppState>(context)
+                                                  .dispatch(ReAssignOrderAction(orderId: widget.orderData.id));
+                                            },
+                                            width: 100,
+                                            text: yes),
+                                        KammunButton(
+                                            color: kmColors, onTap: () => Navigator.pop(context), width: 100, text: no),
+                                      ]);
+                                })),
                     if (Services.isAgent())
                       if (widget.orderData.shopper != null)
                         if (widget.orderData.shopper.admin != null)

@@ -47,6 +47,7 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                       child: EntryField(
                         controller: widget.idController,
                         width: MediaQuery.of(context).size.width,
+                        onChange: () {},
                         hint: 'رقم الطلب',
                         onSubmit: (notEmpty) {
                           if (notEmpty) {
@@ -80,6 +81,7 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                     child: EntryField(
                       controller: widget.phoneController,
                       width: MediaQuery.of(context).size.width,
+                      onChange: () {},
                       hint: 'رقم الزبون',
                       onSubmit: (notEmpty) {
                         if (widget.phoneController.text.isNotEmpty) {

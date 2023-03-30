@@ -1,5 +1,4 @@
 import '../features/admins/data/models/admin_model.dart';
-import '../features/reports/models/transaction_type_model.dart';
 import 'core_importer.dart';
 
 class StaticVariables {
@@ -37,7 +36,6 @@ class StaticVariables {
   static List<OrdersOriginalData> allOrdersList = [];
   static List<OrdersOriginalData> phoneOrderList = [];
   static List<ShopperModel> allShoppers = [];
-  static List<TransactionTypeModel> transactionTypes = [];
   static AdminModel admin = const AdminModel(phone: '0000000000');
   static bool preferLeftSide = true;
   static int ordersViewFilter = 0;

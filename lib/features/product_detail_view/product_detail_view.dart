@@ -357,7 +357,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         ),
                         if (Services.isProductsController() ||
                             Services.isAdmin() ||
-                            Services.isSuperAdmin() ||
                             (StaticVariables.subWarehouses
                                 .any((element) => element.id == widget.product.subWarehouseId)))
                           Column(
@@ -406,7 +405,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 onSavePressed: (newValue, result) =>
                                     setState(() => widget.product.priceFactor = newValue),
                               ),
-                              Services.isProductsController() || Services.isAdmin() || Services.isSuperAdmin()
+                              Services.isProductsController() || Services.isAdmin()
                                   ? Column(
                                       children: [
                                         if (state.adminsState.admin.permissions.contains('update-increase-percentage'))
@@ -485,14 +484,14 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           padding: const EdgeInsets.only(left: 5, right: 5),
                                           decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(6),
-                                              border: Border.all(width: 5, color: greyColor)),
+                                              border: Border.all(width: 5, color: primaryColor)),
                                           child: Center(
                                             child: DropdownButton(
                                               style: decisionButtonStyle,
                                               underline: Container(),
                                               isExpanded: false,
                                               items: Services.productSubWarehouseNames(context),
-                                              iconEnabledColor: greyColor,
+                                              iconEnabledColor: primaryColor,
                                               value: productSubWarehouseId,
                                               hint: Text(
                                                 StaticVariables.subWarehouses
@@ -501,7 +500,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                             subWarehouse.id == widget.product.subWarehouseId,
                                                         orElse: () => SubWarehouse(name: 'غير مضاف'))
                                                     .name,
-                                                style: decisionButtonStyle.copyWith(color: greyColor),
+                                                style: decisionButtonStyle.copyWith(color: primaryColor),
                                               ),
                                               onChanged: (value) async {
                                                 setState(() {
@@ -547,7 +546,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           padding: const EdgeInsets.only(left: 5, right: 5),
                                           decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(6),
-                                              border: Border.all(width: 5, color: greyColor)),
+                                              border: Border.all(width: 5, color: primaryColor)),
                                           child: Center(
                                             child: SearchChoices.single(
                                               rightToLeft: true,
@@ -566,12 +565,12 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                               underline: Container(),
                                               isExpanded: false,
                                               items: StaticVariables.fullCategoryList,
-                                              iconEnabledColor: greyColor,
+                                              iconEnabledColor: primaryColor,
                                               value: selectedValueCategoryValue,
                                               hint: Text('اختيار الصنف التابع له المنتج',
-                                                  style: decisionButtonStyle.copyWith(color: greyColor)),
+                                                  style: decisionButtonStyle.copyWith(color: primaryColor)),
                                               searchHint: Text('إختيار الصنف',
-                                                  style: decisionButtonStyle.copyWith(color: greyColor)),
+                                                  style: decisionButtonStyle.copyWith(color: primaryColor)),
                                               onChanged: (value) => setState(() {
                                                 if (value != null) {
                                                   selectedValueCategoryValue = value.toString().split(';')[1];

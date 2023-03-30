@@ -2,6 +2,7 @@ import 'package:kammun_app/features/transactions/domain/entities/transaction_cat
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/admin_transaction_entity.dart';
+import '../../domain/entities/shopper_report_entity.dart';
 import '../../domain/entities/transaction_request_entity.dart';
 import '../../domain/use_cases/transactions_use_cases.dart';
 
@@ -11,12 +12,24 @@ class TransactionsState extends Equatable {
   final List<TransactionRequestEntity> requests;
   final List<AdminTransactionEntity> transactions;
   final List<TransactionCategoryEntity> categories;
+  final List<TransactionCategoryEntity> filterCategories;
+  final ShopperReportEntity shopperReport;
   final int requestsPage;
   final bool hasNextRequests;
   final int transactionsPage;
   final bool hasNextTransactions;
+  final int assignedToMe;
+  final int createdByMe;
+  final int transactionStatusId;
+  final int transactionCategoryId;
 
   const TransactionsState({
+    this.filterCategories,
+    this.assignedToMe,
+    this.createdByMe,
+    this.shopperReport,
+    this.transactionStatusId,
+    this.transactionCategoryId,
     this.transactionsPage,
     this.hasNextTransactions,
     this.requestsPage,
@@ -37,6 +50,11 @@ class TransactionsState extends Equatable {
       transactions: const [],
       hasNextTransactions: true,
       transactionsPage: 1,
+      assignedToMe: 0,
+      createdByMe: 0,
+      transactionCategoryId: null,
+      transactionStatusId: null,
+      filterCategories: const [],
     );
   }
 
@@ -48,6 +66,12 @@ class TransactionsState extends Equatable {
     List<AdminTransactionEntity> transactions,
     int transactionsPage,
     bool hasNextTransactions,
+    int assignedToMe,
+    int createdByMe,
+    int transactionStatusId,
+    int transactionCategoryId,
+    List<TransactionCategoryEntity> filterCategories,
+    ShopperReportEntity shopperReport,
   }) {
     return TransactionsState(
       requests: requests ?? this.requests,
@@ -56,8 +80,14 @@ class TransactionsState extends Equatable {
       requestsPage: requestsPage ?? this.requestsPage,
       categories: categories ?? this.categories,
       transactions: transactions ?? this.transactions,
+      filterCategories: filterCategories ?? this.filterCategories,
       transactionsPage: transactionsPage ?? this.transactionsPage,
       hasNextTransactions: hasNextTransactions ?? this.hasNextTransactions,
+      assignedToMe: assignedToMe ?? this.assignedToMe,
+      createdByMe: createdByMe ?? this.createdByMe,
+      shopperReport: shopperReport ?? this.shopperReport,
+      transactionStatusId: transactionStatusId == -1 ? null : transactionStatusId ?? this.transactionStatusId,
+      transactionCategoryId: transactionCategoryId == -1 ? null : transactionCategoryId ?? this.transactionCategoryId,
     );
   }
 
@@ -70,6 +100,12 @@ class TransactionsState extends Equatable {
         hasNextRequests,
         transactions,
         transactionsPage,
-        hasNextTransactions
+        hasNextTransactions,
+        assignedToMe,
+        createdByMe,
+        transactionStatusId,
+        transactionCategoryId,
+        filterCategories,
+        shopperReport,
       ];
 }

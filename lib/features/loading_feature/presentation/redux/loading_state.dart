@@ -2,23 +2,23 @@ import '../../../../core/core_importer.dart';
 
 @immutable
 class LoadingState extends Equatable {
-  final bool isLoading;
+  final List<int> loading;
   final bool viewMessage;
   final String message;
 
-  const LoadingState({@required this.isLoading, this.viewMessage, this.message});
+  const LoadingState({@required this.loading, this.viewMessage, this.message});
 
   factory LoadingState.initial() {
-    return const LoadingState(isLoading: false, viewMessage: false, message: '');
+    return const LoadingState(loading: [], viewMessage: false, message: '');
   }
 
-  LoadingState copyWith({bool isLoading, bool viewMessage, String message}) {
+  LoadingState copyWith({List<int> loading, bool viewMessage, String message}) {
     return LoadingState(
-        isLoading: isLoading ?? this.isLoading,
+        loading: loading ?? this.loading,
         message: message ?? this.message,
         viewMessage: viewMessage ?? this.viewMessage);
   }
 
   @override
-  List<Object> get props => [isLoading, viewMessage, message];
+  List<Object> get props => [loading, viewMessage, message];
 }

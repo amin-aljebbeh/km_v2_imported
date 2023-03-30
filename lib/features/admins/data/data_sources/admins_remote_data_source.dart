@@ -1,16 +1,24 @@
+import 'package:kammun_app/features/admins/data/models/role_model.dart';
+
 import '../../../../core/core_importer.dart';
 import '../models/admin_model.dart';
 import '../models/get_admins_response_model.dart';
+import '../models/roles_response_model.dart';
 
 abstract class AdminsRemoteDataSource {
-  Future<List<AdminModel>> getAdmins();
+  Future<List<AdminModel>> getAdminsWithoutDetails({int roleId, int warehouseId, String searchName});
+
   Future<List<AdminModel>> getTransactionsActors({int categoryId});
+  Future<List<RoleModel>> getRoles();
 }
 
 class AdminsRemoteDataSourceImplement extends AdminsRemoteDataSource {
   @override
-  Future<List<AdminModel>> getAdmins() async {
-    Response response = await ApiProvider.sendRequest(url: admin, method: HttpMethods.get);
+  Future<List<AdminModel>> getAdminsWithoutDetails({int roleId, int warehouseId, String searchName}) async {
+    Map<String, dynamic> param = {'role_id': roleId, 'warehouse_id': warehouseId, 'search_name': searchName};
+    param.removeWhere((key, value) => value == null);
+    Response response =
+        await ApiProvider.sendRequest(url: adminsWithoutDetailsApi, method: HttpMethods.get, queryParameters: param);
     try {
       if (response != null) {
         if (response.statusCode == successCode) return getAdminsResponseModelFromJson(jsonEncode(response.data)).admins;
@@ -28,6 +36,19 @@ class AdminsRemoteDataSourceImplement extends AdminsRemoteDataSource {
     try {
       if (response != null) {
         if (response.statusCode == successCode) return getAdminsResponseModelFromJson(jsonEncode(response.data)).admins;
+      }
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<List<RoleModel>> getRoles() async {
+    Response response = await ApiProvider.sendRequest(url: roleApi, method: HttpMethods.get);
+    try {
+      if (response != null) {
+        if (response.statusCode == successCode) return rolesResponseModelFromJson(jsonEncode(response.data)).roles;
       }
     } catch (e) {
       throw (InternalException(message: e.toString()));

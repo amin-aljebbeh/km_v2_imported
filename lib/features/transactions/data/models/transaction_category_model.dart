@@ -11,12 +11,14 @@ class TransactionCategoryModel extends TransactionCategoryEntity {
     slug,
     description,
     operationId,
+    selfTransaction,
     isAuto,
     parentId,
     transactionOperation,
   }) : super(
           id: id,
           name: name,
+          selfTransaction: selfTransaction,
           orderRequired: orderRequired,
           requestRequired: requestRequired,
           description: description,
@@ -37,6 +39,7 @@ class TransactionCategoryModel extends TransactionCategoryEntity {
         requestRequired: json['request_required'],
         orderRequired: json['order_required'],
         parentId: json['parent_id'],
+        selfTransaction: json['self_transaction'],
         transactionOperation: json['transaction_operation'] != null
             ? TransactionOperationModel.fromJson(json['transaction_operation'])
             : null,

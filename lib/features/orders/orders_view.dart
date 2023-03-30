@@ -217,7 +217,7 @@ class OrdersViewState extends State<OrdersView> {
                               ),
                             ],
                           ),
-                          if (Services.isOperationManager())
+                          if (Services.isAgent())
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -234,6 +234,7 @@ class OrdersViewState extends State<OrdersView> {
                                   child: EntryField(
                                     edgeInsetsGeometry: EdgeInsets.zero,
                                     controller: pageController,
+                                    onChange: () {},
                                     onSubmit: (notEmpty) {
                                       if (notEmpty) {
                                         if (int.parse(pageController.text) > 0) {
@@ -263,8 +264,8 @@ class OrdersViewState extends State<OrdersView> {
                             child: Center(
                               child: Text(
                                 'لا يوجد أي طلبات سابقة',
-                                style:
-                                    mainStyle.copyWith(fontWeight: FontWeight.w700, color: greyColor, fontSize: 20.0),
+                                style: mainStyle.copyWith(
+                                    fontWeight: FontWeight.w700, color: primaryColor, fontSize: 20.0),
                               ),
                             ),
                           )

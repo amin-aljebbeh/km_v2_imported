@@ -106,14 +106,14 @@ class _InventoryPageState extends State<InventoryPage> {
                         ],
                       ),
                     )
-                  : state.inventoryState.products.isEmpty && !state.loadingState.isLoading
+                  : state.inventoryState.products.isEmpty && state.loadingState.loading.isEmpty
                       ? Padding(
                           padding: const EdgeInsets.only(top: 30.0),
                           child: Center(child: Text('لا يوجد منتجات', style: boldStyle)))
                       : Expanded(
                           child: NotificationListener<ScrollNotification>(
                             onNotification: (ScrollNotification scrollInfo) {
-                              if (!state.loadingState.isLoading &&
+                              if (state.loadingState.loading.isEmpty &&
                                   scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
                                   state.inventoryState.hasNext) {
                                 StoreProvider.of<AppState>(context).dispatch(StartLoading());
@@ -217,13 +217,13 @@ class _InventoryPageState extends State<InventoryPage> {
                         ),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  height: ((state.inventoryState.hasNext && state.loadingState.isLoading) ||
+                  height: ((state.inventoryState.hasNext && state.loadingState.loading.isNotEmpty) ||
                           (!state.inventoryState.hasNext && state.inventoryState.products.isNotEmpty))
                       ? 50
                       : 0,
                   color: Colors.transparent,
                   child: Center(
-                      child: state.inventoryState.hasNext && state.loadingState.isLoading
+                      child: state.inventoryState.hasNext && state.loadingState.loading.isNotEmpty
                           ? const Loader()
                           : !state.inventoryState.hasNext
                               ? Text('تم جلب جميع المنتجات', style: paragraphStyle)

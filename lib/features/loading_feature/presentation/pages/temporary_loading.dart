@@ -12,11 +12,11 @@ class TemporaryLoading extends StatelessWidget {
       converter: (store) => store.state,
       builder: (context, state) {
         return WillPopScope(
-          onWillPop: () async => !state.loadingState.isLoading && pop,
+          onWillPop: () async => !state.loadingState.loading.isNotEmpty && pop,
           child: Stack(
             children: [
               child,
-              if (state.loadingState.isLoading && condition)
+              if (state.loadingState.loading.isNotEmpty && condition)
                 const Scaffold(body: Center(child: Loader()), backgroundColor: Colors.white60),
               if ((state.errorState.isError && state.errorState.viewError) || state.loadingState.viewMessage)
                 Scaffold(

@@ -7,11 +7,13 @@ class TextFieldRow extends StatefulWidget {
   final String hint;
   final TextInputType inputType;
   final double width;
+  final Function onChange;
 
   const TextFieldRow({
     Key key,
     @required this.controller,
     @required this.text,
+    this.onChange,
     @required this.inputType,
     @required this.width,
     @required this.mainAxisAlignment,
@@ -29,7 +31,14 @@ class _TextFieldRowState extends State<TextFieldRow> {
       mainAxisAlignment: widget.mainAxisAlignment,
       children: [
         Text(widget.text, overflow: TextOverflow.clip, style: paragraphStyle),
-        EntryField(controller: widget.controller, hint: widget.hint, width: widget.width, onSubmit: (result) {}),
+        EntryField(
+          controller: widget.controller,
+          hint: widget.hint,
+          onChange: () => widget.onChange(),
+          width: widget.width,
+          onSubmit: (result) {},
+          textInputType: widget.inputType,
+        ),
       ],
     );
   }

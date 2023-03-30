@@ -1,10 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/features/transactions/data/models/admin_transaction_model.dart';
+import 'package:kammun_app/features/transactions/data/models/shopper_report_model.dart';
+import 'package:kammun_app/features/transactions/domain/entities/admin_balance_entity.dart';
 import 'package:kammun_app/features/transactions/domain/entities/admin_transaction_entity.dart';
 import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
-import 'package:kammun_app/features/transactions/domain/entities/transaction_request_entity.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../domain/entities/transaction_requests_response_entity.dart';
+import '../../domain/entities/transactions_response_entity.dart';
 import '../../domain/repositories/transactions_repository.dart';
 import '../data_sources/transactions_remote_data_source.dart';
 
@@ -15,17 +18,16 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   TransactionsRepositoryImplement({this.transactionsRemoteDataSource, this.repositoryFactory});
 
   @override
-  Future<Either<Failure, Unit>> deleteTransactionRequest({TransactionRequestEntity transactionRequestEntity}) async {
+  Future<Either<Failure, Unit>> deleteTransactionRequest({int requestId}) async {
     return await repositoryFactory.failureUnitRepo(
-        function: () =>
-            transactionsRemoteDataSource.deleteTransactionRequest(transactionRequestModel: transactionRequestEntity));
+        function: () => transactionsRemoteDataSource.deleteTransactionRequest(requestId: requestId));
   }
 
   @override
-  Future<Either<Failure, List<TransactionRequestEntity>>> getTransactionRequests(
+  Future<Either<Failure, RequestsDataEntity>> getTransactionRequests(
       {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber}) async {
     try {
-      List<TransactionRequestEntity> requests = await transactionsRemoteDataSource.getTransactionRequests(
+      RequestsDataEntity requests = await transactionsRemoteDataSource.getTransactionRequests(
           transactionCategoryId: transactionCategoryId,
           assignedToMe: assignedToMe,
           createdByMe: createdByMe,
@@ -44,10 +46,11 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> updateTransactionRequest({TransactionRequestEntity transactionRequestEntity}) async {
+  Future<Either<Failure, Unit>> changeTransactionRequestStatus(
+      {int requestId, int statusId, String rejectReason}) async {
     return await repositoryFactory.failureUnitRepo(
-        function: () =>
-            transactionsRemoteDataSource.updateTransactionRequest(transactionRequestModel: transactionRequestEntity));
+        function: () => transactionsRemoteDataSource.changeTransactionRequestStatus(
+            statusId: statusId, requestId: requestId, rejectReason: rejectReason));
   }
 
   @override
@@ -84,11 +87,44 @@ class TransactionsRepositoryImplement extends TransactionsRepository {
   }
 
   @override
-  Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions({int pageNumber}) async {
+  Future<Either<Failure, TransactionsPaginationEntity>> getTransactions(
+      {int pageNumber, int adminId, int lastWeek, int groupingByParent}) async {
     try {
-      List<AdminTransactionEntity> transactions =
-          await transactionsRemoteDataSource.getTransactions(pageNumber: pageNumber);
+      TransactionsPaginationEntity transactions = await transactionsRemoteDataSource.getTransactions(
+          pageNumber: pageNumber, adminId: adminId, groupingByParent: groupingByParent, lastWeek: lastWeek);
       return Right(transactions);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ShopperReportModel>> getShopperReport({int shopperId}) async {
+    try {
+      ShopperReportModel shopperReportModel = await transactionsRemoteDataSource.getShopperReport(shopperId: shopperId);
+      return Right(shopperReportModel);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, AdminBalanceEntity>> getAdminBalance({int adminId}) async {
+    try {
+      AdminBalanceEntity adminBalance = await transactionsRemoteDataSource.getAdminBalance(adminId: adminId);
+      return Right(adminBalance);
     } on CacheException {
       return Left(CacheFailure());
     } on ServerException {

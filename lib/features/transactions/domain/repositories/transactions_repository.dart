@@ -1,21 +1,29 @@
 import 'package:dartz/dartz.dart';
+import 'package:kammun_app/features/transactions/domain/entities/admin_balance_entity.dart';
+import 'package:kammun_app/features/transactions/domain/entities/shopper_report_entity.dart';
 
 import '../../../../core/core_importer.dart';
 import '../entities/admin_transaction_entity.dart';
 import '../entities/transaction_category_entity.dart';
-import '../entities/transaction_request_entity.dart';
+import '../entities/transaction_requests_response_entity.dart';
+import '../entities/transactions_response_entity.dart';
 
 abstract class TransactionsRepository {
   Future<Either<Failure, List<TransactionCategoryEntity>>> getTransactionCategories();
 
-  Future<Either<Failure, List<TransactionRequestEntity>>> getTransactionRequests(
+  Future<Either<Failure, RequestsDataEntity>> getTransactionRequests(
       {int assignedToMe, int createdByMe, int transactionStatusId, int transactionCategoryId, int pageNumber});
 
-  Future<Either<Failure, List<AdminTransactionEntity>>> getTransactions({int pageNumber});
+  Future<Either<Failure, TransactionsPaginationEntity>> getTransactions(
+      {int pageNumber, int adminId, int lastWeek, int groupingByParent});
 
-  Future<Either<Failure, Unit>> updateTransactionRequest({TransactionRequestEntity transactionRequestEntity});
+  Future<Either<Failure, Unit>> changeTransactionRequestStatus({int requestId, int statusId, String rejectReason});
 
-  Future<Either<Failure, Unit>> deleteTransactionRequest({TransactionRequestEntity transactionRequestEntity});
+  Future<Either<Failure, Unit>> deleteTransactionRequest({int requestId});
 
   Future<Either<Failure, Unit>> createTransaction({AdminTransactionEntity transactionEntity});
+
+  Future<Either<Failure, ShopperReportEntity>> getShopperReport({int shopperId});
+
+  Future<Either<Failure, AdminBalanceEntity>> getAdminBalance({int adminId});
 }

@@ -4,12 +4,13 @@ import 'package:kammun_app/features/admins/domain/repositories/admins_repository
 import '../../../../core/core_importer.dart';
 import '../entities/admins_entity.dart';
 
-class GetAdminsUseCase {
+class GetAdminsWithoutDetailsUseCase {
   final AdminsRepository adminsRepository;
 
-  GetAdminsUseCase({this.adminsRepository});
+  GetAdminsWithoutDetailsUseCase({this.adminsRepository});
 
-  Future<Either<Failure, List<AdminEntity>>> call() async {
-    return await adminsRepository.getAdmins();
+  Future<Either<Failure, List<AdminEntity>>> call({int roleId, int warehouseId, String searchName}) async {
+    return await adminsRepository.getAdminsWithoutDetails(
+        searchName: searchName, warehouseId: warehouseId, roleId: roleId);
   }
 }

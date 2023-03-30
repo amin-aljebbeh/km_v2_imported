@@ -38,13 +38,13 @@ class UserCouponsPageState extends State<UserCouponsPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  state.loadingState.isLoading
+                  state.loadingState.loading.isNotEmpty
                       ? const Center(child: Loader())
                       : state.errorState.isError && coupons.isEmpty
                           ? Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(child: Text(state.errorState.errorMessage, style: paragraphStyle)))
-                          : coupons.isEmpty && !state.loadingState.isLoading
+                          : coupons.isEmpty && state.loadingState.loading.isEmpty
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Center(child: Text('لا يوجد أكواد حسم', style: paragraphStyle)))

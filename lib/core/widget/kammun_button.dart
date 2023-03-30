@@ -8,6 +8,7 @@ class KammunButton extends StatelessWidget {
   final Function onTap;
   final Function onLongPress;
   final Widget child;
+  final double padding;
 
   const KammunButton({
     Key key,
@@ -18,12 +19,13 @@ class KammunButton extends StatelessWidget {
     this.height,
     this.child,
     this.onLongPress,
+    this.padding = 15,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
+      padding: EdgeInsets.only(left: 0.0, right: 0.0, top: padding),
       child: GestureDetector(
         onLongPress: onLongPress,
         onTap: onTap,

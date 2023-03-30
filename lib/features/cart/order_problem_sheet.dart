@@ -208,7 +208,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                         ),
                         Text(
                           orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
-                          style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: greyColor, fontSize: 17),
+                          style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: primaryColor, fontSize: 17),
                         ),
                       ],
                     ),
@@ -266,7 +266,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                             style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                         const SizedBox(height: 6),
                         Text(orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
-                            style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: greyColor, fontSize: 17)),
+                            style:
+                                mainStyle.copyWith(fontWeight: FontWeight.w400, color: searchGreyColor, fontSize: 17)),
                         const SizedBox(height: 8),
                         Text(
                             '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${StaticVariables.companyInformation.currency}',

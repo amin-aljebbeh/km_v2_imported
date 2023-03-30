@@ -10,9 +10,8 @@ class AddTransactionPage extends StatefulWidget {
   final int orderRequired;
   final int orderId;
   final int userId;
-  final int adminId;
 
-  const AddTransactionPage({Key key, this.orderRequired, this.orderId, this.userId, this.adminId}) : super(key: key);
+  const AddTransactionPage({Key key, this.orderRequired, this.orderId, this.userId}) : super(key: key);
 
   @override
   _AddTransactionPageState createState() => _AddTransactionPageState();
@@ -21,7 +20,6 @@ class AddTransactionPage extends StatefulWidget {
 class _AddTransactionPageState extends State<AddTransactionPage> {
   TransactionCategoryEntity category;
   int categoryId;
-  int actorId;
   int adminId;
   String deliveryDate;
   final moneyController = TextEditingController();
@@ -29,6 +27,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
 
   @override
   Widget build(BuildContext context) {
+    var store = StoreProvider.of<AppState>(context);
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,
@@ -68,8 +67,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                         categoryId = value;
                                       });
                                       if (chooseAdmin()) {
-                                        StoreProvider.of<AppState>(context)
-                                            .dispatch(GetTransactionsActorsAction(categoryId: value));
+                                        store.dispatch(GetTransactionsActorsAction(categoryId: value));
                                       }
                                     }),
                               ),
@@ -117,8 +115,9 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 child: TextFieldRow(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   controller: moneyController,
+                                  onChange: () => setState(() {}),
                                   text: 'المبلغ :         ',
-                                  inputType: TextInputType.text,
+                                  inputType: TextInputType.number,
                                   width: 150,
                                 ),
                               ),
@@ -126,6 +125,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 padding: const EdgeInsets.symmetric(vertical: 8),
                                 child: TextFieldRow(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  onChange: () => setState(() {}),
                                   controller: descriptionController,
                                   text: 'الوصف :',
                                   inputType: TextInputType.text,
@@ -144,8 +144,33 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         children: [
                           KammunButton(
                             color: primaryColor,
-                            onTap: () => Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => const TransactionsPage())),
+                            onTap: () {
+                              int id;
+                              if (!state.adminsState.admin.permissions.contains('advanced-transaction-view')) {
+                                id = state.adminsState.admin.id;
+                                if (Services.isShopper()) {
+                                  store.dispatch(GetShopperReportAction(shopperId: state.adminsState.admin.shopper.id));
+                                }
+                              } else {
+                                if (store.state.adminsState.admins.isEmpty) {
+                                  store.dispatch(GetAdminsWithoutDetailsAction());
+                                }
+                                if (store.state.adminsState.roles.isEmpty) store.dispatch(GetRolesAction());
+                                if (adminId != null) {
+                                  id = adminId;
+                                  if (state.adminsState.admins.firstWhere((admin) => admin.id == adminId).shopper !=
+                                      null) {
+                                    store.dispatch(GetShopperReportAction(
+                                        shopperId: state.adminsState.admins
+                                            .firstWhere((admin) => admin.id == adminId)
+                                            .shopper
+                                            .id));
+                                  }
+                                }
+                              }
+                              Navigator.push(
+                                  context, MaterialPageRoute(builder: (context) => TransactionsPage(adminId: id)));
+                            },
                             height: 50,
                             text: 'كشف حساب',
                           ),
@@ -163,15 +188,15 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                     text: 'نعم',
                                     onTap: () async {
                                       Navigator.of(context).pop();
-                                      StoreProvider.of<AppState>(context).dispatch(CreateTransactionAction(
+                                      store.dispatch(CreateTransactionAction(
                                           context: context,
                                           transactionEntity: AdminTransactionEntity(
                                               transactionCategoryId: category.id,
-                                              actorId: actorId,
+                                              actorId: adminId,
                                               userId: widget.userId,
                                               adminId: adminId,
                                               date: deliveryDate,
-                                              value: int.parse(moneyController.text),
+                                              value: int.parse(moneyController.text).abs(),
                                               description: descriptionController.text,
                                               orderId: widget.orderId)));
                                     },
@@ -211,13 +236,18 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
             .firstWhere((category) => category.orderRequired == widget.orderRequired || category.orderRequired == 2);
     return ((category.requestRequired == 0 && category.transactionOperation.affectActor == 0) ||
             (category.requestRequired != 0 && category.transactionOperation.affectActor != 0)) &&
-        category.transactionOperation.affectUser == 0;
+        category.transactionOperation.affectUser == 0 &&
+        category.selfTransaction == 0;
   }
 
   bool completeData() {
-    return descriptionController.text.isNotEmpty &&
-        moneyController.text.isNotEmpty &&
-        adminId != null &&
-        category != null;
+    return (descriptionController.text.isNotEmpty &&
+            moneyController.text.isNotEmpty &&
+            adminId != null &&
+            category != null) ||
+        (descriptionController.text.isNotEmpty &&
+            moneyController.text.isNotEmpty &&
+            category != null &&
+            !chooseAdmin());
   }
 }

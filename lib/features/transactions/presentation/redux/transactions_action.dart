@@ -2,6 +2,7 @@ import 'package:kammun_app/features/transactions/domain/entities/transaction_cat
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/admin_transaction_entity.dart';
+import '../../domain/entities/shopper_report_entity.dart';
 import '../../domain/entities/transaction_request_entity.dart';
 
 class CreateTransactionAction {
@@ -13,27 +14,83 @@ class CreateTransactionAction {
 }
 
 class DeleteTransactionRequestAction {
-  final TransactionRequestEntity transactionRequestEntity;
+  final int requestId;
 
-  DeleteTransactionRequestAction({this.transactionRequestEntity});
+  DeleteTransactionRequestAction({this.requestId});
+}
+
+class RequestDeleted {
+  final int requestId;
+
+  RequestDeleted({this.requestId});
 }
 
 class GetTransactionRequestsAction {
-  final int assignedToMe;
-  final int createdByMe;
-  final int transactionStatusId;
-  final int transactionCategoryId;
-
-  GetTransactionRequestsAction(
-      {this.assignedToMe, this.createdByMe, this.transactionStatusId, this.transactionCategoryId});
+  GetTransactionRequestsAction();
 }
 
-class GetTransactionsAction {}
+class SetTransactionStatusId {
+  final int transactionStatusId;
+
+  SetTransactionStatusId({this.transactionStatusId});
+}
+
+class SetTransactionCategoryId {
+  final int transactionCategoryId;
+
+  SetTransactionCategoryId({this.transactionCategoryId});
+}
+
+class SetCreatedByMe {
+  final int createdByMe;
+
+  SetCreatedByMe({this.createdByMe});
+}
+
+class SetAssignedToMe {
+  final int assignedToMe;
+
+  SetAssignedToMe({this.assignedToMe});
+}
+
+class GetTransactionsAction {
+  final int adminId;
+  final int groupingByParent;
+
+  GetTransactionsAction({this.adminId, this.groupingByParent});
+}
+
+class GetAdminBalanceAction {
+  final int adminId;
+  final BuildContext context;
+
+  GetAdminBalanceAction({this.context, this.adminId});
+}
+
+class GetShopperReportAction {
+  final int shopperId;
+
+  GetShopperReportAction({this.shopperId});
+}
+
+class SetShopperReport {
+  final ShopperReportEntity shopperReport;
+
+  SetShopperReport({this.shopperReport});
+}
 
 class SetTransactionRequests {
   final List<TransactionRequestEntity> requests;
 
   SetTransactionRequests({this.requests});
+}
+
+class ClearTransactionRequests {
+  ClearTransactionRequests();
+}
+
+class ClearTransactions {
+  ClearTransactions();
 }
 
 class SetTransactions {
@@ -42,10 +99,20 @@ class SetTransactions {
   SetTransactions({this.transactions});
 }
 
-class UpdateTransactionRequestAction {
-  final TransactionRequestEntity transactionRequestEntity;
+class ChangeTransactionRequestStatusAction {
+  final int requestId;
+  final int statusId;
+  final String rejectReason;
 
-  UpdateTransactionRequestAction({this.transactionRequestEntity});
+  ChangeTransactionRequestStatusAction({this.requestId, this.statusId, this.rejectReason});
+}
+
+class TransactionRequestChanged {
+  final int requestId;
+  final int statusId;
+  final String rejectReason;
+
+  TransactionRequestChanged({this.requestId, this.statusId, this.rejectReason});
 }
 
 class NextTransactionRequestsPage {}
@@ -66,4 +133,10 @@ class SetTransactionCategories {
   final List<TransactionCategoryEntity> categories;
 
   SetTransactionCategories({this.categories});
+}
+
+class SetFilterCategories {
+  final List<TransactionCategoryEntity> categories;
+
+  SetFilterCategories({this.categories});
 }

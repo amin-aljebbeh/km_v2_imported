@@ -7,6 +7,7 @@ class TransactionCategoryEntity {
   final String description;
   final int operationId;
   final int isAuto;
+  final int selfTransaction;
   final int requestRequired;
   final int orderRequired;
   final int parentId;
@@ -14,6 +15,7 @@ class TransactionCategoryEntity {
 
   TransactionCategoryEntity({
     this.id,
+    this.selfTransaction,
     this.name,
     this.orderRequired,
     this.requestRequired,

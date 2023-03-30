@@ -37,5 +37,4 @@ export 'store_search_text_field.dart';
 export 'supplier_orders_view_card.dart';
 export 'switch_product_status_widget.dart';
 export 'text_field_row.dart';
-export 'transaction_widget.dart';
 export 'update_product_info_widget.dart';

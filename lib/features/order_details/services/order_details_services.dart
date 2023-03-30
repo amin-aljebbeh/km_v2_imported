@@ -68,7 +68,9 @@ class OrderDetailsServices {
             ),
             DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
           ];
-          showMyDialog(context: context, title: '', text: 'هل تريد حذف الفاتورة ؟', dialogButtons: dialogButtons);
+          if (Services.isOperationManager()) {
+            showMyDialog(context: context, title: '', text: 'هل تريد حذف الفاتورة ؟', dialogButtons: dialogButtons);
+          }
         },
         onTap: () {
           Navigator.push(

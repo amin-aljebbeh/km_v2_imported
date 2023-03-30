@@ -2,8 +2,11 @@ import 'package:kammun_app/features/complaints/presentation/redux/complaints_act
 import 'package:kammun_app/features/inventory_feature/presentation/redux/inventory_action.dart';
 
 import '../../core/core_importer.dart';
+import '../admins/presentation/redux/admins_action.dart';
 import '../login/Services/login_services.dart';
 import '../management_view/management_view.dart';
+import '../transactions/presentation/pages/add_transaction_page.dart';
+import '../transactions/presentation/redux/transactions_action.dart';
 
 List<Widget> getDrawerChildren(BuildContext context) {
   var store = StoreProvider.of<AppState>(context);
@@ -14,10 +17,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
     if (Services.isOperationManager())
       const SideBarRow(
           pushedRoute: ShopperManagementView.routeName, icon: Icons.supervisor_account_sharp, text: 'فريق التوصيل'),
-    if (Services.isShopper())
-      const SideBarRow(
-          pushedRoute: ShopperTransactionView.routeName, icon: Icons.featured_play_list, text: 'كشف حساب المتسوق'),
-    if (Services.isAccounting())
+    if (store.state.adminsState.admin.permissions.contains('transaction-permission'))
       SideBarRow(
         text: financial,
         icon: Icons.account_balance,
@@ -27,20 +27,53 @@ List<Widget> getDrawerChildren(BuildContext context) {
             builder: (context) => ManagementView(
               title: financial,
               children: [
-                const SideBarRow(
-                    pushedRoute: AccountantTransactionView.routeName,
+                SideBarRow(
+                    onTap: () {
+                      int adminId;
+                      store.dispatch(NoError());
+                      store.dispatch(FirstTransactionsPage());
+                      if (!store.state.adminsState.admin.permissions.contains('advanced-transaction-view')) {
+                        adminId = store.state.adminsState.admin.id;
+                        if (Services.isShopper()) {
+                          store.dispatch(GetShopperReportAction(shopperId: store.state.adminsState.admin.shopper.id));
+                        }
+                      } else {
+                        if (store.state.adminsState.admins.isEmpty) store.dispatch(GetAdminsWithoutDetailsAction());
+                        if (store.state.adminsState.roles.isEmpty) store.dispatch(GetRolesAction());
+                      }
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => TransactionsPage(adminId: adminId)));
+                    },
                     icon: Icons.featured_play_list,
                     text: 'كشف حساب المتسوق'),
-                SideBarRow(pushedRoute: AddTransactionView.routeName, icon: Icons.money, text: addTransaction),
-                const SideBarRow(
-                    pushedRoute: SupplierRemainingAccounts.routeName,
-                    icon: Icons.account_balance_wallet_outlined,
-                    text: 'أرصدة الموردين'),
-                const SideBarRow(
-                  icon: Icons.delivery_dining_rounded,
-                  text: 'معلومات المتسوقين',
-                  pushedRoute: ShopperInformation.routeName,
-                ),
+                SideBarRow(
+                    onTap: () {
+                      store.dispatch(NoError());
+                      store.dispatch(FirstRequestsPage());
+                      store.dispatch(GetTransactionRequestsAction());
+                      Navigator.pushNamed(context, TransactionRequestsPage.routeName);
+                    },
+                    icon: Icons.list_rounded,
+                    text: 'طلبات مالية'),
+                SideBarRow(
+                    onTap: () => Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const AddTransactionPage(orderRequired: 0))),
+                    icon: Icons.money,
+                    text: addTransaction),
+                if (Services.isAccounting())
+                  Column(
+                    children: const [
+                      SideBarRow(
+                          pushedRoute: SupplierRemainingAccounts.routeName,
+                          icon: Icons.account_balance_wallet_outlined,
+                          text: 'أرصدة الموردين'),
+                      SideBarRow(
+                        icon: Icons.delivery_dining_rounded,
+                        text: 'معلومات المتسوقين',
+                        pushedRoute: ShopperInformation.routeName,
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
@@ -124,7 +157,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
           );
         },
       ),
-    if (Services.isSuperAdmin())
+    if (store.state.adminsState.admin.permissions.contains('view-admin-panel'))
       SideBarRow(
         text: adminPanel,
         icon: Icons.admin_panel_settings,

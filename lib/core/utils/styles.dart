@@ -24,11 +24,11 @@ TextStyle darkBold = mainStyle.copyWith(color: primaryColor, fontSize: 17);
 
 TextStyle dropdownItemStyle = mainStyle.copyWith(color: Colors.black, fontWeight: FontWeight.w700);
 
-TextStyle labelStyle = mainStyle.copyWith(fontSize: 15, color: greyColor);
+TextStyle labelStyle = mainStyle.copyWith(fontSize: 15, color: primaryColor);
 
 TextStyle disableStyle = paragraphStyle.copyWith(color: Colors.black38);
 
-TextStyle warehouseStyle = mainStyle.copyWith(fontWeight: FontWeight.bold, color: greyColor, fontSize: 20);
+TextStyle warehouseStyle = mainStyle.copyWith(fontWeight: FontWeight.bold, color: primaryColor, fontSize: 20);
 
 TextStyle profitStyle = warehouseStyle.copyWith(color: Colors.green, fontSize: 25);
 

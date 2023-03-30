@@ -1,6 +1,5 @@
 import '../features/complaints/presentation/redux/complaints_action.dart';
 import '../features/login/Services/login_services.dart';
-import '../features/reports/services/reports_services.dart';
 import 'core_importer.dart';
 
 class GeneralApis {
@@ -127,7 +126,7 @@ class GeneralApis {
                         width: 287,
                         child: Text(category.name + ' من القائمة الرئيسية',
                             overflow: TextOverflow.visible, maxLines: 2, style: warehouseStyle)),
-                    Padding(padding: const EdgeInsets.only(top: 8.0), child: Divider(thickness: 1, color: greyColor))
+                    Padding(padding: const EdgeInsets.only(top: 8.0), child: Divider(thickness: 1, color: primaryColor))
                   ],
                 ),
                 value: category.name + ';' + category.id.toString()))
@@ -163,6 +162,7 @@ class GeneralApis {
 
   static Future<bool> fetchStartInformation({BuildContext context}) async {
     try {
+      var store = StoreProvider.of<AppState>(context);
       bool userLoggedIn = await Services.checkIfUserLoggedIn();
       if (userLoggedIn) {
         List responses;
@@ -171,15 +171,15 @@ class GeneralApis {
           getSubWarehouse(context: context),
           getCategoryService(),
           GeneralApis.getWarehousesService(),
-          StoreProvider.of<AppState>(context).dispatch(GetComplaintTypesAction()),
+          store.dispatch(GetComplaintTypesAction()),
           Services.initializeVariables()
         ]);
-        if (Services.isOperationManager() || Services.isSuperAdmin() || Services.isAdmin() || Services.isAccounting()) {
+        if (Services.isOperationManager() || Services.isAdmin() || Services.isAccounting()) {
           await GeneralApis.getShoppers();
           StaticVariables.levels = await GeneralApis.getLevels();
         }
-        if (Services.isAccounting() || Services.isSuperAdmin() || Services.isAdmin() || Services.isShopper()) {
-          StaticVariables.transactionTypes = await ReportsServices.getTransactionTypes();
+        if (store.state.adminsState.admin.permissions.contains('transaction-permission')) {
+          store.dispatch(GetTransactionCategoriesAction());
         }
 
         if (responses[1] == null) {

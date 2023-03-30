@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 Color primaryColor = HexColor('35637c');
-Color greyColor = HexColor('35637c');
 Color searchGreyColor = HexColor('e6e6e6');
 
 Color kmColors = const Color.fromARGB(255, 210, 178, 2);
