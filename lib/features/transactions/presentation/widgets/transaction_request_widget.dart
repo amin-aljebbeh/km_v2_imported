@@ -18,7 +18,7 @@ class TransactionRequestWidget extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           decoration: BoxDecoration(
               border: Border.all(color: requestStatusColors[transactionRequestEntity.statusId - 1], width: 5),
-              borderRadius: const BorderRadius.all(Radius.circular(8))),
+              borderRadius: const BorderRadius.all(Radius.circular(13))),
           child: KCard(
             child: Column(
               children: [

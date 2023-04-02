@@ -284,7 +284,7 @@ class OrdersViewState extends State<OrdersView> {
                       }
                       return Column(
                         children: <Widget>[
-                          OrdersViewCard(pop: false, orderData: orderDataList[index], orderType: OrderTypes.allOrder),
+                          OrdersViewCard(pop: false, order: orderDataList[index], orderType: OrderTypes.allOrder),
                           if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
                               int.parse(orderDataList[index].underUpdate) != 1)
                             Padding(

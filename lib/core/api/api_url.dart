@@ -32,6 +32,8 @@ const String assignOrderToShopper = order + 'assign_order_to_shopper';
 const String changeOrderStatus = order + 'change_order_status/';
 const String getOrdersByUserPhoneNumber = order + 'get_order_by_phone/';
 const String reAssignOrderToShopper = order + 're_assign_order_to_shopper/';
+const String updateOrderRatingApi = order + 'update_order_rating/';
+const String getSupplierOrder = order + 'get_supplier_order';
 // BareCode
 const String productBarcode = 'product_barcode/';
 const String searchProductByBarcode = productBarcode + searchApi;
@@ -48,7 +50,6 @@ const String subWarehouse = 'sub_warehouse/';
 const String level = 'level/';
 const String supplierApi = 'supplier/';
 const String shopperTransaction = 'transaction_shopper/';
-const String getSupplierOrder = order + 'get_supplier_order';
 const String login = 'auth/admin_login';
 const String targetSubWarehouse = subWarehouse + 'external_sub_warehouse_inventory_synchronization/';
 const String updateFirebaseToken = admin + 'update_firebase_token/';

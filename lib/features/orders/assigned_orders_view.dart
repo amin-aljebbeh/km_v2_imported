@@ -179,7 +179,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                     if (Services.isSupplierManager()) return SupplierOrdersViewCard(order: orderDataList[index]);
                     return Column(
                       children: <Widget>[
-                        OrdersViewCard(pop: false, orderData: orderDataList[index], orderType: OrderTypes.myOrder),
+                        OrdersViewCard(pop: false, order: orderDataList[index], orderType: OrderTypes.myOrder),
                         if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
                             int.parse(orderDataList[index].underUpdate) != 1)
                           Row(

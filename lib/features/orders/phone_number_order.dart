@@ -189,7 +189,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                       }
                       return Column(
                         children: <Widget>[
-                          OrdersViewCard(pop: true, orderData: orderDataList[index], orderType: OrderTypes.search),
+                          OrdersViewCard(pop: true, order: orderDataList[index], orderType: OrderTypes.search),
                           if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
                               int.parse(orderDataList[index].underUpdate) != 1)
                             Padding(

@@ -9,9 +9,16 @@ class OrdersRepositoryImplement implements OrdersRepository {
   final RepositoryFactory repositoryFactory;
 
   OrdersRepositoryImplement({this.ordersRemoteDataSource, this.repositoryFactory});
+
   @override
   Future<Either<Failure, Unit>> reAssignOrder({int orderId}) async {
     return await repositoryFactory.failureUnitRepo(
         function: () => ordersRemoteDataSource.reAssignOrder(orderId: orderId));
+  }
+
+  @override
+  Future<Either<Failure, Unit>> updateOrderRating({int orderId, int deliveryRating}) async {
+    return await repositoryFactory.failureUnitRepo(
+        function: () => ordersRemoteDataSource.updateOrderRating(orderId: orderId, deliveryRating: deliveryRating));
   }
 }

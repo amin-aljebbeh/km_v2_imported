@@ -4,7 +4,6 @@ import '../../core/core_importer.dart';
 class AlertMessages extends StatelessWidget {
   String text;
   final String messageType;
-  FontWeight textWeight = FontWeight.normal;
   String headerText = ' ';
   Color textColor = Colors.black;
   Color outsideBorderColor = const Color.fromRGBO(61, 49, 19, 1);
@@ -21,7 +20,6 @@ class AlertMessages extends StatelessWidget {
       outsideBorderColor = const Color.fromRGBO(220, 53, 69, 1);
       insideBorderColor = Colors.white;
       textColor = Colors.black;
-      textWeight = FontWeight.w600;
       headerText = headerText + '\n';
       headerTextColor = const Color.fromRGBO(220, 53, 69, 1);
       headerTextSize = 22;
@@ -30,7 +28,6 @@ class AlertMessages extends StatelessWidget {
       outsideBorderColor = Colors.red[800];
       insideBorderColor = Colors.red[100];
       textColor = Colors.grey[800];
-      textWeight = FontWeight.w700;
       headerText = headerText + '\n';
       headerTextColor = Colors.red[800];
       headerTextSize = 17;
@@ -39,19 +36,17 @@ class AlertMessages extends StatelessWidget {
       outsideBorderColor = const Color.fromRGBO(191, 228, 193, 1);
       insideBorderColor = const Color.fromRGBO(225, 247, 228, 1);
       textColor = Colors.black;
-      textWeight = FontWeight.w700;
       headerText = headerText + '\n';
     } else if (messageType.contains('Successfully')) {
       outsideBorderColor = const Color.fromRGBO(191, 228, 193, 1);
       insideBorderColor = const Color.fromRGBO(225, 247, 228, 1);
-      textWeight = FontWeight.w600;
+      messageTextSize = 20;
       headerText = headerText + '\n';
       headerTextColor = Colors.green[800];
     } else if (messageType.contains('Feedback')) {
       outsideBorderColor = const Color.fromRGBO(191, 228, 193, 1);
       insideBorderColor = const Color.fromRGBO(225, 247, 228, 1);
       textColor = Colors.green[900];
-      textWeight = FontWeight.w700;
       if (headerText.isNotEmpty) {
         headerText = headerText + '\n';
       } else {

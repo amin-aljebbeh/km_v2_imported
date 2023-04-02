@@ -10,6 +10,18 @@ Future<void> ordersMiddleware(Store<AppState> store, action, NextDispatcher next
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
         (_) => store.dispatch(ViewMessage(message: 'تمت العملية بنجاح')));
     store.dispatch(StopLoading());
+  } else if (action is UpdateOrderRatingAction) {
+    store.dispatch(StartLoading());
+    Either either = await store.state.ordersState.ordersUSeCases
+        .updateOrderRatingUseCase(orderId: action.orderId, deliveryRating: action.deliveryRating);
+    either.fold((failure) {
+      snackBar(context: action.context, success: false, message: 'حدث خطأ، يرجى المحاولة مجدداً');
+    }, (_) {
+      snackBar(context: action.context, success: false, message: 'تم تعديل تقييم الطلب إلى ${action.deliveryRating}');
+      StaticVariables.allOrdersList.firstWhere((order) => order.id == action.orderId).userDeliveryRating =
+          action.deliveryRating.toString();
+    });
+    store.dispatch(StopLoading());
   }
   next(action);
 }

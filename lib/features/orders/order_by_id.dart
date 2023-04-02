@@ -106,7 +106,7 @@ class _OrderByIDState extends State<OrderByID> {
                     ? const Center(child: Loader())
                     : Column(
                         children: <Widget>[
-                          OrdersViewCard(pop: true, orderData: order, orderType: OrderTypes.search),
+                          OrdersViewCard(pop: true, order: order, orderType: OrderTypes.search),
                           if (int.parse(order.orderStatusId) <= 4 && int.parse(order.underUpdate) != 1)
                             Padding(
                               padding: const EdgeInsets.only(left: 10.0),

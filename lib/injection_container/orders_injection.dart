@@ -5,10 +5,13 @@ import 'package:kammun_app/features/orders_feature/domain/use_cases/re_assign_or
 
 import '../core/core_importer.dart';
 import '../features/orders_feature/data/repositories/orders_repository_implement.dart';
+import '../features/orders_feature/domain/use_cases/update_order_rating_use_case.dart';
 
 Future<void> injectOrders() async {
   sl.registerLazySingleton(() => ReAssignOrderUseCase(ordersRepository: sl()));
-  sl.registerLazySingleton<OrdersUSeCases>(() => OrdersUSeCases(reAssignOrderUseCase: sl()));
+  sl.registerLazySingleton(() => UpdateOrderRatingUseCase(ordersRepository: sl()));
+  sl.registerLazySingleton<OrdersUSeCases>(
+      () => OrdersUSeCases(reAssignOrderUseCase: sl(), updateOrderRatingUseCase: sl()));
   sl.registerLazySingleton<OrdersRepository>(
       () => OrdersRepositoryImplement(ordersRemoteDataSource: sl(), repositoryFactory: sl()));
   sl.registerLazySingleton<OrdersRemoteDataSource>(() => OrdersRemoteDataSourceImplement());
