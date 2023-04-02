@@ -166,7 +166,7 @@ class ProductData {
       productCount: json['productCount'] ?? 0,
       supplierCode: json['supplier_code'] == null ? json['supplierCode'].toString() : json['supplier_code'].toString(),
       warehouseId: json['warehouse_id'],
-      subWarehouseId: json['sub_warehouse_id'] ?? -1,
+      subWarehouseId: json['sub_warehouse_id'] ?? 0,
       isFeatured: json['is_featured'],
       priority: json['priority'],
       isPrimeItem: json['is_prime_item'],

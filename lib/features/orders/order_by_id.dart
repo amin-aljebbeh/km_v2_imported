@@ -412,7 +412,7 @@ class _OrderByIDState extends State<OrderByID> {
         product.productCount = int.parse(orderProducts[i].pivot.quantity);
         product.unit = orderProducts[i].unit;
         product.quantity = orderProducts[i].quantity;
-        product.subWarehouseId = orderProducts[i].subWarehouseId;
+        product.subWarehouseId = orderProducts[i].subWarehouseId ?? 0;
         CartServices.addProductToCart(product);
       }
     }
