@@ -46,7 +46,7 @@ class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Row(
@@ -93,7 +93,7 @@ class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Row(

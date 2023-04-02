@@ -1,5 +1,6 @@
 import 'package:kammun_app/features/admins/domain/entities/admins_entity.dart';
 
+import 'transaction_category_entity.dart';
 import 'transaction_request_status_entity.dart';
 
 class TransactionRequestEntity {
@@ -18,6 +19,7 @@ class TransactionRequestEntity {
   final TransactionRequestStatusEntity requestStatus;
   final AdminEntity creator;
   final AdminEntity actor;
+  final TransactionCategoryEntity category;
 
   TransactionRequestEntity({
     this.requestStatus,
@@ -35,6 +37,7 @@ class TransactionRequestEntity {
     this.changedBy,
     this.transactionId,
     this.createdAt,
+    this.category,
   });
 
   TransactionRequestEntity copyWith({
@@ -53,6 +56,7 @@ class TransactionRequestEntity {
     TransactionRequestStatusEntity requestStatus,
     AdminEntity creator,
     AdminEntity actor,
+    TransactionCategoryEntity category,
   }) {
     return TransactionRequestEntity(
       requestStatus: requestStatus ?? this.requestStatus,
@@ -70,6 +74,7 @@ class TransactionRequestEntity {
       changedBy: changedBy ?? this.changedBy,
       transactionId: transactionId ?? this.transactionId,
       createdAt: createdAt ?? this.createdAt,
+      category: category ?? this.category,
     );
   }
 }

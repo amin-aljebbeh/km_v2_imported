@@ -7,6 +7,7 @@ Color kmColors = const Color.fromARGB(255, 210, 178, 2);
 
 Color kmColors2 = HexColor('e5cb37');
 List<Color> warehousesColors = [primaryColor, kmColors, kmColors2];
+List<Color> requestStatusColors = [kmColors, Colors.green, Colors.red];
 
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {

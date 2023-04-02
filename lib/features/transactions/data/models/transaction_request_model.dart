@@ -2,6 +2,7 @@ import 'package:kammun_app/features/admins/data/models/admin_model.dart';
 import 'package:kammun_app/features/transactions/data/models/transaction_request_status_model.dart';
 
 import '../../domain/entities/transaction_request_entity.dart';
+import 'transaction_category_model.dart';
 
 class TransactionRequestModel extends TransactionRequestEntity {
   TransactionRequestModel({
@@ -20,6 +21,7 @@ class TransactionRequestModel extends TransactionRequestEntity {
     requestStatus,
     creator,
     actor,
+    category,
   }) : super(
           id: id,
           categoryId: categoryId,
@@ -34,6 +36,7 @@ class TransactionRequestModel extends TransactionRequestEntity {
           transactionId: transactionId,
           createdAt: createdAt,
           actor: actor,
+          category: category,
           creator: creator,
           requestStatus: requestStatus,
         );
@@ -53,6 +56,9 @@ class TransactionRequestModel extends TransactionRequestEntity {
         statusId: json['trns_status_id'],
         rejectReason: json['reject_reasun'],
         changedBy: json['changed_by'],
+        category: json['transaction_category'] == null
+            ? null
+            : TransactionCategoryModel.fromJson(json['transaction_category']),
         transactionId: json['trns_id'],
         createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
       );
