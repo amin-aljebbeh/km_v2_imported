@@ -74,116 +74,101 @@ class _TransactionsPageState extends State<TransactionsPage> {
                         if (state.adminsState.admin.permissions.contains('advanced-transaction-view'))
                           Column(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(left: 8),
-                                        decoration: BoxDecoration(
-                                            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                            border: Border.all(color: grouping ? primaryColor : Colors.grey, width: 5)),
-                                        child: Row(
-                                          children: [
-                                            Checkbox(
-                                                value: grouping,
-                                                onChanged: (bool value) {
-                                                  setState(() => grouping = value);
+                              Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                                width: MediaQuery.of(context).size.width,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                              value: myTransactions,
+                                              onChanged: (bool value) {
+                                                setState(() => myTransactions = value);
+                                                if (!value && (tempAdminId == null || tempAdminId == 'null')) {
+                                                  store.dispatch(FirstTransactionsPage());
+                                                  if (value) {
+                                                    tempAdminId = adminId;
+                                                    adminId = state.adminsState.admin.id.toString();
+                                                  } else {
+                                                    adminId = tempAdminId;
+                                                  }
+                                                } else {
+                                                  if (value) {
+                                                    tempAdminId = adminId;
+                                                    adminId = state.adminsState.admin.id.toString();
+                                                  } else {
+                                                    adminId = tempAdminId;
+                                                  }
                                                   store.dispatch(FirstTransactionsPage());
                                                   store.dispatch(GetTransactionsAction(
                                                       adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
                                                   if (isShopper(state)) {
                                                     store.dispatch(GetShopperReportAction(shopperId: shopperId(state)));
                                                   }
-                                                },
-                                                activeColor: primaryColor),
-                                            Text('تجميع', style: decisionButtonStyle.copyWith(color: Colors.black)),
-                                          ],
-                                        ),
+                                                }
+                                              },
+                                              activeColor: primaryColor),
+                                          Text('مناقلاتي', style: decisionButtonStyle.copyWith(color: Colors.black)),
+                                        ],
                                       ),
-                                      DropdownButton(
-                                        items: warehouses,
-                                        hint: Text('المستودع', style: mainStyle),
-                                        value: warehouseId,
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                              value: grouping,
+                                              onChanged: (bool value) {
+                                                setState(() => grouping = value);
+                                                store.dispatch(FirstTransactionsPage());
+                                                store.dispatch(GetTransactionsAction(
+                                                    adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
+                                                if (isShopper(state)) {
+                                                  store.dispatch(GetShopperReportAction(shopperId: shopperId(state)));
+                                                }
+                                              },
+                                              activeColor: primaryColor),
+                                          Text('تجميع', style: decisionButtonStyle.copyWith(color: Colors.black)),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                                width: MediaQuery.of(context).size.width,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    DropdownButton(
+                                      items: warehouses,
+                                      hint: Text('المستودع', style: mainStyle),
+                                      value: warehouseId,
+                                      onChanged: (value) {
+                                        store.dispatch(
+                                            GetAdminsWithoutDetailsAction(roleId: roleId, warehouseId: warehouseId));
+                                        setState(() {
+                                          adminId = null;
+                                          warehouseId = value;
+                                        });
+                                      },
+                                    ),
+                                    DropdownButton(
+                                        items: roles,
+                                        hint: Text('منصب الأدمن', style: mainStyle),
+                                        value: roleId,
                                         onChanged: (value) {
                                           store.dispatch(
                                               GetAdminsWithoutDetailsAction(roleId: roleId, warehouseId: warehouseId));
                                           setState(() {
                                             adminId = null;
-                                            warehouseId = value;
+                                            roleId = value;
                                           });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(left: 8),
-                                        decoration: BoxDecoration(
-                                            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                            border: Border.all(
-                                                color: myTransactions ? primaryColor : Colors.grey, width: 5)),
-                                        child: Row(
-                                          children: [
-                                            Checkbox(
-                                                value: myTransactions,
-                                                onChanged: (bool value) {
-                                                  setState(() => myTransactions = value);
-                                                  if (!value && (tempAdminId == null || tempAdminId == 'null')) {
-                                                    store.dispatch(FirstTransactionsPage());
-                                                    if (value) {
-                                                      tempAdminId = adminId;
-                                                      adminId = state.adminsState.admin.id.toString();
-                                                    } else {
-                                                      adminId = tempAdminId;
-                                                    }
-                                                  } else {
-                                                    if (value) {
-                                                      tempAdminId = adminId;
-                                                      adminId = state.adminsState.admin.id.toString();
-                                                    } else {
-                                                      adminId = tempAdminId;
-                                                    }
-                                                    store.dispatch(FirstTransactionsPage());
-                                                    store.dispatch(GetTransactionsAction(
-                                                        adminId: int.parse(adminId),
-                                                        groupingByParent: grouping ? 1 : 0));
-                                                    if (isShopper(state)) {
-                                                      store.dispatch(
-                                                          GetShopperReportAction(shopperId: shopperId(state)));
-                                                    }
-                                                  }
-                                                },
-                                                activeColor: primaryColor),
-                                            Text('مناقلاتي', style: decisionButtonStyle.copyWith(color: Colors.black)),
-                                          ],
-                                        ),
-                                      ),
-                                      DropdownButton(
-                                          items: roles,
-                                          hint: Text('منصب الأدمن', style: mainStyle),
-                                          value: roleId,
-                                          onChanged: (value) {
-                                            store.dispatch(GetAdminsWithoutDetailsAction(
-                                                roleId: roleId, warehouseId: warehouseId));
-                                            setState(() {
-                                              adminId = null;
-                                              roleId = value;
-                                            });
-                                          })
-                                    ],
-                                  ),
+                                        })
+                                  ],
                                 ),
                               ),
                               KSearchableDropdown(

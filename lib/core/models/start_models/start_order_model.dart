@@ -60,6 +60,7 @@ class OrdersOriginalData {
     this.walletValue,
     this.couponValue,
     this.tips,
+    this.userPriceRating,
   });
 
   int id;
@@ -70,6 +71,7 @@ class OrdersOriginalData {
   String warehouseId;
   String userId;
   String userDeliveryRating;
+  String userPriceRating;
   String total;
   String userFeedback;
   DateTime createdAt;
@@ -115,6 +117,7 @@ class OrdersOriginalData {
       images: json['images'] == null ? [] : List<OrderImage>.from(json['images'].map((x) => OrderImage.fromJson(x))),
       orderAccountingRows: [],
       shopperProfit: 0,
+      userPriceRating: json['user_price_rating'].toString(),
       kammunProfit: 0,
       tips: json['tips'],
       userFeedback: json['user_feedback'] ?? 'null',

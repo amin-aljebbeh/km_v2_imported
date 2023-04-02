@@ -156,14 +156,20 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       child: Text(deletedCount.toString(),
                           style: loseStyle.copyWith(fontSize: 18), textAlign: TextAlign.center),
                     ),
-                  if (Services.isOperationManager() && (widget.order.userDeliveryRating != 'null'))
+                  if (Services.isOperationManager() && (widget.order.userPriceRating != 'null'))
                     IconButton(
                       icon: Icon(Icons.star_rounded,
-                          color: int.parse(widget.order.userDeliveryRating.split('.')[0]) < 5 ? Colors.red : kmColors2,
+                          color: widget.order.userDeliveryRating == 'null'
+                              ? searchGreyColor
+                              : int.parse(widget.order.userDeliveryRating.split('.')[0]) < 5
+                                  ? Colors.red
+                                  : kmColors2,
                           size: 30),
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        rate = int.parse(widget.order.userDeliveryRating);
+                        rate = widget.order.userDeliveryRating != 'null'
+                            ? int.parse(widget.order.userDeliveryRating)
+                            : null;
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -183,7 +189,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                                   : ''),
                                           style: dialogStyle),
                                       DropdownButton(
-                                          items: [1, 2, 3, 4, 5]
+                                          items: [1, 2, 3, 4, 5, null]
                                               .map((rate) => DropdownMenuItem<int>(
                                                   child: Text(rate.toString(), style: dropdownItemStyle), value: rate))
                                               .toList(),
