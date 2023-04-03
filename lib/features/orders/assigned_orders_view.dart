@@ -411,7 +411,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
         product.productCount = int.parse(orderProducts[i].pivot.quantity);
         product.unit = orderProducts[i].unit;
         product.quantity = orderProducts[i].quantity;
-        product.subWarehouseId = orderProducts[i].pivot.subWarehouseId ?? 0;
+        product.subWarehouseId = orderProducts[i].pivot.subWarehouseId ?? -1;
         CartServices.addProductToCart(product);
       }
     }
