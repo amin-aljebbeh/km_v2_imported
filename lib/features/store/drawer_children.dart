@@ -60,6 +60,12 @@ List<Widget> getDrawerChildren(BuildContext context) {
                         context, MaterialPageRoute(builder: (context) => const AddTransactionPage(orderRequired: 0))),
                     icon: Icons.money,
                     text: addTransaction),
+                if (Services.isShopper())
+                  const SideBarRow(
+                    icon: Icons.delivery_dining_rounded,
+                    text: 'إحصائيات عامة',
+                    pushedRoute: ShopperInformationView.routeName,
+                  ),
                 if (Services.isAccounting())
                   Column(
                     children: const [
@@ -70,7 +76,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       SideBarRow(
                         icon: Icons.delivery_dining_rounded,
                         text: 'معلومات المتسوقين',
-                        pushedRoute: ShopperInformation.routeName,
+                        pushedRoute: ShopperInformationView.routeName,
                       ),
                     ],
                   ),

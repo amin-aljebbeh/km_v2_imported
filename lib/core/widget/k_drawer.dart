@@ -49,7 +49,7 @@ class KDrawer extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 8),
                       child: LabelRow(
                           rightSideText: 'الرصيد: ',
-                          leftSideText: StringUtils().oCcy.format(state.adminsState.admin.balance) +
+                          leftSideText: StringUtils().oCcy.format(state.adminsState.admin.balance).replaceAll('-', '') +
                               ' ' +
                               StaticVariables.companyInformation.currency,
                           leftSideStyle: state.adminsState.admin.balance.isNegative ? warningStyle : informationStyle),

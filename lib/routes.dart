@@ -30,5 +30,5 @@ final Map<String, WidgetBuilder> routes = {
   TransactionRequestsPage.routeName: (_) => const TransactionRequestsPage(),
   CouponsPage.routeName: (_) => const CouponsPage(),
   UserCouponsPage.routeName: (_) => const UserCouponsPage(),
-  ShopperInformation.routeName: (_) => const ShopperInformation(),
+  ShopperInformationView.routeName: (_) => const ShopperInformationView(),
 };

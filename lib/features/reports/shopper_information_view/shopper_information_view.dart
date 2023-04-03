@@ -1,9 +1,9 @@
 import '../../../core/core_importer.dart';
 import '../../management_view/management_view.dart';
 
-class ShopperInformation extends StatelessWidget {
+class ShopperInformationView extends StatelessWidget {
   static const String routeName = '/ShopperInformation';
-  const ShopperInformation({Key key}) : super(key: key);
+  const ShopperInformationView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

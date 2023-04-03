@@ -59,9 +59,7 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
         body: SafeArea(
           child: Container(
             padding: const EdgeInsets.all(10),
-            child: ListView(
-              padding: const EdgeInsets.only(bottom: 25),
-              shrinkWrap: true,
+            child: Column(
               children: [
                 if (!Services.isShopper())
                   SizedBox(
@@ -105,15 +103,15 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                     ? const Loader()
                     : activityHours.isEmpty
                         ? const Padding(padding: EdgeInsets.all(75), child: ScreenMessage(message: 'لا يوجد حركة'))
-                        : SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.56,
+                        : Expanded(
                             child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: activityHours.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ActiveHoursWidget(activityHour: activityHours[index], newDay: newDay(index));
-                              },
-                            ))
+                            scrollDirection: Axis.vertical,
+                            itemCount: activityHours.length,
+                            physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                            itemBuilder: (BuildContext context, int index) {
+                              return ActiveHoursWidget(activityHour: activityHours[index], newDay: newDay(index));
+                            },
+                          ))
               ],
             ),
           ),

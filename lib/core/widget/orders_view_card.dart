@@ -160,7 +160,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     IconButton(
                       icon: Icon(Icons.star_rounded,
                           color: widget.order.userDeliveryRating == 'null'
-                              ? searchGreyColor
+                              ? Colors.black
                               : int.parse(widget.order.userDeliveryRating.split('.')[0]) < 5
                                   ? Colors.red
                                   : kmColors2,
@@ -181,12 +181,10 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                   content: Column(
                                     children: [
                                       Text(
-                                          (widget.order.userDeliveryRating != 'null'
-                                                  ? widget.order.userDeliveryRating + '\n'
-                                                  : '') +
-                                              (widget.order.userFeedback != 'null'
-                                                  ? widget.order.userFeedback + '\n'
-                                                  : ''),
+                                          widget.order.userDeliveryRating.toString() +
+                                              '\n' +
+                                              widget.order.userFeedback +
+                                              '\n',
                                           style: dialogStyle),
                                       DropdownButton(
                                           items: [1, 2, 3, 4, 5, null]

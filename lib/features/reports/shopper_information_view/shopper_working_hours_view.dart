@@ -158,6 +158,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: ListView.builder(
+                                  physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                                   scrollDirection: Axis.vertical,
                                   itemCount: report.length,
                                   itemBuilder: (BuildContext context, int index) {
