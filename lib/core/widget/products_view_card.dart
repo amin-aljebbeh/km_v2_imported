@@ -119,7 +119,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                   ],
                 ),
               ),
-              widget.product.subWarehouseId != -1
+              widget.product.subWarehouseId != 0
                   ? Column(
                       children: [
                         if (StaticVariables.subWarehouses.any((element) => element.id == widget.product.subWarehouseId))
