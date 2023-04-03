@@ -1,4 +1,3 @@
-import 'package:kammun_app/features/transactions/domain/entities/admin_transaction_entity.dart';
 import 'package:kammun_app/features/transactions/domain/entities/transaction_request_status_entity.dart';
 
 import '../../../../core/core_importer.dart';
@@ -11,6 +10,7 @@ Reducer<TransactionsState> transactionsReducer = combineReducers<TransactionsSta
   TypedReducer<TransactionsState, SetTransactionCategories>(setTransactionCategories),
   TypedReducer<TransactionsState, NextTransactionRequestsPage>(nextTransactionRequestsPage),
   TypedReducer<TransactionsState, NextTransactionsPage>(nextTransactionsPage),
+  TypedReducer<TransactionsState, PreviousTransactionsPage>(previousTransactionsPage),
   TypedReducer<TransactionsState, EndOfTransactionsRequests>(endOfTransactionsRequests),
   TypedReducer<TransactionsState, EndOfTransactions>(endOfTransactions),
   TypedReducer<TransactionsState, SetTransactions>(setTransactions),
@@ -97,10 +97,7 @@ TransactionsState setCategoryForFilter(TransactionsState state, SetFilterCategor
     state.copyWith(filterCategories: action.categories);
 
 TransactionsState setTransactions(TransactionsState state, SetTransactions action) {
-  List<AdminTransactionEntity> transactions = [];
-  transactions.addAll(state.transactions);
-  transactions.addAll(action.transactions);
-  return state.copyWith(transactions: transactions);
+  return state.copyWith(transactions: action.transactions);
 }
 
 TransactionsState firstTransactionsPage(TransactionsState state, FirstTransactionsPage action) =>
@@ -111,6 +108,9 @@ TransactionsState endOfTransactions(TransactionsState state, EndOfTransactions a
 
 TransactionsState nextTransactionsPage(TransactionsState state, NextTransactionsPage action) =>
     state.copyWith(transactionsPage: state.transactionsPage + 1);
+
+TransactionsState previousTransactionsPage(TransactionsState state, PreviousTransactionsPage action) =>
+    state.copyWith(transactionsPage: state.transactionsPage - 1);
 
 TransactionsState setTransactionStatusId(TransactionsState state, SetTransactionStatusId action) =>
     state.copyWith(transactionStatusId: action.transactionStatusId);

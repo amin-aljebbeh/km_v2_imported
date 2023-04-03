@@ -1,13 +1,14 @@
 import 'package:intl/intl.dart' as intl;
-import 'package:kammun_app/features/transactions/presentation/widgets/specific_day_profit_widget.dart';
+import 'package:kammun_app/features/transactions/presentation/redux/transactions_action.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/admin_transaction_entity.dart';
 
 class TransactionWidget extends StatelessWidget {
-  const TransactionWidget({Key key, this.transaction, this.newTransaction}) : super(key: key);
+  const TransactionWidget({Key key, this.transaction, this.newTransaction, this.ctx}) : super(key: key);
   final AdminTransactionEntity transaction;
   final bool newTransaction;
+  final BuildContext ctx;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +33,9 @@ class TransactionWidget extends StatelessWidget {
                           ),
                           KammunButton(
                             color: primaryColor,
-                            padding: 0,
-                            onTap: () => specificDayProfitWidget(context: context, date: transaction.createdAt),
+                            padding: const EdgeInsets.symmetric(vertical: 3),
+                            onTap: () => StoreProvider.of<AppState>(context).dispatch(ParticularDayProfits(
+                                context: ctx, date: transaction.createdAt, adminId: transaction.adminId)),
                             text: 'المجموع',
                             width: MediaQuery.of(context).size.width * 0.25,
                           ),

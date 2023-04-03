@@ -60,6 +60,14 @@ class GetTransactionsAction {
   GetTransactionsAction({this.adminId, this.groupingByParent});
 }
 
+class ParticularDayProfits {
+  final int adminId;
+  final DateTime date;
+  final BuildContext context;
+
+  ParticularDayProfits({this.adminId, this.date, this.context});
+}
+
 class GetAdminBalanceAction {
   final int adminId;
   final BuildContext context;
@@ -120,6 +128,8 @@ class NextTransactionRequestsPage {}
 class EndOfTransactionsRequests {}
 
 class NextTransactionsPage {}
+
+class PreviousTransactionsPage {}
 
 class EndOfTransactions {}
 

@@ -64,11 +64,20 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
             child: Container(
                 color: primaryColor,
                 child: SafeArea(
-                    child: TabBar(
-                        controller: controller,
-                        indicatorColor: Colors.white,
-                        labelColor: Colors.white,
-                        tabs: tabList))),
+                    child: Row(
+                  children: [
+                    IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white)),
+                    Expanded(
+                      child: TabBar(
+                          controller: controller,
+                          indicatorColor: Colors.white,
+                          labelColor: Colors.white,
+                          tabs: tabList),
+                    ),
+                  ],
+                ))),
           ),
           body: TabBarView(
               controller: controller,

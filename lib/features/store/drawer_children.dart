@@ -166,18 +166,23 @@ List<Widget> getDrawerChildren(BuildContext context) {
           MaterialPageRoute(
               builder: (context) => ManagementView(
                     title: adminPanel,
-                    children: const [
-                      SideBarRow(
+                    children: [
+                      const SideBarRow(
                           pushedRoute: SalesReport.routeName, icon: Icons.table_view_rounded, text: 'تقرير المبيعات'),
-                      SideBarRow(
-                          pushedRoute: SalesCharts.routeName,
-                          icon: Icons.insert_chart_outlined_rounded,
-                          text: 'إحصائيات المبيعات'),
-                      SideBarRow(
-                          pushedRoute: FinancialReportView.routeName,
-                          icon: Icons.payment,
-                          text: 'الأرباح والمستحقات المالية'),
-                      SideBarRow(pushedRoute: Prices.routeName, icon: Icons.attach_money, text: 'تغير الأسعار'),
+                      if (store.state.adminsState.admin.permissions.contains('advanced-admin-panel'))
+                        Column(
+                          children: const [
+                            SideBarRow(
+                                pushedRoute: SalesCharts.routeName,
+                                icon: Icons.insert_chart_outlined_rounded,
+                                text: 'إحصائيات المبيعات'),
+                            SideBarRow(
+                                pushedRoute: FinancialReportView.routeName,
+                                icon: Icons.payment,
+                                text: 'الأرباح والمستحقات المالية'),
+                            SideBarRow(pushedRoute: Prices.routeName, icon: Icons.attach_money, text: 'تغير الأسعار'),
+                          ],
+                        ),
                     ],
                   )),
         ),

@@ -3,8 +3,7 @@ import 'package:kammun_app/core/core_importer.dart';
 
 import '../../domain/entities/admin_transaction_entity.dart';
 
-specificDayProfitWidget({BuildContext context, DateTime date}) {
-  List<AdminTransactionEntity> transactions = StoreProvider.of<AppState>(context).state.transactionsState.transactions;
+specificDayProfitWidget({BuildContext context, DateTime date, List<AdminTransactionEntity> transactions}) {
   int kammunProfit = transactions
       .where((transaction) => transaction.createdAt.toString().split(' ')[0] == date.toString().split(' ')[0])
       .toList()

@@ -134,35 +134,32 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               if (result) widget.product.isActive = active.toString();
                             }),
                           ),
-                        Column(
-                          children: [
-                            const SizedBox(height: 5),
-                            Services.isAdmin() || Services.isViewPriceRateRoll() //todo make it permission
-                                ? Text(
-                                    'التقييم: ' +
-                                        (widget.product.rate != -1
-                                            ? StringUtils().oCcy.format(widget.product.rate).toString()
-                                            : '0'),
-                                    style: mainStyle.copyWith(
-                                        fontWeight: FontWeight.w700, color: primaryColor, fontSize: 13),
-                                  )
-                                : Container(),
-                            const SizedBox(height: 5),
-                            Services.isProductsController()
-                                ? Text(
-                                    'الكمية: ' +
-                                        (widget.product.availableQuantity != 'null'
-                                            ? StringUtils()
-                                                .oCcy
-                                                .format(int.parse(widget.product.availableQuantity.split('.')[0]))
-                                                .toString()
-                                            : ' '),
-                                    style: mainStyle.copyWith(
-                                        fontWeight: FontWeight.w700, color: primaryColor, fontSize: 13),
-                                  )
-                                : Container(),
-                          ],
-                        ),
+                        if (Services.isProductsController())
+                          Column(
+                            children: [
+                              const SizedBox(height: 5),
+                              Text(
+                                'التقييم: ' +
+                                    (widget.product.rate != -1
+                                        ? StringUtils().oCcy.format(widget.product.rate).toString()
+                                        : '0'),
+                                style:
+                                    mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 13),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                'الكمية: ' +
+                                    (widget.product.availableQuantity != 'null'
+                                        ? StringUtils()
+                                            .oCcy
+                                            .format(int.parse(widget.product.availableQuantity.split('.')[0]))
+                                            .toString()
+                                        : ' '),
+                                style:
+                                    mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 13),
+                              ),
+                            ],
+                          ),
                       ],
                     )
                   : Container(

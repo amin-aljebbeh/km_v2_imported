@@ -4,8 +4,10 @@ import 'package:kammun_app/features/transactions/presentation/redux/transactions
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/admin_balance_entity.dart';
+import '../../domain/entities/admin_transaction_entity.dart';
 import '../../domain/entities/transactions_response_entity.dart';
 import '../widgets/admin_balance_widget.dart';
+import '../widgets/specific_day_profit_widget.dart';
 
 Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatcher next) async {
   if (action is CreateTransactionAction) {
@@ -95,6 +97,44 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
       adminBalanceWidget(context: action.context, balance: balance);
     });
     store.dispatch(StopLoading());
+  } else if (action is ParticularDayProfits) {
+    List<AdminTransactionEntity> transactions = [];
+    transactions.addAll(store.state.transactionsState.transactions);
+    bool error = false;
+    Either either;
+    store.dispatch(StartLoading());
+    if (store.state.transactionsState.transactionsPage > 1) {
+      either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
+        pageNumber: store.state.transactionsState.transactionsPage - 1,
+        adminId:
+            store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? action.adminId : null,
+        groupingByParent: 1,
+        lastWeek: 1,
+      );
+      either.fold((failure) => error = true, (transactionsPage) {
+        TransactionsPaginationEntity tempTransactions = transactionsPage;
+        transactions.addAll(tempTransactions.transactions);
+      });
+    }
+    if (store.state.transactionsState.hasNextTransactions) {
+      either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
+        pageNumber: store.state.transactionsState.transactionsPage + 1,
+        adminId:
+            store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? action.adminId : null,
+        groupingByParent: 1,
+        lastWeek: 1,
+      );
+      either.fold((failure) => error = true, (transactionsPage) {
+        TransactionsPaginationEntity tempTransactions = transactionsPage;
+        transactions.addAll(tempTransactions.transactions);
+      });
+    }
+    store.dispatch(StopLoading());
+    if (error) {
+      store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));
+    } else {
+      specificDayProfitWidget(context: action.context, date: action.date, transactions: transactions);
+    }
   }
   next(action);
 }

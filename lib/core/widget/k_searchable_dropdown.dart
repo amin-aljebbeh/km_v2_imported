@@ -37,7 +37,9 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
       padding: EdgeInsets.symmetric(horizontal: widget.padding == 0 ? 10 : 0),
       child: SearchChoices.single(
         displayClearIcon: false,
-        onTap: () {},
+        onTap: () {
+          showValue = null;
+        },
         padding: widget.padding,
         rightToLeft: true,
         searchInputDecoration: InputDecoration(
