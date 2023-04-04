@@ -6,7 +6,6 @@ import 'inventory_action.dart';
 
 Future<void> inventoryMiddleware(Store<AppState> store, action, NextDispatcher next) async {
   if (action is GetInventory) {
-    store.dispatch(StartLoading());
     switch (store.state.inventoryState.inventoryType) {
       case InventoryTypes.notification:
         store.dispatch(GetNotificationProductsAction());

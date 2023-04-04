@@ -1,4 +1,3 @@
-import '../features/complaints/presentation/redux/complaints_action.dart';
 import '../features/login/Services/login_services.dart';
 import '../features/transactions/presentation/redux/transactions_action.dart';
 import 'core_importer.dart';
@@ -172,7 +171,6 @@ class GeneralApis {
           getSubWarehouse(context: context),
           getCategoryService(),
           GeneralApis.getWarehousesService(),
-          store.dispatch(GetComplaintTypesAction()),
           Services.initializeVariables()
         ]);
         if (Services.isOperationManager() || Services.isAdmin() || Services.isAccounting()) {
