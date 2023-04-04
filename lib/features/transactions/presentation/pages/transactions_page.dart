@@ -209,7 +209,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                   IconButton(
                                     icon: Icon(Icons.arrow_forward, size: 40, color: primaryColor),
                                     onPressed: () {
-                                      if ((!(adminId != null && adminId != 'null')) &&
+                                      if (((adminId != null && adminId != 'null')) &&
                                           state.transactionsState.transactionsPage > 1) {
                                         store.dispatch(PreviousTransactionsPage());
                                         store.dispatch(GetTransactionsAction(
