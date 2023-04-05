@@ -5,10 +5,11 @@ import '../../../../core/core_importer.dart';
 import '../../domain/entities/admin_transaction_entity.dart';
 
 class TransactionWidget extends StatelessWidget {
-  const TransactionWidget({Key key, this.transaction, this.newTransaction, this.ctx}) : super(key: key);
+  const TransactionWidget({Key key, this.transaction, this.newTransaction, this.ctx, this.adminId}) : super(key: key);
   final AdminTransactionEntity transaction;
   final bool newTransaction;
   final BuildContext ctx;
+  final int adminId;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class TransactionWidget extends StatelessWidget {
             newTransaction
                 ? Column(
                     children: [
+                      Divider(thickness: 5, color: primaryColor, height: 5),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,9 +35,9 @@ class TransactionWidget extends StatelessWidget {
                           ),
                           KammunButton(
                             color: primaryColor,
-                            padding: const EdgeInsets.symmetric(vertical: 3),
-                            onTap: () => StoreProvider.of<AppState>(context).dispatch(ParticularDayProfits(
-                                context: ctx, date: transaction.createdAt, adminId: transaction.adminId)),
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            onTap: () => StoreProvider.of<AppState>(context).dispatch(
+                                ParticularDayProfits(context: ctx, date: transaction.createdAt, adminId: adminId)),
                             text: 'المجموع',
                             width: MediaQuery.of(context).size.width * 0.25,
                           ),
@@ -53,36 +55,36 @@ class TransactionWidget extends StatelessWidget {
                     ],
                   )
                 : Container(),
-            Stack(
+            const SizedBox(height: 10),
+            KTableRow(
               children: [
-                KTableRow(
+                KTableElement(text: transaction.actor != null ? transaction.actor.name : '', style: mainStyle),
+                KTableElement(
+                  text: StringUtils().oCcy.format(int.parse(transaction.shopperValue).abs()),
+                  style: int.parse(transaction.shopperValue) >= 0 ? lightProfitStyle : lightLoseStyle,
+                ),
+                KTableElement(
+                  text: StringUtils().oCcy.format(int.parse(transaction.companyValue).abs()),
+                  style: int.parse(transaction.companyValue) >= 0 ? lightProfitStyle : lightLoseStyle,
+                ),
+                Stack(
                   children: [
-                    KTableElement(text: transaction.actor != null ? transaction.actor.name : '', style: mainStyle),
-                    KTableElement(
-                      text: StringUtils().oCcy.format(int.parse(transaction.shopperValue).abs()),
-                      style: int.parse(transaction.shopperValue) >= 0 ? lightProfitStyle : lightLoseStyle,
-                    ),
-                    KTableElement(
-                      text: StringUtils().oCcy.format(int.parse(transaction.companyValue).abs()),
-                      style: int.parse(transaction.companyValue) >= 0 ? lightProfitStyle : lightLoseStyle,
-                    ),
-                    Stack(
-                      children: [
-                        KTableElement(text: transaction.category.name),
-                        if (transaction.description != null)
-                          IconButton(
-                            icon: Icon(Icons.device_unknown, color: primaryColor),
-                            onPressed: () => showMyDialog(
-                                context: context, title: transaction.category.name, text: transaction.description),
-                            padding: const EdgeInsets.only(top: 25, right: 15),
-                          ),
-                      ],
-                    ),
-                    KTableElement(
-                      text: transaction.orderId != null ? transaction.orderId.toString() : 'null',
-                      style: mainStyle.copyWith(color: Colors.purple),
-                    ),
+                    KTableElement(text: transaction.category.name),
+                    if (transaction.description != null)
+                      IconButton(
+                        icon: Icon(Icons.device_unknown, color: primaryColor),
+                        onPressed: () => showMyDialog(
+                            context: context,
+                            title: transaction.category.name,
+                            dialogButtons: [],
+                            text: transaction.description),
+                        padding: const EdgeInsets.only(top: 25, right: 15),
+                      ),
                   ],
+                ),
+                KTableElement(
+                  text: transaction.orderId != null ? transaction.orderId.toString() : 'null',
+                  style: mainStyle.copyWith(color: Colors.purple),
                 ),
               ],
             ),

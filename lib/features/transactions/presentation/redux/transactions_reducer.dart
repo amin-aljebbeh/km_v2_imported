@@ -28,6 +28,7 @@ Reducer<TransactionsState> transactionsReducer = combineReducers<TransactionsSta
   TypedReducer<TransactionsState, SetShopperReport>(setShopperReportAction),
   TypedReducer<TransactionsState, RefreshTransactions>(refreshTransactions),
   TypedReducer<TransactionsState, RefreshRequests>(refreshRequests),
+  TypedReducer<TransactionsState, SetGrouping>(setGrouping),
 ]);
 
 TransactionsState setTransactionRequests(TransactionsState state, SetTransactionRequests action) {
@@ -63,6 +64,9 @@ TransactionsState setShopperReportAction(TransactionsState state, SetShopperRepo
 
 TransactionsState nextTransactionRequestsPage(TransactionsState state, NextTransactionRequestsPage action) =>
     state.copyWith(requestsPage: state.requestsPage + 1);
+
+TransactionsState setGrouping(TransactionsState state, SetGrouping action) =>
+    state.copyWith(groupingTransactions: action.grouping);
 
 TransactionsState endOfTransactionsRequests(TransactionsState state, EndOfTransactionsRequests action) =>
     state.copyWith(hasNextRequests: false);

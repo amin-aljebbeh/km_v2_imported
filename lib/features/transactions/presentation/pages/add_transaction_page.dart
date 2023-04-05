@@ -20,7 +20,7 @@ class AddTransactionPage extends StatefulWidget {
 class _AddTransactionPageState extends State<AddTransactionPage> {
   TransactionCategoryEntity category;
   int categoryId;
-  int adminId;
+  String adminId;
   String deliveryDate;
   final moneyController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -97,15 +97,25 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('الأدمن: ', style: paragraphStyle),
-                                        DropdownButton(
+                                        Expanded(
+                                          child: KSearchableDropdown(
+                                            hint: 'اختر أدمن',
+                                            padding: 0,
+                                            disableHint: 'اختر نوع مناقلة أولاً',
+                                            search: adminId,
                                             items: state.adminsState.transactionsActors
-                                                .map((actor) => DropdownMenuItem<int>(
+                                                .map((actor) => DropdownMenuItem<String>(
                                                     child: AutoSizeText(actor.name, style: mainStyle, maxFontSize: 15),
-                                                    value: actor.id))
+                                                    value: actor.name))
                                                 .toList(),
-                                            value: adminId,
-                                            hint: Text('اختر مسؤول', style: mainStyle),
-                                            onChanged: (value) => setState(() => adminId = value)),
+                                            onChanged: (value) {
+                                              adminId = state.adminsState.transactionsActors
+                                                  .firstWhere((admin) => admin.name == value)
+                                                  .id
+                                                  .toString();
+                                            },
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -180,16 +190,19 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 }
                               } else {
                                 if (store.state.adminsState.admins.isEmpty) {
-                                  store.dispatch(GetAdminsWithoutDetailsAction());
+                                  store.dispatch(
+                                      GetAdminsWithoutDetailsAction(roleId: Services.isSuperAdmin() ? null : 3));
                                 }
                                 if (store.state.adminsState.roles.isEmpty) store.dispatch(GetRolesAction());
                                 if (adminId != null) {
-                                  id = adminId;
-                                  if (state.adminsState.admins.firstWhere((admin) => admin.id == adminId).shopper !=
+                                  id = int.parse(adminId);
+                                  if (state.adminsState.admins
+                                          .firstWhere((admin) => admin.id.toString() == adminId)
+                                          .shopper !=
                                       null) {
                                     store.dispatch(GetShopperReportAction(
                                         shopperId: state.adminsState.admins
-                                            .firstWhere((admin) => admin.id == adminId)
+                                            .firstWhere((admin) => admin.id.toString() == adminId)
                                             .shopper
                                             .id));
                                   }
@@ -219,9 +232,9 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                           context: context,
                                           transactionEntity: AdminTransactionEntity(
                                               transactionCategoryId: category.id,
-                                              actorId: adminId,
+                                              actorId: int.parse(adminId),
                                               userId: widget.userId,
-                                              adminId: adminId,
+                                              adminId: int.parse(adminId),
                                               date: deliveryDate,
                                               value: int.parse(moneyController.text).abs(),
                                               description: descriptionController.text,

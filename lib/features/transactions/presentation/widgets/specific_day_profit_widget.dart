@@ -4,15 +4,9 @@ import 'package:kammun_app/core/core_importer.dart';
 import '../../domain/entities/admin_transaction_entity.dart';
 
 specificDayProfitWidget({BuildContext context, DateTime date, List<AdminTransactionEntity> transactions}) {
-  int kammunProfit = transactions
-      .where((transaction) => transaction.createdAt.toString().split(' ')[0] == date.toString().split(' ')[0])
-      .toList()
-      .fold(0, (value, transaction) => value + int.parse(transaction.companyValue));
+  int kammunProfit = transactions.fold(0, (value, transaction) => value + int.parse(transaction.companyValue));
 
-  int shopperProfit = transactions
-      .where((transaction) => transaction.createdAt.toString().split(' ')[0] == date.toString().split(' ')[0])
-      .toList()
-      .fold(0, (value, transaction) => value + int.parse(transaction.shopperValue));
+  int shopperProfit = transactions.fold(0, (value, transaction) => value + int.parse(transaction.shopperValue));
   showMyDialog(
     context: context,
     title: 'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',
@@ -22,14 +16,14 @@ specificDayProfitWidget({BuildContext context, DateTime date, List<AdminTransact
         Column(
           children: [
             Text(shopper, style: mainStyle),
-            Text(StringUtils().oCcy.format(shopperProfit.abs()).toString(),
+            Text(StringUtils().oCcy.format(shopperProfit.abs()),
                 style: shopperProfit.isNegative ? loseStyle : profitStyle),
           ],
         ),
         Column(
           children: [
             Text(kammun, style: mainStyle),
-            Text(StringUtils().oCcy.format(kammunProfit.abs()).toString(),
+            Text(StringUtils().oCcy.format(kammunProfit.abs()),
                 style: kammunProfit.isNegative ? loseStyle : profitStyle),
           ],
         ),

@@ -55,9 +55,8 @@ class SetAssignedToMe {
 
 class GetTransactionsAction {
   final int adminId;
-  final int groupingByParent;
 
-  GetTransactionsAction({this.adminId, this.groupingByParent});
+  GetTransactionsAction({this.adminId});
 }
 
 class ParticularDayProfits {
@@ -121,6 +120,12 @@ class TransactionRequestChanged {
   final String rejectReason;
 
   TransactionRequestChanged({this.requestId, this.statusId, this.rejectReason});
+}
+
+class SetGrouping {
+  final bool grouping;
+
+  SetGrouping({this.grouping});
 }
 
 class NextTransactionRequestsPage {}

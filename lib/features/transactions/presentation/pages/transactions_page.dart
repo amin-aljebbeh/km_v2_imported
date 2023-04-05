@@ -21,16 +21,16 @@ class _TransactionsPageState extends State<TransactionsPage> {
   String tempAdminId;
   int roleId;
   int warehouseId;
-  bool grouping = false;
+
   bool myTransactions = false;
 
   @override
   void initState() {
     adminId = widget.adminId.toString();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!Services.isSuperAdmin()) roleId = 3;
       if (adminId != null && adminId != 'null') {
-        StoreProvider.of<AppState>(context)
-            .dispatch(GetTransactionsAction(adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
+        StoreProvider.of<AppState>(context).dispatch(GetTransactionsAction(adminId: int.parse(adminId)));
       }
     });
     super.initState();
@@ -42,11 +42,14 @@ class _TransactionsPageState extends State<TransactionsPage> {
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       builder: (context, state) {
-        List<DropdownMenuItem<int>> roles = state.adminsState.roles
-            .map((role) => DropdownMenuItem<int>(
-                child: AutoSizeText(role.name, style: mainStyle, maxFontSize: 15), value: role.id))
-            .toList();
-        roles.add(DropdownMenuItem<int>(child: Text('الكل', style: mainStyle), value: null));
+        List<DropdownMenuItem<int>> roles = [];
+        if (Services.isSuperAdmin()) {
+          roles.addAll(state.adminsState.roles
+              .map((role) => DropdownMenuItem<int>(
+                  child: AutoSizeText(role.name, style: mainStyle, maxFontSize: 15), value: role.id))
+              .toList());
+          roles.add(DropdownMenuItem<int>(child: Text('الكل', style: mainStyle), value: null));
+        }
         List<DropdownMenuItem<int>> warehouses = StaticVariables.warehouses
             .map((warehouse) => DropdownMenuItem<int>(
                 child: AutoSizeText(warehouse.name, style: mainStyle, maxFontSize: 15), value: warehouse.id))
@@ -58,8 +61,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
               IconButton(
                   onPressed: () {
                     StoreProvider.of<AppState>(context).dispatch(RefreshTransactions());
-                    StoreProvider.of<AppState>(context).dispatch(
-                        GetTransactionsAction(adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
+                    StoreProvider.of<AppState>(context).dispatch(GetTransactionsAction(adminId: int.parse(adminId)));
                   },
                   icon: const Icon(Icons.refresh, size: 35))
             ]),
@@ -100,8 +102,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                                   adminId = tempAdminId;
                                                 }
                                                 store.dispatch(FirstTransactionsPage());
-                                                store.dispatch(GetTransactionsAction(
-                                                    adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
+                                                store.dispatch(GetTransactionsAction(adminId: int.parse(adminId)));
                                                 if (isShopper(state)) {
                                                   store.dispatch(GetShopperReportAction(shopperId: shopperId(state)));
                                                 }
@@ -116,13 +117,12 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                     child: Row(
                                       children: [
                                         Checkbox(
-                                            value: grouping,
+                                            value: state.transactionsState.groupingTransactions,
                                             onChanged: (bool value) {
-                                              setState(() => grouping = value);
+                                              store.dispatch(SetGrouping(grouping: value));
                                               if (adminId != null && adminId != 'null') {
                                                 store.dispatch(FirstTransactionsPage());
-                                                store.dispatch(GetTransactionsAction(
-                                                    adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
+                                                store.dispatch(GetTransactionsAction(adminId: int.parse(adminId)));
                                                 if (isShopper(state)) {
                                                   store.dispatch(GetShopperReportAction(shopperId: shopperId(state)));
                                                 }
@@ -145,26 +145,27 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                       hint: Text('المستودع', style: mainStyle),
                                       value: warehouseId,
                                       onChanged: (value) {
-                                        store.dispatch(
-                                            GetAdminsWithoutDetailsAction(roleId: roleId, warehouseId: warehouseId));
                                         setState(() {
                                           adminId = null;
                                           warehouseId = value;
                                         });
+                                        store.dispatch(
+                                            GetAdminsWithoutDetailsAction(roleId: roleId, warehouseId: warehouseId));
                                       },
                                     ),
-                                    DropdownButton(
-                                        items: roles,
-                                        hint: Text('منصب الأدمن', style: mainStyle),
-                                        value: roleId,
-                                        onChanged: (value) {
-                                          store.dispatch(
-                                              GetAdminsWithoutDetailsAction(roleId: roleId, warehouseId: warehouseId));
-                                          setState(() {
-                                            adminId = null;
-                                            roleId = value;
-                                          });
-                                        })
+                                    if (Services.isSuperAdmin())
+                                      DropdownButton(
+                                          items: roles,
+                                          hint: Text('منصب الأدمن', style: mainStyle),
+                                          value: roleId,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              adminId = null;
+                                              roleId = value;
+                                            });
+                                            store.dispatch(GetAdminsWithoutDetailsAction(
+                                                roleId: roleId, warehouseId: warehouseId));
+                                          })
                                   ],
                                 ),
                               ),
@@ -176,8 +177,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                       if (((adminId != null && adminId != 'null')) &&
                                           state.transactionsState.hasNextTransactions) {
                                         store.dispatch(NextTransactionsPage());
-                                        store.dispatch(GetTransactionsAction(
-                                            adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
+                                        store.dispatch(GetTransactionsAction(adminId: int.parse(adminId)));
                                       }
                                     },
                                   ),
@@ -198,8 +198,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                             .id
                                             .toString();
                                         store.dispatch(FirstTransactionsPage());
-                                        store.dispatch(GetTransactionsAction(
-                                            adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
+                                        store.dispatch(GetTransactionsAction(adminId: int.parse(adminId)));
                                         if (isShopper(state)) {
                                           store.dispatch(GetShopperReportAction(shopperId: shopperId(state)));
                                         }
@@ -212,8 +211,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                       if (((adminId != null && adminId != 'null')) &&
                                           state.transactionsState.transactionsPage > 1) {
                                         store.dispatch(PreviousTransactionsPage());
-                                        store.dispatch(GetTransactionsAction(
-                                            adminId: int.parse(adminId), groupingByParent: grouping ? 1 : 0));
+                                        store.dispatch(GetTransactionsAction(adminId: int.parse(adminId)));
                                       }
                                     },
                                   ),
@@ -247,6 +245,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                               itemBuilder: (BuildContext ctx, int index) => TransactionWidget(
                                                     transaction: state.transactionsState.transactions[index],
                                                     ctx: context,
+                                                    adminId: int.parse(adminId),
                                                     newTransaction:
                                                         newTransaction(index, state.transactionsState.transactions),
                                                   )),

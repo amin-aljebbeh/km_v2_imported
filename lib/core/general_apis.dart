@@ -56,6 +56,7 @@ class GeneralApis {
 
       if (response.statusCode == successCode && response.data['success'].toString() == 'true') {
         StaticVariables.warehouses = List<Warehouse>.from(response.data['data'].map((x) => Warehouse.fromJson(x)));
+        StaticVariables.warehouses.removeWhere((warehouse) => warehouse.isActive == 0);
       }
       return StaticVariables.warehouses;
     } catch (e) {

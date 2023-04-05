@@ -29,37 +29,43 @@ class _SalesReportState extends State<SalesReport> {
 
   _reportCard(GetDailyStatistics response) {
     totalSubWarehouses.clear();
-    totalSubWarehouses.add(Center(
-        child: Padding(padding: const EdgeInsets.all(8.0), child: Text('إحصائيات عامة', style: informationStyle))));
-    totalSubWarehouses.add(Table(
-      border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
-      children: [
-        TableRow(children: [
-          KTableElement(text: totalSales),
-          KTableElement(text: shoppingProfits),
-          KTableElement(text: deliveryProfits),
-        ]),
-        TableRow(
-          children: [
-            KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalSales)),
-            KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalShoppingProfits)),
-            KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalDeliveryProfits)),
-          ],
-        ),
-        const TableRow(children: [
-          KTableElement(text: 'القيم المضافة'),
-          KTableElement(text: 'الإكراميات'),
-          KTableElement(text: 'عدد الطلبات')
-        ]),
-        TableRow(
-          children: [
-            KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalIncreaseValueProfits)),
-            KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.sumTips)),
-            KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalOrders)),
-          ],
-        ),
-      ],
-    ));
+    if (Services.isSuperAdmin()) {
+      totalSubWarehouses.add(Center(
+          child: Padding(padding: const EdgeInsets.all(8.0), child: Text('إحصائيات عامة', style: informationStyle))));
+      totalSubWarehouses.add(Table(
+        border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
+        children: [
+          TableRow(children: [
+            KTableElement(text: totalSales),
+            KTableElement(text: shoppingProfits),
+            KTableElement(text: deliveryProfits),
+          ]),
+          TableRow(
+            children: [
+              KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalSales)),
+              KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalShoppingProfits)),
+              KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalDeliveryProfits)),
+            ],
+          ),
+          const TableRow(children: [
+            KTableElement(text: 'القيم المضافة'),
+            KTableElement(text: 'الإكراميات'),
+            KTableElement(text: 'عدد الطلبات')
+          ]),
+          TableRow(
+            children: [
+              KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalIncreaseValueProfits)),
+              KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.sumTips)),
+              KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalOrders)),
+            ],
+          ),
+        ],
+      ));
+    }
+    if (!Services.isSuperAdmin()) {
+      response.warehouses.removeWhere(
+          (warehouse) => warehouse.id != StoreProvider.of<AppState>(context).state.adminsState.admin.warehouseId);
+    }
     for (int i = 0; i < response.warehouses.length; i++) {
       if (response.warehouses[i].statisticsWarehouses != null) {
         List<Widget> expanded = [];

@@ -3,7 +3,8 @@ import 'package:kammun_app/features/admins/domain/entities/admins_entity.dart';
 import '../../../../core/core_importer.dart';
 
 class AdminModel extends AdminEntity {
-  const AdminModel({id, username, name, phone, apiToken, subWarehouses, roles, shopper, permissions, balance})
+  const AdminModel(
+      {id, username, name, phone, apiToken, subWarehouses, roles, shopper, permissions, balance, warehouseId})
       : super(
           id: id,
           name: name,
@@ -15,11 +16,13 @@ class AdminModel extends AdminEntity {
           username: username,
           permissions: permissions,
           balance: balance,
+          warehouseId: warehouseId,
         );
 
   factory AdminModel.fromJson(Map<String, dynamic> json) => AdminModel(
         id: json['id'],
         username: json['username'],
+        warehouseId: json['warehouse_id'],
         name: json['name'],
         balance: json['balance'],
         phone: json['phone'],

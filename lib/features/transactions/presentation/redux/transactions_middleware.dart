@@ -61,8 +61,11 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
     Either either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
       pageNumber: store.state.transactionsState.transactionsPage,
       adminId: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? action.adminId : null,
-      groupingByParent:
-          store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? action.groupingByParent : 1,
+      groupingByParent: store.state.adminsState.admin.permissions.contains('advanced-transaction-view')
+          ? store.state.transactionsState.groupingTransactions
+              ? 1
+              : 0
+          : 1,
       lastWeek: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? 0 : 1,
     );
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
@@ -99,35 +102,93 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
     store.dispatch(StopLoading());
   } else if (action is ParticularDayProfits) {
     List<AdminTransactionEntity> transactions = [];
-    transactions.addAll(store.state.transactionsState.transactions);
     bool error = false;
+    bool toBreak = false;
     Either either;
+    int beforeNumber = store.state.transactionsState.transactionsPage;
+    int afterNumber = store.state.transactionsState.transactionsPage;
+    int length;
     store.dispatch(StartLoading());
-    if (store.state.transactionsState.transactionsPage > 1) {
+    either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
+      pageNumber: store.state.transactionsState.transactionsPage,
+      adminId: action.adminId,
+      groupingByParent: store.state.adminsState.admin.permissions.contains('advanced-transaction-view')
+          ? store.state.transactionsState.groupingTransactions
+              ? 1
+              : 0
+          : 1,
+      lastWeek: 1,
+    );
+    either.fold((failure) => error = true, (transactionsPage) {
+      TransactionsPaginationEntity tempTransactions = transactionsPage;
+      transactions
+          .addAll(tempTransactions.transactions.where((transaction) => transaction.createdAt.day == action.date.day));
+      Tools.logToConsole('page');
+      Tools.logToConsole(store.state.transactionsState.transactionsPage);
+      Tools.logToConsole(length);
+      Tools.logToConsole(transactions.length);
+      Tools.logToConsole(tempTransactions.perPage);
+    });
+    while (beforeNumber > 1) {
+      length = transactions.length;
       either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
-        pageNumber: store.state.transactionsState.transactionsPage - 1,
-        adminId:
-            store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? action.adminId : null,
-        groupingByParent: 1,
-        lastWeek: 1,
-      );
+          pageNumber: beforeNumber - 1,
+          adminId: action.adminId,
+          groupingByParent: store.state.adminsState.admin.permissions.contains('advanced-transaction-view')
+              ? store.state.transactionsState.groupingTransactions
+                  ? 1
+                  : 0
+              : 1,
+          lastWeek: 1);
       either.fold((failure) => error = true, (transactionsPage) {
         TransactionsPaginationEntity tempTransactions = transactionsPage;
-        transactions.addAll(tempTransactions.transactions);
+        transactions
+            .addAll(tempTransactions.transactions.where((transaction) => transaction.createdAt.day == action.date.day));
+
+        if ((length == transactions.length) ||
+            (transactions.length - length < tempTransactions.perPage && length != transactions.length)) {
+          toBreak = true;
+        }
+        Tools.logToConsole('before');
+        Tools.logToConsole(beforeNumber - 1);
+        Tools.logToConsole(length);
+        Tools.logToConsole(transactions.length);
+        Tools.logToConsole(tempTransactions.perPage);
       });
+      if (length == transactions.length || toBreak) break;
+      beforeNumber--;
     }
-    if (store.state.transactionsState.hasNextTransactions) {
+    while (!error) {
+      toBreak = false;
+      length = transactions.length;
       either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
-        pageNumber: store.state.transactionsState.transactionsPage + 1,
-        adminId:
-            store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? action.adminId : null,
-        groupingByParent: 1,
-        lastWeek: 1,
-      );
+          pageNumber: afterNumber + 1,
+          adminId: action.adminId,
+          groupingByParent: store.state.adminsState.admin.permissions.contains('advanced-transaction-view')
+              ? store.state.transactionsState.groupingTransactions
+                  ? 1
+                  : 0
+              : 1,
+          lastWeek: 1);
       either.fold((failure) => error = true, (transactionsPage) {
         TransactionsPaginationEntity tempTransactions = transactionsPage;
-        transactions.addAll(tempTransactions.transactions);
+        transactions
+            .addAll(tempTransactions.transactions.where((transaction) => transaction.createdAt.day == action.date.day));
+        if ((length == transactions.length) ||
+            (transactions.length - length < tempTransactions.perPage && length != transactions.length) ||
+            (tempTransactions.lastPage == tempTransactions.currentPage)) {
+          toBreak = true;
+        }
+        Tools.logToConsole('after');
+        Tools.logToConsole(afterNumber + 1);
+        Tools.logToConsole(length);
+        Tools.logToConsole(transactions.length);
+        Tools.logToConsole(tempTransactions.perPage);
+        Tools.logToConsole(tempTransactions.lastPage);
+        Tools.logToConsole(tempTransactions.currentPage);
       });
+      if (length == transactions.length || toBreak) break;
+      afterNumber++;
     }
     store.dispatch(StopLoading());
     if (error) {

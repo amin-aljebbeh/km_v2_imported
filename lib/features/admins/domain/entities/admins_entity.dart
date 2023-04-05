@@ -12,6 +12,7 @@ class AdminEntity extends Equatable {
   final ShopperModel shopper;
   final List<String> permissions;
   final int balance;
+  final int warehouseId;
   final ShopperEntity shopperEntity;
 
   const AdminEntity({
@@ -25,6 +26,7 @@ class AdminEntity extends Equatable {
     this.shopper,
     this.permissions,
     this.balance,
+    this.warehouseId,
     this.shopperEntity,
   });
 

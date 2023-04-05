@@ -38,14 +38,18 @@ List<Widget> getDrawerChildren(BuildContext context) {
                           store.dispatch(GetShopperReportAction(shopperId: store.state.adminsState.admin.shopper.id));
                         }
                       } else {
-                        if (store.state.adminsState.admins.isEmpty) store.dispatch(GetAdminsWithoutDetailsAction());
-                        if (store.state.adminsState.roles.isEmpty) store.dispatch(GetRolesAction());
+                        if (store.state.adminsState.admins.isEmpty) {
+                          store.dispatch(GetAdminsWithoutDetailsAction(roleId: Services.isSuperAdmin() ? null : 3));
+                        }
+                        if (store.state.adminsState.roles.isEmpty && Services.isSuperAdmin()) {
+                          store.dispatch(GetRolesAction());
+                        }
                       }
                       Navigator.push(
                           context, MaterialPageRoute(builder: (context) => TransactionsPage(adminId: adminId)));
                     },
                     icon: Icons.featured_play_list,
-                    text: 'كشف حساب المتسوق'),
+                    text: 'كشف حساب '),
                 SideBarRow(
                     onTap: () {
                       store.dispatch(NoError());

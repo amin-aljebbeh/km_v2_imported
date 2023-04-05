@@ -4,6 +4,7 @@ import '../core_importer.dart';
 
 class KSearchableDropdown extends StatefulWidget {
   final String hint;
+  final String disableHint;
   final String search;
   final List<DropdownMenuItem> items;
   final Function(String) onChanged;
@@ -16,6 +17,7 @@ class KSearchableDropdown extends StatefulWidget {
     @required this.items,
     @required this.onChanged,
     this.padding = 10,
+    this.disableHint = 'disabled',
   }) : super(key: key);
 
   @override
@@ -49,7 +51,7 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
         closeButton: TextButton(
             child: Text(closeString, style: dropdownItemStyle.copyWith(color: primaryColor)),
             onPressed: () => Navigator.of(context).pop()),
-        disabledHint: Center(child: Text('disabled', style: disableStyle)),
+        disabledHint: Center(child: Text(widget.disableHint, style: disableStyle)),
         isCaseSensitiveSearch: false,
         underline: Container(),
         isExpanded: true,
