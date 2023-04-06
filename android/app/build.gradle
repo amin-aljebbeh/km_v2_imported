@@ -56,8 +56,8 @@ android {
         applicationId "com.kammunShopper.app"
         minSdkVersion 19
         targetSdkVersion 31
-        versionCode 131
-        versionName '3.31'
+        versionCode 132
+        versionName '3.32'
         multiDexEnabled true
     }
 signingConfigs {
