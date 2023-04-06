@@ -8,7 +8,7 @@ Future<void> ordersMiddleware(Store<AppState> store, action, NextDispatcher next
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases.reAssignOrderUseCase(orderId: action.orderId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (_) => store.dispatch(ViewMessage(message: 'تمت العملية بنجاح')));
+        (_) => snackBar(message: 'تمت العملية بنجاح', success: true, context: action.context));
     store.dispatch(StopLoading());
   } else if (action is UpdateOrderRatingAction) {
     store.dispatch(StartLoading());

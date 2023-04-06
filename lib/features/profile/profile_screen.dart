@@ -92,72 +92,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 leftSideStyle:
                                     state.adminsState.admin.balance.isNegative ? warningStyle : informationStyle),
                           ),
-                        StaticVariables.roles.isNotEmpty
-                            ? Column(
-                                children: [
-                                  Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 20.0),
-                                      child: Center(
-                                          child: Text('المستودع',
-                                              style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 20))),
-                                    ),
+                        if (state.adminsState.admin.roles.isNotEmpty)
+                          Column(
+                            children: [
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 20.0),
+                                  child: Center(
+                                      child: Text('المستودع',
+                                          style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 20))),
+                                ),
+                              ),
+                              Center(
+                                child: Container(
+                                  margin: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white,
+                                      boxShadow: [BoxShadow(color: kmColors, spreadRadius: 3)]),
+                                  child: Center(
+                                    child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: StaticVariables.subWarehouses
+                                            .map((subWarehouse) => Container(
+                                                padding: const EdgeInsets.all(5),
+                                                decoration: const BoxDecoration(color: Colors.white),
+                                                child: Text(subWarehouse.name,
+                                                    style: mainStyle.copyWith(fontSize: 25, color: Colors.black))))
+                                            .toList()),
                                   ),
-                                  Center(
-                                    child: Container(
-                                      margin: const EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: Colors.white,
-                                          boxShadow: [BoxShadow(color: kmColors, spreadRadius: 3)]),
-                                      child: Center(
-                                        child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: StaticVariables.subWarehouses
-                                                .map((subWarehouse) => Container(
-                                                    padding: const EdgeInsets.all(5),
-                                                    decoration: const BoxDecoration(color: Colors.white),
-                                                    child: Text(subWarehouse.name,
-                                                        style: mainStyle.copyWith(fontSize: 25, color: Colors.black))))
-                                                .toList()),
-                                      ),
-                                    ),
+                                ),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                      child: Text('الجهة المفضلة لاستخدام الهاتف',
+                                          style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 20)))),
+                              Center(
+                                child: Container(
+                                  margin: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white,
+                                      boxShadow: [BoxShadow(color: kmColors, spreadRadius: 3)]),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(Icons.library_add_check_outlined,
+                                            color: StaticVariables.preferLeftSide ? searchGreyColor : kmColors2),
+                                        onPressed: () => setState(() =>
+                                            StaticVariables.preferLeftSide ? Services.setPreferLeftSide(false) : {}),
+                                      ), //right side
+                                      IconButton(
+                                          icon: Icon(Icons.library_add_check_outlined,
+                                              color: StaticVariables.preferLeftSide ? kmColors2 : searchGreyColor),
+                                          onPressed: () => setState(() =>
+                                              StaticVariables.preferLeftSide ? {} : Services.setPreferLeftSide(true)))
+                                    ],
                                   ),
-                                  Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Center(
-                                          child: Text('الجهة المفضلة لاستخدام الهاتف',
-                                              style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 20)))),
-                                  Center(
-                                    child: Container(
-                                      margin: const EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: Colors.white,
-                                          boxShadow: [BoxShadow(color: kmColors, spreadRadius: 3)]),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        children: [
-                                          IconButton(
-                                            icon: Icon(Icons.library_add_check_outlined,
-                                                color: StaticVariables.preferLeftSide ? searchGreyColor : kmColors2),
-                                            onPressed: () => setState(() => StaticVariables.preferLeftSide
-                                                ? Services.setPreferLeftSide(false)
-                                                : {}),
-                                          ), //right side
-                                          IconButton(
-                                              icon: Icon(Icons.library_add_check_outlined,
-                                                  color: StaticVariables.preferLeftSide ? kmColors2 : searchGreyColor),
-                                              onPressed: () => setState(() => StaticVariables.preferLeftSide
-                                                  ? {}
-                                                  : Services.setPreferLeftSide(true)))
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Container(),
+                                ),
+                              ),
+                            ],
+                          ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Center(

@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         errorMessage = 'يرجى إدخال كلمة السر';
       });
     } else {
-      if (['rabie', 'supplier', 'rabia', 'bashar_test'].contains(_usernameController.text)) baseUrl = testUrl;
+      if (['shopper', 'supplier', 'rabia', 'agent', 'collector'].contains(_usernameController.text)) baseUrl = testUrl;
       bool response =
           await LoginServices.loginAdmin(username: _usernameController.text, password: _passwordController.text);
       if (response) {

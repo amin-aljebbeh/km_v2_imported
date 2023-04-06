@@ -26,7 +26,7 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
       store.dispatch(TransactionRequestChanged(
           rejectReason: action.rejectReason, requestId: action.requestId, statusId: action.statusId));
-      store.dispatch(ViewMessage(message: 'تمت العملية بنجاح'));
+      snackBar(message: 'تمت العملية بنجاح', success: true, context: action.context);
     });
     store.dispatch(StopLoading());
   } else if (action is DeleteTransactionRequestAction) {
@@ -35,7 +35,7 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
         .deleteTransactionRequestUseCase(requestId: action.requestId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
       store.dispatch(RequestDeleted(requestId: action.requestId));
-      store.dispatch(ViewMessage(message: 'تمت العملية بنجاح'));
+      snackBar(message: 'تمت العملية بنجاح', success: true, context: action.context);
     });
     store.dispatch(StopLoading());
   } else if (action is GetTransactionRequestsAction) {

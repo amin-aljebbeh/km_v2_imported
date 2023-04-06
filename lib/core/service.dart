@@ -56,29 +56,16 @@ class Services {
     return list;
   }
 
-  static bool isAdmin() => StaticVariables.roles.where((element) => element.slug.contains(adminRole)).isNotEmpty;
+  static bool hasRole(BuildContext context, String slug) => StoreProvider.of<AppState>(context)
+      .state
+      .adminsState
+      .admin
+      .roles
+      .where((element) => element.slug.contains(slug))
+      .isNotEmpty;
 
-  static bool isAgent() => StaticVariables.roles.where((element) => element.slug.contains(agentRole)).isNotEmpty;
-
-  static bool isOperationManager() =>
-      StaticVariables.roles.where((element) => element.slug.contains(operationManager)).isNotEmpty;
-
-  static bool isProductsController() =>
-      StaticVariables.roles.where((element) => element.slug.contains(productsController)).isNotEmpty;
-
-  static bool isSuperAdmin() =>
-      StaticVariables.roles.where((element) => element.slug.contains(superAdminRole)).isNotEmpty;
-
-  static bool isAccounting() =>
-      StaticVariables.roles.where((element) => element.slug.contains(accountingRole)).isNotEmpty;
-
-  static bool isShopper() => StaticVariables.roles.where((element) => element.slug.contains(shopperRole)).isNotEmpty;
-
-  static bool isSupplierManager() =>
-      StaticVariables.roles.where((element) => element.slug.contains(supplierRol)).isNotEmpty;
-
-  static bool isViewPriceRateRoll() =>
-      StaticVariables.roles.where((element) => element.slug.contains(viewPriceRate)).isNotEmpty;
+  static bool hasPermission(BuildContext context, String slug) =>
+      StoreProvider.of<AppState>(context).state.adminsState.admin.permissions.contains(slug);
 
   static List<ProductData> productListSort(List<ProductData> productsList) {
     productsList.sort((a, b) {
@@ -243,7 +230,7 @@ class Services {
         } else {
           baseUrl = productionBaseUrl;
         }
-        if (['rabie', 'supplier', 'rabia', 'bashar_test'].contains(userToken)) baseUrl = testUrl;
+        if (['shopper', 'supplier', 'rabia', 'agent', 'collector'].contains(userToken)) baseUrl = testUrl;
         return true;
       }
       return false;

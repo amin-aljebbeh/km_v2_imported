@@ -112,7 +112,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                             }
                           },
                         ),
-                        if (!Services.isSupplierManager())
+                        if (!Services.hasRole(context, supplierRol))
                           KammunButton(
                             height: 50,
                             text: 'رفع ملف الجرد',
@@ -138,10 +138,11 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                             height: 50,
                             text: 'رفع جرد تارغت',
                             color: primaryColor,
-                            onTap: () => StoreProvider.of<AppState>(context).dispatch(TargetInventoryAction()),
+                            onTap: () =>
+                                StoreProvider.of<AppState>(context).dispatch(TargetInventoryAction(context: context)),
                           ),
                         const SizedBox(height: 10),
-                        if (Services.isAdmin())
+                        if (Services.hasRole(context, adminRole))
                           const UpdateProductInfoWidget(
                             isForPriceRate: true,
                             title: ' عتبة التقييم:',

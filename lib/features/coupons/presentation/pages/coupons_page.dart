@@ -15,6 +15,7 @@ class CouponsPage extends StatefulWidget {
 class CouponsPageState extends State<CouponsPage> {
   TextEditingController controller = TextEditingController();
   int type = 2;
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AppState>(
@@ -108,8 +109,8 @@ class CouponsPageState extends State<CouponsPage> {
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
                                         itemCount: state.couponState.coupons.length,
-                                        itemBuilder: (BuildContext context, int index) =>
-                                            CouponWidget(couponEntity: state.couponState.coupons[index])),
+                                        itemBuilder: (BuildContext context, int index) => CouponWidget(
+                                            couponEntity: state.couponState.coupons[index], ctx: this.context)),
                                   ),
                                 ),
                   if (!state.couponState.hasNext && state.loadingState.loading.isEmpty)

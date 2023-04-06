@@ -14,10 +14,10 @@ List<Widget> getDrawerChildren(BuildContext context) {
     SideBarRow(icon: Icons.phone, text: 'الإتصال بكمون', onTap: () => Services.openUrl('number')),
     SideBarRow(icon: Icons.share, text: 'إرسال التطبيق للأصدقاء', onTap: () => Services.shareApp()),
     SideBarRow(pushedRoute: ProfileScreen.routeName, icon: Icons.person, text: profile),
-    if (Services.isOperationManager())
+    if (Services.hasRole(context, operationManagerRole))
       const SideBarRow(
           pushedRoute: ShopperManagementView.routeName, icon: Icons.supervisor_account_sharp, text: 'فريق التوصيل'),
-    if (store.state.adminsState.admin.permissions.contains('transaction-permission'))
+    if (Services.hasPermission(context, transactionPermission))
       SideBarRow(
         text: financial,
         icon: Icons.account_balance,
@@ -34,14 +34,15 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       store.dispatch(FirstTransactionsPage());
                       if (!store.state.adminsState.admin.permissions.contains('advanced-transaction-view')) {
                         adminId = store.state.adminsState.admin.id;
-                        if (Services.isShopper()) {
+                        if (Services.hasRole(context, shopperRole)) {
                           store.dispatch(GetShopperReportAction(shopperId: store.state.adminsState.admin.shopper.id));
                         }
                       } else {
                         if (store.state.adminsState.admins.isEmpty) {
-                          store.dispatch(GetAdminsWithoutDetailsAction(roleId: Services.isSuperAdmin() ? null : 3));
+                          store.dispatch(GetAdminsWithoutDetailsAction(
+                              roleId: Services.hasRole(context, superAdminRole) ? null : 3));
                         }
-                        if (store.state.adminsState.roles.isEmpty && Services.isSuperAdmin()) {
+                        if (store.state.adminsState.roles.isEmpty && Services.hasRole(context, superAdminRole)) {
                           store.dispatch(GetRolesAction());
                         }
                       }
@@ -64,13 +65,13 @@ List<Widget> getDrawerChildren(BuildContext context) {
                         context, MaterialPageRoute(builder: (context) => const AddTransactionPage(orderRequired: 0))),
                     icon: Icons.money,
                     text: addTransaction),
-                if (Services.isShopper())
+                if (Services.hasRole(context, shopperRole))
                   const SideBarRow(
                     icon: Icons.delivery_dining_rounded,
                     text: 'إحصائيات عامة',
                     pushedRoute: ShopperInformationView.routeName,
                   ),
-                if (Services.isAccounting())
+                if (Services.hasRole(context, accountingRole))
                   Column(
                     children: const [
                       SideBarRow(
@@ -89,13 +90,15 @@ List<Widget> getDrawerChildren(BuildContext context) {
           ),
         ),
       ),
-    if (Services.isSupplierManager())
+    if (Services.hasRole(context, supplierRol))
       const SideBarRow(pushedRoute: SupplierRemainingAccounts.routeName, icon: KIcons.coins, text: 'كشف حساب الزوائد'),
-    if (Services.isSupplierManager())
+    if (Services.hasRole(context, supplierRol))
       const SideBarRow(pushedRoute: SupplierAccounts.routeName, icon: Icons.account_balance, text: 'كشف حساب المورد'),
-    if (Services.isSupplierManager() || Services.isProductsController() || Services.isAdmin())
+    if (Services.hasRole(context, supplierRol) ||
+        Services.hasRole(context, productsControllerRole) ||
+        Services.hasRole(context, adminRole))
       const SideBarRow(pushedRoute: GetSubWarehouse.routeName, icon: Icons.inventory, text: 'إدارة المستودعات'),
-    if (Services.isProductsController() || Services.isSupplierManager())
+    if (Services.hasRole(context, productsControllerRole) || Services.hasRole(context, supplierRol))
       SideBarRow(
         text: productManagement,
         icon: Icons.category,
@@ -106,7 +109,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
               builder: (context) => ManagementView(
                 title: productManagement,
                 children: [
-                  if (!Services.isSupplierManager())
+                  if (!Services.hasRole(context, supplierRol))
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -118,7 +121,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                             pushedRoute: NotAddedProductsToWarehouse.routeName,
                             icon: Icons.category_outlined,
                             text: 'المنتجات الغير مضافة للمستودع'),
-                        if (Services.isAdmin())
+                        if (Services.hasRole(context, adminRole))
                           const SideBarRow(
                               pushedRoute: AllProducts.routeName, icon: Icons.category_rounded, text: 'جميع المنتجات'),
                         const SideBarRow(
@@ -197,9 +200,9 @@ List<Widget> getDrawerChildren(BuildContext context) {
                   )),
         ),
       ),
-    if (Services.isAgent())
+    if (Services.hasRole(context, agentRole))
       const SideBarRow(icon: Icons.report_problem_rounded, text: 'إضافة شكوى', pushedRoute: AddComplaintPage.routeName),
-    if (Services.isAgent())
+    if (Services.hasRole(context, agentRole))
       SideBarRow(
         icon: Icons.report_problem_rounded,
         text: 'الشكاوى',

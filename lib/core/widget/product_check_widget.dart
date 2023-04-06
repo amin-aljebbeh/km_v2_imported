@@ -30,7 +30,7 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
     return widget.preferLeftSide
         ? Row(
             children: [
-              if (Services.isOperationManager() || widget.product.pivot.deletedAt != 'null')
+              if (Services.hasRole(context, operationManagerRole) || widget.product.pivot.deletedAt != 'null')
                 Column(
                   children: [
                     PrimeProductWidget(product: widget.product),
@@ -52,7 +52,7 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                     ),
                   ],
                 ),
-              // if (Services.isSupplierManager())
+              // if (Services.authorized(context, supplierRol))
               //   KOutlinedButton(
               //       text: 'المنتج غير متوفر',
               //       color: kmColors2,

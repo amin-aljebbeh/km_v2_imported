@@ -116,6 +116,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
           MaterialPageRoute(
               builder: (context) => OrderDetailsTabView(
                   orderData: widget.order,
+                  deletedProducts: Services.hasRole(context, operationManagerRole) && deletedCount > 0,
                   subTotal: int.parse(widget.order.total.toString().split('.')[0]) -
                       int.parse(widget.order.supportedCityCost.toString().split('.')[0]) -
                       int.parse(widget.order.deliveryCost.split('.')[0]),
@@ -149,14 +150,14 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  if (Services.isOperationManager() && deletedCount > 0)
+                  if (Services.hasRole(context, operationManagerRole) && deletedCount > 0)
                     Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(border: Border.all(color: Colors.red.withOpacity(0.2))),
                       child: Text(deletedCount.toString(),
                           style: loseStyle.copyWith(fontSize: 18), textAlign: TextAlign.center),
                     ),
-                  if (Services.isOperationManager() && (widget.order.userPriceRating != 'null'))
+                  if (Services.hasRole(context, operationManagerRole) && (widget.order.userPriceRating != 'null'))
                     IconButton(
                       icon: Icon(Icons.star_rounded,
                           color: widget.order.userDeliveryRating == 'null'
@@ -224,6 +225,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                       (widget.order.shopper != null
                                           ? OrderServices.gasAllowance(
                                               deliveryDistance: widget.order.deliveryDistance,
+                                              context: context,
                                               levelId: widget.order.shopper.levelId)
                                           : 0))
                                   .toString(),
@@ -245,7 +247,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       recognizer: TapGestureRecognizer()
                         ..onTap = () => Services.makePhoneCall(widget.order.userData.phone),
                     ),
-                    if (Services.isOperationManager())
+                    if (Services.hasRole(context, operationManagerRole))
                       InkWell(
                         child: Icon(Icons.copy, color: kmColors, size: 25),
                         onTap: () {
@@ -253,7 +255,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           Toast.show('تم نسخ الرقم', context, duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
                         },
                       ),
-                    if (Services.isAgent())
+                    if (Services.hasRole(context, agentRole))
                       InkWell(
                         child: Icon(Icons.manage_accounts_rounded, color: kmColors, size: 25),
                         onTap: () {
@@ -268,12 +270,12 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                               .dispatch(GetUserCouponsAction(userId: widget.order.userData.id));
                         },
                       ),
-                    if (Services.isOperationManager())
+                    if (Services.hasRole(context, operationManagerRole))
                       MediaIcon(
                           icon: FontAwesomeIcons.whatsapp,
                           url: 'customer_whatsapp',
                           mobileNumber: widget.order.userData.phone),
-                    if (Services.isOperationManager())
+                    if (Services.hasRole(context, operationManagerRole))
                       InkWell(
                         child: Icon(Icons.search_rounded, color: kmColors, size: 30),
                         onTap: () {
@@ -285,7 +287,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                       PhoneNumberOrdersView(phoneNumber: widget.order.userData.phone)));
                         },
                       ),
-                    if (Services.isAgent())
+                    if (Services.hasRole(context, agentRole))
                       InkWell(
                         child: Icon(Icons.report_problem_rounded, color: kmColors, size: 30),
                         onTap: () => Navigator.push(context,
@@ -326,7 +328,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   leftSideText: DateFormat('a h:mm - dd-MM-yyyy').format(widget.order.createdAt),
                   leftSideStyle: disableStyle),
               LabelRow(rightSideText: orderStatus, leftSideText: '', leftSideStyle: informationStyle),
-              if (Services.isOperationManager() && widget.order.orderStatusId == '5')
+              if (Services.hasRole(context, operationManagerRole) && widget.order.orderStatusId == '5')
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -368,7 +370,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   rightSideText: 'مسافة التوصيل : ',
                   leftSideText: (int.parse(widget.order.deliveryDistance) / 1000).toString() + ' كم ',
                   leftSideStyle: informationStyle),
-              if (Services.isOperationManager())
+              if (Services.hasRole(context, operationManagerRole))
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -390,8 +392,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                             color: kmColors,
                                             onTap: () {
                                               Navigator.pop(context);
-                                              StoreProvider.of<AppState>(context)
-                                                  .dispatch(ReAssignOrderAction(orderId: widget.order.id));
+                                              StoreProvider.of<AppState>(context).dispatch(
+                                                  ReAssignOrderAction(orderId: widget.order.id, context: context));
                                             },
                                             width: 100,
                                             text: yes),
@@ -399,7 +401,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                             color: kmColors, onTap: () => Navigator.pop(context), width: 100, text: no),
                                       ]);
                                 })),
-                    if (Services.isAgent())
+                    if (Services.hasRole(context, agentRole))
                       if (widget.order.shopper != null)
                         if (widget.order.shopper.admin != null)
                           if (widget.order.shopper.admin.phone != null)

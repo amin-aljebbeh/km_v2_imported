@@ -2,8 +2,9 @@ import 'package:kammun_app/core/core_importer.dart';
 
 class ReAssignOrderAction {
   final int orderId;
+  final BuildContext context;
 
-  ReAssignOrderAction({this.orderId});
+  ReAssignOrderAction({this.orderId, this.context});
 }
 
 class UpdateOrderRatingAction {

@@ -9,7 +9,7 @@ Future<void> usersMiddleware(Store<AppState> store, action, NextDispatcher next)
     Either either = await store.state.usersState.usersUseCases.attachUserToCouponUseCase(
         availability: action.availability, couponId: action.couponId, userId: store.state.usersState.userEntity.id);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (_) => store.dispatch(ViewMessage(message: 'تمت العملية بنجاح')));
+        (_) => snackBar(message: 'تمت العملية بنجاح', success: true, context: action.context));
     store.dispatch(StopLoading());
   }
   next(action);

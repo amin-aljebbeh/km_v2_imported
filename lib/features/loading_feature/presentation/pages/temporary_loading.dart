@@ -18,7 +18,7 @@ class TemporaryLoading extends StatelessWidget {
               child,
               if (state.loadingState.loading.isNotEmpty && condition)
                 const Scaffold(body: Center(child: Loader()), backgroundColor: Colors.white60),
-              if ((state.errorState.isError && state.errorState.viewError) || state.loadingState.viewMessage)
+              if (state.errorState.isError && state.errorState.viewError)
                 Scaffold(
                   body: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,11 +33,8 @@ class TemporaryLoading extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: KammunButton(
-                            color: state.errorState.isError ? Colors.red : Colors.green[800],
-                            onTap: () {
-                              StoreProvider.of<AppState>(context).dispatch(NoError());
-                              StoreProvider.of<AppState>(context).dispatch(HideMessage());
-                            },
+                            color: Colors.red,
+                            onTap: () => StoreProvider.of<AppState>(context).dispatch(NoError()),
                             width: MediaQuery.of(context).size.width,
                             text: closeString,
                             height: 50),

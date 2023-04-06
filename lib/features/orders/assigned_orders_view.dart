@@ -18,12 +18,15 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   void initState() {
     filterOrders = 0;
 
-    if (StaticVariables.myOrdersList.isEmpty) {
-      getOrders = _getOrder();
-    } else {
-      getOrders = _initialFunction();
-      orderDataList = StaticVariables.myOrdersList;
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (StaticVariables.myOrdersList.isEmpty) {
+        getOrders = _getOrder();
+      } else {
+        getOrders = _initialFunction();
+        orderDataList = StaticVariables.myOrdersList;
+      }
+    });
+
     super.initState();
   }
 
@@ -41,51 +44,58 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   List<OrdersOriginalData> orderDataList = [];
 
   _getOrder() async {
-    setState(() {
-      if (page == 1) orderLoaded = false;
-      if (!theEndOfOrders) isLoading = true;
-      errorMessage = false;
-      orderDataList.clear();
-    });
-    List<OrdersOriginalData> orderList;
-    if (StaticVariables.myOrdersList.isEmpty) {
-      if (Services.isShopper()) orderList = await OrderServices.getShopperOrders(pageNumber: page);
-      if (Services.isSupplierManager()) orderList = await OrderServices.getSupplierOrders(pageNumber: page);
-    } else {
-      orderList = StaticVariables.myOrdersList;
-    }
-    if (orderList != null) {
-      if (orderList.isEmpty) {
-        setState(() {
-          StaticVariables.myOrdersList = orderDataList;
-          if (StaticVariables.myOrdersList.isNotEmpty) theEndOfOrders = true;
-          orderLoaded = true;
-          errorMessage = false;
-          isLoading = false;
-        });
+    try {
+      setState(() {
+        if (page == 1) orderLoaded = false;
+        if (!theEndOfOrders) isLoading = true;
+        errorMessage = false;
+        orderDataList.clear();
+      });
+      List<OrdersOriginalData> orderList;
+      if (StaticVariables.myOrdersList.isEmpty) {
+        if (Services.hasRole(context, shopperRole)) orderList = await OrderServices.getShopperOrders(pageNumber: page);
+        if (Services.hasRole(context, supplierRol)) {
+          orderList = await OrderServices.getSupplierOrders(pageNumber: page);
+        }
+      } else {
+        orderList = StaticVariables.myOrdersList;
+      }
+      if (orderList != null) {
+        if (orderList.isEmpty) {
+          setState(() {
+            StaticVariables.myOrdersList = orderDataList;
+            if (StaticVariables.myOrdersList.isNotEmpty) theEndOfOrders = true;
+            orderLoaded = true;
+            errorMessage = false;
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            orderDataList = orderList;
+            if (filterOrders == 0) {
+              orderDataList.removeWhere((order) => int.parse(order.orderStatusId) > 4);
+            } else {
+              orderDataList.removeWhere((order) => int.parse(order.orderStatusId) != filterOrders);
+            }
+
+            orderDataList.removeWhere((order) => order.products.isEmpty);
+            StaticVariables.myOrdersList = orderDataList;
+            orderLoaded = true;
+            errorMessage = false;
+            isLoading = false;
+          });
+        }
       } else {
         setState(() {
-          orderDataList = orderList;
-          if (filterOrders == 0) {
-            orderDataList.removeWhere((order) => int.parse(order.orderStatusId) > 4);
-          } else {
-            orderDataList.removeWhere((order) => int.parse(order.orderStatusId) != filterOrders);
-          }
-
-          orderDataList.removeWhere((order) => order.products.isEmpty);
-          StaticVariables.myOrdersList = orderDataList;
           orderLoaded = true;
-          errorMessage = false;
+          errorMessage = true;
           isLoading = false;
+          errorMessageValue = 'حدث خطأ اثناء محاولة جلب الطلبات';
         });
       }
-    } else {
-      setState(() {
-        orderLoaded = true;
-        errorMessage = true;
-        isLoading = false;
-        errorMessageValue = 'حدث خطأ اثناء محاولة جلب الطلبات';
-      });
+    } catch (e) {
+      Tools.logToConsole('exception ui');
+      Tools.logToConsole(e.toString());
     }
   }
 
@@ -175,8 +185,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         orElse: () => OrdersOriginalData(orderStatusId: '5'));
                     bool cancelOrderCondition = int.parse(otherOrder.orderStatusId) <= 4;
                     orderDataList[index].orderArithmeticOperations();
-                    if (!Services.isSupplierManager()) orderDataList[index].orderProfits();
-                    if (Services.isSupplierManager()) return SupplierOrdersViewCard(order: orderDataList[index]);
+                    if (!Services.hasRole(context, supplierRol)) orderDataList[index].orderProfits(context: context);
+                    if (Services.hasRole(context, supplierRol)) {
+                      return SupplierOrdersViewCard(order: orderDataList[index]);
+                    }
                     return Column(
                       children: <Widget>[
                         OrdersViewCard(pop: false, order: orderDataList[index], orderType: OrderTypes.myOrder),

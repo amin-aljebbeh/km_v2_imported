@@ -117,6 +117,8 @@ class OrderServices {
 
       return StaticVariables.myOrdersList;
     } catch (e) {
+      Tools.logToConsole('exception');
+      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -209,9 +211,9 @@ class OrderServices {
     }
   }
 
-  static double gasAllowance({String deliveryDistance, int levelId}) {
+  static double gasAllowance({String deliveryDistance, int levelId, BuildContext context}) {
     Level orderLevel;
-    if (Services.isShopper()) {
+    if (Services.hasRole(context, shopperRole)) {
       orderLevel = StaticVariables.shopper.level;
     } else {
       orderLevel = StaticVariables.levels.firstWhere((level) => level.id == levelId);

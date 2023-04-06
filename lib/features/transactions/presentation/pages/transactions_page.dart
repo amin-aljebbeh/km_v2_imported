@@ -9,8 +9,9 @@ import 'add_transaction_page.dart';
 
 class TransactionsPage extends StatefulWidget {
   final int adminId;
+  final bool isShopper;
 
-  const TransactionsPage({Key key, this.adminId}) : super(key: key);
+  const TransactionsPage({Key key, this.adminId, this.isShopper = false}) : super(key: key);
 
   @override
   _TransactionsPageState createState() => _TransactionsPageState();
@@ -28,7 +29,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
   void initState() {
     adminId = widget.adminId.toString();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!Services.isSuperAdmin()) roleId = 3;
+      if (!Services.hasRole(context, superAdminRole)) roleId = 3;
       if (adminId != null && adminId != 'null') {
         StoreProvider.of<AppState>(context).dispatch(GetTransactionsAction(adminId: int.parse(adminId)));
       }
@@ -43,7 +44,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
       converter: (store) => store.state,
       builder: (context, state) {
         List<DropdownMenuItem<int>> roles = [];
-        if (Services.isSuperAdmin()) {
+        if (Services.hasRole(context, superAdminRole)) {
           roles.addAll(state.adminsState.roles
               .map((role) => DropdownMenuItem<int>(
                   child: AutoSizeText(role.name, style: mainStyle, maxFontSize: 15), value: role.id))
@@ -153,7 +154,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                             GetAdminsWithoutDetailsAction(roleId: roleId, warehouseId: warehouseId));
                                       },
                                     ),
-                                    if (Services.isSuperAdmin())
+                                    if (Services.hasRole(context, superAdminRole))
                                       DropdownButton(
                                           items: roles,
                                           hint: Text('منصب الأدمن', style: mainStyle),
@@ -307,10 +308,11 @@ class _TransactionsPageState extends State<TransactionsPage> {
   }
 
   bool isShopper(AppState state) {
+    if (widget.isShopper) return true;
     if (adminId == null || adminId == 'null') return false;
     if (myTransactions) return false;
-    if (Services.isShopper()) return true;
-    if (!state.adminsState.admin.permissions.contains('advanced-transaction-view')) return false;
+    if (Services.hasRole(context, shopperRole)) return true;
+    if (!Services.hasPermission(context, advancedTransactionPermission)) return false;
     return (state.adminsState.admins.firstWhere((admin) => admin.id.toString() == adminId).shopper != null);
   }
 

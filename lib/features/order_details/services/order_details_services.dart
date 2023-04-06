@@ -68,7 +68,7 @@ class OrderDetailsServices {
             ),
             DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
           ];
-          if (Services.isOperationManager()) {
+          if (Services.hasRole(context, operationManagerRole)) {
             showMyDialog(context: context, title: '', text: 'هل تريد حذف الفاتورة ؟', dialogButtons: dialogButtons);
           }
         },
@@ -90,13 +90,13 @@ class OrderDetailsServices {
     return imageWidgets;
   }
 
-  static List<Widget> calculate({OrdersOriginalData order}) {
+  static List<Widget> calculate({OrdersOriginalData order, BuildContext context}) {
     List<Widget> subWarehouseTotal = [];
     subWarehouseTotal.add(KTableRow(
       children: [
         const KTableElement(text: 'المورد'),
         const KTableElement(text: 'الدفع للمورد'),
-        if (Services.isAccounting()) const KTableElement(text: 'نسبة الزيادة'),
+        if (Services.hasRole(context, accountingRole)) const KTableElement(text: 'نسبة الزيادة'),
         const KTableElement(text: 'السعر الصافي')
       ],
     ));
@@ -110,14 +110,14 @@ class OrderDetailsServices {
                   ? Services.kRound(order.orderAccountingRows[i].payToSubWarehouse)
                   : order.orderAccountingRows[i].payToSubWarehouse),
             ),
-            if (Services.isAccounting())
+            if (Services.hasRole(context, accountingRole))
               KTableElement(text: StringUtils().oCcy.format(order.orderAccountingRows[i].increaseValuesSum)),
             KTableElement(text: StringUtils().oCcy.format(order.orderAccountingRows[i].netPrice)),
           ],
         ));
       }
     }
-    if (!Services.isSupplierManager()) {
+    if (!Services.hasRole(context, supplierRol)) {
       int delivery = int.parse(order.supportedCityCost.split('.')[0]) +
           int.parse(order.deliveryCost.split('.')[0]) +
           int.parse(order.collectingCost.split('.')[0]);

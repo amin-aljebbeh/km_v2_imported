@@ -174,11 +174,13 @@ class GeneralApis {
           GeneralApis.getWarehousesService(),
           Services.initializeVariables()
         ]);
-        if (Services.isOperationManager() || Services.isAdmin() || Services.isAccounting()) {
+        if (Services.hasRole(context, operationManagerRole) ||
+            Services.hasRole(context, adminRole) ||
+            Services.hasRole(context, accountingRole)) {
           await GeneralApis.getShoppers();
           StaticVariables.levels = await GeneralApis.getLevels();
         }
-        if (store.state.adminsState.admin.permissions.contains('transaction-permission')) {
+        if (Services.hasPermission(context, transactionPermission)) {
           store.dispatch(GetTransactionCategoriesAction());
         }
 

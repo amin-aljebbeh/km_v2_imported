@@ -53,15 +53,18 @@ class ShopperWidgetState extends State<ShopperWidget> {
                               style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                           Wrap(
                             children: [
-                              if (state.adminsState.admin.permissions.contains('transaction-permission'))
+                              if (Services.hasPermission(context, advancedTransactionPermission))
                                 InkWell(
                                   onTap: () {
+                                    Tools.logToConsole('id');
+                                    Tools.logToConsole(widget.shopper.adminId);
                                     StoreProvider.of<AppState>(context)
                                         .dispatch(GetShopperReportAction(shopperId: widget.shopper.id));
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => TransactionsPage(adminId: widget.shopper.adminId)));
+                                            builder: (context) =>
+                                                TransactionsPage(adminId: widget.shopper.adminId, isShopper: true)));
                                   },
                                   child: Icon(Icons.featured_play_list, color: primaryColor),
                                 )

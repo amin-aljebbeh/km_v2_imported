@@ -48,9 +48,9 @@ class _OrderByIDState extends State<OrderByID> {
     if (orderList != null) {
       order = orderList;
       StaticVariables.phoneOrderList = [order];
-      if (Services.isShopper() || order.shopper != null) {
+      if (Services.hasRole(context, shopperRole) || order.shopper != null) {
         order.orderArithmeticOperations();
-        order.orderProfits();
+        order.orderProfits(context: context);
       }
       setState(() {
         orderLoaded = true;

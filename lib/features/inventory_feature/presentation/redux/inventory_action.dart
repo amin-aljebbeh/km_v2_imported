@@ -45,5 +45,6 @@ class SetIsActive {
 }
 
 class TargetInventoryAction {
-  TargetInventoryAction();
+  final BuildContext context;
+  TargetInventoryAction({this.context});
 }

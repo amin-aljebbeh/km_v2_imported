@@ -5,8 +5,9 @@ import 'package:kammun_app/features/transactions/presentation/redux/transactions
 import '../../../../core/core_importer.dart';
 
 class TransactionRequestWidget extends StatelessWidget {
-  const TransactionRequestWidget({Key key, this.transactionRequestEntity}) : super(key: key);
+  const TransactionRequestWidget({Key key, this.transactionRequestEntity, this.ctx}) : super(key: key);
   final TransactionRequestEntity transactionRequestEntity;
+  final BuildContext ctx;
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +85,10 @@ class TransactionRequestWidget extends StatelessWidget {
                                               width: MediaQuery.of(context).size.width / 3,
                                               text: 'نعم',
                                               onTap: () {
-                                                Navigator.pop(context);
                                                 StoreProvider.of<AppState>(context).dispatch(
                                                     DeleteTransactionRequestAction(
-                                                        requestId: transactionRequestEntity.id));
+                                                        context: ctx, requestId: transactionRequestEntity.id));
+                                                Navigator.pop(context);
                                               }),
                                           KammunButton(
                                               color: primaryColor,
@@ -106,7 +107,7 @@ class TransactionRequestWidget extends StatelessWidget {
                                           text: 'قبول',
                                           onTap: () => StoreProvider.of<AppState>(context).dispatch(
                                               ChangeTransactionRequestStatusAction(
-                                                  statusId: 2, requestId: transactionRequestEntity.id))),
+                                                  context: ctx, statusId: 2, requestId: transactionRequestEntity.id))),
                                       KammunButton(
                                           color: Colors.red,
                                           width: MediaQuery.of(context).size.width / 3,
@@ -127,6 +128,7 @@ class TransactionRequestWidget extends StatelessWidget {
                                                           StoreProvider.of<AppState>(context).dispatch(
                                                               ChangeTransactionRequestStatusAction(
                                                                   statusId: 3,
+                                                                  context: ctx,
                                                                   requestId: transactionRequestEntity.id,
                                                                   rejectReason: reasonController.text));
                                                         }

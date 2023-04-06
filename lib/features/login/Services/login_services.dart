@@ -84,6 +84,7 @@ class LoginServices {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     baseUrl = appUrl;
     await preferences.clear();
+    StoreProvider.of<AppState>(context).dispatch(RestartApp());
     KammunRestart.restartApp(context);
   }
 
@@ -96,7 +97,6 @@ class LoginServices {
 
         StoreProvider.of<AppState>(context).dispatch(SetAdmin(admin: result.data));
         if (result.data.roles.isNotEmpty) {
-          StaticVariables.roles = result.data.roles;
           if (result.data.shopper != null) {
             StaticVariables.shopper = result.data.shopper;
             StaticVariables.shopper.level = await GeneralApis.getLevelService(result.data.shopper.levelId.toString());

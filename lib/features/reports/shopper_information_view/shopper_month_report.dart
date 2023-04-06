@@ -11,7 +11,7 @@ class ShopperMonthReport extends StatefulWidget {
 }
 
 class _ShopperMonthReportState extends State<ShopperMonthReport> {
-  bool selected;
+  bool selected = false;
   bool error;
   bool empty;
   bool loading;
@@ -22,12 +22,17 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
   void initState() {
     error = false;
     empty = true;
-    selected = Services.isShopper();
     loading = false;
-    if (Services.isShopper()) {
-      loading = true;
-      getMonthlyReports(shopperId: StaticVariables.shopper.id.toString());
+    if (mounted) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        selected = Services.hasRole(context, shopperRole);
+        if (Services.hasRole(context, shopperRole)) {
+          loading = true;
+          getMonthlyReports(shopperId: StaticVariables.shopper.id.toString());
+        }
+      });
     }
+
     super.initState();
   }
 
@@ -63,7 +68,7 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
           height: MediaQuery.of(context).size.height,
           child: ListView(
             children: [
-              if (!Services.isShopper())
+              if (!Services.hasRole(context, shopperRole))
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: SizedBox(

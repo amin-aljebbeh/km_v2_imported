@@ -11,7 +11,8 @@ class ShopperWorkingHoursView extends StatefulWidget {
 }
 
 class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
-  bool selected;
+  DateFilter groupValue;
+  bool selected = false;
   bool error;
   bool empty;
   bool loading;
@@ -22,13 +23,16 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
   void initState() {
     error = false;
     empty = true;
-    selected = Services.isShopper();
     loading = false;
     groupValue = DateFilter.day;
-    if (Services.isShopper()) {
-      loading = true;
-      getWorkingHours(shopperId: StaticVariables.shopper.id.toString(), filter: DateFilter.day);
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      selected = Services.hasRole(context, shopperRole);
+      if (Services.hasRole(context, shopperRole)) {
+        loading = true;
+        getWorkingHours(shopperId: StaticVariables.shopper.id.toString(), filter: DateFilter.day);
+      }
+    });
+
     super.initState();
   }
 
@@ -53,7 +57,6 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
     });
   }
 
-  DateFilter groupValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +66,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
       body: SafeArea(
         child: Column(
           children: [
-            if (!Services.isShopper())
+            if (!Services.hasRole(context, shopperRole))
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.75,
                 child: KSearchableDropdown(
@@ -94,10 +97,10 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                     onChanged: (DateFilter value) {
                       setState(() {
                         groupValue = value;
-                        if (shopperName != null || Services.isShopper()) {
+                        if (shopperName != null || Services.hasRole(context, shopperRole)) {
                           loading = true;
                           getWorkingHours(
-                              shopperId: Services.isShopper()
+                              shopperId: Services.hasRole(context, shopperRole)
                                   ? StaticVariables.shopper.id.toString()
                                   : Services.selectedShopperId(shopperName),
                               filter: groupValue);
@@ -113,10 +116,10 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                     onChanged: (DateFilter value) {
                       setState(() {
                         groupValue = value;
-                        if (shopperName != null || Services.isShopper()) {
+                        if (shopperName != null || Services.hasRole(context, shopperRole)) {
                           loading = true;
                           getWorkingHours(
-                              shopperId: Services.isShopper()
+                              shopperId: Services.hasRole(context, shopperRole)
                                   ? StaticVariables.shopper.id.toString()
                                   : Services.selectedShopperId(shopperName),
                               filter: groupValue);
@@ -132,10 +135,10 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                     onChanged: (DateFilter value) {
                       setState(() {
                         groupValue = value;
-                        if (shopperName != null || Services.isShopper()) {
+                        if (shopperName != null || Services.hasRole(context, shopperRole)) {
                           loading = true;
                           getWorkingHours(
-                              shopperId: Services.isShopper()
+                              shopperId: Services.hasRole(context, shopperRole)
                                   ? StaticVariables.shopper.id.toString()
                                   : Services.selectedShopperId(shopperName),
                               filter: groupValue);

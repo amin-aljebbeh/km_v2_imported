@@ -173,7 +173,7 @@ class OrdersViewState extends State<OrdersView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              if (Services.isAgent())
+                              if (Services.hasRole(context, agentRole))
                                 InkWell(
                                     child: Icon(Icons.star_rounded,
                                         size: 40, color: rated == 1 ? kmColors : searchGreyColor),
@@ -217,7 +217,7 @@ class OrdersViewState extends State<OrdersView> {
                               ),
                             ],
                           ),
-                          if (Services.isAgent())
+                          if (Services.hasRole(context, agentRole))
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -278,9 +278,9 @@ class OrdersViewState extends State<OrdersView> {
                     shrinkWrap: true,
                     itemCount: orderDataList == null ? 0 : orderDataList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      if (Services.isShopper() || orderDataList[index].shopper != null) {
+                      if (Services.hasRole(context, shopperRole) || orderDataList[index].shopper != null) {
                         orderDataList[index].orderArithmeticOperations();
-                        orderDataList[index].orderProfits();
+                        orderDataList[index].orderProfits(context: context);
                       }
                       return Column(
                         children: <Widget>[

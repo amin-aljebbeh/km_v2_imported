@@ -28,7 +28,7 @@ class _SupplierRemainingAccountsState extends State<SupplierRemainingAccounts> {
     var response = await ReportsServices.getSupplierAccounts(fromDate: fromDateTimeValue, toDate: toDateTimeValue);
     if (response != null) {
       accounts = response;
-      if (Services.isSupplierManager()) {
+      if (Services.hasRole(context, supplierRol)) {
         accounts.removeWhere((account) => !StaticVariables.subWarehouses
             .map((subWarehouse) => subWarehouse.id)
             .toList()

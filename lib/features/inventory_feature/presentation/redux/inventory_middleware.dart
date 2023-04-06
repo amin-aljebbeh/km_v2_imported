@@ -55,7 +55,7 @@ Future<void> inventoryMiddleware(Store<AppState> store, action, NextDispatcher n
     store.dispatch(StartLoading());
     Either either = await store.state.inventoryState.inventoryUseCase.targetInventoryUseCase();
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')),
-        (_) => store.dispatch(ViewMessage(message: 'تم البدء برفع الجرد')));
+        (_) => snackBar(context: action.context, message: 'تم البدء برفع الجرد', success: true));
     store.dispatch(StopLoading());
   }
   next(action);

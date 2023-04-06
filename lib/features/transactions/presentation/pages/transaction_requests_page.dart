@@ -150,6 +150,7 @@ class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
                                         shrinkWrap: true,
                                         itemCount: state.transactionsState.requests.length,
                                         itemBuilder: (BuildContext context, int index) => TransactionRequestWidget(
+                                            ctx: this.context,
                                             transactionRequestEntity: state.transactionsState.requests[index])),
                                   ),
                                 ),

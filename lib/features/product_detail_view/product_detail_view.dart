@@ -75,7 +75,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
   @override
   Widget build(BuildContext context) {
     String price = widget.product.price;
-    if (Services.isSupplierManager()) {
+    if (Services.hasRole(context, supplierRol)) {
       price = (int.parse(widget.product.price.split('.')[0]) - widget.product.increasePercentage).toString();
     }
     return StoreConnector<AppState, AppState>(
@@ -223,7 +223,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 width: MediaQuery.of(context).size.width * 0.45,
                                 child: GestureDetector(
                                   onLongPress: () {
-                                    if (Services.isProductsController()) {
+                                    if (Services.hasRole(context, productsControllerRole)) {
                                       List<DialogButton> dialogButtons = [
                                         DialogButton(
                                           text: yes,
@@ -266,7 +266,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             },
                           ),
                         ),
-                        if (Services.isProductsController())
+                        if (Services.hasRole(context, productsControllerRole))
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: SizedBox(
@@ -355,8 +355,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             }
                           },
                         ),
-                        if (Services.isProductsController() ||
-                            Services.isAdmin() ||
+                        if (Services.hasRole(context, productsControllerRole) ||
+                            Services.hasRole(context, adminRole) ||
                             (StaticVariables.subWarehouses
                                 .any((element) => element.id == widget.product.subWarehouseId)))
                           Column(
@@ -405,7 +405,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 onSavePressed: (newValue, result) =>
                                     setState(() => widget.product.priceFactor = newValue),
                               ),
-                              Services.isProductsController() || Services.isAdmin()
+                              Services.hasRole(context, productsControllerRole) || Services.hasRole(context, adminRole)
                                   ? Column(
                                       children: [
                                         if (state.adminsState.admin.permissions.contains('update-increase-percentage'))
@@ -656,7 +656,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            if (Services.isProductsController())
+                                            if (Services.hasRole(context, productsControllerRole))
                                               Row(
                                                 children: [
                                                   BarcodeIcon(
@@ -742,7 +742,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                   ),
                                                 ],
                                               ),
-                                            if (Services.isProductsController())
+                                            if (Services.hasRole(context, productsControllerRole))
                                               PrimeProductWidget(
                                                   product: OrderProduct(
                                                       id: widget.product.id, isPrimeItem: widget.product.isPrimeItem)),
@@ -765,7 +765,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             ),
                                           ],
                                         ),
-                                        if (Services.isAdmin() || Services.isProductsController())
+                                        if (Services.hasRole(context, adminRole) ||
+                                            Services.hasRole(context, productsControllerRole))
                                           Column(
                                             children: [
                                               if (StaticVariables.subWarehouses
@@ -811,7 +812,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         const SizedBox(height: 30),
                                       ],
                                     )
-                                  : Services.isSupplierManager() &&
+                                  : Services.hasRole(context, supplierRol) &&
                                           (StaticVariables.subWarehouses
                                               .any((element) => element.id == widget.product.subWarehouseId))
                                       ? RemoveFromWarehouse(product: widget.product)

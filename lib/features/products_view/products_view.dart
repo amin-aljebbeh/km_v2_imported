@@ -125,7 +125,7 @@ class ProductsViewState extends State<ProductsView> {
       key: scaffoldKey,
       floatingActionButton: widget.queryString == null &&
               widget.barcode == null &&
-              (Services.isAdmin() || Services.isProductsController())
+              (Services.hasRole(context, adminRole) || Services.hasRole(context, productsControllerRole))
           ? FloatingActionButton(
               backgroundColor: kmColors2,
               onPressed: () {

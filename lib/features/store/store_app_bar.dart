@@ -18,7 +18,7 @@ class _StoreAppBarState extends State<StoreAppBar> {
     return PreferredSize(
       child: AppBar(
         iconTheme: const IconThemeData(color: Colors.transparent),
-        backgroundColor: Services.isShopper()
+        backgroundColor: Services.hasRole(context, shopperRole)
             ? StaticVariables.shopper.status == 1
                 ? kmColors
                 : searchGreyColor
@@ -42,7 +42,7 @@ class _StoreAppBarState extends State<StoreAppBar> {
                         child: const Icon(Icons.menu_rounded, color: Colors.white, size: 40)),
                   ),
                   const AppBarKammunImage(),
-                  Services.isShopper()
+                  Services.hasRole(context, shopperRole)
                       ? Switch(
                           activeColor: Colors.white,
                           value: StaticVariables.shopper.status == 1,

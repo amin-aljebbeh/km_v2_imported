@@ -40,7 +40,6 @@ class StaticVariables {
   static bool preferLeftSide = true;
   static int ordersViewFilter = 0;
 
-  static List<Role> roles = [];
   static ShopperModel shopper;
   static bool updateOption = false;
 

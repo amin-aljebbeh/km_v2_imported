@@ -185,13 +185,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                               int id;
                               if (!state.adminsState.admin.permissions.contains('advanced-transaction-view')) {
                                 id = state.adminsState.admin.id;
-                                if (Services.isShopper()) {
+                                if (Services.hasRole(context, shopperRole)) {
                                   store.dispatch(GetShopperReportAction(shopperId: state.adminsState.admin.shopper.id));
                                 }
                               } else {
                                 if (store.state.adminsState.admins.isEmpty) {
-                                  store.dispatch(
-                                      GetAdminsWithoutDetailsAction(roleId: Services.isSuperAdmin() ? null : 3));
+                                  store.dispatch(GetAdminsWithoutDetailsAction(
+                                      roleId: Services.hasRole(context, superAdminRole) ? null : 3));
                                 }
                                 if (store.state.adminsState.roles.isEmpty) store.dispatch(GetRolesAction());
                                 if (adminId != null) {
@@ -245,9 +245,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 ];
                                 showMyDialog(
                                   context: context,
-                                  title: state.transactionsState.categories
-                                      .firstWhere((category) => category.id == category.id)
-                                      .name,
+                                  title: category.name,
                                   text: 'هل تريد تأكيد إتمام العملية ؟',
                                   dialogButtons: decisionButton,
                                 );

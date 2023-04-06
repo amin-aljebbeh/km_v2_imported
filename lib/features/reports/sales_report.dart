@@ -29,7 +29,7 @@ class _SalesReportState extends State<SalesReport> {
 
   _reportCard(GetDailyStatistics response) {
     totalSubWarehouses.clear();
-    if (Services.isSuperAdmin()) {
+    if (Services.hasRole(context, superAdminRole)) {
       totalSubWarehouses.add(Center(
           child: Padding(padding: const EdgeInsets.all(8.0), child: Text('إحصائيات عامة', style: informationStyle))));
       totalSubWarehouses.add(Table(
@@ -62,7 +62,7 @@ class _SalesReportState extends State<SalesReport> {
         ],
       ));
     }
-    if (!Services.isSuperAdmin()) {
+    if (!Services.hasRole(context, superAdminRole)) {
       response.warehouses.removeWhere(
           (warehouse) => warehouse.id != StoreProvider.of<AppState>(context).state.adminsState.admin.warehouseId);
     }

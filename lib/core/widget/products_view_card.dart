@@ -33,7 +33,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
   @override
   Widget build(BuildContext context) {
     String price = widget.product.price;
-    if (Services.isSupplierManager()) {
+    if (Services.hasRole(context, supplierRol)) {
       price = (int.parse(widget.product.price.split('.')[0]) - widget.product.increasePercentage).toString();
     }
     return GestureDetector(
@@ -101,7 +101,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                           ],
                         ),
-                        if (Services.isProductsController())
+                        if (Services.hasRole(context, productsControllerRole))
                           Row(
                             children: [
                               if (widget.product.barcodes.isEmpty) const Icon(KIcons.exclamation),
@@ -134,7 +134,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               if (result) widget.product.isActive = active.toString();
                             }),
                           ),
-                        if (Services.isProductsController())
+                        if (Services.hasRole(context, productsControllerRole))
                           Column(
                             children: [
                               const SizedBox(height: 5),

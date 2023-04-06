@@ -191,13 +191,13 @@ class OrdersOriginalData {
     });
   }
 
-  orderProfits() {
+  orderProfits({BuildContext context}) {
     if (shopper == null) {
       shopperProfit = 0;
       kammunProfit = 0;
     } else {
       Level orderLevel;
-      if (Services.isShopper()) {
+      if (Services.hasRole(context, shopperRole)) {
         orderLevel = StaticVariables.shopper.level;
       } else {
         orderLevel = StaticVariables.levels.firstWhere((level) => level.id == shopper.levelId);

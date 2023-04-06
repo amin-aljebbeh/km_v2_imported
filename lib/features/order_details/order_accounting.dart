@@ -27,7 +27,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
 
   @override
   Widget build(BuildContext context) {
-    subWarehouseTotal = OrderDetailsServices.calculate(order: widget.orderData);
+    subWarehouseTotal = OrderDetailsServices.calculate(order: widget.orderData, context: context);
     if (widget.orderData.images != null) {
       if (widget.orderData.images.isNotEmpty) {
         imageWidgets = OrderDetailsServices.getImages(
@@ -106,7 +106,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                           width: MediaQuery.of(context).size.width * 0.9,
                           height: 50,
                         ),
-                      if (Services.isAgent())
+                      if (Services.hasRole(context, agentRole))
                         KammunButton(
                           color: kmColors,
                           onTap: () => Navigator.push(context,
@@ -115,7 +115,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                           width: MediaQuery.of(context).size.width * 0.9,
                           height: 50,
                         ),
-                      if (!Services.isSupplierManager())
+                      if (!Services.hasRole(context, supplierRol))
                         KammunButton(
                           color: kmColors,
                           onTap: () => Navigator.push(context,

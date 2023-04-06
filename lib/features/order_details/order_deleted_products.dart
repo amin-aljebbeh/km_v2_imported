@@ -97,7 +97,11 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                                 width: MediaQuery.of(context).size.width,
                                 height: 20,
                               ),
-                            OrderDetailViewMainCard(onCheckbox: (a) {}, productData: productDetail, index: index),
+                            OrderDetailViewMainCard(
+                                onCheckbox: (a) {},
+                                productData: productDetail,
+                                index: index,
+                                isOperation: Services.hasRole(context, operationManagerRole)),
                           ],
                         );
                       },

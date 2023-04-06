@@ -61,7 +61,7 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                if (!Services.isShopper())
+                if (!Services.hasRole(context, shopperRole))
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.75,
                     child: KSearchableDropdown(
@@ -85,9 +85,9 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                   text: send,
                   color: validDates() ? Theme.of(context).primaryColor : searchGreyColor,
                   onTap: () {
-                    if (validDates() && (Services.isShopper() || shopperName != null)) {
+                    if (validDates() && (Services.hasRole(context, shopperRole) || shopperName != null)) {
                       getHours(
-                          shopperId: Services.isShopper()
+                          shopperId: Services.hasRole(context, shopperRole)
                               ? StaticVariables.shopper.id.toString()
                               : Services.selectedShopperId(shopperName));
                     } else {

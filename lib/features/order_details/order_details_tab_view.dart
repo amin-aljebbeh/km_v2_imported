@@ -11,16 +11,23 @@ class OrderDetailsTabView extends StatefulWidget {
   final OrderTypes orderType;
   double remaining;
   double totalDiscount;
+  bool deletedProducts;
 
-  OrderDetailsTabView({Key key, this.orderType, this.orderData, this.subTotal, this.remaining, this.totalDiscount})
-      : super(key: key);
+  OrderDetailsTabView({
+    Key key,
+    this.orderType,
+    this.orderData,
+    this.subTotal,
+    this.remaining,
+    this.totalDiscount,
+    this.deletedProducts,
+  }) : super(key: key);
 
   @override
   _OrderDetailsTabViewState createState() => _OrderDetailsTabViewState();
 }
 
 class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTickerProviderStateMixin {
-  bool deletedProducts;
   List<Widget> tabList = [];
   List<Widget> screenList = [];
   TabController controller;
@@ -33,11 +40,9 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
         orderType: widget.orderType,
         remaining: widget.remaining,
         totalDiscount: widget.totalDiscount));
-    if (!Services.isSupplierManager()) {
-      if (deletedProducts) {
-        tabList.add(Center(child: Tab(child: Center(child: Text(' المحذوفة', style: tabStyle)))));
-        screenList.add(OrderDeletedProducts(order: widget.orderData, orderType: widget.orderType));
-      }
+    if (widget.deletedProducts) {
+      tabList.add(Center(child: Tab(child: Center(child: Text(' المحذوفة', style: tabStyle)))));
+      screenList.add(OrderDeletedProducts(order: widget.orderData, orderType: widget.orderType));
     }
     tabList.add(Tab(child: Center(child: Text('الحسابات', style: tabStyle))));
     screenList.add(OrderAccounting(orderData: widget.orderData, onDelete: () => controller.animateTo(0)));
@@ -45,8 +50,6 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
 
   @override
   void initState() {
-    deletedProducts = (Services.isOperationManager()) &&
-        widget.orderData.products.where((product) => product.pivot.deletedAt != 'null').toList().isNotEmpty;
     tabBarList();
     controller = TabController(vsync: this, length: tabList.length);
 

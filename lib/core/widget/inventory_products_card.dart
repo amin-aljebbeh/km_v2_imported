@@ -66,7 +66,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   @override
   Widget build(BuildContext context) {
     String price = widget.price;
-    if (Services.isSupplierManager() && widget.price != '0') {
+    if (Services.hasRole(context, supplierRol) && widget.price != '0') {
       price = (int.parse(widget.productData.price.split('.')[0]) - widget.productData.increasePercentage).toString();
     }
     return Container(

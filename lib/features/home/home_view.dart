@@ -18,27 +18,21 @@ class HomeViewState extends State<HomeView> {
   int selectedIndex;
   bool isFromUpdateOrder;
 
-  List<Widget> tabs;
+  List<Widget> tabs = [];
 
   @override
   void initState() {
     selectedIndex = widget.routeIndex;
     isFromUpdateOrder = widget.isFromUpdateOrder;
-
-    widget.notificationValue != null
-        ? WidgetsBinding.instance.addPostFrameCallback((_) => showMyDialog(
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.notificationValue != null) {
+        showMyDialog(
             context: context,
             title: widget.notificationValue['title'],
             text: widget.notificationValue['body'],
-            dialogButtons: [const CloseWidget()]))
-        : {};
-
-    tabs = [];
-    tabs.add(const StoreView());
-    tabs.add(CartView(isFromUpdateOrder: isFromUpdateOrder));
-    if ((Services.isOperationManager())) tabs.add(const OrdersView());
-
-    if (Services.isShopper() || Services.isSupplierManager()) tabs.add(const AssignedOrdersView());
+            dialogButtons: [const CloseWidget()]);
+      }
+    });
 
     super.initState();
   }
@@ -47,8 +41,10 @@ class HomeViewState extends State<HomeView> {
     List<BottomNavigationBarItem> bottomList = [];
     bottomList.add(BottomBarItem.build(text: store, icon: Icons.store));
     bottomList.add(BottomBarItem.build(text: cart, icon: Icons.shopping_cart));
-    if (Services.isOperationManager()) bottomList.add(BottomBarItem.build(text: orders, icon: Icons.reorder));
-    if (Services.isShopper() || Services.isSupplierManager()) {
+    if (Services.hasRole(context, operationManagerRole)) {
+      bottomList.add(BottomBarItem.build(text: orders, icon: Icons.reorder));
+    }
+    if (Services.hasRole(context, shopperRole) || Services.hasRole(context, supplierRol)) {
       bottomList.add(BottomBarItem.build(text: myOrders, icon: Icons.playlist_add_check_outlined));
     }
 
@@ -64,8 +60,16 @@ class HomeViewState extends State<HomeView> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(body: tabs[selectedIndex], bottomNavigationBar: _bottomNavBar(context: context));
+  Widget build(BuildContext context) {
+    tabs.add(const StoreView());
+    tabs.add(CartView(isFromUpdateOrder: isFromUpdateOrder));
+    if ((Services.hasRole(context, operationManagerRole))) tabs.add(const OrdersView());
+
+    if (Services.hasRole(context, shopperRole) || Services.hasRole(context, supplierRol)) {
+      tabs.add(const AssignedOrdersView());
+    }
+    return Scaffold(body: tabs[selectedIndex], bottomNavigationBar: _bottomNavBar(context: context));
+  }
 
   void _onItemTapped(int index) => setState(() {
         selectedIndex = index;

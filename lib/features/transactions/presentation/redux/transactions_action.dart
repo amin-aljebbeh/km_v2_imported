@@ -15,8 +15,9 @@ class CreateTransactionAction {
 
 class DeleteTransactionRequestAction {
   final int requestId;
+  final BuildContext context;
 
-  DeleteTransactionRequestAction({this.requestId});
+  DeleteTransactionRequestAction({this.requestId, this.context});
 }
 
 class RequestDeleted {
@@ -110,8 +111,9 @@ class ChangeTransactionRequestStatusAction {
   final int requestId;
   final int statusId;
   final String rejectReason;
+  final BuildContext context;
 
-  ChangeTransactionRequestStatusAction({this.requestId, this.statusId, this.rejectReason});
+  ChangeTransactionRequestStatusAction({this.requestId, this.statusId, this.rejectReason, this.context});
 }
 
 class TransactionRequestChanged {

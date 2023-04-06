@@ -6,10 +6,11 @@ import '../../core/core_importer.dart';
 class OrderDetailViewMainCard extends StatefulWidget {
   final int index;
   final OrderProduct productData;
-
+  final bool isOperation;
   final Function(int) onCheckbox;
 
-  const OrderDetailViewMainCard({Key key, this.index, this.productData, this.onCheckbox}) : super(key: key);
+  const OrderDetailViewMainCard({Key key, this.index, this.productData, this.onCheckbox, this.isOperation})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => OrderDetailViewMainCardState();
@@ -24,7 +25,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
         .where((subWarehouse) =>
             subWarehouse.id == widget.productData.subWarehouseId ||
             subWarehouse.allowShopperAssign == '1' ||
-            Services.isOperationManager())
+            widget.isOperation)
         .map((subWarehouse) => DropdownMenuItem<dynamic>(
             child: AutoSizeText(subWarehouse.name,
                 maxLines: 2, overflow: TextOverflow.fade, maxFontSize: 12, style: mainStyle),
@@ -78,13 +79,13 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                   Text(widget.productData.quantity + ' ' + (widget.productData.unit ?? ''), style: darkBold),
                   Text(StringUtils().oCcy.format(purchasePrice) + ' ${StaticVariables.companyInformation.currency}',
                       style: paragraphStyle),
-                  if (Services.isOperationManager() &&
+                  if (Services.hasRole(context, operationManagerRole) &&
                       purchasePrice - int.parse(widget.productData.pivot.purchasePrice.split('.')[0]) != 0)
                     Text(
                         StringUtils().oCcy.format(int.parse(widget.productData.pivot.purchasePrice.split('.')[0])) +
                             ' ${StaticVariables.companyInformation.currency}',
                         style: warningStyle),
-                  if (Services.isSupplierManager())
+                  if (Services.hasRole(context, supplierRol))
                     Text(
                       StringUtils().oCcy.format(purchasePrice - (purchasePrice * discountPercentage)) +
                           ' ${StaticVariables.companyInformation.currency}',
@@ -92,7 +93,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     ),
                   Text('كمية المستودع : ' + widget.productData.availableQuantity,
                       style: mainStyle.copyWith(color: kmColors)),
-                  if ((!Services.isSupplierManager()) && subWarehouseList.isNotEmpty)
+                  if ((!Services.hasRole(context, supplierRol)) && subWarehouseList.isNotEmpty)
                     DropdownButton(
                       items: subWarehouseList,
                       onChanged: (a) {

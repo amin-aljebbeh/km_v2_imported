@@ -131,6 +131,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                   productsAry.removeAt(index);
                                 });
                               },
+                              isOperation: Services.hasRole(context, operationManagerRole),
                               productData: productDetail,
                               index: index,
                             ),
@@ -139,7 +140,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                       },
                     ),
                   ),
-                  if (Services.isSupplierManager())
+                  if (Services.hasRole(context, supplierRol))
                     Column(
                       children: [
                         Padding(
