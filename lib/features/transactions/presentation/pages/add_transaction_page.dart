@@ -232,9 +232,9 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                           context: context,
                                           transactionEntity: AdminTransactionEntity(
                                               transactionCategoryId: category.id,
-                                              actorId: int.parse(adminId),
+                                              actorId: chooseAdmin() ? int.parse(adminId) : null,
                                               userId: widget.userId,
-                                              adminId: int.parse(adminId),
+                                              adminId: chooseAdmin() ? int.parse(adminId) : null,
                                               date: deliveryDate,
                                               value: int.parse(moneyController.text).abs(),
                                               description: descriptionController.text,

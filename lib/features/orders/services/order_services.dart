@@ -117,8 +117,6 @@ class OrderServices {
 
       return StaticVariables.myOrdersList;
     } catch (e) {
-      Tools.logToConsole('exception');
-      Tools.logToConsole(e.toString());
       return null;
     }
   }

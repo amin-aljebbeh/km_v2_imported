@@ -66,6 +66,11 @@ class TransactionRequestWidget extends StatelessWidget {
                                 rightSideText: 'الطلب موجه إلى: ',
                                 leftSideText: transactionRequestEntity.actor.name,
                                 leftSideStyle: informationStyle),
+                          if (transactionRequestEntity.orderId != null)
+                            LabelRow(
+                                rightSideText: 'رقم الطلب: ',
+                                leftSideText: transactionRequestEntity.orderId.toString(),
+                                leftSideStyle: informationStyle),
                           Text(intl.DateFormat('a h:mm - dd-MM-yyyy').format(transactionRequestEntity.createdAt),
                               style: informationStyle, textDirection: TextDirection.rtl),
                           if (transactionRequestEntity.statusId == 1)

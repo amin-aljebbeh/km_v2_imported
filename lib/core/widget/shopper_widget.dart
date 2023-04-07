@@ -56,8 +56,6 @@ class ShopperWidgetState extends State<ShopperWidget> {
                               if (Services.hasPermission(context, advancedTransactionPermission))
                                 InkWell(
                                   onTap: () {
-                                    Tools.logToConsole('id');
-                                    Tools.logToConsole(widget.shopper.adminId);
                                     StoreProvider.of<AppState>(context)
                                         .dispatch(GetShopperReportAction(shopperId: widget.shopper.id));
                                     Navigator.push(

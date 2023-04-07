@@ -94,8 +94,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
         });
       }
     } catch (e) {
-      Tools.logToConsole('exception ui');
-      Tools.logToConsole(e.toString());
+      //
     }
   }
 
