@@ -120,7 +120,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                     ),
                                   ),
                                 ),
-                              if (state.adminsState.admin.permissions.contains('date-with-transaction'))
+                              if (Services.hasRole(context, collectorRole) ||
+                                  Services.hasRole(context, mainCollectorRole))
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: InkWell(
