@@ -29,7 +29,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
   void initState() {
     adminId = widget.adminId.toString();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!Services.hasRole(context, superAdminRole)) roleId = 3;
+      if (!Services.hasRole(context, mainCollectorRole)) roleId = 3;
       if (adminId != null && adminId != 'null') {
         StoreProvider.of<AppState>(context).dispatch(GetTransactionsAction(adminId: int.parse(adminId)));
       }
@@ -44,7 +44,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
       converter: (store) => store.state,
       builder: (context, state) {
         List<DropdownMenuItem<int>> roles = [];
-        if (Services.hasRole(context, superAdminRole)) {
+        if (Services.hasRole(context, mainCollectorRole)) {
           roles.addAll(state.adminsState.roles
               .map((role) => DropdownMenuItem<int>(
                   child: AutoSizeText(role.name, style: mainStyle, maxFontSize: 15), value: role.id))
@@ -154,7 +154,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                             GetAdminsWithoutDetailsAction(roleId: roleId, warehouseId: warehouseId));
                                       },
                                     ),
-                                    if (Services.hasRole(context, superAdminRole))
+                                    if (Services.hasRole(context, mainCollectorRole))
                                       DropdownButton(
                                           items: roles,
                                           hint: Text('منصب الأدمن', style: mainStyle),

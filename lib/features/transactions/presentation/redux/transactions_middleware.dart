@@ -117,17 +117,12 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
               ? 1
               : 0
           : 1,
-      lastWeek: 1,
+      lastWeek: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? 0 : 1,
     );
     either.fold((failure) => error = true, (transactionsPage) {
       TransactionsPaginationEntity tempTransactions = transactionsPage;
       transactions
           .addAll(tempTransactions.transactions.where((transaction) => transaction.createdAt.day == action.date.day));
-      Tools.logToConsole('page');
-      Tools.logToConsole(store.state.transactionsState.transactionsPage);
-      Tools.logToConsole(length);
-      Tools.logToConsole(transactions.length);
-      Tools.logToConsole(tempTransactions.perPage);
     });
     while (beforeNumber > 1) {
       length = transactions.length;
@@ -139,7 +134,7 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
                   ? 1
                   : 0
               : 1,
-          lastWeek: 1);
+          lastWeek: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? 0 : 1);
       either.fold((failure) => error = true, (transactionsPage) {
         TransactionsPaginationEntity tempTransactions = transactionsPage;
         transactions
@@ -149,11 +144,6 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
             (transactions.length - length < tempTransactions.perPage && length != transactions.length)) {
           toBreak = true;
         }
-        Tools.logToConsole('before');
-        Tools.logToConsole(beforeNumber - 1);
-        Tools.logToConsole(length);
-        Tools.logToConsole(transactions.length);
-        Tools.logToConsole(tempTransactions.perPage);
       });
       if (length == transactions.length || toBreak) break;
       beforeNumber--;
@@ -169,7 +159,7 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
                   ? 1
                   : 0
               : 1,
-          lastWeek: 1);
+          lastWeek: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? 0 : 1);
       either.fold((failure) => error = true, (transactionsPage) {
         TransactionsPaginationEntity tempTransactions = transactionsPage;
         transactions
@@ -179,13 +169,6 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
             (tempTransactions.lastPage == tempTransactions.currentPage)) {
           toBreak = true;
         }
-        Tools.logToConsole('after');
-        Tools.logToConsole(afterNumber + 1);
-        Tools.logToConsole(length);
-        Tools.logToConsole(transactions.length);
-        Tools.logToConsole(tempTransactions.perPage);
-        Tools.logToConsole(tempTransactions.lastPage);
-        Tools.logToConsole(tempTransactions.currentPage);
       });
       if (length == transactions.length || toBreak) break;
       afterNumber++;

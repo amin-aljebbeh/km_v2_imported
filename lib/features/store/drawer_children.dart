@@ -40,9 +40,9 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       } else {
                         if (store.state.adminsState.admins.isEmpty) {
                           store.dispatch(GetAdminsWithoutDetailsAction(
-                              roleId: Services.hasRole(context, superAdminRole) ? null : 3));
+                              roleId: Services.hasRole(context, mainCollectorRole) ? null : 3));
                         }
-                        if (store.state.adminsState.roles.isEmpty && Services.hasRole(context, superAdminRole)) {
+                        if (store.state.adminsState.roles.isEmpty && Services.hasRole(context, mainCollectorRole)) {
                           store.dispatch(GetRolesAction());
                         }
                       }

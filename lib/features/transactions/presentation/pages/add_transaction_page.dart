@@ -191,7 +191,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                               } else {
                                 if (store.state.adminsState.admins.isEmpty) {
                                   store.dispatch(GetAdminsWithoutDetailsAction(
-                                      roleId: Services.hasRole(context, superAdminRole) ? null : 3));
+                                      roleId: Services.hasRole(context, mainCollectorRole) ? null : 3));
                                 }
                                 if (store.state.adminsState.roles.isEmpty) store.dispatch(GetRolesAction());
                                 if (adminId != null) {
@@ -272,10 +272,15 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
             .transactionsState
             .categories
             .firstWhere((category) => category.orderRequired == widget.orderRequired || category.orderRequired == 2);
+    if (category.transactionOperation.affectUser == 1) return false;
+    if (category.selfTransaction == 1) {
+      if ([30, 31].contains(category.id)) {
+        return true;
+      }
+      return false;
+    }
     return ((category.requestRequired == 0 && category.transactionOperation.affectActor == 0) ||
-            (category.requestRequired != 0 && category.transactionOperation.affectActor != 0)) &&
-        category.transactionOperation.affectUser == 0 &&
-        category.selfTransaction == 0;
+        (category.requestRequired != 0 && category.transactionOperation.affectActor != 0));
   }
 
   bool completeData() {

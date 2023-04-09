@@ -7,6 +7,8 @@ String productsControllerRole = 'product-management';
 String supplierRol = 'supplier-role';
 String accountingRole = 'accounting-role';
 String agentRole = 'agent';
+String collectorRole = 'collector';
+String mainCollectorRole = 'main-collector';
 
 //Permissions:
 String transactionPermission = 'transaction-permission';

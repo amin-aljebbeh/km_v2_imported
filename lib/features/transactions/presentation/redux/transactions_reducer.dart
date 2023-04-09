@@ -114,7 +114,7 @@ TransactionsState nextTransactionsPage(TransactionsState state, NextTransactions
     state.copyWith(transactionsPage: state.transactionsPage + 1);
 
 TransactionsState previousTransactionsPage(TransactionsState state, PreviousTransactionsPage action) =>
-    state.copyWith(transactionsPage: state.transactionsPage - 1);
+    state.copyWith(transactionsPage: state.transactionsPage - 1, hasNextTransactions: true);
 
 TransactionsState setTransactionStatusId(TransactionsState state, SetTransactionStatusId action) =>
     state.copyWith(transactionStatusId: action.transactionStatusId);
