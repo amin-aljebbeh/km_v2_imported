@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart' as intl;
 import 'package:kammun_app/features/transactions/presentation/redux/transactions_action.dart';
 
 import '../../../../core/core_importer.dart';
@@ -21,7 +20,6 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   TransactionCategoryEntity category;
   int categoryId;
   String adminId;
-  String deliveryDate = intl.DateFormat('yyyy-MM-dd').format(DateTime.now());
   final moneyController = TextEditingController();
   final descriptionController = TextEditingController();
 
@@ -208,7 +206,6 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                               actorId: chooseAdmin() ? int.parse(adminId) : null,
                                               userId: widget.userId,
                                               adminId: chooseAdmin() ? int.parse(adminId) : null,
-                                              date: deliveryDate,
                                               value: int.parse(moneyController.text).abs(),
                                               description: descriptionController.text,
                                               orderId: widget.orderId)));
