@@ -21,7 +21,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   TransactionCategoryEntity category;
   int categoryId;
   String adminId;
-  String deliveryDate;
+  String deliveryDate = intl.DateFormat('yyyy-MM-dd').format(DateTime.now());
   final moneyController = TextEditingController();
   final descriptionController = TextEditingController();
 
@@ -134,14 +134,14 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                     onTap: () {
                                       showDatePicker(
                                               firstDate: DateTime(
-                                                  DateTime.now().year, DateTime.now().month - 1, DateTime.now().day),
+                                                  DateTime.now().year, DateTime.now().month, DateTime.now().day - 10),
                                               initialDate: DateTime.now(),
                                               lastDate: DateTime.now(),
                                               context: context)
                                           .then((date) {
                                         setState(() {
                                           if (date != null) {
-                                            deliveryDate = intl.DateFormat('yyyy-MM-dd hh:mm:ss').format(date);
+                                            deliveryDate = intl.DateFormat('yyyy-MM-dd').format(date);
                                           }
                                         });
                                       });
