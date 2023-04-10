@@ -120,34 +120,6 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                     ),
                                   ),
                                 ),
-                              if (Services.hasRole(context, collectorRole) ||
-                                  Services.hasRole(context, mainCollectorRole))
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: InkWell(
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.date_range_rounded, color: primaryColor),
-                                        Text(deliveryDate ?? 'يمكنك اختيار تاريخ حدوث المناقلة', style: mainStyle),
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      showDatePicker(
-                                              firstDate: DateTime(
-                                                  DateTime.now().year, DateTime.now().month, DateTime.now().day - 10),
-                                              initialDate: DateTime.now(),
-                                              lastDate: DateTime.now(),
-                                              context: context)
-                                          .then((date) {
-                                        setState(() {
-                                          if (date != null) {
-                                            deliveryDate = intl.DateFormat('yyyy-MM-dd').format(date);
-                                          }
-                                        });
-                                      });
-                                    },
-                                  ),
-                                ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 8),
                                 child: TextFieldRow(
