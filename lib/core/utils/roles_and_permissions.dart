@@ -13,3 +13,7 @@ String mainCollectorRole = 'main-collector';
 //Permissions:
 String transactionPermission = 'transaction-permission';
 String advancedTransactionPermission = 'advanced-transaction-view';
+String targetInventoryPermission = 'target-inventory';
+String updateIncreasePercentagePermission = 'update-increase-percentage';
+String viewAdminPanelPermission = 'view-admin-panel';
+String advancedAdminPanelPermission = 'advanced-admin-panel';

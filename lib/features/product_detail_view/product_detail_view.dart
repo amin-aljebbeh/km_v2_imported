@@ -408,7 +408,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               Services.hasRole(context, productsControllerRole) || Services.hasRole(context, adminRole)
                                   ? Column(
                                       children: [
-                                        if (state.adminsState.admin.permissions.contains('update-increase-percentage'))
+                                        if (Services.hasPermission(context, updateIncreasePercentagePermission))
                                           UpdateProductInfoWidget(
                                             title: 'نسبة الزيادة:',
                                             textHint: widget.product.increasePercentage.toString(),

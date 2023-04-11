@@ -17,7 +17,7 @@ class ShopperReportWidget extends StatelessWidget {
             ? const Loader()
             : Row(
                 children: [
-                  if (!(state.adminsState.admin.permissions.contains('advanced-transaction-view')))
+                  if (!Services.hasPermission(context, advancedTransactionPermission))
                     IconButton(
                       icon: Icon(Icons.arrow_back, size: 40, color: primaryColor),
                       onPressed: () {
@@ -113,7 +113,7 @@ class ShopperReportWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (!(state.adminsState.admin.permissions.contains('advanced-transaction-view')))
+                  if (!Services.hasPermission(context, advancedTransactionPermission))
                     IconButton(
                       icon: Icon(Icons.arrow_forward, size: 40, color: primaryColor),
                       onPressed: () {

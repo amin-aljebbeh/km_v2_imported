@@ -133,7 +133,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                               }
                             },
                           ),
-                        if (state.adminsState.admin.permissions.contains('target-inventory'))
+                        if (Services.hasPermission(context, targetInventoryPermission))
                           KammunButton(
                             height: 50,
                             text: 'رفع جرد تارغت',

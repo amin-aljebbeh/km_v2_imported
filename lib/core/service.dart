@@ -128,9 +128,7 @@ class Services {
         break;
       case 'email':
         String platform = 'Android';
-        if (Platform.isIOS) {
-          platform = 'iPhone';
-        }
+        if (Platform.isIOS) platform = 'iPhone';
         url =
             'mailto:${StaticVariables.companyInformation.email}?subject=Support Request From $platform Application&body=';
         break;

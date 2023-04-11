@@ -154,7 +154,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                             color: primaryColor,
                             onTap: () {
                               int id;
-                              if (!state.adminsState.admin.permissions.contains('advanced-transaction-view')) {
+                              if (!Services.hasPermission(context, advancedTransactionPermission)) {
                                 id = state.adminsState.admin.id;
                                 if (Services.hasRole(context, shopperRole)) {
                                   store.dispatch(GetShopperReportAction(shopperId: state.adminsState.admin.shopper.id));

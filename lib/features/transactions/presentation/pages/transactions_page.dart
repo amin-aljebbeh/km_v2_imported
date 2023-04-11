@@ -74,7 +74,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                   Expanded(
                     child: Column(
                       children: [
-                        if (state.adminsState.admin.permissions.contains('advanced-transaction-view'))
+                        if (Services.hasPermission(context, advancedTransactionPermission))
                           Column(
                             children: [
                               Row(
@@ -221,7 +221,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                             ],
                           ),
                         if ((adminId != null && adminId != 'null') ||
-                            (!state.adminsState.admin.permissions.contains('advanced-transaction-view')))
+                            (!Services.hasPermission(context, advancedTransactionPermission)))
                           if (isShopper(state)) const ShopperReportWidget(),
                         state.loadingState.loading.isNotEmpty
                             ? const Center(child: Loader())
@@ -283,7 +283,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                               onTap: () {
                                 store.dispatch(GetAdminBalanceAction(
                                     context: context,
-                                    adminId: state.adminsState.admin.permissions.contains('advanced-transaction-view')
+                                    adminId: Services.hasPermission(context, advancedTransactionPermission)
                                         ? int.parse(adminId)
                                         : state.adminsState.admin.id));
                               },

@@ -84,7 +84,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                           }
                         },
                       ),
-                      if (state.adminsState.admin.permissions.contains('transaction-permission'))
+                      if (Services.hasPermission(context, transactionPermission))
                         KammunButton(
                           color: kmColors,
                           onTap: () {

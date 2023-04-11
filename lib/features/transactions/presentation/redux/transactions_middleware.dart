@@ -60,13 +60,14 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
     store.dispatch(StartLoading());
     Either either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
       pageNumber: store.state.transactionsState.transactionsPage,
-      adminId: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? action.adminId : null,
-      groupingByParent: store.state.adminsState.admin.permissions.contains('advanced-transaction-view')
+      adminId:
+          store.state.adminsState.admin.permissions.contains(advancedTransactionPermission) ? action.adminId : null,
+      groupingByParent: store.state.adminsState.admin.permissions.contains(advancedTransactionPermission)
           ? store.state.transactionsState.groupingTransactions
               ? 1
               : 0
           : 1,
-      lastWeek: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? 0 : 1,
+      lastWeek: store.state.adminsState.admin.permissions.contains(advancedTransactionPermission) ? 0 : 1,
     );
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
         (transactionsPage) {
@@ -112,12 +113,12 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
     either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
       pageNumber: store.state.transactionsState.transactionsPage,
       adminId: action.adminId,
-      groupingByParent: store.state.adminsState.admin.permissions.contains('advanced-transaction-view')
+      groupingByParent: Services.hasPermission(action.context, advancedTransactionPermission)
           ? store.state.transactionsState.groupingTransactions
               ? 1
               : 0
           : 1,
-      lastWeek: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? 0 : 1,
+      lastWeek: Services.hasPermission(action.context, advancedTransactionPermission) ? 0 : 1,
     );
     either.fold((failure) => error = true, (transactionsPage) {
       TransactionsPaginationEntity tempTransactions = transactionsPage;
@@ -129,12 +130,12 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
       either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
           pageNumber: beforeNumber - 1,
           adminId: action.adminId,
-          groupingByParent: store.state.adminsState.admin.permissions.contains('advanced-transaction-view')
+          groupingByParent: Services.hasPermission(action.context, advancedTransactionPermission)
               ? store.state.transactionsState.groupingTransactions
                   ? 1
                   : 0
               : 1,
-          lastWeek: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? 0 : 1);
+          lastWeek: Services.hasPermission(action.context, advancedTransactionPermission) ? 0 : 1);
       either.fold((failure) => error = true, (transactionsPage) {
         TransactionsPaginationEntity tempTransactions = transactionsPage;
         transactions
@@ -154,12 +155,12 @@ Future<void> transactionsMiddleware(Store<AppState> store, action, NextDispatche
       either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
           pageNumber: afterNumber + 1,
           adminId: action.adminId,
-          groupingByParent: store.state.adminsState.admin.permissions.contains('advanced-transaction-view')
+          groupingByParent: Services.hasPermission(action.context, advancedTransactionPermission)
               ? store.state.transactionsState.groupingTransactions
                   ? 1
                   : 0
               : 1,
-          lastWeek: store.state.adminsState.admin.permissions.contains('advanced-transaction-view') ? 0 : 1);
+          lastWeek: Services.hasPermission(action.context, advancedTransactionPermission) ? 0 : 1);
       either.fold((failure) => error = true, (transactionsPage) {
         TransactionsPaginationEntity tempTransactions = transactionsPage;
         transactions

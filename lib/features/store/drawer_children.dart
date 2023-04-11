@@ -32,7 +32,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       int adminId;
                       store.dispatch(NoError());
                       store.dispatch(FirstTransactionsPage());
-                      if (!store.state.adminsState.admin.permissions.contains('advanced-transaction-view')) {
+                      if (!Services.hasPermission(context, advancedTransactionPermission)) {
                         adminId = store.state.adminsState.admin.id;
                         if (Services.hasRole(context, shopperRole)) {
                           store.dispatch(GetShopperReportAction(shopperId: store.state.adminsState.admin.shopper.id));
@@ -170,7 +170,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
           );
         },
       ),
-    if (store.state.adminsState.admin.permissions.contains('view-admin-panel'))
+    if (Services.hasPermission(context, viewAdminPanelPermission))
       SideBarRow(
         text: adminPanel,
         icon: Icons.admin_panel_settings,
@@ -182,7 +182,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                     children: [
                       const SideBarRow(
                           pushedRoute: SalesReport.routeName, icon: Icons.table_view_rounded, text: 'تقرير المبيعات'),
-                      if (store.state.adminsState.admin.permissions.contains('advanced-admin-panel'))
+                      if (Services.hasPermission(context, advancedAdminPanelPermission))
                         Column(
                           children: const [
                             SideBarRow(
