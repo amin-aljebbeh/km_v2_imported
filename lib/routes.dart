@@ -4,7 +4,6 @@ final Map<String, WidgetBuilder> routes = {
   LoginScreen.routeName: (_) => const LoginScreen(),
   StoreView.routeName: (_) => const HomeView(routeIndex: 0),
   CartViewFinal.routeName: (_) => const CartViewFinal(),
-  ServerUpdate.routeName: (_) => const ServerUpdate(),
   ShopperMonthReport.routeName: (_) => const ShopperMonthReport(),
   ShopperWorkingHoursView.routeName: (_) => const ShopperWorkingHoursView(),
   ActivityHoursView.routeName: (_) => const ActivityHoursView(),

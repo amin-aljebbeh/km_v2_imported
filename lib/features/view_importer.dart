@@ -14,7 +14,6 @@ export 'prices_changes/prices.dart';
 export 'products_attached_to_warehouse/views/products_attached_to_warehouse_importer.dart';
 export 'profile/profile_screen.dart';
 export 'reports/reports_importer.dart';
-export 'server_update/server_update.dart';
 export 'store/store_view.dart';
 export 'supplier/presentation/pages/supplier_statement_accounts.dart';
 export 'transactions/presentation/pages/transaction_requests_page.dart';

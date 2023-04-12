@@ -77,8 +77,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
             return const InternetError();
           } else if (StaticVariables.updateRequired) {
             return const UpdateScreen();
-          } else if (StaticVariables.serverMaintain) {
-            return const ServerUpdate();
           } else {
             final child = HomeView(routeIndex: 0, notificationValue: notificationValue);
             return AnimatedSwitcher(

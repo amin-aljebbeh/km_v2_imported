@@ -41,18 +41,13 @@ class Services {
       .toList();
 
   static List<DropdownMenuItem<String>> shoppersNameList() {
-    List<DropdownMenuItem<String>> list = StaticVariables.allShoppers
-        .where((shopper) => shopper.status == 1)
-        .map((shopper) => DropdownMenuItem<String>(
-            child: Center(child: Text(shopper.name + ' ✅', style: dropdownItemStyle)), value: shopper.name))
-        .toList();
-    list.addAll(
-      StaticVariables.allShoppers
-          .where((shopper) => shopper.status == 0)
-          .map((shopper) => DropdownMenuItem<String>(
-              child: Center(child: Text(shopper.name + ' ❌', style: dropdownItemStyle)), value: shopper.name))
-          .toList(),
-    );
+    List<DropdownMenuItem<String>> list = [];
+    list.addAll(StaticVariables.allShoppers.where((shopper) => shopper.status == 1).map((shopper) =>
+        DropdownMenuItem<String>(
+            child: Center(child: Text(shopper.name + ' ✅', style: dropdownItemStyle)), value: shopper.name)));
+    list.addAll(StaticVariables.allShoppers.where((shopper) => shopper.status == 0).map((shopper) =>
+        DropdownMenuItem<String>(
+            child: Center(child: Text(shopper.name + ' ❌', style: dropdownItemStyle)), value: shopper.name)));
     return list;
   }
 
@@ -118,13 +113,13 @@ class Services {
         url = StaticVariables.companyInformation.messengerUrl;
         break;
       case 'facebook':
-        url = 'fb://page/' + StaticVariables.companyInformation.facebookUrl.toString();
+        url = 'fb://page/' + StaticVariables.companyInformation.facebookUrl;
         break;
       case 'instagram':
-        url = StaticVariables.companyInformation.instagramUrl.toString();
+        url = StaticVariables.companyInformation.instagramUrl;
         break;
       case 'website':
-        url = StaticVariables.companyInformation.websiteUrl.toString();
+        url = StaticVariables.companyInformation.websiteUrl;
         break;
       case 'email':
         String platform = 'Android';

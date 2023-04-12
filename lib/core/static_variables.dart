@@ -1,4 +1,3 @@
-import '../features/admins/data/models/admin_model.dart';
 import 'core_importer.dart';
 
 class StaticVariables {
@@ -19,7 +18,6 @@ class StaticVariables {
   // Mobile Configuration variables
   static String androidShareUrl = '';
   static String iOSShareUrl = '';
-  static bool serverMaintain = false;
   static bool updateRequired = false;
   static bool updateOptional = false;
 
@@ -36,7 +34,6 @@ class StaticVariables {
   static List<OrdersOriginalData> allOrdersList = [];
   static List<OrdersOriginalData> phoneOrderList = [];
   static List<ShopperModel> allShoppers = [];
-  static AdminModel admin = const AdminModel(phone: '0000000000');
   static bool preferLeftSide = true;
   static int ordersViewFilter = 0;
 

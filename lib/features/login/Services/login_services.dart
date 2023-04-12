@@ -102,7 +102,6 @@ class LoginServices {
             StaticVariables.shopper.level = await GeneralApis.getLevelService(result.data.shopper.levelId.toString());
           }
         }
-        StaticVariables.admin = result.data;
         return result.data.subWarehouses;
       }
       return null;

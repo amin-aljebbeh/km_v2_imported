@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/login/Services/login_services.dart';
 
 import '../../core/core_importer.dart';
+import 'profile_container.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String routeName = '/ProfileScreen';
@@ -12,9 +13,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool isLoading = false;
-  bool isError = false;
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AppState>(
@@ -24,22 +22,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColorLight,
           appBar: AppBar(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox(),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AutoSizeText(StaticVariables.admin.name ?? '', style: userNameStyle.copyWith(fontSize: 25)),
-                      AutoSizeText(StaticVariables.admin.username ?? '', style: userNameStyle),
-                    ],
-                    textDirection: TextDirection.ltr,
-                  ),
-                ),
-              ],
+            title: Align(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AutoSizeText(state.adminsState.admin.name ?? '', style: userNameStyle.copyWith(fontSize: 25)),
+                  AutoSizeText(state.adminsState.admin.username ?? '', style: userNameStyle),
+                ],
+                textDirection: TextDirection.ltr,
+              ),
+              alignment: Alignment.centerLeft,
             ),
             backgroundColor: kmColors,
           ),
@@ -52,33 +44,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: MediaQuery.of(context).size.height * 0.85,
                     child: ListView(
                       children: [
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: Center(
-                              child: Text('الرقم الشخصي',
-                                  style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 20)),
+                        ProfileContainer(
+                          title: 'الرقم الشخصي',
+                          child: ListTile(
+                            leading: Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Icon(FontAwesomeIcons.phone, color: kmColors, size: 30)),
+                            title: Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: Text(state.adminsState.admin.phone ?? 'لا يوجد',
+                                  style: mainStyle.copyWith(fontSize: 25, color: Colors.black)),
                             ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: const EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                                boxShadow: [BoxShadow(color: kmColors, spreadRadius: 3)]),
-                            child: ListTile(
-                              leading: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Icon(FontAwesomeIcons.phone, color: kmColors, size: 30)),
-                              title: Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Text(StaticVariables.admin.phone ?? 'لا يوجد',
-                                    style: mainStyle.copyWith(fontSize: 25, color: Colors.black)),
-                              ),
-                              onTap: () {},
-                            ),
+                            onTap: () {},
                           ),
                         ),
                         if (state.adminsState.admin.balance != null)
@@ -86,100 +63,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.only(top: 8),
                             child: LabelRow(
                                 rightSideText: 'الرصيد: ',
-                                leftSideText: StringUtils().oCcy.format(state.adminsState.admin.balance) +
-                                    ' ' +
-                                    StaticVariables.companyInformation.currency,
+                                leftSideText:
+                                    StringUtils().oCcy.format(state.adminsState.admin.balance).replaceAll('-', '') +
+                                        ' ' +
+                                        StaticVariables.companyInformation.currency,
                                 leftSideStyle:
                                     state.adminsState.admin.balance.isNegative ? warningStyle : informationStyle),
                           ),
                         if (state.adminsState.admin.roles.isNotEmpty)
-                          Column(
+                          ProfileContainer(
+                            title: 'المستودع',
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: StaticVariables.subWarehouses
+                                    .map((subWarehouse) => Padding(
+                                        padding: const EdgeInsets.all(5),
+                                        child: Text(subWarehouse.name,
+                                            style: mainStyle.copyWith(fontSize: 25, color: Colors.black))))
+                                    .toList()),
+                          ),
+                        ProfileContainer(
+                          title: 'الجهة المفضلة لاستخدام الهاتف',
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 20.0),
-                                  child: Center(
-                                      child: Text('المستودع',
-                                          style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 20))),
-                                ),
-                              ),
-                              Center(
-                                child: Container(
-                                  margin: const EdgeInsets.all(15),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white,
-                                      boxShadow: [BoxShadow(color: kmColors, spreadRadius: 3)]),
-                                  child: Center(
-                                    child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: StaticVariables.subWarehouses
-                                            .map((subWarehouse) => Container(
-                                                padding: const EdgeInsets.all(5),
-                                                decoration: const BoxDecoration(color: Colors.white),
-                                                child: Text(subWarehouse.name,
-                                                    style: mainStyle.copyWith(fontSize: 25, color: Colors.black))))
-                                            .toList()),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(
-                                      child: Text('الجهة المفضلة لاستخدام الهاتف',
-                                          style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 20)))),
-                              Center(
-                                child: Container(
-                                  margin: const EdgeInsets.all(15),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white,
-                                      boxShadow: [BoxShadow(color: kmColors, spreadRadius: 3)]),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: [
-                                      IconButton(
-                                        icon: Icon(Icons.library_add_check_outlined,
-                                            color: StaticVariables.preferLeftSide ? searchGreyColor : kmColors2),
-                                        onPressed: () => setState(() =>
-                                            StaticVariables.preferLeftSide ? Services.setPreferLeftSide(false) : {}),
-                                      ), //right side
-                                      IconButton(
-                                          icon: Icon(Icons.library_add_check_outlined,
-                                              color: StaticVariables.preferLeftSide ? kmColors2 : searchGreyColor),
-                                          onPressed: () => setState(() =>
-                                              StaticVariables.preferLeftSide ? {} : Services.setPreferLeftSide(true)))
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              IconButton(
+                                icon: Icon(Icons.library_add_check_outlined,
+                                    color: StaticVariables.preferLeftSide ? searchGreyColor : kmColors2),
+                                onPressed: () => setState(
+                                    () => StaticVariables.preferLeftSide ? Services.setPreferLeftSide(false) : {}),
+                              ), //right side
+                              IconButton(
+                                  icon: Icon(Icons.library_add_check_outlined,
+                                      color: StaticVariables.preferLeftSide ? kmColors2 : searchGreyColor),
+                                  onPressed: () => setState(
+                                      () => StaticVariables.preferLeftSide ? {} : Services.setPreferLeftSide(true)))
                             ],
                           ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                              child:
-                                  Text(logout, style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 20))),
                         ),
-                        Center(
-                          child: Container(
-                            margin: const EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                                boxShadow: [BoxShadow(color: kmColors, spreadRadius: 3)]),
-                            child: ListTile(
-                              leading: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: IconButton(
-                                      onPressed: () => LoginServices.logOutAdmin(context),
-                                      icon: Icon(Icons.logout, color: kmColors, size: 30))),
-                              title: Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Text(logout, style: mainStyle.copyWith(fontSize: 25, color: Colors.black)),
-                              ),
-                              onTap: () {},
+                        ProfileContainer(
+                          title: logout,
+                          child: ListTile(
+                            leading: Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: IconButton(
+                                    onPressed: () => LoginServices.logOutAdmin(context),
+                                    icon: Icon(Icons.logout, color: kmColors, size: 30))),
+                            title: Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: Text(logout, style: mainStyle.copyWith(fontSize: 25, color: Colors.black)),
                             ),
+                            onTap: () {},
                           ),
                         ),
                       ],
