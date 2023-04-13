@@ -25,8 +25,8 @@ class OrdersViewState extends State<OrdersView> {
     phoneController = TextEditingController();
     idController = TextEditingController();
     orderDataList = [];
-    warehouses = ['جميع المستودعات'];
-    warehouses.addAll(StaticVariables.warehouses.map((warehouse) => warehouse.name).toList());
+    warehouses = [Warehouse(name: 'جميع المستودعات', id: 0)];
+    warehouses.addAll(StaticVariables.warehouses);
     rated = 0;
     ordersFilter = StaticVariables.ordersViewFilter;
     ordersTypeFilter = 0;
@@ -55,7 +55,7 @@ class OrdersViewState extends State<OrdersView> {
   int ordersFilter;
   int warehouseFilter;
   int ordersTypeFilter;
-  List<String> warehouses;
+  List<Warehouse> warehouses;
 
   List<OrdersOriginalData> orderDataList;
 
@@ -223,7 +223,11 @@ class OrdersViewState extends State<OrdersView> {
                               children: [
                                 DropdownButton(
                                   value: warehouseFilter,
-                                  items: Services.dropdownStringList(warehouses),
+                                  items: warehouses
+                                      .map((warehouse) => DropdownMenuItem<int>(
+                                          child: Center(child: Text(warehouse.name, style: dropdownItemStyle)),
+                                          value: warehouse.id))
+                                      .toList(),
                                   onChanged: (value) {
                                     setState(() => {warehouseFilter = value, page = 1, indexPage = 1});
                                     _getOrders();
