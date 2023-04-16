@@ -18,7 +18,7 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
   bool initialized = false;
   bool initialized1 = false;
   AudioPlayer player;
-
+  OverlaySupportEntry entry;
   @override
   void dispose() {
     player.dispose();
@@ -55,7 +55,7 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
             }
             FirebaseMessaging.onMessage.listen((RemoteMessage message) {
               if (message.notification != null) {
-                showOverlayNotification(
+                entry = showOverlayNotification(
                   (context) => Card(
                     margin: const EdgeInsets.symmetric(horizontal: 4),
                     child: SafeArea(
@@ -65,7 +65,11 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
                             size: const Size(40, 40), child: ClipOval(child: Image.asset('assets/kmIcon.png'))),
                         title: Text(message.notification.title ?? 'Kammun', style: mainStyle),
                         subtitle: Text(message.notification.body ?? '', style: mainStyle),
-                        trailing: IconButton(icon: const Icon(Icons.close), onPressed: () {}),
+                        trailing: IconButton(
+                            icon: const Icon(Icons.close),
+                            onPressed: () {
+                              if (!Services.hasRole(context, shopperRole)) entry.dismiss();
+                            }),
                       ),
                     ),
                   ),
@@ -90,7 +94,7 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
             player.play();
 
             if (message.notification != null) {
-              showOverlayNotification(
+              entry = showOverlayNotification(
                 (context) => Card(
                   margin: const EdgeInsets.symmetric(horizontal: 4),
                   child: SafeArea(
@@ -100,7 +104,11 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
                           size: const Size(40, 40), child: ClipOval(child: Image.asset('assets/kmIcon.png'))),
                       title: Text(message.notification.title ?? 'Kammun', style: mainStyle),
                       subtitle: Text(message.notification.body ?? '', style: mainStyle),
-                      trailing: IconButton(icon: const Icon(Icons.close), onPressed: () {}),
+                      trailing: IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            if (!Services.hasRole(context, shopperRole)) entry.dismiss();
+                          }),
                     ),
                   ),
                 ),
