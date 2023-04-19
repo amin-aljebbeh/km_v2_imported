@@ -12,7 +12,7 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
   bool loading;
 
   loadShopper() async {
-    await GeneralApis.getShoppers();
+    await GeneralApis.getShoppers(context: context);
     setState(() => loading = false);
   }
 
@@ -25,22 +25,28 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(backgroundColor: primaryColor, title: Text('فريق التوصيل', style: appBarStyle)),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: loading
-            ? const Loader()
-            : ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                primary: false,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: StaticVariables.allShoppers == null ? 0 : StaticVariables.allShoppers.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    ShopperWidget(shopper: StaticVariables.allShoppers[index]),
-              ),
-      ),
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(backgroundColor: primaryColor, title: Text('فريق التوصيل', style: appBarStyle)),
+          body: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: loading
+                ? const Loader()
+                : ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                    primary: false,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: state.shoppersState.shoppers == null ? 0 : state.shoppersState.shoppers.length,
+                    itemBuilder: (BuildContext context, int index) =>
+                        ShopperWidget(shopper: state.shoppersState.shoppers[index]),
+                  ),
+          ),
+        );
+      },
     );
   }
 }

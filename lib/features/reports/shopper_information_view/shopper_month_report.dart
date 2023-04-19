@@ -4,6 +4,7 @@ import '../services/reports_services.dart';
 
 class ShopperMonthReport extends StatefulWidget {
   static const String routeName = '/ShopperMonthReport';
+
   const ShopperMonthReport({Key key}) : super(key: key);
 
   @override
@@ -76,7 +77,7 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
                     child: KSearchableDropdown(
                       hint: chooseShopper,
                       search: shopperName,
-                      items: Services.shoppersNameList(),
+                      items: Services.shoppersNameList(context),
                       onChanged: (value) {
                         if (value != null) {
                           setState(() {
@@ -84,7 +85,7 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
                             selected = true;
                             loading = true;
                           });
-                          getMonthlyReports(shopperId: Services.selectedShopperId(value));
+                          getMonthlyReports(shopperId: Services.selectedShopperId(value, context));
                         }
                       },
                     ),

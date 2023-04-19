@@ -67,11 +67,11 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                     child: KSearchableDropdown(
                       hint: chooseShopper,
                       search: shopperName,
-                      items: Services.shoppersNameList(),
+                      items: Services.shoppersNameList(context),
                       onChanged: (value) => setState(() {
                         shopperName = value;
                         if (validDates()) {
-                          getHours(shopperId: Services.selectedShopperId(shopperName));
+                          getHours(shopperId: Services.selectedShopperId(shopperName, context));
                           isLoading = true;
                         }
                       }),
@@ -89,7 +89,7 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                       getHours(
                           shopperId: Services.hasRole(context, shopperRole)
                               ? StaticVariables.shopper.id.toString()
-                              : Services.selectedShopperId(shopperName));
+                              : Services.selectedShopperId(shopperName, context));
                     } else {
                       Toast.show('الرجاء إدخال كافة البيانات', context,
                           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);

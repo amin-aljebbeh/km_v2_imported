@@ -33,7 +33,6 @@ class StaticVariables {
   static List<OrdersOriginalData> myOrdersList = [];
   static List<OrdersOriginalData> allOrdersList = [];
   static List<OrdersOriginalData> phoneOrderList = [];
-  static List<ShopperModel> allShoppers = [];
   static bool preferLeftSide = true;
   static int ordersViewFilter = 0;
 

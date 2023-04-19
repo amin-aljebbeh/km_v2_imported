@@ -1,6 +1,5 @@
-import 'package:kammun_app/features/admins/domain/entities/shopper_level_entity.dart';
-
 import '../../../../core/core_importer.dart';
+import '../../domain/entities/shopper_level_entity.dart';
 
 class ShopperLevelModel extends ShopperLevelEntity {
   ShopperLevelModel({
@@ -11,8 +10,6 @@ class ShopperLevelModel extends ShopperLevelEntity {
     maxOrdersToHandle,
     maxCompanyBalance,
     points,
-    createdAt,
-    updatedAt,
     subWarehouses,
     supportedCities,
     pricePerKilo,
@@ -24,8 +21,6 @@ class ShopperLevelModel extends ShopperLevelEntity {
           maxOrdersToHandle: maxOrdersToHandle,
           maxCompanyBalance: maxCompanyBalance,
           points: points,
-          createdAt: createdAt,
-          updatedAt: updatedAt,
           subWarehouses: subWarehouses,
           supportedCities: supportedCities,
           pricePerKilo: pricePerKilo,
@@ -40,10 +35,8 @@ class ShopperLevelModel extends ShopperLevelEntity {
         maxCompanyBalance: json['max_company_balance'],
         points: json['points'],
         pricePerKilo: json['price_per_kilo'],
-        createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),
-        updatedAt: json['updated_at'],
         subWarehouses: json['sub_warehouses'] == null
-            ? []
+            ? null
             : List<SubWarehouse>.from(json['sub_warehouses'].map((x) => SubWarehouse.fromJson(x))),
         supportedCities: json['supported_cities'] == null
             ? null
@@ -57,7 +50,5 @@ class ShopperLevelModel extends ShopperLevelEntity {
         'max_products_to_handle': maxProductsToHandle,
         'max_orders_to_handle': maxOrdersToHandle,
         'points': points,
-        'created_at': createdAt.toIso8601String(),
-        'updated_at': updatedAt,
       };
 }

@@ -1,10 +1,9 @@
 import 'dart:convert';
 
+import '../../domain/entities/shopper_entity.dart';
 import 'shopper_model.dart';
 
 GetShoppersResponseModel shoppersFromJson(String str) => GetShoppersResponseModel.fromJson(json.decode(str));
-
-String shoppersToJson(GetShoppersResponseModel data) => json.encode(data.toJson());
 
 class GetShoppersResponseModel {
   GetShoppersResponseModel({
@@ -13,17 +12,10 @@ class GetShoppersResponseModel {
   });
 
   bool success;
-  List<ShopperModel> data;
+  List<ShopperEntity> data;
 
   factory GetShoppersResponseModel.fromJson(Map<String, dynamic> json) => GetShoppersResponseModel(
         success: json["success"],
-        data: json["data"] == null
-            ? null
-            : List<ShopperModel>.from(json["data"].map((x) => ShopperModel.fromJson(x))),
+        data: json["data"] == null ? null : List<ShopperModel>.from(json["data"].map((x) => ShopperModel.fromJson(x))),
       );
-
-  Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
-      };
 }

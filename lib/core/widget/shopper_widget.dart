@@ -1,9 +1,11 @@
 import 'package:kammun_app/core/core_importer.dart';
 
+import '../../features/shoppers/domain/entities/shopper_entity.dart';
+import '../../features/shoppers/presentation/redux/shoppers_action.dart';
 import '../../features/transactions/presentation/redux/transactions_action.dart';
 
 class ShopperWidget extends StatefulWidget {
-  final ShopperModel shopper;
+  final ShopperEntity shopper;
 
   const ShopperWidget({Key key, @required this.shopper}) : super(key: key);
 
@@ -88,10 +90,9 @@ class ShopperWidgetState extends State<ShopperWidget> {
                                 setState(() {
                                   loading = false;
                                   if (result) {
-                                    StaticVariables.allShoppers
-                                        .firstWhere((shopper) => shopper.id == widget.shopper.id)
-                                        .status = active;
                                     widget.shopper.status = active;
+                                    StoreProvider.of<AppState>(context)
+                                        .dispatch(ShopperChanged(shopper: widget.shopper));
                                     if (result) {
                                       snackBar(
                                           success: result, message: 'تم تغيير حالة الكابتن بنجاح', context: context);

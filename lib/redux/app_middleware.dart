@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_middleware.dart';
+
 import '../features/admins/presentation/redux/admins_middleware.dart';
 import '../features/complaints/presentation/redux/complaints_middleware.dart';
 import '../features/coupons/presentation/redux/coupon_middleware.dart';
@@ -22,5 +24,6 @@ List<Middleware<AppState>> appMiddleware() {
     usersMiddleware,
     ordersMiddleware,
     transactionsMiddleware,
+    shoppersMiddleware,
   ];
 }

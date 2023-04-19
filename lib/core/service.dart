@@ -40,13 +40,22 @@ class Services {
       .values
       .toList();
 
-  static List<DropdownMenuItem<String>> shoppersNameList() {
+  static List<DropdownMenuItem<String>> shoppersNameList(BuildContext context) {
     List<DropdownMenuItem<String>> list = [];
-    list.addAll(StaticVariables.allShoppers.where((shopper) => shopper.status == 1).map((shopper) =>
-        DropdownMenuItem<String>(
+
+    list.addAll(StoreProvider.of<AppState>(context)
+        .state
+        .shoppersState
+        .shoppers
+        .where((shopper) => shopper.status == 1)
+        .map((shopper) => DropdownMenuItem<String>(
             child: Center(child: Text(shopper.name + ' ✅', style: dropdownItemStyle)), value: shopper.name)));
-    list.addAll(StaticVariables.allShoppers.where((shopper) => shopper.status == 0).map((shopper) =>
-        DropdownMenuItem<String>(
+    list.addAll(StoreProvider.of<AppState>(context)
+        .state
+        .shoppersState
+        .shoppers
+        .where((shopper) => shopper.status == 0)
+        .map((shopper) => DropdownMenuItem<String>(
             child: Center(child: Text(shopper.name + ' ❌', style: dropdownItemStyle)), value: shopper.name)));
     return list;
   }
@@ -77,12 +86,18 @@ class Services {
     return productsList;
   }
 
-  static String selectedShopperId(String name) => StaticVariables.allShoppers
+  static String selectedShopperId(String name, BuildContext context) => StoreProvider.of<AppState>(context)
+      .state
+      .shoppersState
+      .shoppers
       .firstWhere((shopper) => shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
       .id
       .toString();
 
-  static int selectedShopperLevelId(String name) => StaticVariables.allShoppers
+  static int selectedShopperLevelId(String name, BuildContext context) => StoreProvider.of<AppState>(context)
+      .state
+      .shoppersState
+      .shoppers
       .firstWhere((shopper) => shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
       .levelId;
 

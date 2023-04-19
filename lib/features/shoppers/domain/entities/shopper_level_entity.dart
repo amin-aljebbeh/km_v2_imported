@@ -9,8 +9,6 @@ class ShopperLevelEntity {
     this.maxOrdersToHandle,
     this.maxCompanyBalance,
     this.points,
-    this.createdAt,
-    this.updatedAt,
     this.subWarehouses,
     this.pricePerKilo,
     this.supportedCities,
@@ -23,8 +21,6 @@ class ShopperLevelEntity {
   int maxOrdersToHandle;
   int maxCompanyBalance;
   int points;
-  DateTime createdAt;
-  DateTime updatedAt;
   String pricePerKilo;
   List<SubWarehouse> subWarehouses;
   List<SupportedCity> supportedCities;

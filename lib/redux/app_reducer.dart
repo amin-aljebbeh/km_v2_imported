@@ -10,6 +10,7 @@ import 'package:kammun_app/features/users/presentation/redux/users_reducer.dart'
 import '../core/core_importer.dart';
 import '../features/complaints/presentation/redux/complaints_reducer.dart';
 import '../features/coupons/presentation/redux/coupon_reducer.dart';
+import '../features/shoppers/presentation/redux/shoppers_reducer.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   if (action is RestartApp) return AppState.initial();
@@ -24,5 +25,6 @@ AppState appReducer(AppState state, dynamic action) {
     couponState: couponReducer(state.couponState, action),
     ordersState: ordersReducer(state.ordersState, action),
     transactionsState: transactionsReducer(state.transactionsState, action),
+    shoppersState: shoppersReducer(state.shoppersState, action),
   );
 }

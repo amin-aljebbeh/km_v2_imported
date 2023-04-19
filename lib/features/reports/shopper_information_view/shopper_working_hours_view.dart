@@ -72,7 +72,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                 child: KSearchableDropdown(
                   hint: chooseShopper,
                   search: shopperName,
-                  items: Services.shoppersNameList(),
+                  items: Services.shoppersNameList(context),
                   onChanged: (value) {
                     if (value != null) {
                       setState(() {
@@ -80,7 +80,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                         selected = true;
                         loading = true;
                       });
-                      getWorkingHours(shopperId: Services.selectedShopperId(shopperName), filter: groupValue);
+                      getWorkingHours(shopperId: Services.selectedShopperId(shopperName, context), filter: groupValue);
                     }
                   },
                 ),
@@ -102,7 +102,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                           getWorkingHours(
                               shopperId: Services.hasRole(context, shopperRole)
                                   ? StaticVariables.shopper.id.toString()
-                                  : Services.selectedShopperId(shopperName),
+                                  : Services.selectedShopperId(shopperName, context),
                               filter: groupValue);
                         }
                       });
@@ -121,7 +121,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                           getWorkingHours(
                               shopperId: Services.hasRole(context, shopperRole)
                                   ? StaticVariables.shopper.id.toString()
-                                  : Services.selectedShopperId(shopperName),
+                                  : Services.selectedShopperId(shopperName, context),
                               filter: groupValue);
                         }
                       });
@@ -140,7 +140,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                           getWorkingHours(
                               shopperId: Services.hasRole(context, shopperRole)
                                   ? StaticVariables.shopper.id.toString()
-                                  : Services.selectedShopperId(shopperName),
+                                  : Services.selectedShopperId(shopperName, context),
                               filter: groupValue);
                         }
                       });

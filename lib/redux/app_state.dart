@@ -1,5 +1,6 @@
 import 'package:kammun_app/features/loading_feature/presentation/redux/loading_state.dart';
 import 'package:kammun_app/features/orders_feature/presentation/redux/orders_state.dart';
+import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_state.dart';
 
 import '../core/core_importer.dart';
 import '../features/admins/presentation/redux/admins_state.dart';
@@ -20,6 +21,7 @@ class AppState extends Equatable {
   final InventoryState inventoryState;
   final LoadingState loadingState;
   final OrdersState ordersState;
+  final ShoppersState shoppersState;
   final SupplierState supplierState;
   final TransactionsState transactionsState;
   final UsersState usersState;
@@ -35,6 +37,7 @@ class AppState extends Equatable {
     this.adminsState,
     this.couponState,
     this.usersState,
+    this.shoppersState,
   });
 
   factory AppState.initial() => AppState(
@@ -48,6 +51,7 @@ class AppState extends Equatable {
         usersState: UsersState.initial(),
         ordersState: OrdersState.initial(),
         transactionsState: TransactionsState.initial(),
+        shoppersState: ShoppersState.initial(),
       );
 
   AppState copyWith({
@@ -61,6 +65,7 @@ class AppState extends Equatable {
     UsersState usersState,
     OrdersState ordersState,
     TransactionsState transactionsState,
+    ShoppersState shoppersState,
   }) {
     return AppState(
       inventoryState: inventoryState ?? this.inventoryState,
@@ -73,6 +78,7 @@ class AppState extends Equatable {
       usersState: usersState ?? this.usersState,
       ordersState: ordersState ?? this.ordersState,
       transactionsState: transactionsState ?? this.transactionsState,
+      shoppersState: shoppersState ?? this.shoppersState,
     );
   }
 
@@ -87,6 +93,7 @@ class AppState extends Equatable {
         adminsState,
         couponState,
         usersState,
-        ordersState
+        ordersState,
+        shoppersState,
       ];
 }

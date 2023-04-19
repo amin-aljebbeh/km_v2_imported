@@ -8,6 +8,7 @@ import 'complaints_inject.dart';
 import 'coupons_injection.dart';
 import 'inventory_injection.dart';
 import 'orders_injection.dart';
+import 'shoppers_injection.dart';
 
 final sl = GetIt.instance;
 Future<void> inject() async {
@@ -19,6 +20,7 @@ Future<void> inject() async {
   await injectUsers();
   await injectOrders();
   await injectTransactions();
+  await injectShoppers();
 
 //! Core
 

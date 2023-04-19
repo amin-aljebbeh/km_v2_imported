@@ -1,5 +1,6 @@
-import 'package:kammun_app/features/admins/data/models/shopper_level_model.dart';
-import 'package:kammun_app/features/admins/domain/entities/shopper_entity.dart';
+import 'package:kammun_app/features/shoppers/domain/entities/shopper_entity.dart';
+
+import 'shopper_level_model.dart';
 
 class ShopperModel extends ShopperEntity {
   ShopperModel({

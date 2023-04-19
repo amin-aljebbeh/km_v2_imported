@@ -1,16 +1,19 @@
+import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_action.dart';
+
 import '../features/login/Services/login_services.dart';
+import '../features/shoppers/data/models/get_shoppers_model.dart';
 import '../features/transactions/presentation/redux/transactions_action.dart';
 import 'core_importer.dart';
 
 class GeneralApis {
-  static Future<List<ShopperModel>> getShoppers() async {
+  static getShoppers({BuildContext context}) async {
     try {
       var response = await ApiProvider.sendRequest(url: shopperApi, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
-        StaticVariables.allShoppers = shoppersFromJson(jsonEncode(response.data)).data;
+        StoreProvider.of<AppState>(context)
+            .dispatch(SetShoppers(shoppers: shoppersFromJson(jsonEncode(response.data)).data));
       }
-      return StaticVariables.allShoppers;
     } catch (e) {
       return null;
     }
@@ -177,7 +180,7 @@ class GeneralApis {
         if (Services.hasRole(context, operationManagerRole) ||
             Services.hasRole(context, adminRole) ||
             Services.hasRole(context, accountingRole)) {
-          await GeneralApis.getShoppers();
+          await GeneralApis.getShoppers(context: context);
           StaticVariables.levels = await GeneralApis.getLevels();
         }
         if (Services.hasPermission(context, transactionPermission)) {

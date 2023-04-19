@@ -13,18 +13,6 @@ class ShopperModel {
     this.level,
   });
 
-  ShopperModel.copy(ShopperModel shopperModel) {
-    status = shopperModel.status;
-    name = shopperModel.name;
-    id = shopperModel.id;
-    updatedAt = shopperModel.updatedAt;
-    points = shopperModel.points;
-    levelId = shopperModel.levelId;
-    level = shopperModel.level;
-    createdAt = shopperModel.createdAt;
-    adminId = shopperModel.adminId;
-  }
-
   int id;
   int adminId;
   String name;

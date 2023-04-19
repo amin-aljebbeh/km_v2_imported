@@ -157,7 +157,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       child: Text(deletedCount.toString(),
                           style: loseStyle.copyWith(fontSize: 18), textAlign: TextAlign.center),
                     ),
-                  if (Services.hasRole(context, operationManagerRole) && (widget.order.userPriceRating != 'null'))
+                  if (Services.hasRole(context, agentRole) && (widget.order.userPriceRating != 'null'))
                     IconButton(
                       icon: Icon(Icons.star_rounded,
                           color: widget.order.userDeliveryRating == 'null'
@@ -428,11 +428,11 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       child: KSearchableDropdown(
                         hint: widget.order.shopper != null ? widget.order.shopper.name : chooseShopper,
                         search: shopper,
-                        items: Services.shoppersNameList(),
+                        items: Services.shoppersNameList(context),
                         onChanged: (value) async {
                           if (value != null) {
-                            String shopperId = Services.selectedShopperId(value);
-                            int shopperLevelId = Services.selectedShopperLevelId(value);
+                            String shopperId = Services.selectedShopperId(value, context);
+                            int shopperLevelId = Services.selectedShopperLevelId(value, context);
                             setState(() {
                               shopper = value;
                               widget.order.shopper = Assigned(
