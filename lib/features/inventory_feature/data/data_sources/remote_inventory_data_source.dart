@@ -9,6 +9,7 @@ abstract class RemoteInventoryDataSource {
   Future<FilteredProductsModel> getPrimeProducts({int pageNumber, int subWarehouseId, int isActive});
   Future<List<ProductData>> getUnderCheckAvailability({int subWarehouseId});
   Future<Unit> targetInventory();
+  Future<Unit> keepingAnInventoriesRecord();
 }
 
 class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
@@ -70,6 +71,17 @@ class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
   @override
   Future<Unit> targetInventory() async {
     Response response = await ApiProvider.sendRequest(url: targetSubWarehouse + '62', method: HttpMethods.post);
+    try {
+      if (response != null) if (response.statusCode == successCode) return Future.value(unit);
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<Unit> keepingAnInventoriesRecord() async {
+    Response response = await ApiProvider.sendRequest(url: keepingAnInventoriesRecordApi, method: HttpMethods.post);
     try {
       if (response != null) if (response.statusCode == successCode) return Future.value(unit);
     } catch (e) {

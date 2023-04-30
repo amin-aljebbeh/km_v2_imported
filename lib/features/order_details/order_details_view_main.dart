@@ -140,7 +140,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                       },
                     ),
                   ),
-                  if (Services.hasRole(context, supplierRol))
+                  if (Services.hasRole(context, supplierRole))
                     Column(
                       children: [
                         Padding(

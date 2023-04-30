@@ -55,7 +55,13 @@ Future<void> inventoryMiddleware(Store<AppState> store, action, NextDispatcher n
     store.dispatch(StartLoading());
     Either either = await store.state.inventoryState.inventoryUseCase.targetInventoryUseCase();
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')),
-        (_) => snackBar(context: action.context, message: 'تم البدء برفع الجرد', success: true));
+        (_) => snackBar(context: action.context, message: 'حدث خطأ', success: false));
+    store.dispatch(StopLoading());
+  } else if (action is KeepingInventoriesRecordAction) {
+    store.dispatch(StartLoading());
+    Either either = await store.state.inventoryState.inventoryUseCase.keepingInventoriesRecordUseCase();
+    either.fold((failure) => snackBar(context: action.context, message: 'حدث خطأ', success: false),
+        (_) => snackBar(context: action.context, message: 'تم الجرد بنجاح', success: true));
     store.dispatch(StopLoading());
   }
   next(action);

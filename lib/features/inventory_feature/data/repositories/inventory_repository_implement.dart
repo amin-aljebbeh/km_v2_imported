@@ -68,4 +68,10 @@ class InventoryRepositoryImplement implements InventoryRepository {
   Future<Either<Failure, Unit>> targetInventory() async {
     return await repositoryFactory.failureUnitRepo(function: () => remoteInventoryDataSource.targetInventory());
   }
+
+  @override
+  Future<Either<Failure, Unit>> keepingAnInventoriesRecord() async {
+    return await repositoryFactory.failureUnitRepo(
+        function: () => remoteInventoryDataSource.keepingAnInventoriesRecord());
+  }
 }

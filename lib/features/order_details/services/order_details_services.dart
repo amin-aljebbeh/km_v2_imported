@@ -117,7 +117,7 @@ class OrderDetailsServices {
         ));
       }
     }
-    if (!Services.hasRole(context, supplierRol)) {
+    if (!Services.hasRole(context, supplierRole)) {
       int delivery = int.parse(order.supportedCityCost.split('.')[0]) +
           int.parse(order.deliveryCost.split('.')[0]) +
           int.parse(order.collectingCost.split('.')[0]);

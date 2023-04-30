@@ -93,7 +93,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                       productId: widget.productId.toString());
                   if (result) {
                     widget.onSavePressed(newValue, result);
-                    if (Services.hasRole(context, supplierRol) && widget.bodyKey == 'price') {
+                    if (Services.hasRole(context, supplierRole) && widget.bodyKey == 'price') {
                       newValue = (int.parse(newValue.split('.')[0]) - widget.increasePercentage ?? 0).toString();
                     }
 

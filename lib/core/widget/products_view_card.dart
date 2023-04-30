@@ -33,7 +33,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
   @override
   Widget build(BuildContext context) {
     String price = widget.product.price;
-    if (Services.hasRole(context, supplierRol)) {
+    if (Services.hasRole(context, supplierRole)) {
       price = (int.parse(widget.product.price.split('.')[0]) - widget.product.increasePercentage).toString();
     }
     return GestureDetector(

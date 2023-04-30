@@ -44,7 +44,7 @@ class HomeViewState extends State<HomeView> {
     if (Services.hasRole(context, operationManagerRole)) {
       bottomList.add(BottomBarItem.build(text: orders, icon: Icons.reorder));
     }
-    if (Services.hasRole(context, shopperRole) || Services.hasRole(context, supplierRol)) {
+    if (Services.hasRole(context, shopperRole) || Services.hasRole(context, supplierRole)) {
       bottomList.add(BottomBarItem.build(text: myOrders, icon: Icons.playlist_add_check_outlined));
     }
 
@@ -65,7 +65,7 @@ class HomeViewState extends State<HomeView> {
     tabs.add(CartView(isFromUpdateOrder: isFromUpdateOrder));
     if ((Services.hasRole(context, operationManagerRole))) tabs.add(const OrdersView());
 
-    if (Services.hasRole(context, shopperRole) || Services.hasRole(context, supplierRol)) {
+    if (Services.hasRole(context, shopperRole) || Services.hasRole(context, supplierRole)) {
       tabs.add(const AssignedOrdersView());
     }
     return Scaffold(body: tabs[selectedIndex], bottomNavigationBar: _bottomNavBar(context: context));

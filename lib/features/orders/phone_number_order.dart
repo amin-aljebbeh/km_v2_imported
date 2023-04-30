@@ -40,6 +40,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
   List<OrdersOriginalData> orderDataList = [];
 
   _getOrder() async {
+    ApiProvider.cancelRequests();
     setState(() {
       if (page == 1) orderLoaded = false;
       if (!theEndOfOrders) isLoading = true;

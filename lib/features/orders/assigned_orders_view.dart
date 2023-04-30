@@ -44,6 +44,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   List<OrdersOriginalData> orderDataList = [];
 
   _getOrder() async {
+    ApiProvider.cancelRequests();
     try {
       setState(() {
         if (page == 1) orderLoaded = false;
@@ -54,7 +55,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       List<OrdersOriginalData> orderList;
       if (StaticVariables.myOrdersList.isEmpty) {
         if (Services.hasRole(context, shopperRole)) orderList = await OrderServices.getShopperOrders(pageNumber: page);
-        if (Services.hasRole(context, supplierRol)) {
+        if (Services.hasRole(context, supplierRole)) {
           orderList = await OrderServices.getSupplierOrders(pageNumber: page);
         }
       } else {
@@ -163,11 +164,9 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                       ? Padding(
                           padding: EdgeInsets.only(top: screenHeight * 0.4),
                           child: Center(
-                            child: Text(
-                              'لا يوجد أي طلبات سابقة',
-                              style:
-                                  mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 20.0),
-                            ),
+                            child: Text('لا يوجد أي طلبات سابقة',
+                                style: mainStyle.copyWith(
+                                    fontWeight: FontWeight.w700, color: primaryColor, fontSize: 20.0)),
                           ),
                         )
                       : Container(padding: EdgeInsets.zero),
@@ -184,8 +183,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         orElse: () => OrdersOriginalData(orderStatusId: '5'));
                     bool cancelOrderCondition = int.parse(otherOrder.orderStatusId) <= 4;
                     orderDataList[index].orderArithmeticOperations();
-                    if (!Services.hasRole(context, supplierRol)) orderDataList[index].orderProfits(context: context);
-                    if (Services.hasRole(context, supplierRol)) {
+                    if (!Services.hasRole(context, supplierRole)) orderDataList[index].orderProfits(context: context);
+                    if (Services.hasRole(context, supplierRole)) {
                       return SupplierOrdersViewCard(order: orderDataList[index]);
                     }
                     return Column(

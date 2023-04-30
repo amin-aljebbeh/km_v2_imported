@@ -1,3 +1,4 @@
+import '../../features/orders/services/order_services.dart';
 import '../core_importer.dart';
 
 class ApiProvider {
@@ -7,6 +8,7 @@ class ApiProvider {
     Map<String, dynamic> queryParameters,
     @required HttpMethods method,
     ResponseType responseType,
+    CancelToken cancelToken,
   }) async {
     var options = BaseOptions(
         baseUrl: baseUrl + '/api/', connectTimeout: 30000, receiveTimeout: 30000, contentType: Headers.jsonContentType);
@@ -20,8 +22,12 @@ class ApiProvider {
     try {
       switch (method) {
         case HttpMethods.get:
-          response = await dio.get(url,
-              queryParameters: queryParameters, options: Options(headers: header, responseType: responseType));
+          response = await dio.get(
+            url,
+            queryParameters: queryParameters,
+            cancelToken: cancelToken,
+            options: Options(headers: header, responseType: responseType),
+          );
           break;
         case HttpMethods.delete:
           response = await dio.delete(url,
@@ -62,6 +68,11 @@ class ApiProvider {
     Tools.logToConsole('response is :');
     Tools.logToConsole(response);
     return response;
+  }
+
+  static void cancelRequests() {
+    OrderServices.cancelRequest.cancel('Cancelled');
+    OrderServices.cancelRequest = CancelToken();
   }
 }
 

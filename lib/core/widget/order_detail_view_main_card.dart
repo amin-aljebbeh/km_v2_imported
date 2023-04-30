@@ -85,7 +85,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                         StringUtils().oCcy.format(int.parse(widget.productData.pivot.purchasePrice.split('.')[0])) +
                             ' ${StaticVariables.companyInformation.currency}',
                         style: warningStyle),
-                  if (Services.hasRole(context, supplierRol))
+                  if (Services.hasRole(context, supplierRole))
                     Text(
                       StringUtils().oCcy.format(purchasePrice - (purchasePrice * discountPercentage)) +
                           ' ${StaticVariables.companyInformation.currency}',
@@ -93,7 +93,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     ),
                   Text('كمية المستودع : ' + widget.productData.availableQuantity,
                       style: mainStyle.copyWith(color: kmColors)),
-                  if ((!Services.hasRole(context, supplierRol)) && subWarehouseList.isNotEmpty)
+                  if ((!Services.hasRole(context, supplierRole)) && subWarehouseList.isNotEmpty)
                     DropdownButton(
                       items: subWarehouseList,
                       onChanged: (a) {

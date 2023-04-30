@@ -48,3 +48,8 @@ class TargetInventoryAction {
   final BuildContext context;
   TargetInventoryAction({this.context});
 }
+
+class KeepingInventoriesRecordAction {
+  final BuildContext context;
+  KeepingInventoriesRecordAction({this.context});
+}

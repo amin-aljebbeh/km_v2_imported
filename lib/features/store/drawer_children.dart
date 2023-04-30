@@ -90,15 +90,15 @@ List<Widget> getDrawerChildren(BuildContext context) {
           ),
         ),
       ),
-    if (Services.hasRole(context, supplierRol))
+    if (Services.hasRole(context, supplierRole))
       const SideBarRow(pushedRoute: SupplierRemainingAccounts.routeName, icon: KIcons.coins, text: 'كشف حساب الزوائد'),
-    if (Services.hasRole(context, supplierRol))
+    if (Services.hasRole(context, supplierRole))
       const SideBarRow(pushedRoute: SupplierAccounts.routeName, icon: Icons.account_balance, text: 'كشف حساب المورد'),
-    if (Services.hasRole(context, supplierRol) ||
+    if (Services.hasRole(context, supplierRole) ||
         Services.hasRole(context, productsControllerRole) ||
         Services.hasRole(context, adminRole))
       const SideBarRow(pushedRoute: GetSubWarehouse.routeName, icon: Icons.inventory, text: 'إدارة المستودعات'),
-    if (Services.hasRole(context, productsControllerRole) || Services.hasRole(context, supplierRol))
+    if (Services.hasRole(context, productsControllerRole) || Services.hasRole(context, supplierRole))
       SideBarRow(
         text: productManagement,
         icon: Icons.category,
@@ -109,7 +109,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
               builder: (context) => ManagementView(
                 title: productManagement,
                 children: [
-                  if (!Services.hasRole(context, supplierRol))
+                  if (!Services.hasRole(context, supplierRole))
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

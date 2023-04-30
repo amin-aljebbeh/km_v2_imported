@@ -6,6 +6,7 @@ class RepositoryFactory {
   final InternetConnectionChecker internetConnectionChecker;
 
   RepositoryFactory({this.internetConnectionChecker});
+
   Future<Either<Failure, Unit>> failureUnitRepo({Future<Unit> Function() function}) async {
     if (!await internetConnectionChecker.hasConnection) return Left(OfflineFailure());
     try {

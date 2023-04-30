@@ -45,7 +45,6 @@ class OrdersViewState extends State<OrdersView> {
   _initialFunction() {}
 
   bool orderLoaded = true;
-  bool warehouseLoaded = false;
   bool errorMessage = false;
   String errorMessageValue = '';
   bool isLoading = false;
@@ -61,6 +60,7 @@ class OrdersViewState extends State<OrdersView> {
   List<OrdersOriginalData> orderDataList;
 
   _getOrders() async {
+    ApiProvider.cancelRequests();
     setState(() {
       if (indexPage == 1) orderLoaded = false;
       if (!theEndOfOrders) isLoading = true;

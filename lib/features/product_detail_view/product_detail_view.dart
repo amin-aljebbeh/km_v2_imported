@@ -75,7 +75,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
   @override
   Widget build(BuildContext context) {
     String price = widget.product.price;
-    if (Services.hasRole(context, supplierRol)) {
+    if (Services.hasRole(context, supplierRole)) {
       price = (int.parse(widget.product.price.split('.')[0]) - widget.product.increasePercentage).toString();
     }
     return StoreConnector<AppState, AppState>(
@@ -812,7 +812,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         const SizedBox(height: 30),
                                       ],
                                     )
-                                  : Services.hasRole(context, supplierRol) &&
+                                  : Services.hasRole(context, supplierRole) &&
                                           (StaticVariables.subWarehouses
                                               .any((element) => element.id == widget.product.subWarehouseId))
                                       ? RemoveFromWarehouse(product: widget.product)

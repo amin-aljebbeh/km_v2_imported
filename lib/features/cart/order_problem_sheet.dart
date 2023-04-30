@@ -113,19 +113,18 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       ),
                     )
                   : Container(),
-              widget.notActiveProducts.isNotEmpty ? const SizedBox(height: 10) : Container(),
-              widget.pricesChangesProducts.isNotEmpty
-                  ? Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: kmColors,
-                          borderRadius:
-                              const BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0))),
-                      child: Center(
-                          child: Text('منتجات تغير سعرها أثناء التسوق',
-                              style: mainStyle.copyWith(fontSize: 20, color: Colors.white))),
-                    )
-                  : Container(),
+              if (widget.notActiveProducts.isNotEmpty) const SizedBox(height: 10),
+              if (widget.pricesChangesProducts.isNotEmpty)
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: kmColors,
+                      borderRadius:
+                          const BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0))),
+                  child: Center(
+                      child: Text('منتجات تغير سعرها أثناء التسوق',
+                          style: mainStyle.copyWith(fontSize: 20, color: Colors.white))),
+                ),
               widget.pricesChangesProducts.isNotEmpty
                   ? Expanded(
                       flex: 1,
@@ -190,9 +189,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
         Row(
           children: <Widget>[
             KCacheImage(
-              tag: index + 100,
-              image: StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
-            ),
+                tag: index + 100, image: StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName),
             const SizedBox(width: 10),
             Expanded(
               child: Wrap(
@@ -202,10 +199,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          orderArray[index].name,
-                          style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18),
-                        ),
+                        Text(orderArray[index].name,
+                            style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                         Text(
                           orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
                           style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: primaryColor, fontSize: 17),
@@ -240,10 +235,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   tag: index + 100,
                   child: Image(
                     image: orderArray[index].images.isNotEmpty
-                        ? AdvImageCache(
-                            StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
-                            useMemCache: true,
-                            diskCacheExpire: const Duration(days: 400))
+                        ? AdvImageCache(StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName,
+                            useMemCache: true, diskCacheExpire: const Duration(days: 400))
                         : const AssetImage('assets/kmIcon.png'),
                     width: MediaQuery.of(context).size.width,
                     height: 120,
@@ -252,7 +245,6 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                 ),
               ),
             ),
-            //SizedBox(width: 10),
             const SizedBox(width: 10),
             Expanded(
               child: Wrap(
@@ -280,7 +272,6 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
             ),
           ],
         ),
-        // SizedBox(height: 4),
         const Divider(thickness: 3)
       ],
     );

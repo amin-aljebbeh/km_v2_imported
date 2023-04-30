@@ -115,7 +115,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                           width: MediaQuery.of(context).size.width * 0.9,
                           height: 50,
                         ),
-                      if (!Services.hasRole(context, supplierRol))
+                      if (!Services.hasRole(context, supplierRole))
                         KammunButton(
                           color: kmColors,
                           onTap: () => Navigator.push(context,
