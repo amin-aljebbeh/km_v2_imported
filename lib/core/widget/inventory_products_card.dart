@@ -129,7 +129,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                             const SizedBox(height: 8),
                             Wrap(
                               children: [
-                                Text(StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() + '  ',
+                                Text(StringUtils().oCcy.format(int.parse(price.split('.')[0])) + '  ',
                                     style: mainStyle.copyWith(
                                         fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                                 if (widget.oldPrice != null)
@@ -140,8 +140,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                         TextSpan(
                                             text: StringUtils()
                                                 .oCcy
-                                                .format(widget.oldPrice - widget.productData.increasePercentage)
-                                                .toString(),
+                                                .format(widget.oldPrice - widget.productData.increasePercentage),
                                             style: mainStyle.copyWith(
                                                 color: Colors.grey, decoration: TextDecoration.lineThrough)),
                                       ],
@@ -152,7 +151,6 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                           ? StringUtils()
                                               .oCcy
                                               .format(int.parse(widget.productData.availableQuantity.split('.')[0]))
-                                              .toString()
                                           : ' '),
                                   style: mainStyle.copyWith(
                                       fontWeight: FontWeight.w700, color: primaryColor, fontSize: 13),
@@ -185,24 +183,23 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        widget.supplierCode != null && widget.isActive != null && widget.id != null
-                            ? Padding(
-                                padding: const EdgeInsets.only(left: 15.0),
-                                child: SwitchProductStatusWidget(
-                                  isForSubWarehouse: true,
-                                  preState: widget.isActive,
-                                  subWarehouseId: int.parse(widget.id),
-                                  productId: widget.productData.id.toString(),
-                                  onChange: (int active, bool result) {
-                                    setState(() => {if (result) widget.isActive = active});
-                                    widget.onChangeStatus(result);
-                                    setState(() {});
-                                  },
-                                  height: 58,
-                                  width: 69,
-                                ),
-                              )
-                            : Container(),
+                        if (widget.supplierCode != null && widget.isActive != null && widget.id != null)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: SwitchProductStatusWidget(
+                              isForSubWarehouse: true,
+                              preState: widget.isActive,
+                              subWarehouseId: int.parse(widget.id),
+                              productId: widget.productData.id.toString(),
+                              onChange: (int active, bool result) {
+                                setState(() => {if (result) widget.isActive = active});
+                                widget.onChangeStatus(result);
+                                setState(() {});
+                              },
+                              height: 58,
+                              width: 69,
+                            ),
+                          ),
                         Row(
                           children: [
                             if (widget.deleteTimes != -1)

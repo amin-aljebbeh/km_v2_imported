@@ -191,7 +191,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 Text(priceString + ' :', style: paragraphStyle),
                                 const SizedBox(width: 5),
                                 Text(
-                                    '${StringUtils().oCcy.format(int.parse(price.toString().split('.')[0]))} ${StaticVariables.companyInformation.currency}',
+                                    '${StringUtils().oCcy.format(int.parse(price.split('.')[0]))} ${StaticVariables.companyInformation.currency}',
                                     style: informationStyle),
                               ],
                             ),

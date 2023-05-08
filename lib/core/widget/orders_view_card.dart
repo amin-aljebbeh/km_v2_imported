@@ -219,16 +219,13 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       ),
                       RichText(
                           text: TextSpan(
-                              text: StringUtils()
-                                  .oCcy
-                                  .format(widget.order.shopperProfit +
-                                      (widget.order.shopper != null
-                                          ? OrderServices.gasAllowance(
-                                              deliveryDistance: widget.order.deliveryDistance,
-                                              context: context,
-                                              levelId: widget.order.shopper.levelId)
-                                          : 0))
-                                  .toString(),
+                              text: StringUtils().oCcy.format(widget.order.shopperProfit +
+                                  (widget.order.shopper != null
+                                      ? OrderServices.gasAllowance(
+                                          deliveryDistance: widget.order.deliveryDistance,
+                                          context: context,
+                                          levelId: widget.order.shopper.levelId)
+                                      : 0)),
                               style: profitStyle))
                     ],
                   )

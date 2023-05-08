@@ -95,7 +95,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                                StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() +
+                                StringUtils().oCcy.format(int.parse(price.split('.')[0])) +
                                     ' ${StaticVariables.companyInformation.currency}',
                                 style:
                                     mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
@@ -140,9 +140,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               const SizedBox(height: 5),
                               Text(
                                 'التقييم: ' +
-                                    (widget.product.rate != -1
-                                        ? StringUtils().oCcy.format(widget.product.rate).toString()
-                                        : '0'),
+                                    (widget.product.rate != -1 ? StringUtils().oCcy.format(widget.product.rate) : '0'),
                                 style:
                                     mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 13),
                               ),
@@ -153,7 +151,6 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                         ? StringUtils()
                                             .oCcy
                                             .format(int.parse(widget.product.availableQuantity.split('.')[0]))
-                                            .toString()
                                         : ' '),
                                 style:
                                     mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 13),

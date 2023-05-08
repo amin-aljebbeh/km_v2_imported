@@ -82,9 +82,8 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                   children: <Widget>[
                     LabelRow(
                       rightSideText: bill,
-                      leftSideText:
-                          '${StringUtils().oCcy.format(int.parse(widget.order.total.split('.')[0])).toString()}'
-                          ' ${StaticVariables.companyInformation.currency.toString()}',
+                      leftSideText: '${StringUtils().oCcy.format(int.parse(widget.order.total.split('.')[0]))}'
+                          ' ${StaticVariables.companyInformation.currency}',
                       leftSideStyle: informationStyle,
                     ),
                     Container(

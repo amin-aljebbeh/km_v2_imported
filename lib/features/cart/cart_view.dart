@@ -163,7 +163,7 @@ class CartViewState extends State<CartView> {
                         Text(orderArray[index].name,
                             style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                         const SizedBox(height: 6),
-                        Text(orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
+                        Text(orderArray[index].quantity + ' ' + orderArray[index].unit,
                             style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: primaryColor, fontSize: 17)),
                         const SizedBox(height: 8),
                         Row(

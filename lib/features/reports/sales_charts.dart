@@ -62,7 +62,7 @@ class _SalesChartsState extends State<SalesCharts> {
               explodeIndex: 0,
               dataSource: response.warehouses,
               xValueMapper: (WarehouseStatistics warehouse, _) =>
-                  StringUtils().oCcy.format(warehouse.statisticsWarehouses.deliveryProfits).toString(),
+                  StringUtils().oCcy.format(warehouse.statisticsWarehouses.deliveryProfits),
               yValueMapper: (WarehouseStatistics warehouse, _) => warehouse.statisticsWarehouses.deliveryProfits,
               dataLabelMapper: (WarehouseStatistics warehouse, _) => warehouse.name,
               dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: blackBold)),
@@ -81,7 +81,7 @@ class _SalesChartsState extends State<SalesCharts> {
               explodeIndex: 0,
               dataSource: response.warehouses,
               xValueMapper: (WarehouseStatistics warehouse, _) =>
-                  StringUtils().oCcy.format(warehouse.statisticsWarehouses.shoppingProfits).toString(),
+                  StringUtils().oCcy.format(warehouse.statisticsWarehouses.shoppingProfits),
               yValueMapper: (WarehouseStatistics warehouse, _) => warehouse.statisticsWarehouses.shoppingProfits,
               dataLabelMapper: (WarehouseStatistics warehouse, _) => warehouse.name,
               dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: blackBold)),
@@ -100,7 +100,7 @@ class _SalesChartsState extends State<SalesCharts> {
               explodeIndex: 0,
               dataSource: response.warehouses,
               xValueMapper: (WarehouseStatistics warehouse, _) =>
-                  StringUtils().oCcy.format(warehouse.statisticsWarehouses.orderCount).toString(),
+                  StringUtils().oCcy.format(warehouse.statisticsWarehouses.orderCount),
               yValueMapper: (WarehouseStatistics warehouse, _) => warehouse.statisticsWarehouses.orderCount,
               dataLabelMapper: (WarehouseStatistics warehouse, _) => warehouse.name,
               dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: blackBold)),
@@ -119,7 +119,7 @@ class _SalesChartsState extends State<SalesCharts> {
               explodeIndex: 0,
               dataSource: response.warehouses,
               xValueMapper: (WarehouseStatistics warehouse, _) =>
-                  StringUtils().oCcy.format(warehouse.statisticsWarehouses.totalSales).toString(),
+                  StringUtils().oCcy.format(warehouse.statisticsWarehouses.totalSales),
               yValueMapper: (WarehouseStatistics warehouse, _) => warehouse.statisticsWarehouses.totalSales,
               dataLabelMapper: (WarehouseStatistics warehouse, _) => warehouse.name,
               dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: blackBold)),
@@ -157,7 +157,7 @@ class _SalesChartsState extends State<SalesCharts> {
               explodeIndex: 0,
               dataSource: response.warehouses,
               xValueMapper: (WarehouseStatistics warehouse, _) =>
-                  StringUtils().oCcy.format(warehouse.statisticsWarehouses.deliveryIncome).toString(),
+                  StringUtils().oCcy.format(warehouse.statisticsWarehouses.deliveryIncome),
               yValueMapper: (WarehouseStatistics warehouse, _) => warehouse.statisticsWarehouses.deliveryIncome,
               dataLabelMapper: (WarehouseStatistics warehouse, _) => warehouse.name,
               dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: blackBold)),
@@ -196,7 +196,7 @@ class _SalesChartsState extends State<SalesCharts> {
                   height: 50,
                 ),
                 const SizedBox(height: 20),
-                isError ? AlertMessages(text: errorMessage, messageType: 'internetError') : Container(),
+                if (isError) AlertMessages(text: errorMessage, messageType: 'internetError'),
                 isLoading
                     ? const Loader()
                     : totalSubWarehouses.isNotEmpty

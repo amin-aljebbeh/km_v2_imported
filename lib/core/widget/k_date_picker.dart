@@ -41,7 +41,7 @@ class _KDatePickerState extends State<KDatePicker> with AutomaticKeepAliveClient
                   showTitleActions: true,
                   onChanged: (date) {},
                   onConfirm: (date) => setState(() {
-                    _fromDateTimeValue = fullDateFormatter.format(date).toString();
+                    _fromDateTimeValue = fullDateFormatter.format(date);
                     widget.onConfirmStart(_fromDateTimeValue);
                   }),
                   currentTime: DateTime.now().toLocal(),
@@ -70,7 +70,7 @@ class _KDatePickerState extends State<KDatePicker> with AutomaticKeepAliveClient
                   showTitleActions: true,
                   onChanged: (date) {},
                   onConfirm: (date) => setState(() {
-                    _toDateTimeValue = fullDateFormatter.format(date).toString();
+                    _toDateTimeValue = fullDateFormatter.format(date);
                     widget.onConfirmEnd(_toDateTimeValue);
                   }),
                   currentTime: DateTime.now(),

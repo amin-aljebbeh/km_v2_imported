@@ -313,7 +313,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                   child: Image(
                     image: orderArray[index].images.isNotEmpty
                         ? AdvImageCache(
-                            StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
+                            StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName,
                             useMemCache: true,
                             diskCacheExpire: const Duration(days: 400),
                           )
@@ -337,7 +337,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         Text(orderArray[index].name,
                             style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                         const SizedBox(height: 6),
-                        Text(orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
+                        Text(orderArray[index].quantity + ' ' + orderArray[index].unit,
                             style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: primaryColor, fontSize: 17)),
                         const SizedBox(height: 8),
                         Text(
