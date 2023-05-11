@@ -90,6 +90,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
           ),
         ),
       ),
+    //todo clean
     if (Services.hasRole(context, supplierRole))
       const SideBarRow(pushedRoute: SupplierRemainingAccounts.routeName, icon: KIcons.coins, text: 'كشف حساب الزوائد'),
     if (Services.hasRole(context, supplierRole))

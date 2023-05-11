@@ -1,19 +1,7 @@
-import 'package:dartz/dartz.dart';
-
 import '../../../../core/core_importer.dart';
-import '../../domain/entities/supplier_account_statement_entity.dart';
 import 'supplier_action.dart';
 
 Future<void> supplierMiddleware(Store<AppState> store, action, NextDispatcher next) async {
-  if (action is GetAccountStatement) {
-    store.dispatch(StartLoading());
-    Either either = await store.state.supplierState.supplierUseCases
-        .getSupplierAccountStatementUseCase(to: action.to, from: action.from);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (accountStatementEntity) {
-      AccountStatementEntity accountStatement = accountStatementEntity;
-      store.dispatch(SetAccountStatement(accountStatement: accountStatement));
-    });
-    store.dispatch(StopLoading());
-  }
+  if (action is SupplierAction) action.handle(store: store);
   next(action);
 }

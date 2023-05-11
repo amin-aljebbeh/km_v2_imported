@@ -22,15 +22,12 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       if (StaticVariables.myOrdersList.isEmpty) {
         getOrders = _getOrder();
       } else {
-        getOrders = _initialFunction();
         orderDataList = StaticVariables.myOrdersList;
       }
     });
 
     super.initState();
   }
-
-  _initialFunction() {}
 
   bool orderLoaded = true;
   bool errorMessage = false;
