@@ -38,7 +38,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
                     onTap: () {
                       if (validDates()) {
                         StoreProvider.of<AppState>(context)
-                            .dispatch(GetAccountStatement(from: fromDateTimeValue, to: toDateTimeValue));
+                            .dispatch(GetAccountStatementAction(from: fromDateTimeValue, to: toDateTimeValue));
                       } else {
                         Toast.show('الرجاء إدخال كافة البيانات', context,
                             duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);

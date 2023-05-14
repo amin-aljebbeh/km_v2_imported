@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import '../../domain/entities/supplier_account_statement_entity.dart';
+import '../../domain/entities/account_statement_entity.dart';
 
 SupplierAccountStatementModel supplierAccountStatementFromJson(String str) =>
     SupplierAccountStatementModel.fromJson(json.decode(str));

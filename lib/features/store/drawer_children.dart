@@ -5,6 +5,7 @@ import '../../core/core_importer.dart';
 import '../admins/presentation/redux/admins_action.dart';
 import '../login/Services/login_services.dart';
 import '../management_view/management_view.dart';
+import '../supplier/presentation/pages/supplier_remaining_statment.dart';
 import '../transactions/presentation/pages/add_transaction_page.dart';
 import '../transactions/presentation/redux/transactions_action.dart';
 

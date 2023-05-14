@@ -1,9 +1,13 @@
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/features/supplier/domain/use_cases/get_supplier_account_statement_use_case.dart';
+import 'package:kammun_app/features/supplier/domain/use_cases/account_statement_use_case.dart';
+
+import 'remaining_statment_use_case.dart';
 
 class SupplierUseCases {
-  final GetSupplierAccountStatementUseCase getSupplierAccountStatementUseCase;
+  final AccountStatementUseCase getSupplierAccountStatementUseCase;
+  final RemainingStatementUseCase remainingStatementUseCase;
 
-  SupplierUseCases({@required this.getSupplierAccountStatementUseCase})
-      : assert(getSupplierAccountStatementUseCase != null, 'All use cases should ne initialized.');
+  SupplierUseCases({@required this.getSupplierAccountStatementUseCase, @required this.remainingStatementUseCase})
+      : assert(getSupplierAccountStatementUseCase != null && remainingStatementUseCase != null,
+            'All use cases should ne initialized.');
 }

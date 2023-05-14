@@ -4,7 +4,11 @@ import 'supplier_state.dart';
 
 Reducer<SupplierState> supplierReducer = combineReducers<SupplierState>([
   TypedReducer<SupplierState, SetAccountStatement>(setAccountStatement),
+  TypedReducer<SupplierState, SetRemainingStatment>(setRemainingStatment),
 ]);
 
 SupplierState setAccountStatement(SupplierState state, SetAccountStatement action) =>
     state.copyWith(accountStatement: action.accountStatement);
+
+SupplierState setRemainingStatment(SupplierState state, SetRemainingStatment action) =>
+    state.copyWith(remaining: action.remaining);
