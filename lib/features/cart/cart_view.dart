@@ -137,7 +137,6 @@ class CartViewState extends State<CartView> {
 
   final TextEditingController _priceController = TextEditingController();
 
-  //TODO: make widget
   Widget cardBody(int index, BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,

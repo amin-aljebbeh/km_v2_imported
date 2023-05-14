@@ -13,32 +13,40 @@ class FacebookLoader extends StatelessWidget {
         baseColor: Colors.grey[300],
         highlightColor: Colors.grey[100],
         enabled: true,
-        child: ListView.builder(
+        child: ListView(
           shrinkWrap: true,
-          itemBuilder: (_, __) => Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: Row(
+          children: List.generate(10, (_) {
+            return Flex(
               crossAxisAlignment: CrossAxisAlignment.center,
+              direction: Axis.horizontal,
               children: [
-                Container(width: 80.0, height: 80.0, color: Colors.white),
-                const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
+                Container(
+                    width: 80.0,
+                    height: 80.0,
+                    color: Colors.white,
+                    margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8)),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Container(width: double.infinity, height: 8.0, color: Colors.white),
-                      const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-                      Container(width: double.infinity, height: 8.0, color: Colors.white),
-                      const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+                      Container(
+                          width: double.infinity,
+                          height: 8.0,
+                          color: Colors.white,
+                          margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 2)),
+                      Container(
+                          width: double.infinity,
+                          height: 8.0,
+                          color: Colors.white,
+                          margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 2)),
                       Container(width: 40.0, height: 8.0, color: Colors.white),
                     ],
                   ),
-                )
+                ),
               ],
-            ),
-          ),
-          itemCount: 10,
+            );
+          }),
         ),
       ),
     );

@@ -52,21 +52,18 @@ class _Loader extends State<Loader> with SingleTickerProviderStateMixin {
       child: SizedBox(
         width: 80,
         height: 50,
-        child: Column(children: <Widget>[
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(numberOfActors, _generateActors))
-        ]),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List<Widget>.generate(numberOfActors, (int index) {
+            final Animation<double> animation = _initLoadingAnimation(index);
+            return AnimatedBuilder(
+              animation: animation,
+              builder: (BuildContext context, Widget child) => Transform.scale(scale: animation.value, child: child),
+              child: const Actor(),
+            );
+          }),
+        ),
       ),
-    );
-  }
-
-  Widget _generateActors(int index) {
-    Animation animation = _initLoadingAnimation(index);
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (BuildContext context, Widget child) => Transform.scale(scale: animation.value, child: child),
-      child: const Actor(),
     );
   }
 

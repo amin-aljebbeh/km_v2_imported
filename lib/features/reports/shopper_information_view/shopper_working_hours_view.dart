@@ -185,7 +185,6 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                             )
                   : const ScreenMessage(message: 'اختر متسوق'),
             ),
-            const SizedBox(),
           ],
         ),
       ),

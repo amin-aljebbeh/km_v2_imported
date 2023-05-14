@@ -39,21 +39,17 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
       padding: EdgeInsets.symmetric(horizontal: widget.padding == 0 ? 10 : 0),
       child: SearchChoices.single(
         displayClearIcon: false,
-        onTap: () {
-          showValue = null;
-        },
+        onTap: () => showValue = null,
         padding: widget.padding,
         rightToLeft: true,
-        searchInputDecoration: InputDecoration(
-            suffixIcon: Icon(Icons.search, size: 24, color: primaryColor),
-            contentPadding: const EdgeInsets.symmetric(vertical: 12)),
+        searchInputDecoration: const InputDecoration(contentPadding: EdgeInsets.symmetric(vertical: 12)),
         iconEnabledColor: primaryColor,
         closeButton: TextButton(
             child: Text(closeString, style: dropdownItemStyle.copyWith(color: primaryColor)),
             onPressed: () => Navigator.of(context).pop()),
         disabledHint: Center(child: Text(widget.disableHint, style: disableStyle)),
         isCaseSensitiveSearch: false,
-        underline: Container(),
+        underline: const SizedBox(),
         isExpanded: true,
         hint: Center(child: Text(widget.hint, style: dropdownItemStyle)),
         style: dropdownItemStyle,

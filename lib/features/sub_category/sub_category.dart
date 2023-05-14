@@ -1,6 +1,4 @@
-import 'package:kammun_app/features/products_view/add_products.dart';
-import 'package:kammun_app/features/products_view/barcode_screen.dart';
-import 'package:kammun_app/features/products_view/products_view.dart';
+import 'package:kammun_app/features/sub_category/sub_category_widget.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 
 import '../../core/core_importer.dart';
@@ -25,49 +23,6 @@ class _SubCategoryState extends State<SubCategory> {
 
   @override
   Widget build(BuildContext context) {
-    void _onTileClicked(int index) {
-      List<CategoryOriginalData> subCategoryList = StaticVariables.categoryList
-          .where((category) => category.parentCategoryId.toString() == index.toString())
-          .toList();
-
-      if (subCategoryList.isNotEmpty) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SubCategory(
-                    subCategory: subCategoryList,
-                    scaffoldKey: widget.scaffoldKey,
-                    forProductAdding: widget.forProductAdding,
-                    supplierCode: widget.supplierCode)));
-      } else {
-        if (widget.forProductAdding) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BarCodeScreen(
-                requestType: BarcodeRequestType.addProduct,
-                onIgnore: (barcode) {
-                  int param;
-                  if (barcode == null) {
-                    param = null;
-                  } else {
-                    param = int.parse(barcode);
-                  }
-                  Navigator.push(
-                      widget.scaffoldKey.currentContext,
-                      MaterialPageRoute(
-                          builder: (screenContext) => AddProductsView(
-                              categoryId: index.toString(), barcode: param, supplierCode: widget.supplierCode)));
-                },
-              ),
-            ),
-          );
-        } else {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsView(categoryId: index.toString())));
-        }
-      }
-    }
-
     return Scaffold(
       key: scaffoldKey,
       appBar: PreferredSize(
@@ -92,8 +47,7 @@ class _SubCategoryState extends State<SubCategory> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const SizedBox(width: 40),
-                    const AppBarKammunImage(),
+                    const Padding(padding: EdgeInsets.only(top: 10), child: AppBarKammunImage()),
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0, left: 0),
                       child: IconButton(
@@ -129,60 +83,14 @@ class _SubCategoryState extends State<SubCategory> {
               primary: false,
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
+              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
               itemCount: widget.subCategory == null ? 0 : widget.subCategory.length,
               itemBuilder: (BuildContext context, int index) {
-                var eachProduct = widget.subCategory[index];
-//todo : add to exist widget
-                return GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () => _onTileClicked(widget.subCategory[index].id),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30), side: BorderSide(color: kmColors, width: 4.0)),
-                    elevation: 4,
-                    margin: const EdgeInsets.all(10),
-                    child: Column(
-                      children: <Widget>[
-                        Stack(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: const BorderRadius.all(Radius.circular(30)),
-                              child: Image(
-                                image: AdvImageCache(
-                                  StaticVariables.imagePrefixUrl + eachProduct.imageFileName,
-                                  useMemCache: true,
-                                  diskCacheExpire: const Duration(days: 400),
-                                ),
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height * 0.25,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            ClipRRect(
-                              borderRadius: const BorderRadius.all(Radius.circular(30)),
-                              child: Container(
-                                height: MediaQuery.of(context).size.height * 0.25,
-                                width: double.infinity,
-                                color: Colors.black54,
-                                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    eachProduct.name,
-                                    style: mainStyle.copyWith(
-                                        fontSize: ResponsiveFlutter.of(context).fontSize(4), color: Colors.white),
-                                    softWrap: true,
-                                    overflow: TextOverflow.fade,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+                return SubCategoryWidget(
+                    forProductAdding: widget.forProductAdding,
+                    scaffoldKey: widget.scaffoldKey,
+                    subCategory: widget.subCategory[index],
+                    supplierCode: widget.supplierCode);
               },
             ),
     );

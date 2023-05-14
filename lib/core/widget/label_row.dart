@@ -23,18 +23,16 @@ class LabelRow extends StatefulWidget {
 class _LabelRowState extends State<LabelRow> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        RichText(
-          text: TextSpan(
-            children: <TextSpan>[
-              TextSpan(text: widget.rightSideText, style: paragraphStyle),
-              TextSpan(text: widget.leftSideText, style: widget.leftSideStyle, recognizer: widget.recognizer),
-            ],
-          ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5),
+      child: RichText(
+        text: TextSpan(
+          children: <TextSpan>[
+            TextSpan(text: widget.rightSideText, style: paragraphStyle),
+            TextSpan(text: widget.leftSideText, style: widget.leftSideStyle, recognizer: widget.recognizer),
+          ],
         ),
-        const SizedBox(height: 5),
-      ],
+      ),
     );
   }
 }

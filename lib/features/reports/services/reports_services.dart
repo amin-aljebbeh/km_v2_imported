@@ -62,7 +62,7 @@ class ReportsServices {
     try {
       Response response;
       response = await ApiProvider.sendRequest(
-          url: remainingMoneyForSupplier,
+          url: remainingMoneyForSupplierApi,
           queryParameters: {'from_date': fromDate, 'to_date': toDate},
           method: HttpMethods.get);
 

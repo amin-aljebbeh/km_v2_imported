@@ -7,9 +7,8 @@ class ScreenMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
+      child: SizedBox(
         height: 50.0,
-        color: Colors.transparent,
         child: Center(
           child: Text(message,
               style: mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 20.0)),

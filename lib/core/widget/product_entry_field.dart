@@ -14,9 +14,10 @@ class ProductEntryField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(title, style: blackBold),
-        const SizedBox(height: 8),
-        EntryField(controller: controller, width: width, onSubmit: (notEmpty) {}, hint: hint, onChange: () {}),
-        const SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20, top: 8),
+          child: EntryField(controller: controller, width: width, onSubmit: (notEmpty) {}, hint: hint, onChange: () {}),
+        ),
       ],
     );
   }
