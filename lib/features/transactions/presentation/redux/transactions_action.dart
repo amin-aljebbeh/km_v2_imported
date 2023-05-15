@@ -238,10 +238,9 @@ class GetAdminBalanceAction implements TransactionsAction {
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     Either either = await store.state.transactionsState.transactionsUseCase.getAdminBalanceUseCase(adminId: adminId);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (shopperReport) {
-      AdminBalanceEntity balance = shopperReport;
-      adminBalanceWidget(context: context, balance: balance);
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (balance) {
+      AdminBalanceEntity adminBalance = balance;
+      adminBalanceWidget(context: context, balance: adminBalance);
     });
     store.dispatch(StopLoading());
   }
@@ -257,8 +256,19 @@ class GetShopperReportAction implements TransactionsAction {
     store.dispatch(StartLoading());
     Either either =
         await store.state.transactionsState.transactionsUseCase.getShopperReportUseCase(shopperId: shopperId);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (shopperReport) => store.dispatch(SetShopperReport(shopperReport: shopperReport)));
+    either.fold((failure) {
+      store.dispatch(SetShopperReport(
+          shopperReport: ShopperReportEntity(
+        deliveryDistance: 'error',
+        avgDeliveryMinutes: 'error',
+        avgOrderRating: 'error',
+        countOrderThisMonth: 'error',
+        dailyProfits: 'error',
+        monthlyProfits: 'error',
+        workingHour: 'error',
+      )));
+      store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));
+    }, (shopperReport) => store.dispatch(SetShopperReport(shopperReport: shopperReport)));
     store.dispatch(StopLoading());
   }
 }
@@ -351,6 +361,8 @@ class GetTransactionCategoriesAction implements TransactionsAction {
         (categories) => store.dispatch(SetTransactionCategories(categories: categories)));
     store.dispatch(StopLoading());
   }
+
+  GetTransactionCategoriesAction();
 }
 
 class SetTransactionCategories {

@@ -37,12 +37,16 @@ class ShopperReportWidget extends StatelessWidget {
                             child: LabelRow(
                               rightSideText: 'مرابح الشهر : ',
                               leftSideText: report != null
-                                  ? StringUtils().oCcy.format(int.parse(report.monthlyProfits).abs())
+                                  ? report.monthlyProfits != 'error'
+                                      ? StringUtils().oCcy.format(int.parse(report.monthlyProfits).abs())
+                                      : 'error'
                                   : 'error',
                               leftSideStyle: report != null
-                                  ? int.parse(report.monthlyProfits).isNegative
-                                      ? paragraphStyle.copyWith(color: Colors.red)
-                                      : paragraphStyle.copyWith(color: Colors.green)
+                                  ? report.monthlyProfits != 'error'
+                                      ? int.parse(report.monthlyProfits).isNegative
+                                          ? paragraphStyle.copyWith(color: Colors.red)
+                                          : paragraphStyle.copyWith(color: Colors.green)
+                                      : paragraphStyle.copyWith(color: Colors.red)
                                   : paragraphStyle.copyWith(color: Colors.red),
                             ),
                           ),
@@ -51,12 +55,16 @@ class ShopperReportWidget extends StatelessWidget {
                             child: LabelRow(
                               rightSideText: 'مرابح اليوم : ',
                               leftSideText: report != null
-                                  ? StringUtils().oCcy.format(int.parse(report.dailyProfits).abs())
+                                  ? report.dailyProfits != 'error'
+                                      ? StringUtils().oCcy.format(int.parse(report.dailyProfits).abs())
+                                      : 'error'
                                   : 'error',
                               leftSideStyle: report != null
-                                  ? int.parse(report.dailyProfits).isNegative
-                                      ? paragraphStyle.copyWith(color: Colors.red)
-                                      : paragraphStyle.copyWith(color: Colors.green)
+                                  ? report.dailyProfits != 'error'
+                                      ? int.parse(report.dailyProfits).isNegative
+                                          ? paragraphStyle.copyWith(color: Colors.red)
+                                          : paragraphStyle.copyWith(color: Colors.green)
+                                      : paragraphStyle.copyWith(color: Colors.red)
                                   : paragraphStyle.copyWith(color: Colors.red),
                             ),
                           ),
@@ -66,7 +74,9 @@ class ShopperReportWidget extends StatelessWidget {
                               rightSideText: 'عدد الطلبات : ',
                               leftSideText: report != null ? report.countOrderThisMonth : 'error',
                               leftSideStyle: report != null
-                                  ? paragraphStyle.copyWith(color: Colors.green)
+                                  ? report.countOrderThisMonth != 'error'
+                                      ? paragraphStyle.copyWith(color: Colors.green)
+                                      : paragraphStyle.copyWith(color: Colors.red)
                                   : paragraphStyle.copyWith(color: Colors.red),
                             ),
                           ),
@@ -76,7 +86,9 @@ class ShopperReportWidget extends StatelessWidget {
                               rightSideText: 'ساعات العمل : ',
                               leftSideText: report != null ? report.workingHour : 'error',
                               leftSideStyle: report != null
-                                  ? paragraphStyle.copyWith(color: Colors.green)
+                                  ? report.workingHour != 'error'
+                                      ? paragraphStyle.copyWith(color: Colors.green)
+                                      : paragraphStyle.copyWith(color: Colors.red)
                                   : paragraphStyle.copyWith(color: Colors.red),
                             ),
                           ),
@@ -86,7 +98,9 @@ class ShopperReportWidget extends StatelessWidget {
                               rightSideText: 'التقييم: ',
                               leftSideText: report != null ? report.avgOrderRating : 'error',
                               leftSideStyle: report != null
-                                  ? paragraphStyle.copyWith(color: Colors.green)
+                                  ? report.avgOrderRating != 'error'
+                                      ? paragraphStyle.copyWith(color: Colors.green)
+                                      : paragraphStyle.copyWith(color: Colors.red)
                                   : paragraphStyle.copyWith(color: Colors.red),
                             ),
                           ),
@@ -96,7 +110,9 @@ class ShopperReportWidget extends StatelessWidget {
                               rightSideText: 'سرعة التوصيل: ',
                               leftSideText: report != null ? report.avgDeliveryMinutes : 'error',
                               leftSideStyle: report != null
-                                  ? paragraphStyle.copyWith(color: Colors.green)
+                                  ? report.avgDeliveryMinutes != 'error'
+                                      ? paragraphStyle.copyWith(color: Colors.green)
+                                      : paragraphStyle.copyWith(color: Colors.red)
                                   : paragraphStyle.copyWith(color: Colors.red),
                             ),
                           ),
@@ -105,10 +121,14 @@ class ShopperReportWidget extends StatelessWidget {
                             child: LabelRow(
                               rightSideText: 'مسافة التوصيل: ',
                               leftSideText: report != null
-                                  ? (int.parse(report.deliveryDistance) / 1000).toString() + ' كم'
+                                  ? report.deliveryDistance != 'error'
+                                      ? (int.parse(report.deliveryDistance) / 1000).toString() + ' كم'
+                                      : 'error'
                                   : 'error',
                               leftSideStyle: report != null
-                                  ? paragraphStyle.copyWith(color: Colors.green)
+                                  ? report.deliveryDistance != 'error'
+                                      ? paragraphStyle.copyWith(color: Colors.green)
+                                      : paragraphStyle.copyWith(color: Colors.red)
                                   : paragraphStyle.copyWith(color: Colors.red),
                             ),
                           ),

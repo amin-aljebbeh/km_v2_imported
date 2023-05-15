@@ -12,7 +12,10 @@ class TemporaryLoading extends StatelessWidget {
       converter: (store) => store.state,
       builder: (context, state) {
         return WillPopScope(
-          onWillPop: () async => !state.loadingState.loading.isNotEmpty && pop,
+          onWillPop: () async {
+            if (!state.loadingState.loading.isNotEmpty && pop) StoreProvider.of<AppState>(context).dispatch(NoError());
+            return !state.loadingState.loading.isNotEmpty && pop;
+          },
           child: Stack(
             children: [
               child,

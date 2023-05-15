@@ -49,7 +49,10 @@ class GetTransactionsActorsAction implements AdminsAction {
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     Either either = await store.state.adminsState.adminsUseCases.getTransactionsActorsUseCase(categoryId: categoryId);
-    either.fold((failure) => store.dispatch(SetTransactionsActors(admins: [])), (admins) {
+    either.fold((failure) {
+      store.dispatch(CatchError(errorMessage: 'حدث خطأ أثناء محاولة عرض الأدمن المتاحين لهذه العملية'));
+      store.dispatch(SetTransactionsActors(admins: []));
+    }, (admins) {
       List<AdminEntity> transactionsActors = admins;
       transactionsActors.removeWhere((actor) => actor.id == store.state.adminsState.admin.id);
       store.dispatch(SetTransactionsActors(admins: admins));

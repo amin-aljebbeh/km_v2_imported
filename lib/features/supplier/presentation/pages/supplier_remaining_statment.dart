@@ -50,42 +50,38 @@ class _SupplierRemainingAccountsState extends State<SupplierRemainingAccounts> {
                       padding: const EdgeInsets.only(top: 10),
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.65,
-                        child: state.errorState.isError
-                            ? Center(
-                                child: AlertMessages(
-                                    text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
-                            : state.supplierState.remaining.isNotEmpty
-                                ? ListView.builder(
-                                    padding: const EdgeInsets.only(bottom: 25),
-                                    scrollDirection: Axis.vertical,
-                                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                                    itemCount: state.supplierState.remaining.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      return Column(
+                        child: state.supplierState.remaining.isNotEmpty
+                            ? ListView.builder(
+                                padding: const EdgeInsets.only(bottom: 25),
+                                scrollDirection: Axis.vertical,
+                                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                                itemCount: state.supplierState.remaining.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Column(
+                                    children: [
+                                      if (index == 0)
+                                        KTableRow(
+                                          children: [
+                                            KTableElement(text: 'المورد', style: mainStyle),
+                                            KTableElement(text: 'الرصيد', style: mainStyle),
+                                          ],
+                                        ),
+                                      KTableRow(
                                         children: [
-                                          if (index == 0)
-                                            KTableRow(
-                                              children: [
-                                                KTableElement(text: 'المورد', style: mainStyle),
-                                                KTableElement(text: 'الرصيد', style: mainStyle),
-                                              ],
-                                            ),
-                                          KTableRow(
-                                            children: [
-                                              KTableElement(
-                                                  text: state.supplierState.remaining[index].name, style: mainStyle),
-                                              KTableElement(
-                                                text: StringUtils().oCcy.format(int.parse(
-                                                    state.supplierState.remaining[index].remainingMonyForSupplier)),
-                                                style: mainStyle,
-                                              ),
-                                            ],
-                                          )
+                                          KTableElement(
+                                              text: state.supplierState.remaining[index].name, style: mainStyle),
+                                          KTableElement(
+                                            text: StringUtils().oCcy.format(int.parse(
+                                                state.supplierState.remaining[index].remainingMonyForSupplier)),
+                                            style: mainStyle,
+                                          ),
                                         ],
-                                      );
-                                    },
-                                  )
-                                : const ScreenMessage(message: 'لا يوجد حركة'),
+                                      )
+                                    ],
+                                  );
+                                },
+                              )
+                            : const ScreenMessage(message: 'لا يوجد حركة'),
                       ),
                     )
                   ],
