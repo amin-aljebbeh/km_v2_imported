@@ -10,5 +10,6 @@ Reducer<SupplierState> supplierReducer = combineReducers<SupplierState>([
 SupplierState setAccountStatement(SupplierState state, SetAccountStatement action) =>
     state.copyWith(accountStatement: action.accountStatement);
 
-SupplierState setRemainingStatment(SupplierState state, SetRemainingStatment action) =>
-    state.copyWith(remaining: action.remaining);
+SupplierState setRemainingStatment(SupplierState state, SetRemainingStatment action) {
+  return state.copyWith(remaining: action.remaining);
+}

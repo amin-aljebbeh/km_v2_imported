@@ -6,6 +6,7 @@ import '../admins/presentation/redux/admins_action.dart';
 import '../login/Services/login_services.dart';
 import '../management_view/management_view.dart';
 import '../supplier/presentation/pages/supplier_remaining_statment.dart';
+import '../supplier/presentation/redux/supplier_action.dart';
 import '../transactions/presentation/pages/add_transaction_page.dart';
 import '../transactions/presentation/redux/transactions_action.dart';
 
@@ -74,12 +75,16 @@ List<Widget> getDrawerChildren(BuildContext context) {
                   ),
                 if (Services.hasRole(context, accountingRole))
                   Column(
-                    children: const [
+                    children: [
                       SideBarRow(
-                          pushedRoute: SupplierRemainingAccounts.routeName,
-                          icon: Icons.account_balance_wallet_outlined,
-                          text: 'أرصدة الموردين'),
-                      SideBarRow(
+                        icon: Icons.account_balance_wallet_outlined,
+                        onTap: () {
+                          store.dispatch(SetRemainingStatment(remaining: []));
+                          Navigator.pushNamed(context, SupplierRemainingAccounts.routeName);
+                        },
+                        text: 'أرصدة الموردين',
+                      ),
+                      const SideBarRow(
                         icon: Icons.delivery_dining_rounded,
                         text: 'معلومات المتسوقين',
                         pushedRoute: ShopperInformationView.routeName,
@@ -91,9 +96,15 @@ List<Widget> getDrawerChildren(BuildContext context) {
           ),
         ),
       ),
-    //todo clean
     if (Services.hasRole(context, supplierRole))
-      const SideBarRow(pushedRoute: SupplierRemainingAccounts.routeName, icon: KIcons.coins, text: 'كشف حساب الزوائد'),
+      SideBarRow(
+        onTap: () {
+          store.dispatch(SetRemainingStatment(remaining: []));
+          Navigator.pushNamed(context, SupplierRemainingAccounts.routeName);
+        },
+        icon: KIcons.coins,
+        text: 'كشف حساب الزوائد',
+      ),
     if (Services.hasRole(context, supplierRole))
       const SideBarRow(pushedRoute: SupplierAccounts.routeName, icon: Icons.account_balance, text: 'كشف حساب المورد'),
     if (Services.hasRole(context, supplierRole) ||

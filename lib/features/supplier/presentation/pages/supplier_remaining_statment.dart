@@ -1,10 +1,16 @@
 import '../../../../core/core_importer.dart';
 import '../redux/supplier_action.dart';
 
-class SupplierRemainingAccounts extends StatelessWidget {
+class SupplierRemainingAccounts extends StatefulWidget {
   static const String routeName = '/SupplierRemainingAccounts';
-  SupplierRemainingAccounts({Key key}) : super(key: key);
 
+  const SupplierRemainingAccounts({Key key}) : super(key: key);
+
+  @override
+  _SupplierRemainingAccountsState createState() => _SupplierRemainingAccountsState();
+}
+
+class _SupplierRemainingAccountsState extends State<SupplierRemainingAccounts> {
   String fromDateTimeValue;
   String toDateTimeValue;
 
@@ -31,7 +37,6 @@ class SupplierRemainingAccounts extends StatelessWidget {
                       color: Theme.of(context).primaryColor,
                       onTap: () {
                         if (validDates()) {
-                          StoreProvider.of<AppState>(context).dispatch(SetRemainingStatment(remaining: []));
                           StoreProvider.of<AppState>(context)
                               .dispatch(GetRemainingStatementAction(to: toDateTimeValue, from: fromDateTimeValue));
                         } else {
@@ -49,41 +54,38 @@ class SupplierRemainingAccounts extends StatelessWidget {
                             ? Center(
                                 child: AlertMessages(
                                     text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
-                            : state.loadingState.loading.isNotEmpty
-                                ? const Loader()
-                                : state.supplierState.remaining.isNotEmpty
-                                    ? ListView.builder(
-                                        padding: const EdgeInsets.only(bottom: 25),
-                                        scrollDirection: Axis.vertical,
-                                        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                                        itemCount: state.supplierState.remaining.length,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          return Column(
+                            : state.supplierState.remaining.isNotEmpty
+                                ? ListView.builder(
+                                    padding: const EdgeInsets.only(bottom: 25),
+                                    scrollDirection: Axis.vertical,
+                                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                                    itemCount: state.supplierState.remaining.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return Column(
+                                        children: [
+                                          if (index == 0)
+                                            KTableRow(
+                                              children: [
+                                                KTableElement(text: 'المورد', style: mainStyle),
+                                                KTableElement(text: 'الرصيد', style: mainStyle),
+                                              ],
+                                            ),
+                                          KTableRow(
                                             children: [
-                                              if (index == 0)
-                                                KTableRow(
-                                                  children: [
-                                                    KTableElement(text: 'المورد', style: mainStyle),
-                                                    KTableElement(text: 'الرصيد', style: mainStyle),
-                                                  ],
-                                                ),
-                                              KTableRow(
-                                                children: [
-                                                  KTableElement(
-                                                      text: state.supplierState.remaining[index].name,
-                                                      style: mainStyle),
-                                                  KTableElement(
-                                                    text: StringUtils().oCcy.format(int.parse(
-                                                        state.supplierState.remaining[index].remainingMonyForSupplier)),
-                                                    style: mainStyle,
-                                                  ),
-                                                ],
-                                              )
+                                              KTableElement(
+                                                  text: state.supplierState.remaining[index].name, style: mainStyle),
+                                              KTableElement(
+                                                text: StringUtils().oCcy.format(int.parse(
+                                                    state.supplierState.remaining[index].remainingMonyForSupplier)),
+                                                style: mainStyle,
+                                              ),
                                             ],
-                                          );
-                                        },
-                                      )
-                                    : const ScreenMessage(message: 'لا يوجد حركة'),
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  )
+                                : const ScreenMessage(message: 'لا يوجد حركة'),
                       ),
                     )
                   ],

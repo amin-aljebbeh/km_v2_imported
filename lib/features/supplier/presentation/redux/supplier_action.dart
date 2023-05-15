@@ -39,7 +39,6 @@ class GetRemainingStatementAction implements SupplierAction {
     Either either = await store.state.supplierState.supplierUseCases.remainingStatementUseCase(to: to, from: from);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (remaining) {
       List<RemainingStatementEntity> result = remaining;
-      Tools.logToConsole(result.length);
       store.dispatch(SetRemainingStatment(remaining: result));
     });
     store.dispatch(StopLoading());

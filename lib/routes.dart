@@ -1,5 +1,3 @@
-import 'package:kammun_app/features/supplier/presentation/redux/supplier_action.dart';
-
 import 'core/core_importer.dart';
 import 'features/supplier/presentation/pages/supplier_remaining_statment.dart';
 
@@ -22,10 +20,7 @@ final Map<String, WidgetBuilder> routes = {
   AllProducts.routeName: (_) => const AllProducts(),
   Prices.routeName: (_) => const Prices(),
   ProductsFilterScreen.routeName: (_) => const ProductsFilterScreen(),
-  SupplierRemainingAccounts.routeName: (context) {
-    StoreProvider.of<AppState>(context).dispatch(SetRemainingStatment(remaining: []));
-    return SupplierRemainingAccounts();
-  },
+  SupplierRemainingAccounts.routeName: (_) => const SupplierRemainingAccounts(),
   SupplierAccounts.routeName: (_) => const SupplierAccounts(),
   ShopperManagementView.routeName: (_) => const ShopperManagementView(),
   FinancialReportView.routeName: (_) => const FinancialReportView(),
