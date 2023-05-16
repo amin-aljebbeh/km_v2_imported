@@ -3,17 +3,12 @@ import 'package:kammun_app/features/transactions/presentation/widgets/transactio
 
 import '../../../../core/core_importer.dart';
 
-class TransactionRequestsPage extends StatefulWidget {
+class TransactionRequestsPage extends StatelessWidget {
   static String routeName = '/TransactionRequestsPage';
 
-  const TransactionRequestsPage({Key key}) : super(key: key);
+  TransactionRequestsPage({Key key}) : super(key: key);
 
-  @override
-  _TransactionRequestsPageState createState() => _TransactionRequestsPageState();
-}
-
-class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
-  List<String> statuses = ['معلق', 'مقبول', 'مرفوض'];
+  final List<String> statuses = ['معلق', 'مقبول', 'مرفوض'];
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +102,6 @@ class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
                               StoreProvider.of<AppState>(context)
                                   .dispatch(SetTransactionCategoryId(transactionCategoryId: value));
                               StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
-                              setState(() {});
                             }),
                         DropdownButton(
                             items: items,
@@ -118,7 +112,6 @@ class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
                               StoreProvider.of<AppState>(context)
                                   .dispatch(SetTransactionStatusId(transactionStatusId: value));
                               StoreProvider.of<AppState>(context).dispatch(GetTransactionRequestsAction());
-                              setState(() {});
                             })
                       ],
                     ),
@@ -150,7 +143,7 @@ class _TransactionRequestsPageState extends State<TransactionRequestsPage> {
                                         shrinkWrap: true,
                                         itemCount: state.transactionsState.requests.length,
                                         itemBuilder: (BuildContext context, int index) => TransactionRequestWidget(
-                                            ctx: this.context,
+                                            ctx: context,
                                             transactionRequestEntity: state.transactionsState.requests[index])),
                                   ),
                                 ),

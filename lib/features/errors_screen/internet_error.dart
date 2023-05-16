@@ -39,16 +39,12 @@ class InternetError extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Image.asset('assets/no-wifi.png', width: 125, height: 200),
-            Text(
-              'لايوجد إتصال بالإنترنت',
-              style: mainStyle.copyWith(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
-            ),
+            Text('لايوجد إتصال بالإنترنت',
+                style: mainStyle.copyWith(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500)),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Text(
-                'يرجى التحقق من إتصالك بالإنترنت والمحاولة من جديد ',
-                style: mainStyle.copyWith(color: Colors.grey[700], fontSize: 15, fontWeight: FontWeight.w500),
-              ),
+              child: Text('يرجى التحقق من إتصالك بالإنترنت والمحاولة من جديد ',
+                  style: mainStyle.copyWith(color: Colors.grey[700], fontSize: 15, fontWeight: FontWeight.w500)),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

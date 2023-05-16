@@ -60,7 +60,7 @@ class _UserManagementState extends State<UserManagement> with SingleTickerProvid
             ),
             body: TabBarView(
                 controller: controller,
-                children: [const UserCouponsPage(), const CouponsPage(), UserWalletPage(order: widget.order)],
+                children: [UserCouponsPage(), const CouponsPage(), UserWalletPage(order: widget.order)],
                 physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics())),
           ),
         );

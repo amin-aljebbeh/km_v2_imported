@@ -2,16 +2,11 @@ import '../../../../core/core_importer.dart';
 import '../../domain/entities/coupon_entity.dart';
 import '../widgets/user_coupon_widget.dart';
 
-class UserCouponsPage extends StatefulWidget {
+class UserCouponsPage extends StatelessWidget {
   static String routeName = '/UserCouponsPage';
 
-  const UserCouponsPage({Key key}) : super(key: key);
+  UserCouponsPage({Key key}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() => UserCouponsPageState();
-}
-
-class UserCouponsPageState extends State<UserCouponsPage> {
   final FocusNode focusNode = FocusNode();
 
   @override

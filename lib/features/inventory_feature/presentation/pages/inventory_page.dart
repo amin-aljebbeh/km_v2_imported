@@ -14,16 +14,11 @@ class _InventoryPageState extends State<InventoryPage> {
   final TextEditingController controller = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int subWarehouseFilter = StaticVariables.subWarehouses.length;
-  int isActiveFilter = 0;
-  List<String> activeList = ['بحاجة تفعيل', 'بحاجة إيقاف تفعيل'];
+  List<String> activeList = ['بحاجة تفعيل', 'بحاجة إيقاف تفعيل', 'الجميع'];
 
   @override
   initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (StoreProvider.of<AppState>(context).state.inventoryState.inventoryType ==
-          InventoryTypes.underCheckAvailability) {
-        activeList.add('الجميع');
-      }
       StoreProvider.of<AppState>(context).dispatch(StartLoading());
       StoreProvider.of<AppState>(context).dispatch(NoError());
       StoreProvider.of<AppState>(context).dispatch(ClearInventory());
@@ -81,10 +76,9 @@ class _InventoryPageState extends State<InventoryPage> {
                           },
                         ),
                         DropdownButton(
-                          value: isActiveFilter,
+                          value: state.inventoryState.isActive,
                           items: Services.dropdownStringList(activeList),
                           onChanged: (value) {
-                            isActiveFilter = value;
                             StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: value));
                             StoreProvider.of<AppState>(context).dispatch(StartLoading());
                             StoreProvider.of<AppState>(context).dispatch(NoError());

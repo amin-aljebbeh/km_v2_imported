@@ -2,20 +2,15 @@ import 'package:kammun_app/features/supplier/presentation/redux/supplier_action.
 
 import '../../../../core/core_importer.dart';
 
-class SupplierAccounts extends StatefulWidget {
+class SupplierAccounts extends StatelessWidget {
   static const String routeName = '/SupplierAccounts';
   const SupplierAccounts({Key key}) : super(key: key);
 
   @override
-  _SupplierAccountsState createState() => _SupplierAccountsState();
-}
-
-class _SupplierAccountsState extends State<SupplierAccounts> {
-  String fromDateTimeValue = 'يرجى أختيار تاريخ البداية';
-  String toDateTimeValue = 'يرجى إختيار تاريخ النهاية';
-
-  @override
   Widget build(BuildContext context) {
+    String fromDateTimeValue;
+    String toDateTimeValue;
+    bool validDates() => fromDateTimeValue != null && toDateTimeValue != null;
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,
@@ -30,8 +25,8 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
                   shrinkWrap: true,
                   children: [
                     KDatePicker(
-                      onConfirmStart: (date) => setState(() => fromDateTimeValue = date),
-                      onConfirmEnd: (date) => setState(() => toDateTimeValue = date),
+                      onConfirmStart: (date) => fromDateTimeValue = date,
+                      onConfirmEnd: (date) => toDateTimeValue = date,
                     ),
                     KammunButton(
                       text: send,
@@ -83,7 +78,4 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
       },
     );
   }
-
-  bool validDates() =>
-      fromDateTimeValue != 'يرجى أختيار تاريخ البداية' && toDateTimeValue != 'يرجى إختيار تاريخ النهاية';
 }

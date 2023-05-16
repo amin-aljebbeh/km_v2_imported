@@ -3,28 +3,23 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 
 import '../../core/core_importer.dart';
 
-class SubCategory extends StatefulWidget {
+class SubCategory extends StatelessWidget {
   static int cartCount = 0;
   final List<CategoryOriginalData> subCategory;
   final bool forProductAdding;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final String supplierCode;
 
-  const SubCategory({Key key, this.subCategory, this.forProductAdding = false, this.scaffoldKey, this.supplierCode})
+  SubCategory({Key key, this.subCategory, this.forProductAdding = false, this.scaffoldKey, this.supplierCode})
       : super(key: key);
 
-  @override
-  _SubCategoryState createState() => _SubCategoryState();
-}
-
-class _SubCategoryState extends State<SubCategory> {
-  TextEditingController searchController = TextEditingController();
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController searchController = TextEditingController();
+  final GlobalKey<ScaffoldState> myScaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: myScaffoldKey,
       appBar: PreferredSize(
         child: AppBar(
           leading: Padding(
@@ -32,7 +27,7 @@ class _SubCategoryState extends State<SubCategory> {
             child: IconButton(
               icon: const Icon(Icons.shopping_cart, size: 35, color: Colors.white),
               onPressed: () {
-                if (!widget.forProductAdding) {
+                if (!forProductAdding) {
                   Navigator.of(context).pushNamedAndRemoveUntil(CartView.routeName, (Route<dynamic> route) => false);
                 }
               },
@@ -47,7 +42,9 @@ class _SubCategoryState extends State<SubCategory> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Padding(padding: EdgeInsets.only(top: 10), child: AppBarKammunImage()),
+                    Padding(
+                        padding: EdgeInsets.only(right: MediaQuery.of(context).size.width / 3.5),
+                        child: const AppBarKammunImage()),
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0, left: 0),
                       child: IconButton(
@@ -57,15 +54,15 @@ class _SubCategoryState extends State<SubCategory> {
                     ),
                   ],
                 ),
-                if (!widget.forProductAdding)
-                  StoreSearchTextField(searchController: searchController, scaffoldKey: scaffoldKey),
+                if (!forProductAdding)
+                  StoreSearchTextField(searchController: searchController, scaffoldKey: myScaffoldKey),
               ],
             ),
           ),
         ),
         preferredSize: const Size.fromHeight(105),
       ),
-      body: widget.subCategory.isEmpty
+      body: subCategory.isEmpty
           ? Align(
               alignment: Alignment.center,
               child: Padding(
@@ -84,13 +81,13 @@ class _SubCategoryState extends State<SubCategory> {
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-              itemCount: widget.subCategory == null ? 0 : widget.subCategory.length,
+              itemCount: subCategory == null ? 0 : subCategory.length,
               itemBuilder: (BuildContext context, int index) {
                 return SubCategoryWidget(
-                    forProductAdding: widget.forProductAdding,
-                    scaffoldKey: widget.scaffoldKey,
-                    subCategory: widget.subCategory[index],
-                    supplierCode: widget.supplierCode);
+                    forProductAdding: forProductAdding,
+                    scaffoldKey: scaffoldKey,
+                    subCategory: subCategory[index],
+                    supplierCode: supplierCode);
               },
             ),
     );

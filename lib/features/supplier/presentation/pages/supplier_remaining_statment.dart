@@ -1,21 +1,17 @@
 import '../../../../core/core_importer.dart';
 import '../redux/supplier_action.dart';
 
-class SupplierRemainingAccounts extends StatefulWidget {
+class SupplierRemainingAccounts extends StatelessWidget {
   static const String routeName = '/SupplierRemainingAccounts';
 
   const SupplierRemainingAccounts({Key key}) : super(key: key);
 
   @override
-  _SupplierRemainingAccountsState createState() => _SupplierRemainingAccountsState();
-}
-
-class _SupplierRemainingAccountsState extends State<SupplierRemainingAccounts> {
-  String fromDateTimeValue;
-  String toDateTimeValue;
-
-  @override
   Widget build(BuildContext context) {
+    String fromDateTimeValue;
+    String toDateTimeValue;
+    bool validDates() => fromDateTimeValue != null && toDateTimeValue != null;
+
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,
@@ -30,8 +26,9 @@ class _SupplierRemainingAccountsState extends State<SupplierRemainingAccounts> {
                   shrinkWrap: true,
                   children: [
                     KDatePicker(
-                        onConfirmStart: (date) => fromDateTimeValue = date,
-                        onConfirmEnd: (date) => toDateTimeValue = date),
+                      onConfirmStart: (date) => fromDateTimeValue = date,
+                      onConfirmEnd: (date) => toDateTimeValue = date,
+                    ),
                     KammunButton(
                       text: send,
                       color: Theme.of(context).primaryColor,
@@ -93,6 +90,4 @@ class _SupplierRemainingAccountsState extends State<SupplierRemainingAccounts> {
       },
     );
   }
-
-  bool validDates() => fromDateTimeValue != null && toDateTimeValue != null;
 }
