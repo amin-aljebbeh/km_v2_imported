@@ -1,5 +1,5 @@
 import '../../../core/core_importer.dart';
-import '../../management_view/management_view.dart';
+import '../../../core/widget/management_view.dart';
 
 class ShopperInformationView extends StatelessWidget {
   static const String routeName = '/ShopperInformation';

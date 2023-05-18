@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:kammun_app/core/core_importer.dart';
 
-import '../full_screen_image.dart';
+import '../pages/full_screen_image.dart';
 
 class OrderDetailsServices {
   static Future<bool> updateOrder(

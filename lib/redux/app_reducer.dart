@@ -1,7 +1,7 @@
 import 'package:kammun_app/features/admins/presentation/redux/admins_reducer.dart';
 import 'package:kammun_app/features/error/presentation/redux/error_reducer.dart';
 import 'package:kammun_app/features/inventory_feature/presentation/redux/inventory_reducer.dart';
-import 'package:kammun_app/features/loading_feature/presentation/redux/loading_reducer.dart';
+import 'package:kammun_app/features/loading/presentation/redux/loading_reducer.dart';
 import 'package:kammun_app/features/orders_feature/presentation/redux/orders_reducer.dart';
 import 'package:kammun_app/features/supplier/presentation/redux/supplier_reducer.dart';
 import 'package:kammun_app/features/transactions/presentation/redux/transactions_reducer.dart';

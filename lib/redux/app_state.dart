@@ -1,4 +1,4 @@
-import 'package:kammun_app/features/loading_feature/presentation/redux/loading_state.dart';
+import 'package:kammun_app/features/loading/presentation/redux/loading_state.dart';
 import 'package:kammun_app/features/orders_feature/presentation/redux/orders_state.dart';
 import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_state.dart';
 

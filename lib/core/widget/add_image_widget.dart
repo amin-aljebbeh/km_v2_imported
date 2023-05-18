@@ -1,5 +1,5 @@
 import 'package:image_picker/image_picker.dart';
-import 'package:kammun_app/features/products_view/select_file.dart';
+import 'package:kammun_app/features/products_view/widgets/select_file.dart';
 
 import '../../core/core_importer.dart';
 

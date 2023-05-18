@@ -1,4 +1,4 @@
-import 'package:kammun_app/features/products_view/products_view.dart';
+import 'package:kammun_app/features/products_view/pages/products_view.dart';
 
 import '../../core/core_importer.dart';
 

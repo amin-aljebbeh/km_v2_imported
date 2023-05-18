@@ -1,4 +1,4 @@
-import 'package:kammun_app/features/products_view/barcode_screen.dart';
+import 'package:kammun_app/features/products_view/pages/barcode_screen.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 
 import '../core_importer.dart';
