@@ -54,8 +54,6 @@ class InventoryProductsViewCard extends StatefulWidget {
 }
 
 class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
-  String subWarehouseName = '';
-
   _unAttachProduct() async {
     bool result = await AddedProductsServices.unAttachProductsToSubWarehouseService(
         productsId: widget.productData.id.toString(), subWarehouse: widget.id);
@@ -223,6 +221,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                   ? IconButton(
                                       icon: const Icon(Icons.close_sharp, color: Colors.red),
                                       onPressed: () {
+                                        String subWarehouseName = '';
                                         subWarehouseName = StaticVariables.subWarehouses
                                             .firstWhere((subWarehouse) => subWarehouse.id.toString() == widget.id,
                                                 orElse: () => SubWarehouse(name: 'المستودع'))

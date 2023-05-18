@@ -1,20 +1,13 @@
 import '../core_importer.dart';
 
-class InventorySearchTextField extends StatefulWidget with PreferredSizeWidget {
+class InventorySearchTextField extends StatelessWidget with PreferredSizeWidget {
   final TextEditingController controller;
   final Function onReload;
   final BuildContext context;
 
   const InventorySearchTextField({Key key, @required this.controller, @required this.onReload, @required this.context})
       : super(key: key);
-  @override
-  _InventorySearchTextFieldState createState() => _InventorySearchTextFieldState();
 
-  @override
-  Size get preferredSize => Size(MediaQuery.of(context).size.width * 0.8, MediaQuery.of(context).size.height * 0.07);
-}
-
-class _InventorySearchTextFieldState extends State<InventorySearchTextField> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -28,20 +21,22 @@ class _InventorySearchTextFieldState extends State<InventorySearchTextField> {
           style: flushBarStyle,
           decoration: InputDecoration(
               suffixIcon: IconButton(
-                  icon: const Icon(Icons.close, size: 20, color: Colors.white),
-                  onPressed: () => widget.controller.text = ''),
+                  icon: const Icon(Icons.close, size: 20, color: Colors.white), onPressed: () => controller.text = ''),
               enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: kmColors)),
               focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kmColors)),
               border: UnderlineInputBorder(borderSide: BorderSide(color: kmColors))),
           cursorColor: kmColors,
-          controller: widget.controller,
+          controller: controller,
         ),
       ),
       actions: [
         Padding(
             padding: const EdgeInsets.only(left: 8.0),
-            child: IconButton(onPressed: widget.onReload, icon: const Icon(Icons.refresh, size: 35)))
+            child: IconButton(onPressed: onReload, icon: const Icon(Icons.refresh, size: 35)))
       ],
     );
   }
+
+  @override
+  Size get preferredSize => Size(MediaQuery.of(context).size.width * 0.8, MediaQuery.of(context).size.height * 0.07);
 }

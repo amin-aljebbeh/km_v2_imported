@@ -5,30 +5,15 @@ import 'package:kammun_app/features/sub_category/sub_category.dart';
 
 import '../../core/core_importer.dart';
 
-class StoreViewCategory extends StatefulWidget {
+class StoreViewCategory extends StatelessWidget {
   final String supplierCode;
   final bool forProductAdding;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
   const StoreViewCategory({Key key, this.forProductAdding = false, this.scaffoldKey, this.supplierCode})
       : super(key: key);
-  @override
-  State<StatefulWidget> createState() => StoreViewCategoryState();
-}
-
-class StoreViewCategoryState extends State<StoreViewCategory> {
   final double _crossAxisSpacing = 8, _mainAxisSpacing = 12, _aspectRatio = 2;
   final int _crossAxisCount = 2;
-  static List<CategoryOriginalData> categoryListHome = [];
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      categoryListHome.clear();
-      categoryListHome = StaticVariables.categoryList.where((category) => category.parentCategoryId == 'null').toList();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +24,8 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
             primary: false,
             shrinkWrap: true,
             padding: const EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
-            itemCount: categoryListHome.length,
+            itemCount:
+                StaticVariables.categoryList.where((category) => category.parentCategoryId == 'null').toList().length,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: _crossAxisCount,
@@ -47,9 +33,10 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
                 mainAxisSpacing: _mainAxisSpacing,
                 childAspectRatio: _aspectRatio),
             itemBuilder: (BuildContext context, int index) {
-              var eachCategory = categoryListHome[index];
+              var eachCategory =
+                  StaticVariables.categoryList.where((category) => category.parentCategoryId == 'null').toList()[index];
               return GestureDetector(
-                onTap: () => _onTileClicked(eachCategory.id.toString()),
+                onTap: () => _onTileClicked(eachCategory.id.toString(), context),
                 child: ShopByCategory(
                     img: eachCategory.imageFileName, categoryName: eachCategory.name, index: index, fit: BoxFit.cover),
               );
@@ -61,7 +48,7 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
   }
 
   // Function to be called on click
-  void _onTileClicked(String index) {
+  void _onTileClicked(String index, BuildContext context) {
     List<CategoryOriginalData> subCategoryList = StaticVariables.categoryList
         .where((category) => category.parentCategoryId.toString() == index.toString())
         .toList();
@@ -72,11 +59,11 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
           MaterialPageRoute(
               builder: (context) => SubCategory(
                   subCategory: subCategoryList,
-                  forProductAdding: widget.forProductAdding,
-                  scaffoldKey: widget.scaffoldKey,
-                  supplierCode: widget.supplierCode)));
+                  forProductAdding: forProductAdding,
+                  scaffoldKey: scaffoldKey,
+                  supplierCode: supplierCode)));
     } else {
-      if (widget.forProductAdding) {
+      if (forProductAdding) {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -90,10 +77,10 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
                   param = int.parse(barcode);
                 }
                 Navigator.push(
-                  widget.scaffoldKey.currentContext,
+                  scaffoldKey.currentContext,
                   MaterialPageRoute(
                     builder: (screenContext) =>
-                        AddProductsView(categoryId: index, barcode: param, supplierCode: widget.supplierCode),
+                        AddProductsView(categoryId: index, barcode: param, supplierCode: supplierCode),
                   ),
                 );
               },

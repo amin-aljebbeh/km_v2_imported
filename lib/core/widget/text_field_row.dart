@@ -1,6 +1,6 @@
 import '../../core/core_importer.dart';
 
-class TextFieldRow extends StatefulWidget {
+class TextFieldRow extends StatelessWidget {
   final TextEditingController controller;
   final MainAxisAlignment mainAxisAlignment;
   final String text;
@@ -21,23 +21,18 @@ class TextFieldRow extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TextFieldRowState createState() => _TextFieldRowState();
-}
-
-class _TextFieldRowState extends State<TextFieldRow> {
-  @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: widget.mainAxisAlignment,
+      mainAxisAlignment: mainAxisAlignment,
       children: [
-        Text(widget.text, overflow: TextOverflow.clip, style: paragraphStyle),
+        Text(text, overflow: TextOverflow.clip, style: paragraphStyle),
         EntryField(
-          controller: widget.controller,
-          hint: widget.hint,
-          onChange: () => widget.onChange(),
-          width: widget.width,
+          controller: controller,
+          hint: hint,
+          onChange: () => onChange(),
+          width: width,
           onSubmit: (result) {},
-          textInputType: widget.inputType,
+          textInputType: inputType,
         ),
       ],
     );

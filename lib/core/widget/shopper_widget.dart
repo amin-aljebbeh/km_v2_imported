@@ -14,12 +14,6 @@ class ShopperWidget extends StatefulWidget {
 }
 
 class ShopperWidgetState extends State<ShopperWidget> {
-  String subWarehouseName = '';
-  String id;
-  String supplierCode;
-  int isActive;
-  String price;
-  bool attached;
   bool loading;
 
   @override

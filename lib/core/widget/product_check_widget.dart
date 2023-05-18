@@ -24,7 +24,6 @@ class ProductCheckWidget extends StatefulWidget {
 }
 
 class _ProductCheckWidgetState extends State<ProductCheckWidget> {
-  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return widget.preferLeftSide

@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 
 import '../core_importer.dart';
 
-class LabelRow extends StatefulWidget {
+class LabelRow extends StatelessWidget {
   final String rightSideText;
   final String leftSideText;
   final TextStyle leftSideStyle;
@@ -17,19 +17,14 @@ class LabelRow extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _LabelRowState createState() => _LabelRowState();
-}
-
-class _LabelRowState extends State<LabelRow> {
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: RichText(
         text: TextSpan(
           children: <TextSpan>[
-            TextSpan(text: widget.rightSideText, style: paragraphStyle),
-            TextSpan(text: widget.leftSideText, style: widget.leftSideStyle, recognizer: widget.recognizer),
+            TextSpan(text: rightSideText, style: paragraphStyle),
+            TextSpan(text: leftSideText, style: leftSideStyle, recognizer: recognizer),
           ],
         ),
       ),

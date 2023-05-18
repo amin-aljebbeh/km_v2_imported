@@ -5,7 +5,7 @@ import 'package:kammun_app/features/orders/services/order_services.dart';
 import '../../core/core_importer.dart';
 import '../../features/orders/orders_view_importer.dart';
 
-class SearchOrderByPhoneNumber extends StatefulWidget {
+class SearchOrderByPhoneNumber extends StatelessWidget {
   final Function onChoose;
   final BuildContext context;
   final TextEditingController idController;
@@ -14,11 +14,6 @@ class SearchOrderByPhoneNumber extends StatefulWidget {
   const SearchOrderByPhoneNumber({Key key, this.onChoose, this.context, this.idController, this.phoneController})
       : super(key: key);
 
-  @override
-  _SearchOrderByPhoneNumberState createState() => _SearchOrderByPhoneNumberState();
-}
-
-class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -34,27 +29,27 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        if (widget.idController.text.isNotEmpty) {
-                          widget.onChoose();
+                        if (idController.text.isNotEmpty) {
+                          onChoose();
                           Navigator.of(context).pop();
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => OrderByID(id: widget.idController.text)));
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => OrderByID(id: idController.text)));
                         }
                       },
                       icon: Icon(Icons.search_rounded, size: 40, color: kmColors),
                     ),
                     Expanded(
                       child: EntryField(
-                        controller: widget.idController,
+                        controller: idController,
                         width: MediaQuery.of(context).size.width,
                         onChange: () {},
                         hint: 'رقم الطلب',
                         onSubmit: (notEmpty) {
                           if (notEmpty) {
-                            widget.onChoose();
+                            onChoose();
                             Navigator.of(context).pop();
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => OrderByID(id: widget.idController.text)));
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => OrderByID(id: idController.text)));
                           }
                         },
                       ),
@@ -66,32 +61,31 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      if (widget.phoneController.text.isNotEmpty) {
-                        widget.onChoose();
+                      if (phoneController.text.isNotEmpty) {
+                        onChoose();
                         Navigator.of(context).pop();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PhoneNumberOrdersView(phoneNumber: widget.phoneController.text)));
+                                builder: (context) => PhoneNumberOrdersView(phoneNumber: phoneController.text)));
                       }
                     },
                     icon: Icon(Icons.search_rounded, size: 40, color: kmColors),
                   ),
                   Expanded(
                     child: EntryField(
-                      controller: widget.phoneController,
+                      controller: phoneController,
                       width: MediaQuery.of(context).size.width,
                       onChange: () {},
                       hint: 'رقم الزبون',
                       onSubmit: (notEmpty) {
-                        if (widget.phoneController.text.isNotEmpty) {
-                          widget.onChoose();
+                        if (phoneController.text.isNotEmpty) {
+                          onChoose();
                           Navigator.of(context).pop();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      PhoneNumberOrdersView(phoneNumber: widget.phoneController.text)));
+                                  builder: (context) => PhoneNumberOrdersView(phoneNumber: phoneController.text)));
                         }
                       },
                     ),
@@ -124,7 +118,7 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                           onTap: () {
                             Navigator.of(context).pop();
                             Navigator.of(context).pop();
-                            widget.onChoose();
+                            onChoose();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

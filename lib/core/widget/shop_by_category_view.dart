@@ -2,7 +2,7 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 
 import '../core_importer.dart';
 
-class ShopByCategory extends StatefulWidget {
+class ShopByCategory extends StatelessWidget {
   final String img;
   final String categoryName;
   final int index;
@@ -12,11 +12,6 @@ class ShopByCategory extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => ShopByCategoryState();
-}
-
-class ShopByCategoryState extends State<ShopByCategory> {
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 2, left: 2),
@@ -25,15 +20,12 @@ class ShopByCategoryState extends State<ShopByCategory> {
         child: Stack(
           children: <Widget>[
             Image(
-              image: widget.img != 'null'
-                  ? AdvImageCache(
-                      StaticVariables.imagePrefixUrl + widget.img,
-                      useMemCache: true,
-                      diskCacheExpire: const Duration(days: 400),
-                    )
+              image: img != 'null'
+                  ? AdvImageCache(StaticVariables.imagePrefixUrl + img,
+                      useMemCache: true, diskCacheExpire: const Duration(days: 400))
                   : const AssetImage("assets/kmIcon.png"),
               width: MediaQuery.of(context).size.width / 2,
-              fit: widget.fit,
+              fit: fit,
             ),
             Container(
               decoration: const BoxDecoration(
@@ -51,9 +43,9 @@ class ShopByCategoryState extends State<ShopByCategory> {
               children: <Widget>[
                 Center(
                   child: Hero(
-                    tag: widget.index,
+                    tag: index,
                     child: Text(
-                      widget.categoryName,
+                      categoryName,
                       style: mainStyle.copyWith(
                         color: Colors.white,
                         fontSize: ResponsiveFlutter.of(context).fontSize(3),
