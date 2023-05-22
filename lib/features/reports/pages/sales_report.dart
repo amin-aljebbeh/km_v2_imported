@@ -226,21 +226,23 @@ class _SalesReportState extends State<SalesReport> {
                 onConfirmStart: (date) => setState(() => fromDateTimeValue = date),
                 onConfirmEnd: (date) => setState(() => toDateTimeValue = date),
               ),
-              KammunButton(
-                text: send,
-                color: validDates() ? Theme.of(context).primaryColor : searchGreyColor,
-                onTap: () {
-                  if (validDates()) {
-                    _getSailsReport();
-                  } else {
-                    Toast.show('الرجاء إدخال كافة البيانات', context,
-                        duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                  }
-                },
-                height: 50,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: KammunButton(
+                  text: send,
+                  color: validDates() ? Theme.of(context).primaryColor : searchGreyColor,
+                  onTap: () {
+                    if (validDates()) {
+                      _getSailsReport();
+                    } else {
+                      Toast.show('الرجاء إدخال كافة البيانات', context,
+                          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                    }
+                  },
+                  height: 50,
+                ),
               ),
-              const SizedBox(height: 20),
-              isError ? AlertMessages(text: errorMessage, messageType: 'internetError') : Container(),
+              if (isError) AlertMessages(text: errorMessage, messageType: 'internetError'),
               isLoading
                   ? const Loader()
                   : totalSubWarehouses.isNotEmpty

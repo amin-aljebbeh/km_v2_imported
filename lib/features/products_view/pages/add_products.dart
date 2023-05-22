@@ -264,7 +264,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                         ),
                       ),
                     ]),
-                    _image != null ? imagesBody() : Container(),
+                    if (_image != null) imagesBody(),
                     KammunButton(
                       height: 50,
                       text: save,

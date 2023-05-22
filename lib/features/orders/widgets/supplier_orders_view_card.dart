@@ -126,19 +126,18 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
               ],
             ),
           ),
-          widget.order.userNotes.toString() != 'null'
-              ? KammunButton(
-                  text: watchNote,
-                  onTap: () {
-                    showMyDialog(
-                        context: context,
-                        title: costumerNote,
-                        text: widget.order.userNotes,
-                        dialogButtons: [const CloseWidget()]);
-                  },
-                  color: Colors.indigoAccent,
-                )
-              : Container(),
+          if (widget.order.userNotes.toString() != 'null')
+            KammunButton(
+              text: watchNote,
+              onTap: () {
+                showMyDialog(
+                    context: context,
+                    title: costumerNote,
+                    text: widget.order.userNotes,
+                    dialogButtons: [const CloseWidget()]);
+              },
+              color: Colors.indigoAccent,
+            ),
           Padding(padding: const EdgeInsets.only(top: 8.0), child: Divider(thickness: 5, color: kmColors2)),
         ],
       ),

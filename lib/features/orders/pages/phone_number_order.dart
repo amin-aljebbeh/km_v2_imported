@@ -484,12 +484,11 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                     },
                   ),
                 ),
-                theEndOfOrders
-                    ? Padding(
-                        padding: EdgeInsets.only(top: screenHeight * 0.4),
-                        child: const ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
-                      )
-                    : Container(),
+                if (theEndOfOrders)
+                  Padding(
+                    padding: EdgeInsets.only(top: screenHeight * 0.4),
+                    child: const ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
+                  ),
               ],
             ),
           ),

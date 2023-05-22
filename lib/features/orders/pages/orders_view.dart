@@ -136,9 +136,8 @@ class OrdersViewState extends State<OrdersView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                errorMessage
-                    ? AlertMessages(text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ')
-                    : Container(),
+                if (errorMessage)
+                  AlertMessages(text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ'),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -267,11 +266,9 @@ class OrdersViewState extends State<OrdersView> {
                         ? Padding(
                             padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.4),
                             child: Center(
-                              child: Text(
-                                'لا يوجد أي طلبات سابقة',
-                                style: mainStyle.copyWith(
-                                    fontWeight: FontWeight.w700, color: primaryColor, fontSize: 20.0),
-                              ),
+                              child: Text('لا يوجد أي طلبات سابقة',
+                                  style: mainStyle.copyWith(
+                                      fontWeight: FontWeight.w700, color: primaryColor, fontSize: 20.0)),
                             ),
                           )
                         : Container(padding: EdgeInsets.zero),
@@ -501,56 +498,54 @@ class OrdersViewState extends State<OrdersView> {
                                       },
                                       color: Colors.green,
                                     ),
-                                    orderDataList[index].userNotes.toString() != 'null'
-                                        ? KammunButton(
-                                            text: watchNote,
-                                            onTap: () => showMyDialog(
-                                                context: context,
-                                                title: costumerNote,
-                                                text: orderDataList[index].userNotes,
-                                                dialogButtons: [const CloseWidget()]),
-                                            color: Colors.indigoAccent,
-                                          )
-                                        : Container(),
-                                    orderDataList[index].underUpdate.toString() != '0'
-                                        ? KammunButton(
-                                            text: unLock,
-                                            onTap: () {
-                                              int orderId = orderDataList[index].id;
-                                              List<Widget> decisionButtons = [
-                                                DialogButton(
-                                                  text: 'نعم',
-                                                  onTap: () async {
-                                                    Navigator.of(context).pop();
-                                                    bool result =
-                                                        await OrderServices.unlockOrderService(orderId.toString());
-                                                    if (result) {
-                                                      snackBar(
-                                                          success: result,
-                                                          message: 'تم تعليق الطلب بنجاح',
-                                                          context: context);
-                                                    } else {
-                                                      snackBar(
-                                                          success: result,
-                                                          message: 'فشلت عملية تعليق الطلب يرجى المحاولة مجدداً',
-                                                          context: context);
-                                                    }
-                                                    setState(() {
-                                                      if (result) orderDataList[index].underUpdate = '0';
-                                                    });
-                                                  },
-                                                ),
-                                                const CloseWidget()
-                                              ];
-                                              showMyDialog(
-                                                  context: context,
-                                                  title: unLock,
-                                                  text: unLockConfirm,
-                                                  dialogButtons: decisionButtons);
-                                            },
-                                            color: Colors.blue[800],
-                                          )
-                                        : Container(),
+                                    if (orderDataList[index].userNotes.toString() != 'null')
+                                      KammunButton(
+                                        text: watchNote,
+                                        onTap: () => showMyDialog(
+                                            context: context,
+                                            title: costumerNote,
+                                            text: orderDataList[index].userNotes,
+                                            dialogButtons: [const CloseWidget()]),
+                                        color: Colors.indigoAccent,
+                                      ),
+                                    if (orderDataList[index].underUpdate.toString() != '0')
+                                      KammunButton(
+                                        text: unLock,
+                                        onTap: () {
+                                          int orderId = orderDataList[index].id;
+                                          List<Widget> decisionButtons = [
+                                            DialogButton(
+                                              text: 'نعم',
+                                              onTap: () async {
+                                                Navigator.of(context).pop();
+                                                bool result =
+                                                    await OrderServices.unlockOrderService(orderId.toString());
+                                                if (result) {
+                                                  snackBar(
+                                                      success: result,
+                                                      message: 'تم تعليق الطلب بنجاح',
+                                                      context: context);
+                                                } else {
+                                                  snackBar(
+                                                      success: result,
+                                                      message: 'فشلت عملية تعليق الطلب يرجى المحاولة مجدداً',
+                                                      context: context);
+                                                }
+                                                setState(() {
+                                                  if (result) orderDataList[index].underUpdate = '0';
+                                                });
+                                              },
+                                            ),
+                                            const CloseWidget()
+                                          ];
+                                          showMyDialog(
+                                              context: context,
+                                              title: unLock,
+                                              text: unLockConfirm,
+                                              dialogButtons: decisionButtons);
+                                        },
+                                        color: Colors.blue[800],
+                                      ),
                                   ],
                                 ),
                           Padding(
@@ -560,13 +555,12 @@ class OrdersViewState extends State<OrdersView> {
                     },
                   ),
                 ),
-                theEndOfOrders
-                    ? Container(
-                        height: 50.0,
-                        color: Colors.transparent,
-                        child: Center(child: Text('تم جلب جميع الطلبات', style: boldStyle)),
-                      )
-                    : Container(),
+                if (theEndOfOrders)
+                  Container(
+                    height: 50.0,
+                    color: Colors.transparent,
+                    child: Center(child: Text('تم جلب جميع الطلبات', style: boldStyle)),
+                  ),
               ],
             ),
           ),

@@ -78,41 +78,39 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 10),
-              widget.notActiveProducts.isNotEmpty
-                  ? Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius:
-                              const BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0))),
-                      child: Center(
-                          child: Text('منتجات نفذت أثناء التسوق',
-                              style: mainStyle.copyWith(fontSize: 20, color: Colors.white))),
-                    )
-                  : Container(),
-              widget.notActiveProducts.isNotEmpty
-                  ? Expanded(
-                      flex: 1,
-                      child: Container(
-                        decoration: BoxDecoration(border: Border.all(width: 5, color: kmColors)),
-                        child: ListView.builder(
-                          primary: false,
-                          shrinkWrap: true,
-                          itemCount: orderArray == null ? 0 : notActiveCards.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {},
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
-                                child: cardBodyNotActive(notActiveCards[index], context),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    )
-                  : Container(),
+              if (widget.notActiveProducts.isNotEmpty)
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius:
+                          const BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0))),
+                  child: Center(
+                      child: Text('منتجات نفذت أثناء التسوق',
+                          style: mainStyle.copyWith(fontSize: 20, color: Colors.white))),
+                ),
+              if (widget.notActiveProducts.isNotEmpty)
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    decoration: BoxDecoration(border: Border.all(width: 5, color: kmColors)),
+                    child: ListView.builder(
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: orderArray == null ? 0 : notActiveCards.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
+                            child: cardBodyNotActive(notActiveCards[index], context),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
               if (widget.notActiveProducts.isNotEmpty) const SizedBox(height: 10),
               if (widget.pricesChangesProducts.isNotEmpty)
                 Container(
@@ -125,28 +123,27 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       child: Text('منتجات تغير سعرها أثناء التسوق',
                           style: mainStyle.copyWith(fontSize: 20, color: Colors.white))),
                 ),
-              widget.pricesChangesProducts.isNotEmpty
-                  ? Expanded(
-                      flex: 1,
-                      child: Container(
-                        decoration: BoxDecoration(border: Border.all(width: 5, color: primaryColor)),
-                        child: ListView.builder(
-                          primary: false,
-                          shrinkWrap: true,
-                          itemCount: orderArray == null ? 0 : priceCards.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () => {},
-                              child: Padding(
-                                  padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
-                                  child: cardBodyPriceProblem(priceCards[index], context)),
-                            );
-                          },
-                        ),
-                      ),
-                    )
-                  : Container(),
+              if (widget.pricesChangesProducts.isNotEmpty)
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    decoration: BoxDecoration(border: Border.all(width: 5, color: primaryColor)),
+                    child: ListView.builder(
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: orderArray == null ? 0 : priceCards.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () => {},
+                          child: Padding(
+                              padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
+                              child: cardBodyPriceProblem(priceCards[index], context)),
+                        );
+                      },
+                    ),
+                  ),
+                ),
               SafeArea(
                 child: Center(
                   child: Wrap(

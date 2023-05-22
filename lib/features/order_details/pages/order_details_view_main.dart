@@ -69,12 +69,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  errorAlert
-                      ? AlertMessages(
-                          text: 'خطأ اثناء محاولة تغيير حالة الطلب',
-                          messageType: 'internetError',
-                          headerText: 'حدث خطأ')
-                      : Container(),
+                  if (errorAlert)
+                    AlertMessages(
+                        text: 'خطأ اثناء محاولة تغيير حالة الطلب', messageType: 'internetError', headerText: 'حدث خطأ'),
                   Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.only(left: 20.0, top: 0.0),

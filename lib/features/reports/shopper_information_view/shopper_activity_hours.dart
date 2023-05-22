@@ -81,24 +81,26 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                   onConfirmStart: (date) => setState(() => fromDateTimeValue = date),
                   onConfirmEnd: (date) => setState(() => toDateTimeValue = date),
                 ),
-                KammunButton(
-                  text: send,
-                  color: validDates() ? Theme.of(context).primaryColor : searchGreyColor,
-                  onTap: () {
-                    if (validDates() && (Services.hasRole(context, shopperRole) || shopperName != null)) {
-                      getHours(
-                          shopperId: Services.hasRole(context, shopperRole)
-                              ? StaticVariables.shopper.id.toString()
-                              : Services.selectedShopperId(shopperName, context));
-                    } else {
-                      Toast.show('الرجاء إدخال كافة البيانات', context,
-                          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                    }
-                  },
-                  height: 50,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: KammunButton(
+                    text: send,
+                    color: validDates() ? Theme.of(context).primaryColor : searchGreyColor,
+                    onTap: () {
+                      if (validDates() && (Services.hasRole(context, shopperRole) || shopperName != null)) {
+                        getHours(
+                            shopperId: Services.hasRole(context, shopperRole)
+                                ? StaticVariables.shopper.id.toString()
+                                : Services.selectedShopperId(shopperName, context));
+                      } else {
+                        Toast.show('الرجاء إدخال كافة البيانات', context,
+                            duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                      }
+                    },
+                    height: 50,
+                  ),
                 ),
-                const SizedBox(height: 20),
-                isError ? AlertMessages(text: errorMessage, messageType: 'internetError') : Container(),
+                if (isError) AlertMessages(text: errorMessage, messageType: 'internetError'),
                 isLoading
                     ? const Loader()
                     : activityHours.isEmpty

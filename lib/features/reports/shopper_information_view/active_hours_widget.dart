@@ -12,26 +12,25 @@ class ActiveHoursWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        newDay
-            ? Column(
+        if (newDay)
+          Column(
+            children: [
+              const SizedBox(height: 8),
+              Text(
+                DateFormat('EEEE', 'ar').format(activityHour.startWorkAt) +
+                    ' ' +
+                    DateFormat('dd-MM-yyyy', 'en').format(activityHour.startWorkAt),
+                style: disableStyle,
+              ),
+              const KTableRow(
                 children: [
-                  const SizedBox(height: 8),
-                  Text(
-                    DateFormat('EEEE', 'ar').format(activityHour.startWorkAt) +
-                        ' ' +
-                        DateFormat('dd-MM-yyyy', 'en').format(activityHour.startWorkAt),
-                    style: disableStyle,
-                  ),
-                  const KTableRow(
-                    children: [
-                      KTableElement(text: 'مدة التفعيل'),
-                      KTableElement(text: 'وقت البدء'),
-                      KTableElement(text: 'وقت الإغلاق')
-                    ],
-                  ),
+                  KTableElement(text: 'مدة التفعيل'),
+                  KTableElement(text: 'وقت البدء'),
+                  KTableElement(text: 'وقت الإغلاق')
                 ],
-              )
-            : Container(),
+              ),
+            ],
+          ),
         KTableRow(
           children: [
             KTableElement(

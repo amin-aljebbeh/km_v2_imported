@@ -333,19 +333,18 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                       },
                                       color: Colors.green,
                                     ),
-                                  orderDataList[index].userNotes.toString() != 'null'
-                                      ? KammunButton(
-                                          text: watchNote,
-                                          onTap: () {
-                                            showMyDialog(
-                                                context: context,
-                                                title: 'ملاحظة العميل',
-                                                text: orderDataList[index].userNotes,
-                                                dialogButtons: [const CloseWidget()]);
-                                          },
-                                          color: Colors.indigoAccent,
-                                        )
-                                      : Container(),
+                                  if (orderDataList[index].userNotes.toString() != 'null')
+                                    KammunButton(
+                                      text: watchNote,
+                                      onTap: () {
+                                        showMyDialog(
+                                            context: context,
+                                            title: 'ملاحظة العميل',
+                                            text: orderDataList[index].userNotes,
+                                            dialogButtons: [const CloseWidget()]);
+                                      },
+                                      color: Colors.indigoAccent,
+                                    ),
                                   if (orderDataList[index].underUpdate.toString() != '0')
                                     KammunButton(
                                       text: unLock,
@@ -388,11 +387,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                   },
                 ),
               ),
-              theEndOfOrders
-                  ? Padding(
-                      padding: EdgeInsets.only(top: screenHeight * 0.4),
-                      child: const ScreenMessage(message: 'لا يوجد أي طلبات سابقة'))
-                  : Container(),
+              if (theEndOfOrders)
+                Padding(
+                    padding: EdgeInsets.only(top: screenHeight * 0.4),
+                    child: const ScreenMessage(message: 'لا يوجد أي طلبات سابقة')),
             ],
           ),
         ),
