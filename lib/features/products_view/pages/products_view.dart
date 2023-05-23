@@ -1,7 +1,6 @@
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/features/products_view/pages/add_products.dart';
-
-import 'barcode_screen.dart';
+import 'package:kammun_app/features/products_view/widgets/add_product_widget.dart';
+import 'package:kammun_app/features/products_view/widgets/products_view_app_bar.dart';
 
 class ProductsView extends StatefulWidget {
   final String categoryId;
@@ -16,7 +15,7 @@ class ProductsView extends StatefulWidget {
 
 class ProductsViewState extends State<ProductsView> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController searchController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   bool isLoading = false;
   bool firstLoading = false;
@@ -31,7 +30,7 @@ class ProductsViewState extends State<ProductsView> {
   bool badWordMatched = false;
 
   Future<bool> _loadData(String query, ProductsViewTypes type) async {
-    setState(() => badWordMatched = false);
+    if (badWordMatched) setState(() => badWordMatched = false);
     String url = '';
     if (badWord.contains(query)) setState(() => badWordMatched = true);
     if (!badWordMatched) {
@@ -126,80 +125,12 @@ class ProductsViewState extends State<ProductsView> {
       floatingActionButton: widget.queryString == null &&
               widget.barcode == null &&
               (Services.hasRole(context, adminRole) || Services.hasRole(context, productsControllerRole))
-          ? FloatingActionButton(
-              backgroundColor: kmColors2,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BarCodeScreen(
-                      requestType: BarcodeRequestType.addProduct,
-                      onIgnore: (barcode) {
-                        int param;
-                        if (barcode == null) {
-                          param = null;
-                        } else {
-                          param = int.parse(barcode);
-                        }
-                        Navigator.push(
-                          scaffoldKey.currentContext,
-                          MaterialPageRoute(
-                              builder: (screenContext) =>
-                                  AddProductsView(categoryId: widget.categoryId, barcode: param)),
-                        );
-                      },
-                    ),
-                  ),
-                );
-              },
-              tooltip: 'Pick Image',
-              child: const Icon(Icons.add),
-            )
+          ? AddProductWidget(scaffoldKey: scaffoldKey, categoryId: widget.categoryId)
           : null,
-      appBar: PreferredSize(
-        child: AppBar(
-          backgroundColor: const Color.fromARGB(255, 210, 178, 2),
-          automaticallyImplyLeading: false, // hides leading widget
-          flexibleSpace: SafeArea(
-            top: true,
-            left: false,
-            bottom: false,
-            right: false,
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: IconButton(
-                        icon: const Icon(Icons.shopping_cart, size: 35, color: Colors.white),
-                        onPressed: () => Navigator.of(context)
-                            .pushNamedAndRemoveUntil(CartView.routeName, (Route<dynamic> route) => false),
-                      ),
-                    ),
-                    const AppBarKammunImage(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: InkWell(
-                        onTap: () => Navigator.of(context).pop(true),
-                        child: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 40),
-                      ),
-                    ),
-                  ],
-                ),
-                StoreSearchTextField(
-                  scaffoldKey: scaffoldKey,
-                  searchController: searchController,
-                  onSubmit: () => setState(() => {productsList.clear(), Navigator.of(context).pop()}),
-                ),
-              ],
-            ),
-          ),
-        ),
-        preferredSize: const Size.fromHeight(105.0),
-      ),
+      appBar: ProductsViewAppBar(
+          scaffoldKey: scaffoldKey,
+          searchController: searchController,
+          onSubmit: () => setState(() => {productsList.clear(), Navigator.of(context).pop()})),
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
         child: badWordMatched
