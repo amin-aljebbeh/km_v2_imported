@@ -50,10 +50,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 widget.onChangeSubWarehouse(id);
               },
               onAddBarcode: (result) => widget.onAddBarcode(result),
-              onChangePrice: (newValue) => setState(() => {product.price = newValue, widget.onChangePrice(newValue)}),
-              onChangeUnit: (newValue) => setState(() => {product.unit = newValue, widget.onChangeUnit(newValue)}),
-              onChangeQuantity: (newValue) =>
-                  setState(() => {product.quantity = newValue, widget.onChangeQuantity(newValue)}),
+              onChangePrice: (newValue) => {product.price = newValue, widget.onChangePrice(newValue)},
+              onChangeUnit: (newValue) => {product.unit = newValue, widget.onChangeUnit(newValue)},
+              onChangeQuantity: (newValue) => {product.quantity = newValue, widget.onChangeQuantity(newValue)},
             ),
           ),
         );

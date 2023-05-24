@@ -14,7 +14,7 @@ class _InventoryPageState extends State<InventoryPage> {
   final TextEditingController controller = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int subWarehouseFilter = StaticVariables.subWarehouses.length;
-  List<String> activeList = ['بحاجة تفعيل', 'بحاجة إيقاف تفعيل', 'الجميع'];
+  final List<String> activeList = ['بحاجة تفعيل', 'بحاجة إيقاف تفعيل', 'الجميع'];
 
   @override
   initState() {
@@ -31,25 +31,27 @@ class _InventoryPageState extends State<InventoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    var store = StoreProvider.of<AppState>(context);
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
+        var inventoryState = state.inventoryState;
         return Scaffold(
           key: scaffoldKey,
           backgroundColor: Colors.white,
           appBar: InventorySearchTextField(
               onReload: () {
-                StoreProvider.of<AppState>(context).dispatch(StartLoading());
-                StoreProvider.of<AppState>(context).dispatch(NoError());
-                StoreProvider.of<AppState>(context).dispatch(ClearInventory());
-                StoreProvider.of<AppState>(context).dispatch(GetInventory());
+                store.dispatch(StartLoading());
+                store.dispatch(NoError());
+                store.dispatch(ClearInventory());
+                store.dispatch(GetInventory());
               },
               controller: controller,
               context: context),
           body: WillPopScope(
             onWillPop: () async {
-              StoreProvider.of<AppState>(context).dispatch(NoError());
+              store.dispatch(NoError());
               return true;
             },
             child: SafeArea(
@@ -65,25 +67,25 @@ class _InventoryPageState extends State<InventoryPage> {
                           items: Services.inventorySubWarehouseNames(),
                           onChanged: (value) {
                             subWarehouseFilter = value;
-                            StoreProvider.of<AppState>(context).dispatch(SetSubWarehouseId(
+                            store.dispatch(SetSubWarehouseId(
                                 subWarehouseId: value != StaticVariables.subWarehouses.length
                                     ? StaticVariables.subWarehouses[value].id
                                     : -1));
-                            StoreProvider.of<AppState>(context).dispatch(StartLoading());
-                            StoreProvider.of<AppState>(context).dispatch(NoError());
-                            StoreProvider.of<AppState>(context).dispatch(ClearInventory());
-                            StoreProvider.of<AppState>(context).dispatch(GetInventory());
+                            store.dispatch(StartLoading());
+                            store.dispatch(NoError());
+                            store.dispatch(ClearInventory());
+                            store.dispatch(GetInventory());
                           },
                         ),
                         DropdownButton(
-                          value: state.inventoryState.isActive,
+                          value: inventoryState.isActive,
                           items: Services.dropdownStringList(activeList),
                           onChanged: (value) {
-                            StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: value));
-                            StoreProvider.of<AppState>(context).dispatch(StartLoading());
-                            StoreProvider.of<AppState>(context).dispatch(NoError());
-                            StoreProvider.of<AppState>(context).dispatch(ClearInventory());
-                            StoreProvider.of<AppState>(context).dispatch(GetInventory());
+                            store.dispatch(SetIsActive(isActive: value));
+                            store.dispatch(StartLoading());
+                            store.dispatch(NoError());
+                            store.dispatch(ClearInventory());
+                            store.dispatch(GetInventory());
                           },
                         ),
                       ],
@@ -96,10 +98,10 @@ class _InventoryPageState extends State<InventoryPage> {
                               AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
                               KammunButton(
                                   onTap: () {
-                                    StoreProvider.of<AppState>(context).dispatch(NoError());
-                                    StoreProvider.of<AppState>(context).dispatch(StartLoading());
-                                    StoreProvider.of<AppState>(context).dispatch(ClearInventory());
-                                    StoreProvider.of<AppState>(context).dispatch(GetInventory());
+                                    store.dispatch(NoError());
+                                    store.dispatch(StartLoading());
+                                    store.dispatch(ClearInventory());
+                                    store.dispatch(GetInventory());
                                   },
                                   color: primaryColor,
                                   width: MediaQuery.of(context).size.width / 2.5,
@@ -107,7 +109,7 @@ class _InventoryPageState extends State<InventoryPage> {
                             ],
                           ),
                         )
-                      : state.inventoryState.products.isEmpty && state.loadingState.loading.isEmpty
+                      : inventoryState.products.isEmpty && state.loadingState.loading.isEmpty
                           ? Padding(
                               padding: const EdgeInsets.only(top: 30.0),
                               child: Center(child: Text('لا يوجد منتجات', style: boldStyle)))
@@ -116,10 +118,10 @@ class _InventoryPageState extends State<InventoryPage> {
                                 onNotification: (ScrollNotification scrollInfo) {
                                   if (state.loadingState.loading.isEmpty &&
                                       scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
-                                      state.inventoryState.hasNext) {
-                                    StoreProvider.of<AppState>(context).dispatch(StartLoading());
-                                    StoreProvider.of<AppState>(context).dispatch(NextPage());
-                                    StoreProvider.of<AppState>(context).dispatch(GetInventory());
+                                      inventoryState.hasNext) {
+                                    store.dispatch(StartLoading());
+                                    store.dispatch(NextPage());
+                                    store.dispatch(GetInventory());
                                   }
                                   return;
                                 },
@@ -128,51 +130,51 @@ class _InventoryPageState extends State<InventoryPage> {
                                   primary: false,
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
-                                  itemCount: state.inventoryState.products.length,
+                                  itemCount: inventoryState.products.length,
                                   itemBuilder: (BuildContext context, int index) {
-                                    if (state.inventoryState.searchFilter == null ||
-                                        state.inventoryState.searchFilter == '' ||
-                                        state.inventoryState.products[index].name
+                                    if (inventoryState.searchFilter == null ||
+                                        inventoryState.searchFilter == '' ||
+                                        inventoryState.products[index].name
                                             .toLowerCase()
-                                            .contains(state.inventoryState.searchFilter.toLowerCase())) {
+                                            .contains(inventoryState.searchFilter.toLowerCase())) {
                                       String id, supplierCode;
                                       int isActive;
                                       bool attached;
-                                      if (state.inventoryState.products[index].subWarehouseId != -1) {
-                                        id = state.inventoryState.products[index].subWarehouseId.toString();
+                                      if (inventoryState.products[index].subWarehouseId != -1) {
+                                        id = inventoryState.products[index].subWarehouseId.toString();
                                       } else {
                                         List<int> subWarehousesIds =
                                             StaticVariables.subWarehouses.map((warehouse) => warehouse.id).toList();
-                                        List<int> productIds = state.inventoryState.products[index].warehouses
+                                        List<int> productIds = inventoryState.products[index].warehouses
                                             .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
                                             .toList();
                                         subWarehousesIds.removeWhere((id) => !productIds.contains(id));
                                         if (subWarehousesIds.isNotEmpty) {
                                           id = subWarehousesIds[0].toString();
-                                        } else if (state.inventoryState.products[index].warehouses.isNotEmpty) {
-                                          id = state.inventoryState.products[index].warehouses[0].pivot.subWarehouseId;
+                                        } else if (inventoryState.products[index].warehouses.isNotEmpty) {
+                                          id = inventoryState.products[index].warehouses[0].pivot.subWarehouseId;
                                         }
                                       }
-                                      if (state.inventoryState.products[index].supplierCode != null) {
-                                        supplierCode = state.inventoryState.products[index].supplierCode;
-                                      } else if (state.inventoryState.products[index].warehouses.isNotEmpty) {
-                                        supplierCode = state.inventoryState.products[index].warehouses
+                                      if (inventoryState.products[index].supplierCode != null) {
+                                        supplierCode = inventoryState.products[index].supplierCode;
+                                      } else if (inventoryState.products[index].warehouses.isNotEmpty) {
+                                        supplierCode = inventoryState.products[index].warehouses
                                             .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
                                             .pivot
                                             .supplierCode;
                                       }
-                                      if (state.inventoryState.products[index].isActive != 'null') {
-                                        isActive = int.parse(state.inventoryState.products[index].isActive);
-                                      } else if (state.inventoryState.products[index].warehouses.isNotEmpty) {
-                                        isActive = int.parse(
-                                            state.inventoryState.products[index].warehouses[0].pivot.isActive);
+                                      if (inventoryState.products[index].isActive != 'null') {
+                                        isActive = int.parse(inventoryState.products[index].isActive);
+                                      } else if (inventoryState.products[index].warehouses.isNotEmpty) {
+                                        isActive =
+                                            int.parse(inventoryState.products[index].warehouses[0].pivot.isActive);
                                       }
                                       attached = false;
-                                      if (state.inventoryState.products[index].supplierCode != 'null') {
+                                      if (inventoryState.products[index].supplierCode != 'null') {
                                         attached = true;
-                                      } else if (state.inventoryState.products[index].warehouses != null) {
-                                        if (state.inventoryState.products[index].warehouses.isNotEmpty) {
-                                          attached = state.inventoryState.products[index].warehouses
+                                      } else if (inventoryState.products[index].warehouses != null) {
+                                        if (inventoryState.products[index].warehouses.isNotEmpty) {
+                                          attached = inventoryState.products[index].warehouses
                                               .map((warehouse) => warehouse.pivot.supplierCode)
                                               .toList()
                                               .where((code) => code != 'null')
@@ -183,32 +185,40 @@ class _InventoryPageState extends State<InventoryPage> {
                                       return InventoryProductsViewCard(
                                         index: 0,
                                         id: id,
-                                        onChangeSubWarehouse: (id) => setState(
-                                            () => state.inventoryState.products[index].subWarehouseId = int.parse(id)),
+                                        onChangeSubWarehouse: (id) =>
+                                            inventoryState.products[index].subWarehouseId = int.parse(id),
                                         attached: attached,
                                         isActive: isActive,
                                         supplierCode: supplierCode,
-                                        price: state.inventoryState.products[index].price != '0'
-                                            ? state.inventoryState.products[index].price
-                                            : state.inventoryState.products[index].warehouses.isNotEmpty
-                                                ? state.inventoryState.products[index].warehouses[0].pivot.price
+                                        price: inventoryState.products[index].price != '0'
+                                            ? inventoryState.products[index].price
+                                            : inventoryState.products[index].warehouses.isNotEmpty
+                                                ? inventoryState.products[index].warehouses[0].pivot.price
                                                 : '0',
                                         scaffoldKey: scaffoldKey,
                                         fromInventory:
-                                            state.inventoryState.inventoryType == InventoryTypes.underCheckAvailability,
-                                        productData: state.inventoryState.products[index],
+                                            inventoryState.inventoryType == InventoryTypes.underCheckAvailability,
+                                        productData: inventoryState.products[index],
                                         onChangeStatus: (result) {
-                                          if (result) setState(() => state.inventoryState.products.removeAt(index));
+                                          if (result) {
+                                            store.dispatch(ClearInventory());
+                                            List<ProductData> products = inventoryState.products;
+                                            products.removeAt(index);
+                                            store.dispatch(SetInventoryProducts(products: products));
+                                          }
                                         },
                                         onDelete: (result) {
-                                          if (result) setState(() => state.inventoryState.products.removeAt(index));
+                                          if (result) {
+                                            store.dispatch(ClearInventory());
+                                            List<ProductData> products = inventoryState.products;
+                                            products.removeAt(index);
+                                            store.dispatch(SetInventoryProducts(products: products));
+                                          }
                                         },
-                                        onChangePrice: (newValue) =>
-                                            setState(() => state.inventoryState.products[index].price = newValue),
-                                        onChangeUnit: (newValue) =>
-                                            setState(() => state.inventoryState.products[index].unit = newValue),
+                                        onChangePrice: (newValue) => inventoryState.products[index].price = newValue,
+                                        onChangeUnit: (newValue) => inventoryState.products[index].unit = newValue,
                                         onChangeQuantity: (newValue) =>
-                                            setState(() => state.inventoryState.products[index].quantity = newValue),
+                                            inventoryState.products[index].quantity = newValue,
                                       );
                                     }
                                     return Container();
@@ -218,15 +228,15 @@ class _InventoryPageState extends State<InventoryPage> {
                             ),
                   Container(
                       width: MediaQuery.of(context).size.width,
-                      height: ((state.inventoryState.hasNext && state.loadingState.loading.isNotEmpty) ||
-                              (!state.inventoryState.hasNext && state.inventoryState.products.isNotEmpty))
+                      height: ((inventoryState.hasNext && state.loadingState.loading.isNotEmpty) ||
+                              (!inventoryState.hasNext && inventoryState.products.isNotEmpty))
                           ? 50
                           : 0,
                       color: Colors.transparent,
                       child: Center(
-                          child: state.inventoryState.hasNext && state.loadingState.loading.isNotEmpty
+                          child: inventoryState.hasNext && state.loadingState.loading.isNotEmpty
                               ? const Loader()
-                              : !state.inventoryState.hasNext
+                              : !inventoryState.hasNext
                                   ? Text('تم جلب جميع المنتجات', style: paragraphStyle)
                                   : Container())),
                 ],

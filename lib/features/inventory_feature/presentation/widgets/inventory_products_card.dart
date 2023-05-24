@@ -6,8 +6,7 @@ import 'package:kammun_app/features/store/widgets/store_view_category_grid.dart'
 
 import '../../../../core/core_importer.dart';
 
-// ignore: must_be_immutable
-class InventoryProductsViewCard extends StatefulWidget {
+class InventoryProductsViewCard extends StatelessWidget {
   final Function(bool) onChangeStatus;
   final int oldPrice;
   final ProductData productData;
@@ -18,7 +17,7 @@ class InventoryProductsViewCard extends StatefulWidget {
   final String price;
   final String id;
   final String supplierCode;
-  int isActive;
+  final int isActive;
   final bool attached;
   final int index;
   final int deleteTimes;
@@ -27,7 +26,7 @@ class InventoryProductsViewCard extends StatefulWidget {
   final Function(String) onChangeQuantity;
   final Function(String) onChangeSubWarehouse;
 
-  InventoryProductsViewCard({
+  const InventoryProductsViewCard({
     Key key,
     this.onChangeStatus,
     this.oldPrice,
@@ -48,295 +47,273 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.onChangeQuantity,
     this.onChangeSubWarehouse,
   }) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => InventoryProductsViewCardState();
-}
-
-class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   _unAttachProduct() async {
     bool result = await AddedProductsServices.unAttachProductsToSubWarehouseService(
-        productsId: widget.productData.id.toString(), subWarehouse: widget.id);
-    if (result) widget.onDelete(true);
+        productsId: productData.id.toString(), subWarehouse: id);
+    if (result) onDelete(true);
     return result;
   }
 
   @override
   Widget build(BuildContext context) {
-    String price = widget.price;
-    if (Services.hasRole(context, supplierRole) && widget.price != '0') {
-      price = (int.parse(widget.productData.price.split('.')[0]) - widget.productData.increasePercentage).toString();
+    int active = isActive;
+    String productPrice = price;
+    ProductData product = productData;
+    if (Services.hasRole(context, supplierRole) && productPrice != '0') {
+      productPrice = (int.parse(product.price.split('.')[0]) - product.increasePercentage).toString();
     }
-    return Container(
-      color: Theme.of(context).primaryColorLight,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 0, right: 0, top: 10),
-        child: GestureDetector(
-          onTap: () {
-            if (widget.productData != null && widget.supplierCode != null) {
-              widget.productData.isActive = widget.isActive.toString();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProductDetailView(
-                    product: widget.productData,
-                    onChangeSubWarehouse: (id) => setState(() {
-                      widget.productData.subWarehouseId = int.parse(id);
-                      widget.onChangeSubWarehouse(id);
-                    }),
-                    onChangePrice: (newValue) =>
-                        setState(() => {widget.productData.price = newValue, widget.onChangePrice(newValue)}),
-                    onChangeUnit: (newValue) =>
-                        setState(() => {widget.productData.unit = newValue, widget.onChangeUnit(newValue)}),
-                    onChangeQuantity: (newValue) =>
-                        setState(() => {widget.productData.price = newValue, widget.onChangeQuantity(newValue)}),
-                  ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: InkWell(
+        onTap: () {
+          if (product != null && supplierCode != null) {
+            product.isActive = active.toString();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProductDetailView(
+                  product: product,
+                  onChangeSubWarehouse: (id) => {product.subWarehouseId = int.parse(id), onChangeSubWarehouse(id)},
+                  onChangePrice: (newValue) => {product.price = newValue, onChangePrice(newValue)},
+                  onChangeUnit: (newValue) => {product.unit = newValue, onChangeUnit(newValue)},
+                  onChangeQuantity: (newValue) => {product.price = newValue, onChangeQuantity(newValue)},
                 ),
-              );
-            }
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Divider(thickness: 0.8, color: Colors.grey[800]),
-              Row(
-                children: <Widget>[
-                  KCacheImage(
-                    tag: widget.productData.id + widget.index,
-                    image: widget.productData.images.isNotEmpty
-                        ? StaticVariables.imagePrefixUrl + widget.productData.images[0].imageFileName
+              ),
+            );
+          }
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Divider(thickness: 0.8, color: Colors.grey[800]),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: KCacheImage(
+                    tag: product.id + index,
+                    image: product.images.isNotEmpty
+                        ? StaticVariables.imagePrefixUrl + product.images[0].imageFileName
                         : '',
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Wrap(
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(widget.productData.name,
-                                style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
-                            const SizedBox(height: 6),
-                            Text(
-                              widget.productData.quantity +
-                                  ' ' +
-                                  (widget.productData.unit != 'null' ? widget.productData.unit : ''),
+                ),
+                Expanded(
+                  child: Wrap(
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(product.name, style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6, bottom: 8),
+                            child: Text(
+                              product.quantity + ' ' + (product.unit != 'null' ? product.unit : ''),
                               style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: primaryColor, fontSize: 17),
                             ),
-                            const SizedBox(height: 8),
-                            Wrap(
-                              children: [
-                                Text(StringUtils().oCcy.format(int.parse(price.split('.')[0])) + '  ',
-                                    style: mainStyle.copyWith(
-                                        fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
-                                if (widget.oldPrice != null)
-                                  if (widget.oldPrice.toString() != price)
-                                    RichText(
-                                        text: TextSpan(
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text: StringUtils()
-                                                .oCcy
-                                                .format(widget.oldPrice - widget.productData.increasePercentage),
-                                            style: mainStyle.copyWith(
-                                                color: Colors.grey, decoration: TextDecoration.lineThrough)),
-                                      ],
-                                    )),
-                                Text(
-                                  'الكمية: ' +
-                                      (widget.productData.availableQuantity != 'null'
-                                          ? StringUtils()
-                                              .oCcy
-                                              .format(int.parse(widget.productData.availableQuantity.split('.')[0]))
-                                          : ' '),
-                                  style: mainStyle.copyWith(
-                                      fontWeight: FontWeight.w700, color: primaryColor, fontSize: 13),
-                                ),
-                                if (widget.productData.alertProductsCount != 'null')
-                                  RichText(
-                                    text: TextSpan(
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: StringUtils()
-                                              .oCcy
-                                              .format(int.parse(widget.productData.alertProductsCount)),
-                                          style: mainStyle.copyWith(color: kmColors, fontSize: 14),
-                                        ),
-                                        TextSpan(
-                                          text: 'ينتظرون تفعيل  المنتج',
-                                          style: mainStyle.copyWith(color: kmColors, fontSize: 14),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        if (widget.supplierCode != null && widget.isActive != null && widget.id != null)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: SwitchProductStatusWidget(
-                              isForSubWarehouse: true,
-                              preState: widget.isActive,
-                              subWarehouseId: int.parse(widget.id),
-                              productId: widget.productData.id.toString(),
-                              onChange: (int active, bool result) {
-                                setState(() => {if (result) widget.isActive = active});
-                                widget.onChangeStatus(result);
-                                setState(() {});
-                              },
-                              height: 58,
-                              width: 69,
-                            ),
                           ),
-                        Row(
-                          children: [
-                            if (widget.deleteTimes != -1)
-                              Container(
-                                height: 58,
-                                width: 69,
-                                decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                    border: Border.all(color: Colors.red, width: 2)),
-                                child: Center(child: Text(widget.deleteTimes.toString(), style: loseStyle)),
+                          Wrap(
+                            children: [
+                              Text(StringUtils().oCcy.format(int.parse(productPrice.split('.')[0])) + '  ',
+                                  style: mainStyle.copyWith(
+                                      fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
+                              if (oldPrice != null)
+                                if (oldPrice.toString() != productPrice)
+                                  RichText(
+                                      text: TextSpan(
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: StringUtils().oCcy.format(oldPrice - product.increasePercentage),
+                                          style: mainStyle.copyWith(
+                                              color: Colors.grey, decoration: TextDecoration.lineThrough)),
+                                    ],
+                                  )),
+                              Text(
+                                'الكمية: ' +
+                                    (product.availableQuantity != 'null'
+                                        ? StringUtils().oCcy.format(int.parse(product.availableQuantity.split('.')[0]))
+                                        : ' '),
+                                style:
+                                    mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 13),
                               ),
+                              if (product.alertProductsCount != 'null')
+                                RichText(
+                                  text: TextSpan(
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: StringUtils().oCcy.format(int.parse(product.alertProductsCount)),
+                                        style: mainStyle.copyWith(color: kmColors, fontSize: 14),
+                                      ),
+                                      TextSpan(
+                                        text: 'ينتظرون تفعيل  المنتج',
+                                        style: mainStyle.copyWith(color: kmColors, fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      if (supplierCode != null && active != null && id != null)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: SwitchProductStatusWidget(
+                            isForSubWarehouse: true,
+                            preState: active,
+                            subWarehouseId: int.parse(id),
+                            productId: product.id.toString(),
+                            onChange: (int isActive, bool result) {
+                              if (result) active = isActive;
+                              onChangeStatus(result);
+                            },
+                            height: 58,
+                            width: 69,
+                          ),
+                        ),
+                      Row(
+                        children: [
+                          if (deleteTimes != -1)
                             Container(
                               height: 58,
                               width: 69,
-                              margin: const EdgeInsets.all(15.0),
-                              padding: const EdgeInsets.all(3.0),
                               decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                  border: Border.all(color: primaryColor, width: 2)),
-                              child: widget.attached && widget.supplierCode != 'null' && !widget.fromInventory
-                                  ? IconButton(
-                                      icon: const Icon(Icons.close_sharp, color: Colors.red),
-                                      onPressed: () {
-                                        String subWarehouseName = '';
-                                        subWarehouseName = StaticVariables.subWarehouses
-                                            .firstWhere((subWarehouse) => subWarehouse.id.toString() == widget.id,
-                                                orElse: () => SubWarehouse(name: 'المستودع'))
-                                            .name;
-                                        showMyDialog(
-                                          context: context,
-                                          title: 'حذف منتج من المستودع',
-                                          text:
-                                              'هل أنت متأكد أنك تريد إزالة ${widget.productData.name} من $subWarehouseName',
-                                          dialogButtons: [
-                                            DialogButton(
-                                                text: yes,
-                                                onTap: () async {
-                                                  bool result = await _unAttachProduct();
-                                                  Navigator.of(context).pop();
-                                                  if (result) {
-                                                    snackBar(
-                                                        success: result,
-                                                        message: 'تم إزالة المنتج من المستودع بنجاح',
-                                                        context: context);
-                                                  } else {
-                                                    snackBar(
-                                                        success: result,
-                                                        message:
-                                                            'فشلت عملية إزالة المنتج من المستودع يرجى المحاولة مجدداً',
-                                                        context: context);
-                                                  }
-                                                }),
-                                            const CloseWidget(),
-                                          ],
-                                        );
-                                      })
-                                  : !widget.fromInventory
-                                      ? IconButton(
-                                          icon: const Icon(Icons.add, color: Colors.green),
-                                          onPressed: () {
-                                            if (widget.productData.id == 0) {
-                                              StaticVariables.productToAddName = widget.productData.name;
+                                  border: Border.all(color: Colors.red, width: 2)),
+                              child: Center(child: Text(deleteTimes.toString(), style: loseStyle)),
+                            ),
+                          Container(
+                            height: 58,
+                            width: 69,
+                            margin: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsets.all(3.0),
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                border: Border.all(color: primaryColor, width: 2)),
+                            child: attached && supplierCode != 'null' && !fromInventory
+                                ? IconButton(
+                                    icon: const Icon(Icons.close_sharp, color: Colors.red),
+                                    onPressed: () {
+                                      String subWarehouseName = '';
+                                      subWarehouseName = StaticVariables.subWarehouses
+                                          .firstWhere((subWarehouse) => subWarehouse.id.toString() == id,
+                                              orElse: () => SubWarehouse(name: 'المستودع'))
+                                          .name;
+                                      showMyDialog(
+                                        context: context,
+                                        title: 'حذف منتج من المستودع',
+                                        text: 'هل أنت متأكد أنك تريد إزالة ${product.name} من $subWarehouseName',
+                                        dialogButtons: [
+                                          DialogButton(
+                                              text: yes,
+                                              onTap: () async {
+                                                bool result = await _unAttachProduct();
+                                                Navigator.of(context).pop();
+                                                if (result) {
+                                                  snackBar(
+                                                      success: result,
+                                                      message: 'تم إزالة المنتج من المستودع بنجاح',
+                                                      context: context);
+                                                } else {
+                                                  snackBar(
+                                                      success: result,
+                                                      message:
+                                                          'فشلت عملية إزالة المنتج من المستودع يرجى المحاولة مجدداً',
+                                                      context: context);
+                                                }
+                                              }),
+                                          const CloseWidget(),
+                                        ],
+                                      );
+                                    })
+                                : !fromInventory
+                                    ? IconButton(
+                                        icon: const Icon(Icons.add, color: Colors.green),
+                                        onPressed: () {
+                                          if (product.id == 0) {
+                                            StaticVariables.productToAddName = product.name;
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (screenContext) => Scaffold(
+                                                    body: SafeArea(
+                                                        child: StoreViewCategory(
+                                                            scaffoldKey: scaffoldKey,
+                                                            supplierCode: supplierCode,
+                                                            forProductAdding: true))),
+                                              ),
+                                            );
+                                          } else {
+                                            if (barcode == null) {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (screenContext) => Scaffold(
-                                                      body: SafeArea(
-                                                          child: StoreViewCategory(
-                                                              scaffoldKey: widget.scaffoldKey,
-                                                              supplierCode: widget.supplierCode,
-                                                              forProductAdding: true))),
+                                                  builder: (screenContext) => BarCodeScreen(
+                                                    product: product,
+                                                    requestType: BarcodeRequestType.attachProduct,
+                                                    onIgnore: (barcode) async {
+                                                      int param;
+                                                      if (barcode == null) {
+                                                        param = null;
+                                                      } else {
+                                                        param = int.parse(barcode);
+                                                      }
+                                                      Navigator.push(
+                                                          scaffoldKey.currentContext,
+                                                          MaterialPageRoute(
+                                                              builder: (context) => AddProductsToSubWarehouse(
+                                                                  barcode: param, product: product)));
+                                                    },
+                                                  ),
                                                 ),
                                               );
                                             } else {
-                                              if (widget.barcode == null) {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (screenContext) => BarCodeScreen(
-                                                      product: widget.productData,
-                                                      requestType: BarcodeRequestType.attachProduct,
-                                                      onIgnore: (barcode) async {
-                                                        int param;
-                                                        if (barcode == null) {
-                                                          param = null;
-                                                        } else {
-                                                          param = int.parse(barcode);
-                                                        }
-                                                        Navigator.push(
-                                                            widget.scaffoldKey.currentContext,
-                                                            MaterialPageRoute(
-                                                                builder: (context) => AddProductsToSubWarehouse(
-                                                                    barcode: param, product: widget.productData)));
-                                                      },
-                                                    ),
-                                                  ),
-                                                );
-                                              } else {
-                                                Navigator.push(
-                                                  widget.scaffoldKey.currentContext,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          AddProductsToSubWarehouse(product: widget.productData)),
-                                                );
-                                              }
+                                              Navigator.push(
+                                                scaffoldKey.currentContext,
+                                                MaterialPageRoute(
+                                                    builder: (context) => AddProductsToSubWarehouse(product: product)),
+                                              );
                                             }
-                                          })
-                                      : IconButton(
-                                          icon: const Icon(Icons.check_sharp, color: Colors.green),
-                                          onPressed: () async {
-                                            bool result = await ProductsServices.updateProductsDetails(
-                                                bodyKey: 'under_check_availability',
-                                                value: '0',
-                                                subWarehouseId: widget.id,
-                                                productId: widget.productData.id.toString());
-                                            if (result) {
-                                              snackBar(
-                                                  success: result,
-                                                  message: 'تم إزالة المنتج من القائمة بنجاح',
-                                                  context: context);
-                                            } else {
-                                              snackBar(
-                                                  success: result,
-                                                  message: 'فشلت عملية إزالة المنتج من القائمة يرجى المحاولة مجدداً',
-                                                  context: context);
-                                            }
-                                            if (result) setState(() => widget.onDelete(true));
-                                          },
-                                        ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
+                                          }
+                                        })
+                                    : IconButton(
+                                        icon: const Icon(Icons.check_sharp, color: Colors.green),
+                                        onPressed: () async {
+                                          bool result = await ProductsServices.updateProductsDetails(
+                                              bodyKey: 'under_check_availability',
+                                              value: '0',
+                                              subWarehouseId: id,
+                                              productId: product.id.toString());
+                                          if (result) {
+                                            snackBar(
+                                                success: result,
+                                                message: 'تم إزالة المنتج من القائمة بنجاح',
+                                                context: context);
+                                          } else {
+                                            snackBar(
+                                                success: result,
+                                                message: 'فشلت عملية إزالة المنتج من القائمة يرجى المحاولة مجدداً',
+                                                context: context);
+                                          }
+                                          if (result) onDelete(true);
+                                        },
+                                      ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );
