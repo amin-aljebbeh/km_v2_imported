@@ -77,10 +77,10 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const SizedBox(height: 10),
               if (widget.notActiveProducts.isNotEmpty)
                 Container(
                   padding: const EdgeInsets.all(10),
+                  margin: const EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
                       color: primaryColor,
                       borderRadius:
@@ -94,27 +94,24 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   flex: 1,
                   child: Container(
                     decoration: BoxDecoration(border: Border.all(width: 5, color: kmColors)),
+                    margin: const EdgeInsets.only(bottom: 10, top: 10),
                     child: ListView.builder(
                       primary: false,
                       shrinkWrap: true,
                       itemCount: orderArray == null ? 0 : notActiveCards.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {},
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
-                            child: cardBodyNotActive(notActiveCards[index], context),
-                          ),
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
+                          child: cardBodyNotActive(notActiveCards[index], context),
                         );
                       },
                     ),
                   ),
                 ),
-              if (widget.notActiveProducts.isNotEmpty) const SizedBox(height: 10),
               if (widget.pricesChangesProducts.isNotEmpty)
                 Container(
                   padding: const EdgeInsets.all(10),
+                  margin: const EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
                       color: kmColors,
                       borderRadius:
@@ -128,18 +125,15 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   flex: 1,
                   child: Container(
                     decoration: BoxDecoration(border: Border.all(width: 5, color: primaryColor)),
+                    margin: const EdgeInsets.only(top: 10),
                     child: ListView.builder(
                       primary: false,
                       shrinkWrap: true,
                       itemCount: orderArray == null ? 0 : priceCards.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () => {},
-                          child: Padding(
-                              padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
-                              child: cardBodyPriceProblem(priceCards[index], context)),
-                        );
+                        return Padding(
+                            padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
+                            child: cardBodyPriceProblem(priceCards[index], context));
                       },
                     ),
                   ),
@@ -185,9 +179,11 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
       children: <Widget>[
         Row(
           children: <Widget>[
-            KCacheImage(
-                tag: index + 100, image: StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName),
-            const SizedBox(width: 10),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: KCacheImage(
+                  tag: index + 100, image: StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName),
+            ),
             Expanded(
               child: Wrap(
                 children: <Widget>[
@@ -226,6 +222,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
               width: 75.0,
               height: 75.0,
               decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              margin: const EdgeInsets.only(left: 10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Hero(
@@ -242,7 +239,6 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                 ),
               ),
             ),
-            const SizedBox(width: 10),
             Expanded(
               child: Wrap(
                 children: <Widget>[
@@ -253,11 +249,12 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       children: <Widget>[
                         Text(orderArray[index].name,
                             style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
-                        const SizedBox(height: 6),
-                        Text(orderArray[index].quantity + ' ' + orderArray[index].unit,
-                            style:
-                                mainStyle.copyWith(fontWeight: FontWeight.w400, color: searchGreyColor, fontSize: 17)),
-                        const SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 6, bottom: 8),
+                          child: Text(orderArray[index].quantity + ' ' + orderArray[index].unit,
+                              style: mainStyle.copyWith(
+                                  fontWeight: FontWeight.w400, color: searchGreyColor, fontSize: 17)),
+                        ),
                         Text(
                             '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${StaticVariables.companyInformation.currency}',
                             style: mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),

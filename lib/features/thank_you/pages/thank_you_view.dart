@@ -35,8 +35,10 @@ class ThankYouViewState extends State<ThankYouView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset('assets/like.png', width: 200, height: 200),
-                  const SizedBox(height: 50),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 50),
+                    child: Image.asset('assets/like.png', width: 200, height: 200),
+                  ),
                   Text(thankYou,
                       style: mainStyle.copyWith(color: primaryColor, fontWeight: FontWeight.w700, fontSize: 30)),
                   Padding(
@@ -48,14 +50,13 @@ class ThankYouViewState extends State<ThankYouView> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
+                    padding: const EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 50),
                     child: Text(
                       widget.orderMessage.toString(),
                       textAlign: TextAlign.justify,
                       style: mainStyle.copyWith(fontWeight: FontWeight.bold, color: kmColors, fontSize: 16.0),
                     ),
                   ),
-                  const SizedBox(height: 40),
                   KammunButton(
                     text: continueShopping,
                     color: Theme.of(context).primaryColor,

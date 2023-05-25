@@ -130,23 +130,24 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          subtotalString,
-                          style: mainStyle.copyWith(
-                              fontWeight: FontWeight.w400, color: Theme.of(context).primaryColorDark, fontSize: 17.0),
-                        ),
-                        Text(
-                          '${StringUtils().oCcy.format(subtotal)} ${StaticVariables.companyInformation.currency}',
-                          style: mainStyle.copyWith(
-                              fontWeight: FontWeight.w500, color: Theme.of(context).primaryColorDark, fontSize: 17.0),
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30, bottom: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            subtotalString,
+                            style: mainStyle.copyWith(
+                                fontWeight: FontWeight.w400, color: Theme.of(context).primaryColorDark, fontSize: 17.0),
+                          ),
+                          Text(
+                            '${StringUtils().oCcy.format(subtotal)} ${StaticVariables.companyInformation.currency}',
+                            style: mainStyle.copyWith(
+                                fontWeight: FontWeight.w500, color: Theme.of(context).primaryColorDark, fontSize: 17.0),
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -163,24 +164,25 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(totalString,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15, bottom: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(totalString,
+                              style: mainStyle.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: Theme.of(context).primaryColorDark,
+                                fontSize: 19.0,
+                              )),
+                          Text(
+                            '${StringUtils().oCcy.format(total)} ${StaticVariables.companyInformation.currency}',
                             style: mainStyle.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: Theme.of(context).primaryColorDark,
-                              fontSize: 19.0,
-                            )),
-                        Text(
-                          '${StringUtils().oCcy.format(total)} ${StaticVariables.companyInformation.currency}',
-                          style: mainStyle.copyWith(
-                              fontWeight: FontWeight.w700, color: Theme.of(context).primaryColorDark, fontSize: 19),
-                        ),
-                      ],
+                                fontWeight: FontWeight.w700, color: Theme.of(context).primaryColorDark, fontSize: 19),
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 10),
                     SafeArea(
                       child: loadingScreen
                           ? const Loader()
@@ -277,13 +279,13 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                   width: MediaQuery.of(context).size.width,
                                   color: CartServices.cartProducts.isNotEmpty ? primaryColor : Colors.grey[400],
                                   text: confirmOrder,
+                                  padding: const EdgeInsets.only(bottom: 10),
                                   onTap: () {
                                     _cartChanged();
                                     _showConfirmOrderBtnTapped();
                                   },
                                   height: 50,
                                 ),
-                                const SizedBox(height: 10)
                               ],
                             ),
                       top: false,
@@ -305,6 +307,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
             Container(
               width: 75.0,
               height: 75.0,
+              margin: const EdgeInsets.only(left: 10),
               decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
@@ -325,7 +328,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
                 ),
               ),
             ),
-            const SizedBox(width: 10),
             Expanded(
               child: Wrap(
                 children: <Widget>[
@@ -336,10 +338,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       children: <Widget>[
                         Text(orderArray[index].name,
                             style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
-                        const SizedBox(height: 6),
-                        Text(orderArray[index].quantity + ' ' + orderArray[index].unit,
-                            style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: primaryColor, fontSize: 17)),
-                        const SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 6, bottom: 8),
+                          child: Text(orderArray[index].quantity + ' ' + orderArray[index].unit,
+                              style:
+                                  mainStyle.copyWith(fontWeight: FontWeight.w400, color: primaryColor, fontSize: 17)),
+                        ),
                         Text(
                             '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${StaticVariables.companyInformation.currency}',
                             style: mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
@@ -370,11 +374,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
                     child: Image.asset('assets/add.png', width: 60, height: 60),
                   ),
                 ),
-                const SizedBox(height: 5),
-                Text(orderArray[index].productCount.toString(),
-                    style: mainStyle.copyWith(
-                        fontWeight: FontWeight.w500, color: Theme.of(context).primaryColorDark, fontSize: 18)),
-                const SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Text(orderArray[index].productCount.toString(),
+                      style: mainStyle.copyWith(
+                          fontWeight: FontWeight.w500, color: Theme.of(context).primaryColorDark, fontSize: 18)),
+                ),
                 Container(
                   width: 30,
                   height: 30,
@@ -404,8 +409,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
             ),
           ],
         ),
-        const SizedBox(height: 4),
-        const Divider(thickness: 3)
+        const Padding(padding: EdgeInsets.only(top: 4), child: Divider(thickness: 3))
       ],
     );
   }

@@ -106,18 +106,19 @@ class CartViewState extends State<CartView> {
                   },
                 ),
               ),
-              const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(subtotalString, style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 19.0)),
-                  Text(
-                    '${StringUtils().oCcy.format(subtotal)} ${StaticVariables.companyInformation.currency}',
-                    style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 19),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.only(top: 30, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(subtotalString, style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 19.0)),
+                    Text(
+                      '${StringUtils().oCcy.format(subtotal)} ${StaticVariables.companyInformation.currency}',
+                      style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 19),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 10),
               SafeArea(
                 child: KammunButton(
                   width: MediaQuery.of(context).size.width,
@@ -144,13 +145,15 @@ class CartViewState extends State<CartView> {
       children: <Widget>[
         Row(
           children: <Widget>[
-            KCacheImage(
-              tag: index + 100,
-              image: orderArray[index].images.isNotEmpty
-                  ? StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName
-                  : '',
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: KCacheImage(
+                tag: index + 100,
+                image: orderArray[index].images.isNotEmpty
+                    ? StaticVariables.imagePrefixUrl + orderArray[index].images[0].imageFileName
+                    : '',
+              ),
             ),
-            const SizedBox(width: 10),
             Expanded(
               child: Wrap(
                 children: <Widget>[
@@ -161,10 +164,12 @@ class CartViewState extends State<CartView> {
                       children: <Widget>[
                         Text(orderArray[index].name,
                             style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
-                        const SizedBox(height: 6),
-                        Text(orderArray[index].quantity + ' ' + orderArray[index].unit,
-                            style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: primaryColor, fontSize: 17)),
-                        const SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 6, bottom: 8),
+                          child: Text(orderArray[index].quantity + ' ' + orderArray[index].unit,
+                              style:
+                                  mainStyle.copyWith(fontWeight: FontWeight.w400, color: primaryColor, fontSize: 17)),
+                        ),
                         Row(
                           children: [
                             indexToEdit == index
@@ -252,10 +257,11 @@ class CartViewState extends State<CartView> {
                     child: Image.asset('assets/add.png', width: 60, height: 60),
                   ),
                 ),
-                const SizedBox(height: 5),
-                Text(orderArray[index].productCount.toString(),
-                    style: mainStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 18)),
-                const SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Text(orderArray[index].productCount.toString(),
+                      style: mainStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 18)),
+                ),
                 Container(
                   width: 30,
                   height: 30,
@@ -283,8 +289,7 @@ class CartViewState extends State<CartView> {
             ),
           ],
         ),
-        const SizedBox(height: 4),
-        const Divider(thickness: 3)
+        const Padding(padding: EdgeInsets.only(top: 4), child: Divider(thickness: 3))
       ],
     );
   }
