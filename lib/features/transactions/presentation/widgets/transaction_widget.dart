@@ -43,49 +43,51 @@ class TransactionWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  KTableRow(
+                  const KTableRow(
                     children: [
-                      const KTableElement(text: 'actor'),
-                      const KTableElement(text: 'أدمن'),
-                      KTableElement(text: kammun),
-                      const KTableElement(text: 'النوع'),
-                      const KTableElement(text: 'الطلب'),
+                      KTableElement(text: 'actor'),
+                      KTableElement(text: 'أدمن'),
+                      KTableElement(text: 'كمُّون'),
+                      KTableElement(text: 'النوع'),
+                      KTableElement(text: 'الطلب')
                     ],
                   ),
                 ],
               ),
-            const SizedBox(height: 10),
-            KTableRow(
-              children: [
-                KTableElement(text: transaction.actor != null ? transaction.actor.name : '', style: mainStyle),
-                KTableElement(
-                  text: StringUtils().oCcy.format(int.parse(transaction.shopperValue).abs()),
-                  style: int.parse(transaction.shopperValue) >= 0 ? lightProfitStyle : lightLoseStyle,
-                ),
-                KTableElement(
-                  text: StringUtils().oCcy.format(int.parse(transaction.companyValue).abs()),
-                  style: int.parse(transaction.companyValue) >= 0 ? lightProfitStyle : lightLoseStyle,
-                ),
-                Stack(
-                  children: [
-                    KTableElement(text: transaction.category.name),
-                    if (transaction.description != null)
-                      IconButton(
-                        icon: Icon(Icons.device_unknown, color: primaryColor),
-                        onPressed: () => showMyDialog(
-                            context: context,
-                            title: transaction.category.name,
-                            dialogButtons: [],
-                            text: transaction.description),
-                        padding: const EdgeInsets.only(top: 25, right: 15),
-                      ),
-                  ],
-                ),
-                KTableElement(
-                  text: transaction.orderId != null ? transaction.orderId.toString() : 'null',
-                  style: mainStyle.copyWith(color: Colors.purple),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: KTableRow(
+                children: [
+                  KTableElement(text: transaction.actor != null ? transaction.actor.name : '', style: mainStyle),
+                  KTableElement(
+                    text: StringUtils().oCcy.format(int.parse(transaction.shopperValue).abs()),
+                    style: int.parse(transaction.shopperValue) >= 0 ? lightProfitStyle : lightLoseStyle,
+                  ),
+                  KTableElement(
+                    text: StringUtils().oCcy.format(int.parse(transaction.companyValue).abs()),
+                    style: int.parse(transaction.companyValue) >= 0 ? lightProfitStyle : lightLoseStyle,
+                  ),
+                  Stack(
+                    children: [
+                      KTableElement(text: transaction.category.name),
+                      if (transaction.description != null)
+                        IconButton(
+                          icon: Icon(Icons.device_unknown, color: primaryColor),
+                          onPressed: () => showMyDialog(
+                              context: context,
+                              title: transaction.category.name,
+                              dialogButtons: [],
+                              text: transaction.description),
+                          padding: const EdgeInsets.only(top: 25, right: 15),
+                        ),
+                    ],
+                  ),
+                  KTableElement(
+                    text: transaction.orderId != null ? transaction.orderId.toString() : 'null',
+                    style: mainStyle.copyWith(color: Colors.purple),
+                  ),
+                ],
+              ),
             ),
           ],
         );
