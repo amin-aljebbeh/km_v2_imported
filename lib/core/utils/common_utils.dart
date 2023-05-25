@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'utils_importer.dart';
 
-class CommonUtils {
-  Size deviceScreenSize(BuildContext context) => MediaQuery.of(context).size;
-}
-
 enum MyThemeKeys { light, dark, darker }
 
 enum OrderTypes { myOrder, allOrder, search, none }

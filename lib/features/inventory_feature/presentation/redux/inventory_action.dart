@@ -7,6 +7,32 @@ abstract class InventoryAction {
   handle({@required Store<AppState> store});
 }
 
+class InitialInventory extends InventoryAction {
+  @override
+  handle({Store<AppState> store}) {
+    store.dispatch(StartLoading());
+    store.dispatch(NoError());
+    store.dispatch(ClearInventory());
+    store.dispatch(GetInventory());
+  }
+}
+
+class GoInventoryPage extends InventoryAction {
+  final InventoryTypes inventoryType;
+  final BuildContext context;
+
+  GoInventoryPage({this.inventoryType, this.context});
+  @override
+  handle({Store<AppState> store}) {
+    store.dispatch(SetSearchFilter(searchFilter: ''));
+    store.dispatch(SetIsActive(isActive: 0));
+    store.dispatch(NoError());
+    store.dispatch(SetInventoryType(inventoryType: inventoryType));
+    store.dispatch(SetSubWarehouseId(subWarehouseId: -1));
+    Navigator.pushNamed(context, InventoryPage.routeName);
+  }
+}
+
 class GetInventory implements InventoryAction {
   @override
   handle({Store<AppState> store}) async {

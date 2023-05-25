@@ -2,9 +2,9 @@ import 'package:kammun_app/features/complaints/presentation/redux/complaints_act
 import 'package:kammun_app/features/inventory_feature/presentation/redux/inventory_action.dart';
 
 import '../../../core/core_importer.dart';
+import '../../../core/widget/management_view.dart';
 import '../../admins/presentation/redux/admins_action.dart';
 import '../../login/Services/login_services.dart';
-import '../../../core/widget/management_view.dart';
 import '../../supplier/presentation/pages/supplier_remaining_statment.dart';
 import '../../supplier/presentation/redux/supplier_action.dart';
 import '../../transactions/presentation/pages/add_transaction_page.dart';
@@ -145,36 +145,18 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       ],
                     ),
                   SideBarRow(
-                      onTap: () {
-                        store.dispatch(SetSearchFilter(searchFilter: ''));
-                        store.dispatch(SetIsActive(isActive: 0));
-                        store.dispatch(NoError());
-                        store.dispatch(SetInventoryType(inventoryType: InventoryTypes.underCheckAvailability));
-                        store.dispatch(SetSubWarehouseId(subWarehouseId: -1));
-                        Navigator.pushNamed(context, InventoryPage.routeName);
-                      },
+                      onTap: () => store.dispatch(
+                          GoInventoryPage(inventoryType: InventoryTypes.underCheckAvailability, context: context)),
                       icon: Icons.fact_check,
                       text: inventory),
                   SideBarRow(
-                      onTap: () {
-                        store.dispatch(SetSearchFilter(searchFilter: ''));
-                        store.dispatch(SetIsActive(isActive: 0));
-                        store.dispatch(NoError());
-                        store.dispatch(SetInventoryType(inventoryType: InventoryTypes.notification));
-                        store.dispatch(SetSubWarehouseId(subWarehouseId: -1));
-                        Navigator.pushNamed(context, InventoryPage.routeName);
-                      },
+                      onTap: () =>
+                          store.dispatch(GoInventoryPage(inventoryType: InventoryTypes.notification, context: context)),
                       icon: Icons.notifications_active_rounded,
                       text: 'المنتجات على قائمة الانتظار'),
                   SideBarRow(
-                      onTap: () {
-                        store.dispatch(SetSearchFilter(searchFilter: ''));
-                        store.dispatch(SetIsActive(isActive: 0));
-                        store.dispatch(NoError());
-                        store.dispatch(SetInventoryType(inventoryType: InventoryTypes.prime));
-                        store.dispatch(SetSubWarehouseId(subWarehouseId: -1));
-                        Navigator.pushNamed(context, InventoryPage.routeName);
-                      },
+                      onTap: () =>
+                          store.dispatch(GoInventoryPage(inventoryType: InventoryTypes.prime, context: context)),
                       icon: Icons.label_important_rounded,
                       text: 'المنتجات الأساسية'),
                 ],
