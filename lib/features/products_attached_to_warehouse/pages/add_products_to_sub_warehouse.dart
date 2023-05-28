@@ -145,20 +145,18 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                             title: priceFactor,
                             hint: '1',
                             width: MediaQuery.of(context).size.width / 4),
-                        SizedBox(
-                          width: 110,
-                          child: Container(
-                            margin: const EdgeInsets.all(15.0),
-                            padding: const EdgeInsets.all(3.0),
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                border: Border.all(color: primaryColor, width: 2)),
-                            child: Switch(
-                              value: switchController,
-                              onChanged: (value) => setState(() => switchController = value),
-                              activeTrackColor: kmColors2,
-                              activeColor: kmColors,
-                            ),
+                        Container(
+                          width: 80,
+                          margin: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(3.0),
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                              border: Border.all(color: primaryColor, width: 2)),
+                          child: Switch(
+                            value: switchController,
+                            onChanged: (value) => setState(() => switchController = value),
+                            activeTrackColor: kmColors2,
+                            activeColor: kmColors,
                           ),
                         ),
                       ],

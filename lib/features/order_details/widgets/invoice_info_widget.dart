@@ -9,27 +9,30 @@ class InvoiceInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 25),
-        if (title != ' ') Text(title, style: informationStyle),
-        const SizedBox(height: 10),
-        KCard(
-            radius: const BorderRadius.all(Radius.circular(6)),
-            child: Column(
-                children: children
-                    .where((info) => info.value != '0')
-                    .toList()
-                    .map((info) => InvoiceRow(
-                          style: informationStyle,
-                          children: info.info,
-                          title: info.key,
-                          info: StringUtils().oCcy.format(int.parse(info.value.split('.')[0])),
-                        ))
-                    .toList())),
-        const SizedBox(height: 25),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 25),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (title != ' ') Text(title, style: informationStyle),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 25),
+            child: KCard(
+                radius: const BorderRadius.all(Radius.circular(6)),
+                child: Column(
+                    children: children
+                        .where((info) => info.value != '0')
+                        .toList()
+                        .map((info) => InvoiceRow(
+                              style: informationStyle,
+                              children: info.info,
+                              title: info.key,
+                              info: StringUtils().oCcy.format(int.parse(info.value.split('.')[0])),
+                            ))
+                        .toList())),
+          ),
+        ],
+      ),
     );
   }
 }

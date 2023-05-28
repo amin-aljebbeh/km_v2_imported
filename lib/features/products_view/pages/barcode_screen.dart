@@ -29,39 +29,37 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
       body: SafeArea(
         child: Stack(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: QrCamera(
-                onError: (context, error) => Text(error.toString(), style: mainStyle.copyWith(color: Colors.red)),
-                qrCodeCallback: (code) {
-                  setState(() async {
-                    barcode = code;
-                    if (barcode != null) {
-                      switch (widget.requestType) {
-                        case BarcodeRequestType.search:
-                          Navigator.of(context).pop();
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => ProductsView(barcode: barcode, categoryId: '0')));
-                          break;
-                        case BarcodeRequestType.addBarcode:
-                        case BarcodeRequestType.addProduct:
-                        case BarcodeRequestType.attachProduct:
-                          Navigator.of(context).pop();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BarcodeProducts(
-                                      onIgnore: () => widget.onIgnore(barcode),
-                                      requestType: widget.requestType,
-                                      barcode: barcode)));
-                          break;
-                      }
+            QrCamera(
+              onError: (context, error) =>
+                  Center(child: Text(error.toString(), style: mainStyle.copyWith(color: Colors.red))),
+              qrCodeCallback: (code) {
+                setState(() async {
+                  barcode = code;
+                  if (barcode != null) {
+                    switch (widget.requestType) {
+                      case BarcodeRequestType.search:
+                        Navigator.of(context).pop();
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => ProductsView(barcode: barcode, categoryId: '0')));
+                        break;
+                      case BarcodeRequestType.addBarcode:
+                      case BarcodeRequestType.addProduct:
+                      case BarcodeRequestType.attachProduct:
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BarcodeProducts(
+                                    onIgnore: () => widget.onIgnore(barcode),
+                                    requestType: widget.requestType,
+                                    barcode: barcode)));
+                        break;
                     }
-                  });
-                },
-                notStartedBuilder: (context) => const Loader(),
-                offscreenBuilder: (context) => const Loader(),
-              ),
+                  }
+                });
+              },
+              notStartedBuilder: (context) => const Loader(),
+              offscreenBuilder: (context) => const Loader(),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -141,22 +139,18 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
             ),
             if (widget.requestType == BarcodeRequestType.addProduct ||
                 widget.requestType == BarcodeRequestType.attachProduct)
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const SizedBox(height: 1),
-                    KammunButton(
-                      height: 50,
-                      color: primaryColor,
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        widget.onIgnore(null);
-                      },
-                      text: 'الإضافة بدون كود',
-                    ),
-                  ],
+              Positioned(
+                bottom: 15,
+                right: MediaQuery.of(context).size.width * 0.05,
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: KammunButton(
+                  height: 50,
+                  color: primaryColor,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    widget.onIgnore(null);
+                  },
+                  text: 'الإضافة بدون كود',
                 ),
               ),
             SizedBox(

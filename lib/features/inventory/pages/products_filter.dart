@@ -78,7 +78,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
         onPressed: () {},
-        child: Text(total.toString(), style: mainStyle.copyWith(fontSize: 20)),
+        child: Text(total.toString(), style: mainStyle.copyWith(fontSize: 20, color: Colors.white)),
       ),
       appBar: InventorySearchTextField(
           onReload: () {
@@ -89,109 +89,111 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
       body: SafeArea(
         child: ListView(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back, size: 40, color: primaryColor),
-                  onPressed: () {
-                    if (!empty && (valueController.text.isNotEmpty || filter == 3) && filter != null) {
-                      setState(() => page++);
-                      getProducts();
-                    }
-                  },
-                ),
-                DropdownButton(
-                  hint: Text('فلترة المنتجات', style: dropdownItemStyle),
-                  value: filter,
-                  items: Services.dropdownStringList(productFilter),
-                  onChanged: (value) {
-                    if (value == 3) {
-                      showMyDialog(
-                        context: context,
-                        title: 'اختر تاريخ',
-                        dialogButtons: [
-                          const CloseWidget(),
-                          DialogButton(
-                            text: send,
-                            onTap: () {
-                              if (validDates()) {
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  filter = value;
-                                  page = 1;
-                                  loading = true;
-                                });
-                                getProducts();
-                              } else {
-                                Toast.show('الرجاء إدخال كافة البيانات', context,
-                                    duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                              }
-                            },
-                          )
-                        ],
-                        content: KDatePicker(
-                          onConfirmStart: (date) => setState(() => _fromDateTimeValue = date),
-                          onConfirmEnd: (date) => setState(() => _toDateTimeValue = date),
-                        ),
-                      );
-                    } else {
-                      setState(() {
-                        filter = value;
-                        page = 1;
-                      });
-                      if (valueController.text.isNotEmpty) getProducts();
-                    }
-                  },
-                ),
-                IconButton(
-                  icon: Icon(
-                    biggerThan == 1 ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                    size: 40,
-                    color: primaryColor,
-                  ),
-                  onPressed: () {
-                    if (valueController.text.isNotEmpty && filter != null && filter != 3) {
-                      setState(() {
-                        if (biggerThan == 1) {
-                          biggerThan = 0;
-                        } else {
-                          biggerThan = 1;
-                        }
-                      });
-                      getProducts();
-                    }
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: EntryField(
-                    onSubmit: (value) {
-                      if (filter != null) {
-                        setState(() {});
+            Padding(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.02),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back, size: 40, color: primaryColor),
+                    onPressed: () {
+                      if (!empty && (valueController.text.isNotEmpty || filter == 3) && filter != null) {
+                        setState(() => page++);
                         getProducts();
                       }
                     },
-                    controller: valueController,
-                    onChange: () {},
-                    width: MediaQuery.of(context).size.width * 0.2,
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward, size: 40, color: primaryColor),
-                  onPressed: () {
-                    if ((valueController.text.isNotEmpty || filter == 3) && filter != null) {
-                      setState(() {
-                        if (page > 1) page--;
-                      });
-                      getProducts();
-                    }
-                  },
-                ),
-              ],
+                  DropdownButton(
+                    hint: Text('فلترة المنتجات', style: dropdownItemStyle),
+                    value: filter,
+                    items: Services.dropdownStringList(productFilter),
+                    onChanged: (value) {
+                      if (value == 3) {
+                        showMyDialog(
+                          context: context,
+                          title: 'اختر تاريخ',
+                          dialogButtons: [
+                            const CloseWidget(),
+                            DialogButton(
+                              text: send,
+                              onTap: () {
+                                if (validDates()) {
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    filter = value;
+                                    page = 1;
+                                    loading = true;
+                                  });
+                                  getProducts();
+                                } else {
+                                  Toast.show('الرجاء إدخال كافة البيانات', context,
+                                      duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                }
+                              },
+                            )
+                          ],
+                          content: KDatePicker(
+                            onConfirmStart: (date) => setState(() => _fromDateTimeValue = date),
+                            onConfirmEnd: (date) => setState(() => _toDateTimeValue = date),
+                          ),
+                        );
+                      } else {
+                        setState(() {
+                          filter = value;
+                          page = 1;
+                        });
+                        if (valueController.text.isNotEmpty) getProducts();
+                      }
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      biggerThan == 1 ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                      size: 40,
+                      color: primaryColor,
+                    ),
+                    onPressed: () {
+                      if (valueController.text.isNotEmpty && filter != null && filter != 3) {
+                        setState(() {
+                          if (biggerThan == 1) {
+                            biggerThan = 0;
+                          } else {
+                            biggerThan = 1;
+                          }
+                        });
+                        getProducts();
+                      }
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: EntryField(
+                      onSubmit: (value) {
+                        if (filter != null) {
+                          setState(() {});
+                          getProducts();
+                        }
+                      },
+                      controller: valueController,
+                      onChange: () {},
+                      width: MediaQuery.of(context).size.width * 0.2,
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_forward, size: 40, color: primaryColor),
+                    onPressed: () {
+                      if ((valueController.text.isNotEmpty || filter == 3) && filter != null) {
+                        setState(() {
+                          if (page > 1) page--;
+                        });
+                        getProducts();
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.78,

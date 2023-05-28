@@ -14,16 +14,25 @@ class UserCouponsPage extends StatelessWidget {
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       builder: (context, state) {
-        List<CouponEntity> active = [];
-        List<CouponEntity> nonActive = [];
+        List<Widget> active = [];
+        List<Widget> nonActive = [];
         List<CouponEntity> coupons = [];
         coupons.addAll(state.couponState.userCoupons);
         for (int i = 0; i < coupons.length; i++) {
           if ((coupons[i].pivot.availability == coupons[i].pivot.nUsage) ||
               coupons[i].pivot.usageExpiration.isBefore(DateTime.now())) {
-            nonActive.add(coupons[i]);
+            if (nonActive.isEmpty) {
+              nonActive.add(Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: Text('الأكواد الغير الفعالة', style: informationStyle)));
+            }
+            nonActive.add(UserCouponWidget(couponEntity: coupons[i]));
           } else {
-            active.add(coupons[i]);
+            if (active.isEmpty) {
+              active.add(Padding(
+                  padding: const EdgeInsets.only(top: 15), child: Text('الأكواد الفعالة', style: informationStyle)));
+            }
+            active.add(UserCouponWidget(couponEntity: coupons[i]));
           }
         }
         return TemporaryLoading(
@@ -52,50 +61,16 @@ class UserCouponsPage extends StatelessWidget {
                                         children: [
                                           if (active.isNotEmpty)
                                             Container(
-                                              decoration: const BoxDecoration(
-                                                  borderRadius: BorderRadius.all(Radius.circular(15))),
-                                              child: SizedBox(
-                                                width: MediaQuery.of(context).size.width,
-                                                child: Column(
-                                                  children: [
-                                                    Padding(
-                                                        padding: const EdgeInsets.only(top: 15),
-                                                        child: Text('الأكواد الفعالة', style: informationStyle)),
-                                                    SizedBox(
-                                                      width: MediaQuery.of(context).size.width,
-                                                      child: Column(
-                                                        children: active
-                                                            .map((coupon) => UserCouponWidget(couponEntity: coupon))
-                                                            .toList(),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
+                                                margin: const EdgeInsets.only(top: 15),
+                                                decoration: const BoxDecoration(
+                                                    borderRadius: BorderRadius.all(Radius.circular(15))),
+                                                child: Column(children: active)),
                                           if (nonActive.isNotEmpty)
                                             Container(
                                               margin: const EdgeInsets.only(top: 15),
                                               decoration: const BoxDecoration(
                                                   borderRadius: BorderRadius.all(Radius.circular(15))),
-                                              child: SizedBox(
-                                                width: MediaQuery.of(context).size.width,
-                                                child: Column(
-                                                  children: [
-                                                    Padding(
-                                                        padding: const EdgeInsets.only(top: 15),
-                                                        child: Text('الأكواد الغير الفعالة', style: informationStyle)),
-                                                    SizedBox(
-                                                      width: MediaQuery.of(context).size.width,
-                                                      child: Column(
-                                                        children: nonActive
-                                                            .map((coupon) => UserCouponWidget(couponEntity: coupon))
-                                                            .toList(),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
+                                              child: Column(children: nonActive),
                                             ),
                                         ],
                                       ),

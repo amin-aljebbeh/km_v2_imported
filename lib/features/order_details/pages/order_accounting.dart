@@ -55,8 +55,9 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 ListView(
                   children: [
                     Column(children: subWarehouseTotal),
-                    SizedBox(
+                    Container(
                         height: MediaQuery.of(context).size.height * 0.35,
+                        margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.4),
                         child: GridView(
                             scrollDirection: Axis.vertical,
                             primary: false,
@@ -65,7 +66,6 @@ class _OrderAccountingState extends State<OrderAccounting> {
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2, crossAxisSpacing: 8, mainAxisSpacing: 8, childAspectRatio: 2),
                             children: imageWidgets)),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.4),
                   ],
                 ),
                 Positioned(

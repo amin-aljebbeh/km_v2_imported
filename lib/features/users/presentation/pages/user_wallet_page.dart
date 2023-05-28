@@ -59,31 +59,29 @@ class _UserWalletPageState extends State<UserWalletPage> {
                                   ? loseStyle
                                   : warehouseStyle.copyWith(color: Colors.black)),
                         ),
-                        SizedBox(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: TextFormField(
-                                controller: valueController,
-                                cursorColor: kmColors,
-                                style: mainStyle,
-                                keyboardType: TextInputType.number,
-                                onFieldSubmitted: (_) {},
-                                decoration: InputDecoration(
-                                    hintStyle: mainStyle.copyWith(color: Colors.grey),
-                                    hintText: 'قيمة الشحن',
-                                    enabled: true,
-                                    filled: true,
-                                    prefixIcon: InkWell(
-                                        child: const Icon(Icons.close_rounded, color: Colors.grey),
-                                        onTap: () => valueController.text = ''),
-                                    border: const OutlineInputBorder(),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(6),
-                                        borderSide: BorderSide(color: searchGreyColor, width: 2)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(6),
-                                        borderSide: BorderSide(color: searchGreyColor, width: 2)))),
-                          ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: TextFormField(
+                              controller: valueController,
+                              cursorColor: kmColors,
+                              style: mainStyle,
+                              keyboardType: TextInputType.number,
+                              onFieldSubmitted: (_) {},
+                              decoration: InputDecoration(
+                                  hintStyle: mainStyle.copyWith(color: Colors.grey),
+                                  hintText: 'قيمة الشحن',
+                                  enabled: true,
+                                  filled: true,
+                                  prefixIcon: InkWell(
+                                      child: const Icon(Icons.close_rounded, color: Colors.grey),
+                                      onTap: () => valueController.text = ''),
+                                  border: const OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                      borderSide: BorderSide(color: searchGreyColor, width: 2)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                      borderSide: BorderSide(color: searchGreyColor, width: 2)))),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -108,28 +106,26 @@ class _UserWalletPageState extends State<UserWalletPage> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: TextFormField(
-                                controller: descriptionController,
-                                cursorColor: kmColors,
-                                style: mainStyle,
-                                maxLines: 5,
-                                onFieldSubmitted: (_) {},
-                                decoration: InputDecoration(
-                                    hintStyle: mainStyle.copyWith(color: Colors.grey),
-                                    enabled: true,
-                                    hintText: 'سبب الشحن',
-                                    filled: true,
-                                    border: const OutlineInputBorder(),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(6),
-                                        borderSide: BorderSide(color: searchGreyColor, width: 2)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(6),
-                                        borderSide: BorderSide(color: searchGreyColor, width: 2)))),
-                          ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: TextFormField(
+                              controller: descriptionController,
+                              cursorColor: kmColors,
+                              style: mainStyle,
+                              maxLines: 5,
+                              onFieldSubmitted: (_) {},
+                              decoration: InputDecoration(
+                                  hintStyle: mainStyle.copyWith(color: Colors.grey),
+                                  enabled: true,
+                                  hintText: 'سبب الشحن',
+                                  filled: true,
+                                  border: const OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                      borderSide: BorderSide(color: searchGreyColor, width: 2)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                      borderSide: BorderSide(color: searchGreyColor, width: 2)))),
                         ),
                       ],
                     ),

@@ -85,69 +85,66 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                   },
                 ),
               ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: <Widget>[
-                  RadioListTile<DateFilter>(
-                    title: Text('يومياً', style: mainStyle),
-                    value: DateFilter.day,
-                    activeColor: primaryColor,
-                    groupValue: groupValue,
-                    onChanged: (DateFilter value) {
-                      setState(() {
-                        groupValue = value;
-                        if (shopperName != null || Services.hasRole(context, shopperRole)) {
-                          loading = true;
-                          getWorkingHours(
-                              shopperId: Services.hasRole(context, shopperRole)
-                                  ? StaticVariables.shopper.id.toString()
-                                  : Services.selectedShopperId(shopperName, context),
-                              filter: groupValue);
-                        }
-                      });
-                    },
-                  ),
-                  RadioListTile<DateFilter>(
-                    title: Text('شهرياً', style: mainStyle),
-                    value: DateFilter.month,
-                    activeColor: primaryColor,
-                    groupValue: groupValue,
-                    onChanged: (DateFilter value) {
-                      setState(() {
-                        groupValue = value;
-                        if (shopperName != null || Services.hasRole(context, shopperRole)) {
-                          loading = true;
-                          getWorkingHours(
-                              shopperId: Services.hasRole(context, shopperRole)
-                                  ? StaticVariables.shopper.id.toString()
-                                  : Services.selectedShopperId(shopperName, context),
-                              filter: groupValue);
-                        }
-                      });
-                    },
-                  ),
-                  RadioListTile<DateFilter>(
-                    title: Text('سنوياً', style: mainStyle),
-                    activeColor: primaryColor,
-                    value: DateFilter.year,
-                    groupValue: groupValue,
-                    onChanged: (DateFilter value) {
-                      setState(() {
-                        groupValue = value;
-                        if (shopperName != null || Services.hasRole(context, shopperRole)) {
-                          loading = true;
-                          getWorkingHours(
-                              shopperId: Services.hasRole(context, shopperRole)
-                                  ? StaticVariables.shopper.id.toString()
-                                  : Services.selectedShopperId(shopperName, context),
-                              filter: groupValue);
-                        }
-                      });
-                    },
-                  ),
-                ],
-              ),
+            Column(
+              children: <Widget>[
+                RadioListTile<DateFilter>(
+                  title: Text('يومياً', style: mainStyle),
+                  value: DateFilter.day,
+                  activeColor: primaryColor,
+                  groupValue: groupValue,
+                  onChanged: (DateFilter value) {
+                    setState(() {
+                      groupValue = value;
+                      if (shopperName != null || Services.hasRole(context, shopperRole)) {
+                        loading = true;
+                        getWorkingHours(
+                            shopperId: Services.hasRole(context, shopperRole)
+                                ? StaticVariables.shopper.id.toString()
+                                : Services.selectedShopperId(shopperName, context),
+                            filter: groupValue);
+                      }
+                    });
+                  },
+                ),
+                RadioListTile<DateFilter>(
+                  title: Text('شهرياً', style: mainStyle),
+                  value: DateFilter.month,
+                  activeColor: primaryColor,
+                  groupValue: groupValue,
+                  onChanged: (DateFilter value) {
+                    setState(() {
+                      groupValue = value;
+                      if (shopperName != null || Services.hasRole(context, shopperRole)) {
+                        loading = true;
+                        getWorkingHours(
+                            shopperId: Services.hasRole(context, shopperRole)
+                                ? StaticVariables.shopper.id.toString()
+                                : Services.selectedShopperId(shopperName, context),
+                            filter: groupValue);
+                      }
+                    });
+                  },
+                ),
+                RadioListTile<DateFilter>(
+                  title: Text('سنوياً', style: mainStyle),
+                  activeColor: primaryColor,
+                  value: DateFilter.year,
+                  groupValue: groupValue,
+                  onChanged: (DateFilter value) {
+                    setState(() {
+                      groupValue = value;
+                      if (shopperName != null || Services.hasRole(context, shopperRole)) {
+                        loading = true;
+                        getWorkingHours(
+                            shopperId: Services.hasRole(context, shopperRole)
+                                ? StaticVariables.shopper.id.toString()
+                                : Services.selectedShopperId(shopperName, context),
+                            filter: groupValue);
+                      }
+                    });
+                  },
+                ),
+              ],
             ),
             Expanded(
               child: selected

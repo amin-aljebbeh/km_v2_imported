@@ -104,11 +104,13 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                     )
                   ],
                 ),
-                const SizedBox(height: 10),
-                LabelRow(
-                  rightSideText: orderDate,
-                  leftSideText: DateFormat('a h:mm - dd-MM-yyyy').format(widget.order.createdAt),
-                  leftSideStyle: disableStyle,
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: LabelRow(
+                    rightSideText: orderDate,
+                    leftSideText: DateFormat('a h:mm - dd-MM-yyyy').format(widget.order.createdAt),
+                    leftSideStyle: disableStyle,
+                  ),
                 ),
                 LabelRow(
                   rightSideText: shopperName + ' ',

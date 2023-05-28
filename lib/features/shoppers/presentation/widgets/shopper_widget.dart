@@ -39,8 +39,10 @@ class ShopperWidgetState extends State<ShopperWidget> {
                 Divider(thickness: 0.8, color: Colors.grey[800]),
                 Row(
                   children: <Widget>[
-                    KCacheImage(tag: widget.shopper.id, image: ''),
-                    const SizedBox(width: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: KCacheImage(tag: widget.shopper.id, image: ''),
+                    ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

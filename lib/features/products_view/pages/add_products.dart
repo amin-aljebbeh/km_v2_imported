@@ -226,41 +226,37 @@ class _AddProductsViewState extends State<AddProductsView> {
                       children: [
                         TextButton(child: Icon(Icons.camera, color: kmColors), onPressed: () => getImageCamera()),
                         TextButton(child: Icon(Icons.image, color: kmColors), onPressed: () => getImageGallery()),
-                        SizedBox(
-                          width: 110,
-                          child: Container(
-                            margin: const EdgeInsets.all(15.0),
-                            padding: const EdgeInsets.all(3.0),
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                border: Border.all(color: switchController ? kmColors2 : searchGreyColor, width: 2)),
-                            child: Switch(
-                              value: switchController,
-                              onChanged: (value) => setState(() => switchController = value),
-                              activeTrackColor: kmColors2,
-                              activeColor: kmColors,
-                            ),
+                        Container(
+                          width: 80,
+                          margin: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(3.0),
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                              border: Border.all(color: switchController ? kmColors2 : searchGreyColor, width: 2)),
+                          child: Switch(
+                            value: switchController,
+                            onChanged: (value) => setState(() => switchController = value),
+                            activeTrackColor: kmColors2,
+                            activeColor: kmColors,
                           ),
                         ),
                       ],
                     ),
                     Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                       Text('السماح بتفعيل المنتاج تلقائيا', style: boldStyle),
-                      SizedBox(
-                        width: 110,
-                        child: Container(
-                          margin: const EdgeInsets.all(15.0),
-                          padding: const EdgeInsets.all(3.0),
-                          decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                              border:
-                                  Border.all(color: autoActivationController ? kmColors2 : searchGreyColor, width: 2)),
-                          child: Switch(
-                            value: autoActivationController,
-                            onChanged: (value) => setState(() => autoActivationController = value),
-                            activeTrackColor: kmColors2,
-                            activeColor: kmColors,
-                          ),
+                      Container(
+                        width: 80,
+                        margin: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(3.0),
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                            border:
+                                Border.all(color: autoActivationController ? kmColors2 : searchGreyColor, width: 2)),
+                        child: Switch(
+                          value: autoActivationController,
+                          onChanged: (value) => setState(() => autoActivationController = value),
+                          activeTrackColor: kmColors2,
+                          activeColor: kmColors,
                         ),
                       ),
                     ]),

@@ -15,12 +15,14 @@ class ActiveHoursWidget extends StatelessWidget {
         if (newDay)
           Column(
             children: [
-              const SizedBox(height: 8),
-              Text(
-                DateFormat('EEEE', 'ar').format(activityHour.startWorkAt) +
-                    ' ' +
-                    DateFormat('dd-MM-yyyy', 'en').format(activityHour.startWorkAt),
-                style: disableStyle,
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  DateFormat('EEEE', 'ar').format(activityHour.startWorkAt) +
+                      ' ' +
+                      DateFormat('dd-MM-yyyy', 'en').format(activityHour.startWorkAt),
+                  style: disableStyle,
+                ),
               ),
               const KTableRow(
                 children: [

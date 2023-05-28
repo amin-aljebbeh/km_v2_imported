@@ -66,45 +66,47 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                   if (errorAlert)
                     AlertMessages(
                         text: 'خطأ اثناء محاولة تغيير حالة الطلب', messageType: 'internetError', headerText: 'حدث خطأ'),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.only(left: 20.0, top: 20.0),
-                      primary: false,
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: productsAry == null ? 1 : productsAry.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        OrderProduct productDetail = productsAry[index];
-                        return Column(
-                          children: [
-                            if (newSubWarehouse(index))
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                color: searchGreyColor,
-                                child: Center(
-                                  child: Text(
-                                    StaticVariables.subWarehouses
-                                        .firstWhere(
-                                            (subWarehouse) => subWarehouse.id == productDetail.pivot.subWarehouseId,
-                                            orElse: () => SubWarehouse(name: 'No element'))
-                                        .name,
-                                    style: labelStyle,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Expanded(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.only(left: 20.0, top: 20.0),
+                        primary: false,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: productsAry == null ? 1 : productsAry.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          OrderProduct productDetail = productsAry[index];
+                          return Column(
+                            children: [
+                              if (newSubWarehouse(index))
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  color: searchGreyColor,
+                                  child: Center(
+                                    child: Text(
+                                      StaticVariables.subWarehouses
+                                          .firstWhere(
+                                              (subWarehouse) => subWarehouse.id == productDetail.pivot.subWarehouseId,
+                                              orElse: () => SubWarehouse(name: 'No element'))
+                                          .name,
+                                      style: labelStyle,
+                                    ),
                                   ),
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 20,
                                 ),
-                                width: MediaQuery.of(context).size.width,
-                                height: 20,
-                              ),
-                            OrderDetailViewMainCard(
-                                onCheckbox: (a) {},
-                                productData: productDetail,
-                                index: index,
-                                isOperation: Services.hasRole(context, operationManagerRole)),
-                          ],
-                        );
-                      },
+                              OrderDetailViewMainCard(
+                                  onCheckbox: (a) {},
+                                  productData: productDetail,
+                                  index: index,
+                                  isOperation: Services.hasRole(context, operationManagerRole)),
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 10),
                 ],
               ),
       ),
