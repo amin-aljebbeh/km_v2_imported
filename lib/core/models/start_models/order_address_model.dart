@@ -1,15 +1,16 @@
 class OrderAddress {
-  OrderAddress(
-      {this.id,
-      this.supportedCityId,
-      this.street,
-      this.building,
-      this.floor,
-      this.description,
-      this.deliveryPrice,
-      this.lat,
-      this.lon,
-      this.entrance});
+  OrderAddress({
+    this.id,
+    this.supportedCityId,
+    this.street,
+    this.building,
+    this.floor,
+    this.description,
+    this.deliveryPrice,
+    this.lat,
+    this.lon,
+    this.entrance,
+  });
 
   int id;
   String supportedCityId;

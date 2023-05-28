@@ -121,16 +121,20 @@ class ProductData {
   String name;
   String description;
   String unit;
-  String price;
-  String isActive;
   String quantity;
-  int productCount;
+  String isActive;
   List<ProductImage> images;
   String supplierCode;
+  int subWarehouseId;
+  String availableQuantity;
+  int isPrimeItem;
+  OrderProductPivot pivot;
+
+  ///////
+  String price;
+  int productCount;
   List<CategoryOriginalData> categories;
   List<Warehouse> warehouses;
-
-  //////
 
   int warehouseId;
   int isFeatured;
@@ -140,17 +144,13 @@ class ProductData {
   int increasePercentage;
   String priceFactor;
   int underCheckAvailability;
-  int subWarehouseId;
   String priceChange;
   int automaticActivation;
   int rate;
   int numberOfSales;
   List<Barcode> barcodes;
   int deleteTimes;
-  String availableQuantity;
-  OrderProductPivot pivot;
   String alertProductsCount;
-  int isPrimeItem;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) return null;

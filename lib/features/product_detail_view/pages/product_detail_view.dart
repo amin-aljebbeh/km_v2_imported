@@ -1,6 +1,6 @@
 import 'package:kammun_app/features/product_detail_view/widgets/change_product_category_and_sub_warehouse_widget.dart';
 import 'package:kammun_app/features/product_detail_view/widgets/delete_product_image_widget.dart';
-import 'package:kammun_app/features/product_detail_view/widgets/prduct_options_widget.dart';
+import 'package:kammun_app/features/product_detail_view/widgets/product_options_widget.dart';
 import 'package:kammun_app/features/product_detail_view/widgets/remove_from_warehouse.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 

@@ -1,5 +1,3 @@
-import 'package:kammun_app/features/admins/data/models/admin_model.dart';
-
 class Warehouse {
   Warehouse({
     this.id,
@@ -9,7 +7,6 @@ class Warehouse {
     this.isActive,
     this.pivot,
     this.shopperAlgorithmId,
-    this.admin,
   });
 
   int id;
@@ -19,7 +16,6 @@ class Warehouse {
   String numberOfWorkers;
   int isActive;
   WarehousePivot pivot;
-  AdminModel admin;
 
   factory Warehouse.fromJson(Map<String, dynamic> json) => Warehouse(
         pivot: json['pivot'] == null ? null : WarehousePivot.fromJson(json['pivot']),
@@ -29,7 +25,6 @@ class Warehouse {
         numberOfWorkers: json['number_of_workers'].toString(),
         shopperAlgorithmId: json['shopper_algorithm_id'],
         isActive: json['is_active'],
-        admin: json['admin'] == null ? null : AdminModel.fromJson(json['admin']),
       );
 
   Map<String, dynamic> toJson() => {

@@ -1,6 +1,5 @@
 import 'package:kammun_app/features/admins/data/models/admin_model.dart';
 
-import '../../../features/orders/model/get_order_model.dart';
 import '../../core_importer.dart';
 
 OrdersOriginal ordersFromJson(String str) => OrdersOriginal.fromJson(json.decode(str));
@@ -86,7 +85,6 @@ class OrdersOriginalData {
   List<OrderProduct> products;
   List<OrderImage> images;
   Assigned shopper;
-  ShowData showData;
   List<OrderAccountingRow> orderAccountingRows;
   double kammunProfit;
   double shopperProfit;

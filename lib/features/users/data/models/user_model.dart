@@ -1,17 +1,5 @@
 import 'package:kammun_app/features/users/domain/entities/user_entity.dart';
 
-class UserOriginal {
-  UserOriginal({this.success, this.data});
-
-  bool success;
-  UserModel data;
-
-  factory UserOriginal.fromJson(Map<String, dynamic> json) =>
-      UserOriginal(success: json['success'], data: UserModel.fromJson(json['data']));
-
-  Map<String, dynamic> toJson() => {'success': success, 'data': data.toJson()};
-}
-
 class UserModel extends UserEntity {
   const UserModel({id, phone, orderCount, balance})
       : super(id: id, balance: balance, phone: phone, orderCount: orderCount);

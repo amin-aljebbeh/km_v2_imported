@@ -4,13 +4,11 @@ class OrderProduct {
     this.name,
     this.description,
     this.unit,
-    this.isInFacebook,
     this.categoryId,
     this.quantity,
     this.pivot,
     this.images,
     this.supplierCode,
-    this.productAvailable,
     this.subWarehouseId,
     this.isActive,
     this.availableQuantity,
@@ -21,30 +19,28 @@ class OrderProduct {
   String name;
   String description;
   String unit;
-  String isInFacebook;
-  String categoryId;
   String quantity;
-  String supplierCode;
-  bool productAvailable;
-  int subWarehouseId;
-  OrderProductPivot pivot;
   int isActive;
+  List<ProductImage> images;
+  String supplierCode;
+  int subWarehouseId;
   String availableQuantity;
   int isPrimeItem;
-  List<ProductImage> images;
+  OrderProductPivot pivot;
+
+  /////////////////
+  String categoryId;
 
   factory OrderProduct.fromJson(Map<String, dynamic> json) => OrderProduct(
         id: json['id'],
         name: json['name'],
         description: json['description'],
         unit: json['unit'].toString(),
-        isInFacebook: json['is_in_facebook'].toString(),
         categoryId: json['category_id'].toString(),
         supplierCode: json['supplier_code'].toString(),
         isActive: json['is_active'],
         subWarehouseId: json['sub_warehouse_id'],
         quantity: json['quantity'].toString(),
-        productAvailable: false,
         availableQuantity: json['available_quantity'].toString(),
         isPrimeItem: json['is_prime_item'],
         pivot: json['pivot'] == null ? null : OrderProductPivot.fromJson(json['pivot']),
@@ -56,13 +52,11 @@ class OrderProduct {
         'name': name,
         'description': description,
         'unit': unit,
-        'is_in_facebook': isInFacebook,
         'category_id': categoryId,
         'quantity': quantity,
         'pivot': pivot.toJson(),
         'supplier_code': supplierCode,
         'sub_warehouse_id': subWarehouseId,
-        'product_available': productAvailable,
         'is_active': isActive,
         'images': List<dynamic>.from(images.map((x) => x.toJson())),
       };

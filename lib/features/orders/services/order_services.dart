@@ -34,17 +34,6 @@ class OrderServices {
     }
   }
 
-  static Future<String> cancelOrderService(String orderId) async {
-    Map cancelOrderBody = {'order_status_id': 5};
-    var response = await ApiProvider.sendRequest(
-        url: cancelOrderApi + orderId, method: HttpMethods.post, body: jsonEncode(cancelOrderBody));
-
-    if (response.statusCode == successCode && response.data['success']) {
-      return 'true';
-    }
-    return 'تم قبول طلبك مسبقاً لايمكن إلغاء الطلب حاليا اذا كنت مصراً على إلغاء الطلب يرجى التواصل مع فريق الدعم';
-  }
-
   static Future<LockOrder> lockOrderService(
       {@required String orderId,
       @required int deliveryMethodId,

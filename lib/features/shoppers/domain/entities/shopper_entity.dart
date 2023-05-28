@@ -1,3 +1,4 @@
+import 'package:kammun_app/features/admins/domain/entities/admins_entity.dart';
 import 'package:kammun_app/features/shoppers/domain/entities/shopper_level_entity.dart';
 
 class ShopperEntity {
@@ -11,6 +12,7 @@ class ShopperEntity {
     this.createdAt,
     this.updatedAt,
     this.level,
+    this.admin,
   });
 
   int id;
@@ -22,4 +24,5 @@ class ShopperEntity {
   DateTime createdAt;
   DateTime updatedAt;
   ShopperLevelEntity level;
+  AdminEntity admin;
 }
