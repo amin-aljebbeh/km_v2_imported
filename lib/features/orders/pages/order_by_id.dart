@@ -290,8 +290,7 @@ class _OrderByIDState extends State<OrderByID> {
                                             orderId: order.id.toString(),
                                             userNote: order.userNotes,
                                             supportedCityCost: order.supportedCityCost,
-                                            deliveryMethodCost: order.deliveryCost,
-                                            deliveryMethodId: int.parse(order.deliveryMethodId.toString()));
+                                            deliveryMethodCost: order.deliveryCost);
                                         if (response != null) {
                                           if (response.success) {
                                             setState(() {

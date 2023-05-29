@@ -35,16 +35,6 @@ class SubmitOrderModel {
         'check_changed_price_product': checkChangedPriceProduct,
         'save_refund': saveRefund
       };
-
-  SubmitOrderModel copyWith(
-      {int purchasePrices, int useWallet, String userNote, List<InvoiceProductModel> products, int saveRefund}) {
-    return SubmitOrderModel(
-        products: products ?? this.products,
-        useWallet: useWallet ?? this.useWallet,
-        purchasePrices: purchasePrices ?? this.purchasePrices,
-        userNote: userNote ?? this.userNote,
-        saveRefund: saveRefund ?? this.saveRefund);
-  }
 }
 
 class InvoiceProductModel {

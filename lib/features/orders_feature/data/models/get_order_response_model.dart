@@ -2,6 +2,10 @@ import 'package:kammun_app/features/orders_feature/data/models/order_model.dart'
 import 'package:kammun_app/features/orders_feature/data/models/show_data_model.dart';
 import 'package:kammun_app/features/orders_feature/domain/entities/get_order_response_entity.dart';
 
+import '../../../../core/core_importer.dart';
+
+GetOrderResponseModel orderModelFromJson(String str) => GetOrderResponseModel.fromJson(json.decode(str));
+
 class GetOrderResponseModel extends GetOrderResponseEntity {
   GetOrderResponseModel({success, order, showData}) : super(success: success, order: order, showData: showData);
 

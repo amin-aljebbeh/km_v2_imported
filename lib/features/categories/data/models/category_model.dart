@@ -2,14 +2,8 @@ import 'package:kammun_app/features/categories/domain/entities/category_entity.d
 import 'package:kammun_app/features/warehouses/data/models/warehouse_model.dart';
 
 class CategoryModel extends CategoryEntity {
-  CategoryModel({
-    int id,
-    String name,
-    String imageFileName,
-    String parentCategoryId,
-    String isCompany,
-    warehouses,
-  }) : super(
+  CategoryModel({int id, String name, String imageFileName, String parentCategoryId, String isCompany, warehouses})
+      : super(
           id: id,
           name: name,
           imageFileName: imageFileName,

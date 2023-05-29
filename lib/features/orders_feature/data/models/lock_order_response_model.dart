@@ -1,6 +1,8 @@
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/lock_order_response_entity.dart';
 
+LockOrderResponseModel lockOrderModelFromJson(String str) => LockOrderResponseModel.fromJson(json.decode(str));
+
 class LockOrderResponseModel extends LockOrderResponseEntity {
   LockOrderResponseModel({success, data, products}) : super(products: products, success: success, data: data);
 

@@ -25,20 +25,18 @@ class OrderResponse {
   List<ChangedPriceProduct> changedPriceProducts;
   String data;
 
-  factory OrderResponse.fromJson(Map<String, dynamic> json) {
-    return OrderResponse(
-      success: json['success'],
-      data: json['data'],
-      reason: json['reason'].toString(),
-      inactiveProducts: json['inactive_products'] != null
-          ? List<String>.from(json['inactive_products'].map((x) => x.toString()))
-          : [],
-      changedPriceProducts: json['changed_price_products'] != null
-          ? List<ChangedPriceProduct>.from(json['changed_price_products'].map((x) => ChangedPriceProduct.fromJson(x)))
-          : [],
-      message: json['message'].toString(),
-    );
-  }
+  factory OrderResponse.fromJson(Map<String, dynamic> json) => OrderResponse(
+        success: json['success'],
+        data: json['data'],
+        reason: json['reason'].toString(),
+        inactiveProducts: json['inactive_products'] != null
+            ? List<String>.from(json['inactive_products'].map((x) => x.toString()))
+            : [],
+        changedPriceProducts: json['changed_price_products'] != null
+            ? List<ChangedPriceProduct>.from(json['changed_price_products'].map((x) => ChangedPriceProduct.fromJson(x)))
+            : [],
+        message: json['message'].toString(),
+      );
 
   Map<String, dynamic> toJson() => {
         'success': success,

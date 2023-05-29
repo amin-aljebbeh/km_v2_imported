@@ -20,7 +20,7 @@ class OrderServices {
       orderId = orderUnderUpdateId;
 
       var response =
-          await ApiProvider.sendRequest(url: order + orderId, method: HttpMethods.put, body: jsonEncode(orderMap));
+          await ApiProvider.sendRequest(url: orderApi + orderId, method: HttpMethods.put, body: jsonEncode(orderMap));
 
       if (response != null) {
         if (response.data['reason'].toString().contains('discontinued')) {
@@ -36,12 +36,11 @@ class OrderServices {
 
   static Future<LockOrder> lockOrderService(
       {@required String orderId,
-      @required int deliveryMethodId,
       @required String supportedCityCost,
       @required String deliveryMethodCost,
       @required String userNote}) async {
     try {
-      var response = await ApiProvider.sendRequest(url: lockOrder + orderId, method: HttpMethods.put);
+      var response = await ApiProvider.sendRequest(url: lockOrderApi + orderId, method: HttpMethods.put);
       if (response.data == null) return null;
       if (response.statusCode == successCode && response.data['success']) {
         orderUnderUpdateIndex = StaticVariables.myOrdersList.indexWhere((order) => order.id == int.parse(orderId));
@@ -75,7 +74,7 @@ class OrderServices {
     try {
       var body = {'order_status_id': '$statusId'};
       var response = await ApiProvider.sendRequest(
-          url: changeOrderStatus + orderId, method: HttpMethods.post, body: jsonEncode(body));
+          url: changeOrderStatusApi + orderId, method: HttpMethods.post, body: jsonEncode(body));
       if (response != null) {
         if (response.statusCode == successCode) return changeOrderStatusModelFromJson(jsonEncode(response.data));
       }
@@ -87,7 +86,7 @@ class OrderServices {
 
   static Future<bool> unlockOrderService(String orderId) async {
     try {
-      var response = await ApiProvider.sendRequest(url: unlockOrder + orderId, method: HttpMethods.put);
+      var response = await ApiProvider.sendRequest(url: unlockOrderApi + orderId, method: HttpMethods.put);
       if (response != null) return response.statusCode == successCode && response.data['success'];
       return false;
     } catch (e) {
@@ -99,7 +98,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
           cancelToken: cancelRequest,
-          url: shopperViewsHisOwnOrders,
+          url: shopperViewsHisOwnOrdersApi,
           method: HttpMethods.get,
           queryParameters: {'page': pageNumber});
 
@@ -118,7 +117,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
           cancelToken: cancelRequest,
-          url: getSupplierOrder,
+          url: getSupplierOrderApi,
           method: HttpMethods.get,
           queryParameters: {'page': pageNumber});
 
@@ -138,7 +137,7 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: assignOrderToShopper, method: HttpMethods.post, body: jsonEncode(assignOrderBody));
+          url: assignOrderToShopperApi, method: HttpMethods.post, body: jsonEncode(assignOrderBody));
       return response.statusCode == successCode && response.data['success'];
     } catch (e) {
       return false;
@@ -148,7 +147,7 @@ class OrderServices {
   static Future<List<OrdersOriginalData>> getOrdersByUserNumberService({String phoneNumber, int pageNumber}) async {
     try {
       var response = await ApiProvider.sendRequest(
-          url: getOrdersByUserPhoneNumber,
+          url: getOrdersByUserPhoneNumberApi,
           cancelToken: cancelRequest,
           method: HttpMethods.get,
           queryParameters: {'page': pageNumber, 'phone': phoneNumber});
@@ -167,7 +166,7 @@ class OrderServices {
     Response response;
     try {
       response =
-          await ApiProvider.sendRequest(url: order + orderId, cancelToken: cancelRequest, method: HttpMethods.get);
+          await ApiProvider.sendRequest(url: orderApi + orderId, cancelToken: cancelRequest, method: HttpMethods.get);
 
       if (response != null) {
         if (response.statusCode == successCode) return getOrderResponseFromJson(jsonEncode(response.data));
@@ -194,7 +193,7 @@ class OrderServices {
   static Future<List<OrdersOriginalData>> getAllOrders({int pageNumber = 1, int filterEvaluatedOrders = 0}) async {
     try {
       var response = await ApiProvider.sendRequest(
-          url: order,
+          url: orderApi,
           cancelToken: cancelRequest,
           method: HttpMethods.get,
           queryParameters: {'page': pageNumber, 'filter_evaluated_orders': filterEvaluatedOrders});

@@ -1,6 +1,10 @@
 import 'package:kammun_app/features/orders_feature/data/models/order_model.dart';
 
+import '../../../../core/core_importer.dart';
 import '../../domain/entities/change_order_status_response_entity.dart';
+
+ChangeOrderStatusResponseModel changeStatusModelFromJson(String str) =>
+    ChangeOrderStatusResponseModel.fromJson(json.decode(str));
 
 class ChangeOrderStatusResponseModel extends ChangeOrderStatusResponseEntity {
   ChangeOrderStatusResponseModel({bool success, String data, order})
