@@ -5,8 +5,6 @@ import '../../../../core/core_importer.dart';
 import 'assign_order_to_shopper_use_case.dart';
 import 'change_order_status_use_case.dart';
 import 'get_all_orders_use_case.dart';
-import 'get_order_use_case.dart';
-import 'get_orders_by_user_number_use_case.dart';
 import 'get_shopper_orders_use_case.dart';
 import 'get_supplier_orders_use_case.dart';
 import 'lock_order_use_case.dart';
@@ -18,8 +16,6 @@ class OrdersUSeCases {
   final AssignOrderToShopperUseCase assignOrderToShopperUseCase;
   final ChangeOrderStatusUseCase changeOrderStatusUseCase;
   final GetAllOrdersUseCase getAllOrdersUseCase;
-  final GetOrderUseCase getOrderUseCase;
-  final GetOrdersByUserNumberUseCase getOrdersByUserNumberUseCase;
   final GetShopperOrdersUseCase getShopperOrdersUseCase;
   final GetSupplierOrdersUseCase getSupplierOrdersUseCase;
   final LockOrderUseCase lockOrderUseCase;
@@ -29,8 +25,6 @@ class OrdersUSeCases {
     @required this.assignOrderToShopperUseCase,
     @required this.changeOrderStatusUseCase,
     @required this.getAllOrdersUseCase,
-    @required this.getOrderUseCase,
-    @required this.getOrdersByUserNumberUseCase,
     @required this.getShopperOrdersUseCase,
     @required this.getSupplierOrdersUseCase,
     @required this.lockOrderUseCase,
@@ -41,8 +35,6 @@ class OrdersUSeCases {
             assignOrderToShopperUseCase != null &&
                 changeOrderStatusUseCase != null &&
                 getAllOrdersUseCase != null &&
-                getOrderUseCase != null &&
-                getOrdersByUserNumberUseCase != null &&
                 getShopperOrdersUseCase != null &&
                 getSupplierOrdersUseCase != null &&
                 lockOrderUseCase != null &&

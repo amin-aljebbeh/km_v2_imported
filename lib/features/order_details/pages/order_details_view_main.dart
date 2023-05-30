@@ -1,14 +1,13 @@
 import '../../../core/core_importer.dart';
 
-// ignore: must_be_immutable
 class OrderDetailViewMain extends StatefulWidget {
-  int subTotal;
-  double remaining;
-  double totalDiscount;
-  OrdersOriginalData order;
+  final int subTotal;
+  final double remaining;
+  final double totalDiscount;
+  final OrdersOriginalData order;
   final OrderTypes orderType;
 
-  OrderDetailViewMain(
+  const OrderDetailViewMain(
       {Key key, this.subTotal, this.order, @required this.orderType, this.remaining, this.totalDiscount})
       : super(key: key);
 
@@ -19,6 +18,7 @@ class OrderDetailViewMain extends StatefulWidget {
 class OrderDetailViewMainState extends State<OrderDetailViewMain>
     with AutomaticKeepAliveClientMixin<OrderDetailViewMain> {
   static List<OrderProduct> productsAry;
+
   getArray() {
     productsAry = [];
     productsAry.addAll(widget.order.products);

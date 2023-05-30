@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/features/order_details/pages/order_details_tab_view.dart';
 
@@ -15,6 +14,7 @@ class SupplierOrdersViewCard extends StatefulWidget {
 
 class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
   double subTotal;
+
   int productsCount() => widget.order.products.where((product) => product.pivot.deletedAt == 'null').length;
 
   productsNetPrice() {
@@ -47,7 +47,6 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
 
   @override
   void initState() {
-    productsCount();
     productsNetPrice();
     productsDiscountPrice();
     super.initState();
@@ -91,16 +90,11 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                       decoration: BoxDecoration(border: Border.all(color: primaryColor.withOpacity(0.2))),
                       child: Text(productsCount().toString(), style: paragraphStyle, textAlign: TextAlign.center),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.order.id.toString().length >= 3
-                              ? '#${widget.order.id.toString().substring(2, widget.order.id.toString().length)}'
-                              : '#${widget.order.id.toString()}',
-                          style: profitStyle.copyWith(color: Colors.purple),
-                        ),
-                      ],
+                    Text(
+                      widget.order.id.toString().length >= 3
+                          ? '#${widget.order.id.toString().substring(2, widget.order.id.toString().length)}'
+                          : '#${widget.order.id.toString()}',
+                      style: profitStyle.copyWith(color: Colors.purple),
                     )
                   ],
                 ),
@@ -121,9 +115,8 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                   rightSideText: phoneNumberString,
                   leftSideText: widget.order.shopper != null ? widget.order.shopper.admin.phone : ' ',
                   leftSideStyle: paragraphStyle.copyWith(color: kmColors),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () => Services.makePhoneCall(
-                        widget.order.shopper != null ? widget.order.shopper.admin.phone : '0969999204'),
+                  onTap: () => Services.makePhoneCall(
+                      widget.order.shopper != null ? widget.order.shopper.admin.phone : '0969999204'),
                 ),
               ],
             ),

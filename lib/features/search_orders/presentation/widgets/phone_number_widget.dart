@@ -1,4 +1,4 @@
-import '../../../core/core_importer.dart';
+import '../../../../core/core_importer.dart';
 
 class PhoneNumberWidget extends StatelessWidget {
   final String phoneNumber;

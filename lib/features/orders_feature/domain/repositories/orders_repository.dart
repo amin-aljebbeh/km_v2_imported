@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
 
 import '../entities/change_order_status_response_entity.dart';
-import '../entities/get_order_response_entity.dart';
 import '../entities/lock_order_response_entity.dart';
 import '../entities/order_entity.dart';
 
@@ -13,11 +12,6 @@ abstract class OrdersRepository {
   Future<Either<Failure, List<OrderEntity>>> getSupplierOrders({int pageNumber, CancelToken cancelToken});
 
   Future<Either<Failure, List<OrderEntity>>> getShopperOrders({int pageNumber, CancelToken cancelToken});
-
-  Future<Either<Failure, List<OrderEntity>>> getOrdersByUserNumber(
-      {String phoneNumber, int pageNumber, CancelToken cancelToken});
-
-  Future<Either<Failure, GetOrderResponseEntity>> getOrder({int orderId, CancelToken cancelToken});
 
   Future<Either<Failure, ChangeOrderStatusResponseEntity>> changeOrderStatus({int orderId, int statusId});
 

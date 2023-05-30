@@ -45,14 +45,14 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
       children: <Widget>[
         Row(
           children: <Widget>[
-            ProductCheckWidget(
-              product: widget.productData,
-              preferLeftSide: !StaticVariables.preferLeftSide,
-              productCount: widget.productData.pivot.quantity,
-              productName: widget.productData.name,
-              index: widget.index,
-              onCheckbox: (index) => widget.onCheckbox(index),
-            ), //right side
+            if (!StaticVariables.preferLeftSide)
+              ProductCheckWidget(
+                product: widget.productData,
+                productCount: widget.productData.pivot.quantity,
+                productName: widget.productData.name,
+                index: widget.index,
+                onCheckbox: (index) => widget.onCheckbox(index),
+              ), //right side
             InkWell(
               onTap: () => Navigator.push(
                   context,
@@ -118,14 +118,14 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                 ],
               ),
             ),
-            ProductCheckWidget(
-              product: widget.productData,
-              preferLeftSide: StaticVariables.preferLeftSide,
-              productCount: widget.productData.pivot.quantity,
-              productName: widget.productData.name,
-              index: widget.index,
-              onCheckbox: (index) => widget.onCheckbox(index),
-            ),
+            if (StaticVariables.preferLeftSide)
+              ProductCheckWidget(
+                product: widget.productData,
+                productCount: widget.productData.pivot.quantity,
+                productName: widget.productData.name,
+                index: widget.index,
+                onCheckbox: (index) => widget.onCheckbox(index),
+              ),
           ],
         ),
         const Divider()

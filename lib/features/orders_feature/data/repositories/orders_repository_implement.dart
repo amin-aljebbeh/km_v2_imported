@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/features/orders_feature/domain/entities/change_order_status_response_entity.dart';
-import 'package:kammun_app/features/orders_feature/domain/entities/get_order_response_entity.dart';
 import 'package:kammun_app/features/orders_feature/domain/entities/lock_order_response_entity.dart';
 import 'package:kammun_app/features/orders_feature/domain/entities/order_entity.dart';
 
@@ -55,41 +54,6 @@ class OrdersRepositoryImplement implements OrdersRepository {
     try {
       List<OrderEntity> orders = await ordersRemoteDataSource.getAllOrders(
           cancelToken: cancelToken, pageNumber: pageNumber, filterEvaluatedOrders: filterEvaluatedOrders);
-      return Right(orders);
-    } on CacheException {
-      return Left(CacheFailure());
-    } on ServerException {
-      return Left(ServerFailure());
-    } on OfflineException {
-      return Left(OfflineFailure());
-    } catch (e) {
-      return Left(InternalFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, GetOrderResponseEntity>> getOrder({int orderId, CancelToken cancelToken}) async {
-    try {
-      GetOrderResponseEntity response =
-          await ordersRemoteDataSource.getOrder(cancelToken: cancelToken, orderId: orderId);
-      return Right(response);
-    } on CacheException {
-      return Left(CacheFailure());
-    } on ServerException {
-      return Left(ServerFailure());
-    } on OfflineException {
-      return Left(OfflineFailure());
-    } catch (e) {
-      return Left(InternalFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<OrderEntity>>> getOrdersByUserNumber(
-      {String phoneNumber, int pageNumber, CancelToken cancelToken}) async {
-    try {
-      List<OrderEntity> orders = await ordersRemoteDataSource.getOrdersByUserNumber(
-          cancelToken: cancelToken, pageNumber: pageNumber, phoneNumber: phoneNumber);
       return Right(orders);
     } on CacheException {
       return Left(CacheFailure());

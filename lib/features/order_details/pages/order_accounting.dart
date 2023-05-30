@@ -15,7 +15,6 @@ class OrderAccounting extends StatefulWidget {
 }
 
 class _OrderAccountingState extends State<OrderAccounting> {
-  List<Widget> subWarehouseTotal = [];
   List<InkWell> imageWidgets = [];
   List<OrderImage> images = [];
 
@@ -27,7 +26,6 @@ class _OrderAccountingState extends State<OrderAccounting> {
 
   @override
   Widget build(BuildContext context) {
-    subWarehouseTotal = OrderDetailsServices.calculate(order: widget.orderData, context: context);
     if (widget.orderData.images != null) {
       if (widget.orderData.images.isNotEmpty) {
         imageWidgets = OrderDetailsServices.getImages(
@@ -54,7 +52,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
               children: [
                 ListView(
                   children: [
-                    Column(children: subWarehouseTotal),
+                    Column(children: OrderDetailsServices.calculate(order: widget.orderData, context: context)),
                     Container(
                         height: MediaQuery.of(context).size.height * 0.35,
                         margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.4),
@@ -103,15 +101,6 @@ class _OrderAccountingState extends State<OrderAccounting> {
                             }
                           },
                           text: addTransaction,
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          height: 50,
-                        ),
-                      if (Services.hasRole(context, agentRole))
-                        KammunButton(
-                          color: kmColors,
-                          onTap: () => Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => AddComplaintPage(orderData: widget.orderData))),
-                          text: 'إضافة شكوى',
                           width: MediaQuery.of(context).size.width * 0.9,
                           height: 50,
                         ),

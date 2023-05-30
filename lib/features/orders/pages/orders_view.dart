@@ -48,7 +48,7 @@ class OrdersViewState extends State<OrdersView> {
   bool errorMessage = false;
   String errorMessageValue = '';
   bool isLoading = false;
-  int page = 1;
+  int limitedPage = 1;
   int indexPage = 1;
   bool theEndOfOrders = false;
 
@@ -150,7 +150,7 @@ class OrdersViewState extends State<OrdersView> {
                             setState(() {
                               ordersFilter = value;
                               StaticVariables.ordersViewFilter = value;
-                              page = 1;
+                              limitedPage = 1;
                               indexPage = 1;
                               pageController.clear();
                             });
@@ -161,7 +161,7 @@ class OrdersViewState extends State<OrdersView> {
                           value: ordersTypeFilter,
                           items: Services.dropdownStringList(orderTypes),
                           onChanged: (value) {
-                            setState(() => {ordersTypeFilter = value, page = 1, indexPage = 1});
+                            setState(() => {ordersTypeFilter = value, limitedPage = 1, indexPage = 1});
                             _getOrders();
                           },
                         ),
@@ -187,29 +187,25 @@ class OrdersViewState extends State<OrdersView> {
                                       });
                                       _getOrders();
                                     }),
-                              SearchOrderByPhoneNumber(
-                                  phoneController: phoneController,
-                                  idController: idController,
-                                  context: context,
-                                  onChoose: () {}),
+                              SearchOrderByPhoneNumber(context: context, onChoose: () {}),
                               IconButton(
                                 onPressed: () {
-                                  setState(() => {indexPage++, if (page < 15) page++});
+                                  setState(() => {indexPage++, if (limitedPage < 15) limitedPage++});
                                   _getOrders();
                                 },
                                 icon: Icon(Icons.arrow_back, size: 40, color: kmColors),
                               ),
                               DropdownButton(
-                                value: page,
+                                value: limitedPage,
                                 items: Services.dropdownIntList(inputList: dropdownValues),
                                 onChanged: (value) {
-                                  setState(() => {page = value, indexPage = value});
+                                  setState(() => {limitedPage = value, indexPage = value});
                                   _getOrders();
                                 },
                               ),
                               IconButton(
                                 onPressed: () => setState(() {
-                                  if (indexPage > 1 && indexPage <= 15) page--;
+                                  if (indexPage > 1 && indexPage <= 15) limitedPage--;
                                   if (indexPage > 1) indexPage--;
                                   _getOrders();
                                 }),
@@ -229,7 +225,7 @@ class OrdersViewState extends State<OrdersView> {
                                           value: warehouse.id))
                                       .toList(),
                                   onChanged: (value) {
-                                    setState(() => {warehouseFilter = value, page = 1, indexPage = 1});
+                                    setState(() => {warehouseFilter = value, limitedPage = 1, indexPage = 1});
                                     _getOrders();
                                   },
                                 ),
@@ -244,7 +240,7 @@ class OrdersViewState extends State<OrdersView> {
                                         if (int.parse(pageController.text) > 0) {
                                           setState(() {
                                             indexPage = int.parse(pageController.text);
-                                            if (indexPage <= 15) page = indexPage;
+                                            if (indexPage <= 15) limitedPage = indexPage;
                                             _getOrders();
                                           });
                                         }

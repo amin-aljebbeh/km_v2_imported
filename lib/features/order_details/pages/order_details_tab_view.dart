@@ -4,16 +4,15 @@ import 'package:kammun_app/features/order_details/pages/order_deleted_products.d
 import '../../../core/core_importer.dart';
 import 'order_details_view_main.dart';
 
-// ignore: must_be_immutable
 class OrderDetailsTabView extends StatefulWidget {
-  int subTotal;
-  OrdersOriginalData orderData;
+  final int subTotal;
+  final OrdersOriginalData orderData;
   final OrderTypes orderType;
-  double remaining;
-  double totalDiscount;
-  bool deletedProducts;
+  final double remaining;
+  final double totalDiscount;
+  final bool deletedProducts;
 
-  OrderDetailsTabView({
+  const OrderDetailsTabView({
     Key key,
     this.orderType,
     this.orderData,

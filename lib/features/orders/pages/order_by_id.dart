@@ -94,11 +94,7 @@ class _OrderByIDState extends State<OrderByID> {
                       ),
                     ),
                     Center(
-                      child: SearchOrderByPhoneNumber(
-                          phoneController: phoneController,
-                          idController: idController,
-                          context: context,
-                          onChoose: () => Navigator.of(context).pop()),
+                      child: SearchOrderByPhoneNumber(context: context, onChoose: () => Navigator.of(context).pop()),
                     ),
                     Container(),
                   ],

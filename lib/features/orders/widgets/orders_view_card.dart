@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/features/coupons/presentation/redux/coupon_action.dart';
 import 'package:kammun_app/features/order_details/pages/order_details_tab_view.dart';
@@ -196,7 +195,7 @@ class OrdersViewCard extends StatelessWidget {
                       rightSideText: phoneNumberString,
                       leftSideText: order.userData.phone,
                       leftSideStyle: paragraphStyle.copyWith(color: kmColors),
-                      recognizer: TapGestureRecognizer()..onTap = () => Services.makePhoneCall(order.userData.phone),
+                      onTap: () => Services.makePhoneCall(order.userData.phone),
                     ),
                     if (Services.hasRole(context, operationManagerRole))
                       InkWell(
@@ -235,12 +234,6 @@ class OrdersViewCard extends StatelessWidget {
                                   builder: (screenContext) =>
                                       PhoneNumberOrdersView(phoneNumber: order.userData.phone)));
                         },
-                      ),
-                    if (Services.hasRole(context, agentRole))
-                      InkWell(
-                        child: Icon(Icons.report_problem_rounded, color: kmColors, size: 30),
-                        onTap: () => Navigator.push(
-                            context, MaterialPageRoute(builder: (screenContext) => AddComplaintPage(orderData: order))),
                       ),
                     if (order.address.lat != -1 && order.address.lon != -1)
                       InkWell(

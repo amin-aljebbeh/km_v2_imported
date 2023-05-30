@@ -126,8 +126,6 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                       },
                     ),
                     SearchOrderByPhoneNumber(
-                      phoneController: phoneController,
-                      idController: idController,
                       context: context,
                       onChoose: () => Navigator.of(context).pop(),
                     ),

@@ -1,7 +1,6 @@
 import '../../../core/core_importer.dart';
 
-class ProductCheckWidget extends StatefulWidget {
-  final bool preferLeftSide;
+class ProductCheckWidget extends StatelessWidget {
   final String productCount;
   final String productName;
   final int index;
@@ -11,7 +10,6 @@ class ProductCheckWidget extends StatefulWidget {
 
   const ProductCheckWidget({
     Key key,
-    @required this.preferLeftSide,
     @required this.productCount,
     @required this.productName,
     @required this.index,
@@ -20,79 +18,64 @@ class ProductCheckWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ProductCheckWidgetState createState() => _ProductCheckWidgetState();
-}
-
-class _ProductCheckWidgetState extends State<ProductCheckWidget> {
-  @override
   Widget build(BuildContext context) {
-    return widget.preferLeftSide
-        ? Row(
+    return Row(
+      children: [
+        if (Services.hasRole(context, operationManagerRole) || product.pivot.deletedAt != 'null')
+          Column(
             children: [
-              if (Services.hasRole(context, operationManagerRole) || widget.product.pivot.deletedAt != 'null')
-                Column(
-                  children: [
-                    PrimeProductWidget(product: widget.product),
-                    RotatedBox(
-                      quarterTurns: 1,
-                      child: SwitchProductStatusWidget(
-                        isForSubWarehouse: true,
-                        height: 20,
-                        width: 65,
-                        preState: widget.product.isActive,
-                        subWarehouseId: widget.product.subWarehouseId,
-                        productId: widget.product.pivot.productId,
-                        onChange: (int active, bool result) {
-                          setState(() {
-                            if (result) widget.product.isActive = active;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
+              PrimeProductWidget(product: product),
+              RotatedBox(
+                quarterTurns: 1,
+                child: SwitchProductStatusWidget(
+                  isForSubWarehouse: true,
+                  height: 20,
+                  width: 65,
+                  preState: product.isActive,
+                  subWarehouseId: product.subWarehouseId,
+                  productId: product.pivot.productId,
+                  onChange: (int active, bool result) {
+                    if (result) product.isActive = active;
+                  },
                 ),
-              // if (Services.authorized(context, supplierRol))
-              //   KOutlinedButton(
-              //       text: 'المنتج غير متوفر',
-              //       color: kmColors2,
-              //       onTap: () {},
-              //       width: MediaQuery.of(context).size.width / 5),
-              Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(3.0),
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                        border: Border.all(color: primaryColor, width: 2)),
-                    child: Center(child: Text(widget.productCount, style: mainStyle.copyWith(fontSize: 30))),
-                  ),
-                  IconButton(
-                      icon: const Icon(Icons.library_add_check_outlined, color: Colors.green),
-                      onPressed: () {
-                        if (widget.productCount != '1') {
-                          List<DialogButton> decisionButtons = [
-                            DialogButton(
-                              text: 'نعم',
-                              onTap: () {
-                                Navigator.of(context).pop();
-                                widget.onCheckbox(widget.index);
-                              },
-                            ),
-                            DialogButton(text: 'لا', onTap: () => Navigator.of(context).pop()),
-                          ];
-                          showMyDialog(
-                              context: context,
-                              title: 'تحقق من الكمية',
-                              text: 'هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}',
-                              dialogButtons: decisionButtons);
-                        } else {
-                          widget.onCheckbox(widget.index);
-                        }
-                      }),
-                ],
               ),
             ],
-          )
-        : Container();
+          ),
+        Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(3.0),
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  border: Border.all(color: primaryColor, width: 2)),
+              child: Center(child: Text(productCount, style: mainStyle.copyWith(fontSize: 30))),
+            ),
+            IconButton(
+                icon: const Icon(Icons.library_add_check_outlined, color: Colors.green),
+                onPressed: () {
+                  if (productCount != '1') {
+                    List<DialogButton> decisionButtons = [
+                      DialogButton(
+                        text: 'نعم',
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          onCheckbox(index);
+                        },
+                      ),
+                      DialogButton(text: 'لا', onTap: () => Navigator.of(context).pop()),
+                    ];
+                    showMyDialog(
+                        context: context,
+                        title: 'تحقق من الكمية',
+                        text: 'هل أنت متأكد انك وجدت $productCount قطعة من $productName',
+                        dialogButtons: decisionButtons);
+                  } else {
+                    onCheckbox(index);
+                  }
+                }),
+          ],
+        ),
+      ],
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:kammun_app/features/loading/presentation/redux/loading_state.dart';
 import 'package:kammun_app/features/orders_feature/presentation/redux/orders_state.dart';
+import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_state.dart';
 import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_state.dart';
 
 import '../core/core_importer.dart';
@@ -21,6 +22,7 @@ class AppState extends Equatable {
   final InventoryState inventoryState;
   final LoadingState loadingState;
   final OrdersState ordersState;
+  final SearchOrdersState searchOrdersState;
   final ShoppersState shoppersState;
   final SupplierState supplierState;
   final TransactionsState transactionsState;
@@ -32,6 +34,7 @@ class AppState extends Equatable {
     this.inventoryState,
     this.errorState,
     this.loadingState,
+    this.searchOrdersState,
     this.supplierState,
     this.complaintsState,
     this.adminsState,
@@ -49,6 +52,7 @@ class AppState extends Equatable {
         adminsState: AdminsState.initial(),
         couponState: CouponState.initial(),
         usersState: UsersState.initial(),
+        searchOrdersState: SearchOrdersState.initial(),
         ordersState: OrdersState.initial(),
         transactionsState: TransactionsState.initial(),
         shoppersState: ShoppersState.initial(),
@@ -63,6 +67,7 @@ class AppState extends Equatable {
     AdminsState adminsState,
     CouponState couponState,
     UsersState usersState,
+    SearchOrdersState searchOrdersState,
     OrdersState ordersState,
     TransactionsState transactionsState,
     ShoppersState shoppersState,
@@ -76,6 +81,7 @@ class AppState extends Equatable {
       adminsState: adminsState ?? this.adminsState,
       couponState: couponState ?? this.couponState,
       usersState: usersState ?? this.usersState,
+      searchOrdersState: searchOrdersState ?? this.searchOrdersState,
       ordersState: ordersState ?? this.ordersState,
       transactionsState: transactionsState ?? this.transactionsState,
       shoppersState: shoppersState ?? this.shoppersState,
@@ -91,6 +97,7 @@ class AppState extends Equatable {
         transactionsState,
         complaintsState,
         adminsState,
+        searchOrdersState,
         couponState,
         usersState,
         ordersState,

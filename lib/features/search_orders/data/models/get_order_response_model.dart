@@ -1,6 +1,6 @@
 import 'package:kammun_app/features/orders_feature/data/models/order_model.dart';
 import 'package:kammun_app/features/orders_feature/data/models/show_data_model.dart';
-import 'package:kammun_app/features/orders_feature/domain/entities/get_order_response_entity.dart';
+import 'package:kammun_app/features/search_orders/domain/entities/get_order_response_entity.dart';
 
 import '../../../../core/core_importer.dart';
 

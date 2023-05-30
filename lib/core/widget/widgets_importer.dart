@@ -3,11 +3,11 @@ export '../../features/inventory_feature/presentation/widgets/inventory_search_t
 export '../../features/order_details/widgets/order_detail_view_main_card.dart';
 export '../../features/order_details/widgets/product_check_widget.dart';
 export '../../features/orders/widgets/orders_view_card.dart';
-export '../../features/orders/widgets/phone_number_widget.dart';
-export '../../features/orders/widgets/search_order_by_phone_number_widget.dart';
 export '../../features/orders/widgets/supplier_orders_view_card.dart';
 export '../../features/products_view/widgets/facebook_loader.dart';
 export '../../features/products_view/widgets/products_view_card.dart';
+export '../../features/search_orders/presentation/widgets/phone_number_widget.dart';
+export '../../features/search_orders/presentation/widgets/search_order_by_phone_number_widget.dart';
 export '../../features/shoppers/presentation/widgets/shopper_widget.dart';
 export '../../features/store/widgets/k_drawer.dart';
 export 'add_image_widget.dart';

@@ -7,6 +7,14 @@ abstract class OrdersAction {
   handle({@required Store<AppState> store});
 }
 
+class GetOrdersAction implements OrdersAction {
+  @override
+  handle({Store<AppState> store}) {
+    // TODO: implement handle
+    throw UnimplementedError();
+  }
+}
+
 class ReAssignOrderAction implements OrdersAction {
   final int orderId;
   final BuildContext context;
@@ -71,23 +79,26 @@ class ChangeOrderStatusAction implements OrdersAction {
     store.dispatch(StartLoading());
     Either either =
         await store.state.ordersState.ordersUSeCases.changeOrderStatusUseCase(orderId: orderId, statusId: statusId);
-    either.fold((failure) => snackBar(context: context, success: false, message: 'حدث خطأ، يرجى المحاولة مجدداً'),
-        (_) => snackBar(context: context, success: true, message: 'تم تغيير حالة الطلب بنجاح'));
+    either.fold((failure) => snackBar(context: context, success: false, message: 'حدث خطأ، يرجى المحاولة مجدداً'), (_) {
+      //todo implement state
+      snackBar(context: context, success: true, message: 'تم تغيير حالة الطلب بنجاح');
+    });
     store.dispatch(StopLoading());
   }
 }
 
 class GetAllOrdersAction implements OrdersAction {
-  final int pageNumber, filterEvaluatedOrders;
   final CancelToken cancelToken;
 
-  GetAllOrdersAction({this.pageNumber, this.filterEvaluatedOrders, this.cancelToken});
+  GetAllOrdersAction({this.cancelToken});
 
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases.getAllOrdersUseCase(
-        cancelToken: cancelToken, filterEvaluatedOrders: filterEvaluatedOrders, pageNumber: pageNumber);
+        cancelToken: cancelToken,
+        filterEvaluatedOrders: store.state.ordersState.rateFilter,
+        pageNumber: store.state.ordersState.ordersPage);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (orders) {
       store.dispatch(SetViewOrders(orders: orders));
     });
@@ -95,52 +106,16 @@ class GetAllOrdersAction implements OrdersAction {
   }
 }
 
-class GetOrderAction implements OrdersAction {
-  final int orderId;
-  final CancelToken cancelToken;
-
-  GetOrderAction({this.orderId, this.cancelToken});
-
-  @override
-  handle({Store<AppState> store}) async {
-    store.dispatch(StartLoading());
-    Either either =
-        await store.state.ordersState.ordersUSeCases.getOrderUseCase(cancelToken: cancelToken, orderId: orderId);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (orders) => store.dispatch(SetSearchOrders(orders: orders)));
-    store.dispatch(StopLoading());
-  }
-}
-
-class GetOrdersByUserNumberAction implements OrdersAction {
-  final int pageNumber;
-  final String phoneNumber;
-  final CancelToken cancelToken;
-
-  GetOrdersByUserNumberAction({this.pageNumber, this.cancelToken, this.phoneNumber});
-
-  @override
-  handle({Store<AppState> store}) async {
-    store.dispatch(StartLoading());
-    Either either = await store.state.ordersState.ordersUSeCases
-        .getOrdersByUserNumberUseCase(cancelToken: cancelToken, pageNumber: pageNumber, phoneNumber: phoneNumber);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (orders) => store.dispatch(SetSearchOrders(orders: orders)));
-    store.dispatch(StopLoading());
-  }
-}
-
 class GetShopperOrdersAction implements OrdersAction {
-  final int pageNumber;
   final CancelToken cancelToken;
 
-  GetShopperOrdersAction({this.pageNumber, this.cancelToken});
+  GetShopperOrdersAction({this.cancelToken});
 
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases
-        .getShopperOrdersUseCase(cancelToken: cancelToken, pageNumber: pageNumber);
+        .getShopperOrdersUseCase(cancelToken: cancelToken, pageNumber: store.state.ordersState.ordersPage);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
         (orders) => store.dispatch(SetViewOrders(orders: orders)));
     store.dispatch(StopLoading());
@@ -148,16 +123,15 @@ class GetShopperOrdersAction implements OrdersAction {
 }
 
 class GetSupplierOrdersAction implements OrdersAction {
-  final int pageNumber;
   final CancelToken cancelToken;
 
-  GetSupplierOrdersAction({this.pageNumber, this.cancelToken});
+  GetSupplierOrdersAction({this.cancelToken});
 
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases
-        .getSupplierOrdersUseCase(cancelToken: cancelToken, pageNumber: pageNumber);
+        .getSupplierOrdersUseCase(cancelToken: cancelToken, pageNumber: store.state.ordersState.ordersPage);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
         (orders) => store.dispatch(SetViewOrders(orders: orders)));
     store.dispatch(StopLoading());
@@ -175,7 +149,7 @@ class LockOrderAction implements OrdersAction {
     Either either = await store.state.ordersState.ordersUSeCases.lockOrderUseCase(orderId: orderId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
       //todo implement state
-      List<OrderEntity> orders = store.state.ordersState.viewOrders;
+      List<OrderEntity> orders = store.state.ordersState.orders;
       store.dispatch(SetViewOrders(orders: orders));
     });
     store.dispatch(StopLoading());
@@ -193,7 +167,7 @@ class UnLockOrderAction implements OrdersAction {
     Either either = await store.state.ordersState.ordersUSeCases.unlockOrderUseCase(orderId: orderId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
       //todo implement state
-      List<OrderEntity> orders = store.state.ordersState.viewOrders;
+      List<OrderEntity> orders = store.state.ordersState.orders;
       store.dispatch(SetViewOrders(orders: orders));
     });
     store.dispatch(StopLoading());
@@ -206,8 +180,38 @@ class SetViewOrders {
   SetViewOrders({this.orders});
 }
 
-class SetSearchOrders {
-  final List<OrderEntity> orders;
+class SetOrdersStatusFilter {
+  final int filter;
 
-  SetSearchOrders({this.orders});
+  SetOrdersStatusFilter({this.filter});
+}
+
+class SetOrdersPage {
+  final int page;
+
+  SetOrdersPage({this.page});
+}
+
+class SetLimitedOrdersPage {
+  final int page;
+
+  SetLimitedOrdersPage({this.page});
+}
+
+class SetAssignFilter {
+  final int filter;
+
+  SetAssignFilter({this.filter});
+}
+
+class SetWarehouseFilter {
+  final int filter;
+
+  SetWarehouseFilter({this.filter});
+}
+
+class SetRateFilter {
+  final int filter;
+
+  SetRateFilter({this.filter});
 }

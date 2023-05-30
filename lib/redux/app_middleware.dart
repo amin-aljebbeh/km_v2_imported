@@ -7,6 +7,7 @@ import '../features/error/presentation/redux/error_middleware.dart';
 import '../features/inventory_feature/presentation/redux/inventory_middleware.dart';
 import '../features/loading/presentation/redux/loading_middleware.dart';
 import '../features/orders_feature/presentation/redux/orders_middleware.dart';
+import '../features/search_orders/presentation/redux/search_orders_middleware.dart';
 import '../features/supplier/presentation/redux/supplier_middleware.dart';
 import '../features/transactions/presentation/redux/transactions_middleware.dart';
 import '../features/users/presentation/redux/users_middleware.dart';
@@ -25,5 +26,6 @@ List<Middleware<AppState>> appMiddleware() {
     ordersMiddleware,
     transactionsMiddleware,
     shoppersMiddleware,
+    searchOrdersMiddleware,
   ];
 }

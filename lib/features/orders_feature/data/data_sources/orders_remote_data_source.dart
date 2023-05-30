@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/core_importer.dart';
 import '../models/change_order_status_response_model.dart';
-import '../models/get_order_response_model.dart';
 import '../models/lock_order_response_model.dart';
 import '../models/order_model.dart';
 import '../models/orders_model.dart';
@@ -13,10 +12,6 @@ abstract class OrdersRemoteDataSource {
   Future<List<OrderModel>> getSupplierOrders({int pageNumber, CancelToken cancelToken});
 
   Future<List<OrderModel>> getShopperOrders({int pageNumber, CancelToken cancelToken});
-
-  Future<List<OrderModel>> getOrdersByUserNumber({String phoneNumber, int pageNumber, CancelToken cancelToken});
-
-  Future<GetOrderResponseModel> getOrder({int orderId, CancelToken cancelToken});
 
   Future<ChangeOrderStatusResponseModel> changeOrderStatus({int orderId, int statusId});
 
@@ -65,38 +60,6 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
         url: orderApi,
         method: HttpMethods.get,
         queryParameters: {'page': pageNumber, 'filter_evaluated_orders': filterEvaluatedOrders});
-    try {
-      if (response != null) {
-        if (response.statusCode == successCode) return ordersModelFromJson(jsonEncode(response.data)).data.data;
-      }
-    } catch (e) {
-      throw (InternalException(message: e.toString()));
-    }
-    throw (ServerException());
-  }
-
-  @override
-  Future<GetOrderResponseModel> getOrder({int orderId, CancelToken cancelToken}) async {
-    Response response = await ApiProvider.sendRequest(
-        cancelToken: cancelToken, url: orderApi + orderId.toString(), method: HttpMethods.get);
-    try {
-      if (response != null) {
-        if (response.statusCode == successCode) return orderModelFromJson(jsonEncode(response.data));
-      }
-    } catch (e) {
-      throw (InternalException(message: e.toString()));
-    }
-    throw (ServerException());
-  }
-
-  @override
-  Future<List<OrderModel>> getOrdersByUserNumber({String phoneNumber, int pageNumber, CancelToken cancelToken}) async {
-    Response response = await ApiProvider.sendRequest(
-      cancelToken: cancelToken,
-      url: getOrdersByUserPhoneNumberApi,
-      method: HttpMethods.get,
-      queryParameters: {'page': pageNumber, 'phone': phoneNumber},
-    );
     try {
       if (response != null) {
         if (response.statusCode == successCode) return ordersModelFromJson(jsonEncode(response.data)).data.data;

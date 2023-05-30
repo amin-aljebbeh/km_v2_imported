@@ -2,10 +2,11 @@ import 'package:kammun_app/features/complaints/domain/entities/complaint_entity.
 import 'package:kammun_app/features/complaints/presentation/redux/complaints_action.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../orders_feature/domain/entities/order_entity.dart';
 
 class AddComplaintPage extends StatefulWidget {
   static const String routeName = '/AddComplaintPage';
-  final OrdersOriginalData orderData;
+  final OrderEntity orderData;
   const AddComplaintPage({Key key, this.orderData}) : super(key: key);
 
   @override

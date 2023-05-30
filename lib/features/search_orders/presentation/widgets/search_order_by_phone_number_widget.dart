@@ -2,17 +2,16 @@ import 'package:call_log/call_log.dart';
 import 'package:kammun_app/features/orders/pages/order_by_id.dart';
 import 'package:kammun_app/features/orders/services/order_services.dart';
 
-import '../../../core/core_importer.dart';
-import '../pages/orders_view_importer.dart';
+import '../../../../core/core_importer.dart';
+import '../../../orders/pages/orders_view_importer.dart';
 
 class SearchOrderByPhoneNumber extends StatelessWidget {
   final Function onChoose;
   final BuildContext context;
-  final TextEditingController idController;
-  final TextEditingController phoneController;
+  final TextEditingController idController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
-  const SearchOrderByPhoneNumber({Key key, this.onChoose, this.context, this.idController, this.phoneController})
-      : super(key: key);
+  SearchOrderByPhoneNumber({Key key, this.onChoose, this.context}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

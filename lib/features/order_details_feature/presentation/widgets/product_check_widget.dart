@@ -1,0 +1,85 @@
+import '../../../../core/core_importer.dart';
+
+class ProductCheckWidget extends StatelessWidget {
+  final bool preferLeftSide;
+  final String productCount;
+  final String productName;
+  final int index;
+  final Function(int) onCheckbox;
+
+  final OrderProduct product;
+
+  const ProductCheckWidget({
+    Key key,
+    @required this.preferLeftSide,
+    @required this.productCount,
+    @required this.productName,
+    @required this.index,
+    @required this.onCheckbox,
+    @required this.product,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return preferLeftSide
+        ? Row(
+            children: [
+              if (Services.hasRole(context, operationManagerRole) || product.pivot.deletedAt != 'null')
+                Column(
+                  children: [
+                    PrimeProductWidget(product: product),
+                    RotatedBox(
+                      quarterTurns: 1,
+                      child: SwitchProductStatusWidget(
+                        isForSubWarehouse: true,
+                        height: 20,
+                        width: 65,
+                        preState: product.isActive,
+                        subWarehouseId: product.subWarehouseId,
+                        productId: product.pivot.productId,
+                        onChange: (int active, bool result) {
+                          if (result) product.isActive = active;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(3.0),
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                        border: Border.all(color: primaryColor, width: 2)),
+                    child: Center(child: Text(productCount, style: mainStyle.copyWith(fontSize: 30))),
+                  ),
+                  IconButton(
+                      icon: const Icon(Icons.library_add_check_outlined, color: Colors.green),
+                      onPressed: () {
+                        if (productCount != '1') {
+                          List<DialogButton> decisionButtons = [
+                            DialogButton(
+                              text: 'نعم',
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                onCheckbox(index);
+                              },
+                            ),
+                            DialogButton(text: 'لا', onTap: () => Navigator.of(context).pop()),
+                          ];
+                          showMyDialog(
+                              context: context,
+                              title: 'تحقق من الكمية',
+                              text: 'هل أنت متأكد انك وجدت $productCount قطعة من $productName',
+                              dialogButtons: decisionButtons);
+                        } else {
+                          onCheckbox(index);
+                        }
+                      }),
+                ],
+              ),
+            ],
+          )
+        : Container();
+  }
+}

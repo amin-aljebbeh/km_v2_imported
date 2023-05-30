@@ -5,23 +5,60 @@ import '../../domain/use_cases/orders_use_cases.dart';
 @immutable
 class OrdersState extends Equatable {
   final OrdersUSeCases ordersUSeCases;
-  final List<OrderEntity> viewOrders;
-  final List<OrderEntity> searchOrders;
+  final List<OrderEntity> orders;
+  final int statusFilter;
+  final int warehouseFilter;
+  final int assignFilter;
+  final int ordersPage;
+  final int limitedOrdersPage;
+  final int rateFilter;
 
-  const OrdersState({this.ordersUSeCases, this.viewOrders, this.searchOrders});
+  const OrdersState({
+    this.statusFilter,
+    this.warehouseFilter,
+    this.assignFilter,
+    this.ordersUSeCases,
+    this.orders,
+    this.ordersPage,
+    this.limitedOrdersPage,
+    this.rateFilter,
+  });
 
   factory OrdersState.initial() {
-    return OrdersState(ordersUSeCases: sl<OrdersUSeCases>(), searchOrders: const [], viewOrders: const []);
+    return OrdersState(
+      ordersUSeCases: sl<OrdersUSeCases>(),
+      orders: const [],
+      statusFilter: 0,
+      assignFilter: 0,
+      warehouseFilter: 0,
+      ordersPage: 1,
+      rateFilter: 0,
+      limitedOrdersPage: 1,
+    );
   }
 
-  OrdersState copyWith({List<OrderEntity> viewOrders, List<OrderEntity> searchOrders}) {
+  OrdersState copyWith({
+    List<OrderEntity> orders,
+    int statusFilter,
+    int warehouseFilter,
+    int assignFilter,
+    int ordersPage,
+    int limitedOrdersPage,
+    int rateFilter,
+  }) {
     return OrdersState(
       ordersUSeCases: ordersUSeCases,
-      viewOrders: viewOrders ?? this.viewOrders,
-      searchOrders: searchOrders ?? this.searchOrders,
+      orders: orders ?? this.orders,
+      statusFilter: statusFilter ?? this.statusFilter,
+      assignFilter: assignFilter ?? this.assignFilter,
+      warehouseFilter: warehouseFilter ?? this.warehouseFilter,
+      ordersPage: ordersPage ?? this.ordersPage,
+      limitedOrdersPage: limitedOrdersPage ?? this.limitedOrdersPage,
+      rateFilter: rateFilter ?? this.rateFilter,
     );
   }
 
   @override
-  List<Object> get props => [ordersUSeCases, viewOrders, searchOrders];
+  List<Object> get props =>
+      [ordersUSeCases, orders, statusFilter, warehouseFilter, assignFilter, ordersPage, limitedOrdersPage, rateFilter];
 }

@@ -6,14 +6,14 @@ class LabelRow extends StatelessWidget {
   final String rightSideText;
   final String leftSideText;
   final TextStyle leftSideStyle;
-  final GestureRecognizer recognizer;
+  final Function onTap;
 
   const LabelRow({
     Key key,
     @required this.rightSideText,
     @required this.leftSideText,
     @required this.leftSideStyle,
-    this.recognizer,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -24,7 +24,10 @@ class LabelRow extends StatelessWidget {
         text: TextSpan(
           children: <TextSpan>[
             TextSpan(text: rightSideText, style: paragraphStyle),
-            TextSpan(text: leftSideText, style: leftSideStyle, recognizer: recognizer),
+            TextSpan(
+                text: leftSideText,
+                style: leftSideStyle,
+                recognizer: TapGestureRecognizer()..onTap = () => onTap != null ? onTap() : {}),
           ],
         ),
       ),
