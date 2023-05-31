@@ -1,6 +1,6 @@
 export '../../features/inventory_feature/presentation/widgets/inventory_products_card.dart';
 export '../../features/inventory_feature/presentation/widgets/inventory_search_text_field.dart';
-export '../../features/order_details/widgets/order_detail_view_main_card.dart';
+export '../../features/order_details/widgets/order_product_widget.dart';
 export '../../features/order_details/widgets/product_check_widget.dart';
 export '../../features/orders/widgets/orders_view_card.dart';
 export '../../features/orders/widgets/supplier_orders_view_card.dart';

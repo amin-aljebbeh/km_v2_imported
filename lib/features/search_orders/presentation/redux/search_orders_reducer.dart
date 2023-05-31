@@ -6,6 +6,7 @@ Reducer<SearchOrdersState> searchOrdersReducer = combineReducers<SearchOrdersSta
   TypedReducer<SearchOrdersState, SetSearchOrders>(setSearchOrders),
   TypedReducer<SearchOrdersState, SetSearchStatusFilter>(setSearchStatusFilter),
   TypedReducer<SearchOrdersState, SetSearchPage>(setSearchPage),
+  TypedReducer<SearchOrdersState, SetSearchOrdersType>(setSearchOrdersType),
 ]);
 
 SearchOrdersState setSearchOrders(SearchOrdersState state, SetSearchOrders action) {
@@ -18,4 +19,8 @@ SearchOrdersState setSearchStatusFilter(SearchOrdersState state, SetSearchStatus
 
 SearchOrdersState setSearchPage(SearchOrdersState state, SetSearchPage action) {
   return state.copyWith(page: action.page);
+}
+
+SearchOrdersState setSearchOrdersType(SearchOrdersState state, SetSearchOrdersType action) {
+  return state.copyWith(searchOrdersType: action.searchOrdersType);
 }

@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:kammun_app/features/order_details/pages/order_details_tab_view.dart';
+import 'package:kammun_app/features/order_details_feature/presentation/pages/order_tabs_page.dart';
 
 import '../../../core/core_importer.dart';
 
@@ -13,11 +13,7 @@ class SupplierOrdersViewCard extends StatefulWidget {
 }
 
 class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
-  double subTotal;
-
-  int productsCount() => widget.order.products.where((product) => product.pivot.deletedAt == 'null').length;
-
-  productsNetPrice() {
+  double productsNetPrice() {
     double total = 0;
     for (int i = 0; i < widget.order.products.length; i++) {
       if ((widget.order.products[i].pivot.deletedAt == 'null')) {
@@ -27,29 +23,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
         total += subTotal;
       }
     }
-    widget.order.total = total.toString();
-  }
-
-  productsDiscountPrice() {
-    double total = 0;
-    for (int i = 0; i < widget.order.products.length; i++) {
-      if ((widget.order.products[i].pivot.deletedAt == 'null')) {
-        double discountPercentage = SubWarehouse.getDiscountPercentage(widget.order.products[i].subWarehouseId);
-        double subTotal = (double.parse(widget.order.products[i].pivot.purchasePrice) -
-                widget.order.products[i].pivot.increaseValue) -
-            (double.parse(widget.order.products[i].pivot.purchasePrice) * discountPercentage);
-        subTotal *= double.parse(widget.order.products[i].pivot.quantity);
-        total += subTotal;
-      }
-    }
-    subTotal = total;
-  }
-
-  @override
-  void initState() {
-    productsNetPrice();
-    productsDiscountPrice();
-    super.initState();
+    return total;
   }
 
   @override
@@ -60,13 +34,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => OrderDetailsTabView(
-                    subTotal: Services.kRound(subTotal),
-                    orderData: widget.order,
-                    orderType: OrderTypes.myOrder,
-                    deletedProducts: false,
-                    remaining: subTotal - Services.kRound(subTotal),
-                    totalDiscount: double.parse(widget.order.total) - Services.kRound(subTotal))));
+                builder: (context) => OrderTabsPage(orderData: widget.order, orderType: OrderTypes.myOrder)));
       },
       child: Column(
         children: [
@@ -81,14 +49,17 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                   children: <Widget>[
                     LabelRow(
                       rightSideText: bill,
-                      leftSideText: '${StringUtils().oCcy.format(int.parse(widget.order.total.split('.')[0]))}'
+                      leftSideText: '${StringUtils().oCcy.format(productsNetPrice())}'
                           ' ${StaticVariables.companyInformation.currency}',
                       leftSideStyle: informationStyle,
                     ),
                     Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(border: Border.all(color: primaryColor.withOpacity(0.2))),
-                      child: Text(productsCount().toString(), style: paragraphStyle, textAlign: TextAlign.center),
+                      child: Text(
+                          widget.order.products.where((product) => product.pivot.deletedAt == 'null').length.toString(),
+                          style: paragraphStyle,
+                          textAlign: TextAlign.center),
                     ),
                     Text(
                       widget.order.id.toString().length >= 3

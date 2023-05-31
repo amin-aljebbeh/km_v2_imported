@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:kammun_app/features/coupons/presentation/redux/coupon_action.dart';
-import 'package:kammun_app/features/order_details/pages/order_details_tab_view.dart';
+import 'package:kammun_app/features/order_details_feature/presentation/pages/order_tabs_page.dart';
 import 'package:kammun_app/features/orders/pages/orders_view_importer.dart';
 import 'package:kammun_app/features/orders/services/order_services.dart';
 import 'package:kammun_app/features/orders_feature/presentation/redux/orders_action.dart';
@@ -69,13 +69,10 @@ class OrdersViewCard extends StatelessWidget {
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => OrderDetailsTabView(
+              builder: (context) => OrderTabsPage(
                   orderData: order,
-                  deletedProducts: Services.hasRole(context, operationManagerRole) &&
+                  deleted: Services.hasRole(context, operationManagerRole) &&
                       order.products.where((product) => product.pivot.deletedAt != 'null').isNotEmpty,
-                  subTotal: int.parse(order.total.toString().split('.')[0]) -
-                      int.parse(order.supportedCityCost.toString().split('.')[0]) -
-                      int.parse(order.deliveryCost.split('.')[0]),
                   orderType: orderType))),
       child: Container(
         decoration: BoxDecoration(border: Border.all(color: color, width: 5)),

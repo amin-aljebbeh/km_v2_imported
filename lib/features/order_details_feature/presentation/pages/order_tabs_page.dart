@@ -1,47 +1,30 @@
 import 'package:kammun_app/features/order_details/pages/order_accounting.dart';
-import 'package:kammun_app/features/order_details/pages/order_deleted_products.dart';
 
-import '../../../core/core_importer.dart';
-import 'order_details_view_main.dart';
+import '../../../../core/core_importer.dart';
+import 'order_products_page.dart';
 
-class OrderDetailsTabView extends StatefulWidget {
-  final int subTotal;
+class OrderTabsPage extends StatefulWidget {
   final OrdersOriginalData orderData;
   final OrderTypes orderType;
-  final double remaining;
-  final double totalDiscount;
-  final bool deletedProducts;
+  final bool deleted;
 
-  const OrderDetailsTabView({
-    Key key,
-    this.orderType,
-    this.orderData,
-    this.subTotal,
-    this.remaining,
-    this.totalDiscount,
-    this.deletedProducts,
-  }) : super(key: key);
+  const OrderTabsPage({Key key, this.orderType, this.orderData, this.deleted = false}) : super(key: key);
 
   @override
-  _OrderDetailsTabViewState createState() => _OrderDetailsTabViewState();
+  _OrderTabsPageState createState() => _OrderTabsPageState();
 }
 
-class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTickerProviderStateMixin {
+class _OrderTabsPageState extends State<OrderTabsPage> with SingleTickerProviderStateMixin {
   List<Widget> tabList = [];
   List<Widget> screenList = [];
   TabController controller;
 
   tabBarList() {
     tabList.add(Tab(child: Center(child: Text('المنتجات', style: tabStyle))));
-    screenList.add(OrderDetailViewMain(
-        subTotal: widget.subTotal,
-        order: widget.orderData,
-        orderType: widget.orderType,
-        remaining: widget.remaining,
-        totalDiscount: widget.totalDiscount));
-    if (widget.deletedProducts) {
+    screenList.add(OrderProductsPage(order: widget.orderData, orderType: widget.orderType, deleted: false));
+    if (widget.deleted) {
       tabList.add(Center(child: Tab(child: Center(child: Text(' المحذوفة', style: tabStyle)))));
-      screenList.add(OrderDeletedProducts(order: widget.orderData, orderType: widget.orderType));
+      screenList.add(OrderProductsPage(order: widget.orderData, orderType: widget.orderType, deleted: true));
     }
     tabList.add(Tab(child: Center(child: Text('الحسابات', style: tabStyle))));
     screenList.add(OrderAccounting(orderData: widget.orderData, onDelete: () => controller.animateTo(0)));

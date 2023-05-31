@@ -3,8 +3,9 @@ import '../../../../core/core_importer.dart';
 class TemporaryLoading extends StatelessWidget {
   final Widget child;
   final bool condition;
-  final bool pop;
-  const TemporaryLoading({Key key, this.child, this.condition = true, this.pop = true}) : super(key: key);
+  final Function onPop;
+
+  const TemporaryLoading({Key key, this.child, this.condition = true, this.onPop}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +14,9 @@ class TemporaryLoading extends StatelessWidget {
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () async {
-            if (!state.loadingState.loading.isNotEmpty && pop) StoreProvider.of<AppState>(context).dispatch(NoError());
-            return !state.loadingState.loading.isNotEmpty && pop;
+            if (onPop != null) onPop();
+            if (!state.loadingState.loading.isNotEmpty) StoreProvider.of<AppState>(context).dispatch(NoError());
+            return !state.loadingState.loading.isNotEmpty;
           },
           child: Stack(
             children: [

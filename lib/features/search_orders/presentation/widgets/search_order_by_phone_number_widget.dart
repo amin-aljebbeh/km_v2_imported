@@ -4,6 +4,7 @@ import 'package:kammun_app/features/orders/services/order_services.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../orders/pages/orders_view_importer.dart';
+import '../redux/search_orders_action.dart';
 
 class SearchOrderByPhoneNumber extends StatelessWidget {
   final Function onChoose;
@@ -31,6 +32,8 @@ class SearchOrderByPhoneNumber extends StatelessWidget {
                         if (idController.text.isNotEmpty) {
                           onChoose();
                           Navigator.of(context).pop();
+                          StoreProvider.of<AppState>(context)
+                              .dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.id));
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) => OrderByID(id: idController.text)));
                         }
@@ -47,6 +50,8 @@ class SearchOrderByPhoneNumber extends StatelessWidget {
                           if (notEmpty) {
                             onChoose();
                             Navigator.of(context).pop();
+                            StoreProvider.of<AppState>(context)
+                                .dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.id));
                             Navigator.push(
                                 context, MaterialPageRoute(builder: (context) => OrderByID(id: idController.text)));
                           }
@@ -62,6 +67,8 @@ class SearchOrderByPhoneNumber extends StatelessWidget {
                     onPressed: () {
                       if (phoneController.text.isNotEmpty) {
                         onChoose();
+                        StoreProvider.of<AppState>(context)
+                            .dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.phoneNumber));
                         Navigator.of(context).pop();
                         Navigator.push(
                             context,
@@ -80,6 +87,8 @@ class SearchOrderByPhoneNumber extends StatelessWidget {
                       onSubmit: (notEmpty) {
                         if (phoneController.text.isNotEmpty) {
                           onChoose();
+                          StoreProvider.of<AppState>(context)
+                              .dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.phoneNumber));
                           Navigator.of(context).pop();
                           Navigator.push(
                               context,
@@ -113,18 +122,8 @@ class SearchOrderByPhoneNumber extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: cLog == null ? 0 : cLog.length,
                       itemBuilder: (BuildContext context1, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-                            onChoose();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PhoneNumberOrdersView(phoneNumber: cLog[index].number)));
-                          },
-                          child: PhoneNumberWidget(phoneNumber: cLog[index].number, userName: cLog[index].name),
-                        );
+                        return PhoneNumberWidget(
+                            phoneNumber: cLog[index].number, userName: cLog[index].name, onChoose: () => onChoose());
                       },
                     ),
                   ),

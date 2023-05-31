@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:kammun_app/features/order_details/pages/order_details_tab_view.dart';
+import 'package:kammun_app/features/order_details_feature/presentation/pages/order_tabs_page.dart';
 import 'package:kammun_app/features/orders_feature/domain/entities/order_entity.dart';
 import 'package:kammun_app/features/orders_feature/presentation/widgets/admin_order_foot.dart';
 import 'package:kammun_app/features/orders_feature/presentation/widgets/admin_order_head.dart';
@@ -13,9 +13,8 @@ import 'supplier_order_head.dart';
 class OrderWidget extends StatelessWidget {
   final OrderEntity order;
   final OrderTypes orderType;
-  final bool pop;
 
-  const OrderWidget({Key key, @required this.order, @required this.orderType, this.pop}) : super(key: key);
+  const OrderWidget({Key key, @required this.order, @required this.orderType}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +22,11 @@ class OrderWidget extends StatelessWidget {
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => OrderDetailsTabView(
+              builder: (context) => OrderTabsPage(
                   //todo
                   // orderData: order,
-                  deletedProducts: Services.hasRole(context, operationManagerRole) &&
+                  deleted: Services.hasRole(context, operationManagerRole) &&
                       order.products.where((product) => product.pivot.deletedAt != 'null').isNotEmpty,
-                  subTotal: int.parse(order.total.toString().split('.')[0]) -
-                      int.parse(order.supportedCityCost.toString().split('.')[0]) -
-                      int.parse(order.deliveryCost.split('.')[0]),
                   orderType: orderType))),
       child: Container(
         decoration: BoxDecoration(border: Border.all(color: frameColor(order), width: 5)),
@@ -41,7 +37,7 @@ class OrderWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Services.hasRole(context, supplierRole) ? SupplierOrderHead(order: order) : AdminOrderHead(order: order),
-              if (!Services.hasRole(context, supplierRole)) AdminOrderInfoWidget(order: order, pop: pop),
+              if (!Services.hasRole(context, supplierRole)) AdminOrderInfoWidget(order: order),
               LabelRow(
                   rightSideText: orderDate,
                   leftSideText: DateFormat('a h:mm - dd-MM-yyyy').format(order.createdAt),

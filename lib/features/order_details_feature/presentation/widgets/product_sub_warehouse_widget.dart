@@ -16,7 +16,6 @@ class _ProductSubWarehouseState extends State<ProductSubWarehouse> {
   Widget build(BuildContext context) {
     return DropdownButton(
       items: subWarehousesItems(context: context, subWarehouseId: widget.product.subWarehouseId),
-      value: widget.product.subWarehouseId,
       onChanged: (a) {
         OrderDetailsServices.updateOrder(
             orderId: widget.product.pivot.orderId,

@@ -6,6 +6,8 @@ enum MyThemeKeys { light, dark, darker }
 
 enum OrderTypes { myOrder, allOrder, search, none }
 
+enum SearchOrdersTypes { phoneNumber, id, none }
+
 enum InventoryTypes { notification, prime, underCheckAvailability }
 
 enum DateFilter { day, month, year }

@@ -7,7 +7,7 @@ abstract class SearchOrdersAction {
   handle({@required Store<AppState> store});
 }
 
-class GetOrdersAction implements SearchOrdersAction {
+class SearchOrderAction implements SearchOrdersAction {
   @override
   handle({Store<AppState> store}) {
     // TODO: implement handle
@@ -65,4 +65,10 @@ class SetSearchPage {
   final int page;
 
   SetSearchPage({this.page});
+}
+
+class SetSearchOrdersType {
+  final SearchOrdersTypes searchOrdersType;
+
+  SetSearchOrdersType({this.searchOrdersType});
 }

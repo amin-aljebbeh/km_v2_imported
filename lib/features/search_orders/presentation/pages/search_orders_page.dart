@@ -1,10 +1,11 @@
-import 'package:kammun_app/features/orders_feature/presentation/widgets/orders_filter_widget.dart';
+import 'package:kammun_app/features/orders_feature/presentation/widgets/order_widget.dart';
+import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_action.dart';
+import 'package:kammun_app/features/search_orders/presentation/widgets/search_orders_filter_widget.dart';
 
 import '../../../../core/core_importer.dart';
-import '../widgets/order_widget.dart';
 
-class OrdersPage extends StatelessWidget {
-  const OrdersPage({Key key}) : super(key: key);
+class SearchOrdersPage extends StatelessWidget {
+  const SearchOrdersPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +14,8 @@ class OrdersPage extends StatelessWidget {
       distinct: true,
       builder: (context, state) {
         return TemporaryLoading(
+          onPop: () => StoreProvider.of<AppState>(context)
+              .dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.none)),
           child: Scaffold(
             backgroundColor: Theme.of(context).primaryColorLight,
             resizeToAvoidBottomInset: false,
@@ -25,10 +28,10 @@ class OrdersPage extends StatelessWidget {
                     if (state.errorState.isError)
                       AlertMessages(
                           text: state.errorState.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
-                    OrdersFilterWidget(),
+                    const SearchOrdersFilterWidget(),
                     state.loadingState.loading.isNotEmpty
                         ? const Center(child: Loader())
-                        : state.ordersState.orders.isEmpty
+                        : state.searchOrdersState.orders.isEmpty
                             ? Padding(
                                 padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.4),
                                 child: Center(
@@ -44,13 +47,14 @@ class OrdersPage extends StatelessWidget {
                         primary: false,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount: state.ordersState.orders == null ? 0 : state.ordersState.orders.length,
+                        itemCount: state.searchOrdersState.orders == null ? 0 : state.searchOrdersState.orders.length,
                         itemBuilder: (BuildContext context, int index) {
                           if (Services.hasRole(context, shopperRole) ||
-                              state.ordersState.orders[index].shopper != null) {
+                              state.searchOrdersState.orders[index].shopper != null) {
                             // todo orderArithmeticOperations
                           }
-                          return OrderWidget(order: state.ordersState.orders[index], orderType: OrderTypes.allOrder);
+                          return OrderWidget(
+                              order: state.searchOrdersState.orders[index], orderType: OrderTypes.search);
                         },
                       ),
                     ),
