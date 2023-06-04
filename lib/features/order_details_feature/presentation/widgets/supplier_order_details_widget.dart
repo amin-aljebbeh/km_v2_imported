@@ -1,9 +1,10 @@
 import 'package:kammun_app/features/order_details_feature/order_details_services.dart';
+import 'package:kammun_app/features/orders_feature/domain/entities/order_entity.dart';
 
 import '../../../../core/core_importer.dart';
 
 class SupplierOrderDetailsWidget extends StatelessWidget {
-  final OrdersOriginalData order;
+  final OrderEntity order;
 
   const SupplierOrderDetailsWidget({Key key, this.order}) : super(key: key);
 
@@ -18,7 +19,7 @@ class SupplierOrderDetailsWidget extends StatelessWidget {
             children: <Widget>[
               Text('الزوائد', style: darkBold),
               Text(
-                '${StringUtils().oCcy.format(remaining)}'
+                '${StringUtils().oCcy.format(remaining())}'
                 ' ${StaticVariables.companyInformation.currency}',
                 style: mainStyle.copyWith(
                   fontWeight: FontWeight.w500,
@@ -36,7 +37,7 @@ class SupplierOrderDetailsWidget extends StatelessWidget {
             children: <Widget>[
               Text('إجمالي الحسم', style: darkBold),
               Text(
-                '${StringUtils().oCcy.format(totalDiscount)}'
+                '${StringUtils().oCcy.format(totalDiscount())}'
                 ' ${StaticVariables.companyInformation.currency}',
                 style: mainStyle.copyWith(
                   fontWeight: FontWeight.w500,

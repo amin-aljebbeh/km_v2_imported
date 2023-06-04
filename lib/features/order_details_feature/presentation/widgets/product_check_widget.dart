@@ -1,4 +1,5 @@
 import '../../../../core/core_importer.dart';
+import '../../../products/domain/entities/product_entity.dart';
 
 class ProductCheckWidget extends StatelessWidget {
   final bool preferLeftSide;
@@ -7,7 +8,7 @@ class ProductCheckWidget extends StatelessWidget {
   final int index;
   final Function(int) onCheckbox;
 
-  final OrderProduct product;
+  final ProductEntity product;
 
   const ProductCheckWidget({
     Key key,
@@ -34,11 +35,11 @@ class ProductCheckWidget extends StatelessWidget {
                         isForSubWarehouse: true,
                         height: 20,
                         width: 65,
-                        preState: product.isActive,
+                        preState: int.parse(product.isActive),
                         subWarehouseId: product.subWarehouseId,
                         productId: product.pivot.productId,
                         onChange: (int active, bool result) {
-                          if (result) product.isActive = active;
+                          if (result) product.isActive = active.toString();
                         },
                       ),
                     ),

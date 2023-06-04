@@ -30,7 +30,8 @@ class SearchOrdersFilterWidget extends StatelessWidget {
                 items: Services.dropdownStringList(phoneOrderStatus),
                 onChanged: (value) {
                   store.dispatch(SetSearchStatusFilter(filter: value));
-                  store.dispatch(SearchOrderAction());
+                  store.dispatch(
+                      SearchOrderAction(searchOrdersType: state.searchOrdersState.searchOrdersType, context: context));
                 },
               ),
             SearchOrderByPhoneNumber(context: context, onChoose: () => Navigator.of(context).pop()),
@@ -42,8 +43,8 @@ class SearchOrdersFilterWidget extends StatelessWidget {
                     if (state.searchOrdersState.page < 14) {
                       store.dispatch(SetSearchPage(page: state.searchOrdersState.page + 1));
                     }
-
-                    store.dispatch(SearchOrderAction());
+                    store.dispatch(SearchOrderAction(
+                        context: context, searchOrdersType: state.searchOrdersState.searchOrdersType));
                   },
                   icon: Icon(Icons.arrow_back, size: 40, color: kmColors),
                 ),
@@ -54,7 +55,8 @@ class SearchOrdersFilterWidget extends StatelessWidget {
                 items: Services.dropdownIntList(inputList: dropdownValues),
                 onChanged: (value) {
                   store.dispatch(SetSearchPage(page: value));
-                  store.dispatch(SearchOrderAction());
+                  store.dispatch(
+                      SearchOrderAction(context: context, searchOrdersType: state.searchOrdersState.searchOrdersType));
                 },
               ),
             if (state.searchOrdersState.searchOrdersType == SearchOrdersTypes.phoneNumber)
@@ -65,11 +67,13 @@ class SearchOrdersFilterWidget extends StatelessWidget {
                     if (state.searchOrdersState.page > 1) {
                       store.dispatch(SetSearchPage(page: state.searchOrdersState.page - 1));
                     }
-                    store.dispatch(SearchOrderAction());
+                    store.dispatch(SearchOrderAction(
+                        context: context, searchOrdersType: state.searchOrdersState.searchOrdersType));
                   },
                   icon: Icon(Icons.arrow_forward, size: 40, color: kmColors),
                 ),
               ),
+            if (state.searchOrdersState.searchOrdersType == SearchOrdersTypes.id) const SizedBox(),
           ],
         );
       },

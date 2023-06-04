@@ -1,10 +1,11 @@
 import 'package:kammun_app/features/order_details/pages/full_screen_image.dart';
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 
 import '../../../core/core_importer.dart';
 import '../../order_details_feature/presentation/widgets/product_sub_warehouse_widget.dart';
 
 class OrderProductWidget extends StatelessWidget {
-  final OrderProduct productData;
+  final ProductEntity productData;
   final Function onCheckbox;
   final bool newSubWarehouse;
 
@@ -37,10 +38,7 @@ class OrderProductWidget extends StatelessWidget {
         Row(
           children: <Widget>[
             if (!StaticVariables.preferLeftSide)
-              ProductCheckWidget(
-                product: productData,
-                onCheckbox: () => onCheckbox(),
-              ), //right side
+              ProductCheckWidget(product: productData, onCheckbox: () => onCheckbox()), //right side
             InkWell(
               onTap: () => Navigator.push(
                   context,

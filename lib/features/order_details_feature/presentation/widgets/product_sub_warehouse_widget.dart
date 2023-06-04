@@ -1,9 +1,11 @@
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
+
 import '../../../../core/core_importer.dart';
 import '../../../order_details/services/order_details_services.dart';
 import '../../order_details_services.dart';
 
 class ProductSubWarehouse extends StatefulWidget {
-  final OrderProduct product;
+  final ProductEntity product;
 
   const ProductSubWarehouse({Key key, this.product}) : super(key: key);
 

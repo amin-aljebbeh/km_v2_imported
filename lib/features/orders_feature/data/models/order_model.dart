@@ -1,7 +1,9 @@
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/orders_feature/data/models/address_model.dart';
+import 'package:kammun_app/features/orders_feature/data/models/order_image_model.dart';
 import 'package:kammun_app/features/products/data/models/product_model.dart';
 
+import '../../../shoppers/data/models/shopper_model.dart';
 import '../../domain/entities/order_entity.dart';
 
 class OrderModel extends OrderEntity {
@@ -88,11 +90,12 @@ class OrderModel extends OrderEntity {
       underUpdate: json['under_update'].toString(),
       products: List<ProductModel>.from(json['products'].map((x) => ProductModel.fromJson(x))),
       shopper: json['shopper'] == null ? null : ShopperModel.fromJson(json['shopper']),
-      images: json['images'] == null ? [] : List<OrderImage>.from(json['images'].map((x) => OrderImage.fromJson(x))),
-      orderAccountingRows: [],
-      shopperProfit: 0,
+      images: json['images'] == null
+          ? null
+          : List<OrderImageModel>.from(json['images'].map((x) => OrderImageModel.fromJson(x))),
+      shopperProfit: 0.0,
       userPriceRating: json['user_price_rating'].toString(),
-      kammunProfit: 0,
+      kammunProfit: 0.0,
       tips: json['tips'],
       userFeedback: json['user_feedback'] ?? 'null',
       deliveredAt:

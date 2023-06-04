@@ -4,6 +4,10 @@ import 'package:map_launcher/map_launcher.dart';
 import '../../core/core_importer.dart';
 import '../cart/services/cart_services.dart';
 
+class OrdersServices {
+  static CancelToken cancelRequest = CancelToken();
+}
+
 String chooseOrderStatus(OrderEntity order) {
   String orderStatus = 'طلبك قيد المعالجة ⌛️';
   switch (order.orderStatusId) {
@@ -43,14 +47,16 @@ String chooseOrderStatus(OrderEntity order) {
   return orderStatus;
 }
 
-Color frameColor(OrderEntity order) {
-  return order.user.orderCount <= 3 && !order.user.orderCount.isNegative
-      ? kmColors2
-      : order.deliveryMethodId == '2'
-          ? Colors.red[700]
-          : order.deliveryMethodId == '3'
-              ? Colors.green
-              : Colors.red[500];
+Color frameColor({OrderEntity order, BuildContext context}) {
+  return Services.hasRole(context, supplierRole)
+      ? Colors.transparent
+      : order.user.orderCount <= 3 && !order.user.orderCount.isNegative
+          ? kmColors2
+          : order.deliveryMethodId == '2'
+              ? Colors.red[700]
+              : order.deliveryMethodId == '3'
+                  ? Colors.green
+                  : Colors.red[500];
 }
 
 openMapSheet({context, double lat, double lon}) async {
@@ -83,7 +89,7 @@ openMapSheet({context, double lat, double lon}) async {
   }
 }
 
-moveOrderProductsToCart({BuildContext context, int orderIndex, List<OrderProduct> orderProducts}) async {
+moveOrderProductsToCart({BuildContext context, List<OrderProduct> orderProducts}) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   CartServices.cartProducts.clear();
   String productsId = '';

@@ -8,6 +8,7 @@ class LabelRow extends StatelessWidget {
   final TextStyle leftSideStyle;
   final Function onTap;
 
+//todo restore the old way
   const LabelRow({
     Key key,
     @required this.rightSideText,

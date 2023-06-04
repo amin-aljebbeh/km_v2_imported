@@ -1,4 +1,5 @@
 import 'core_importer.dart';
+import 'models/shopper_model.dart';
 
 class StaticVariables {
   static CompanyOriginalData companyInformation = CompanyOriginalData();

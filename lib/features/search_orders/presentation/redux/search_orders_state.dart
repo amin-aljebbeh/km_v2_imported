@@ -8,10 +8,18 @@ class SearchOrdersState extends Equatable {
   final SearchOrdersTypes searchOrdersType;
   final List<OrderEntity> orders;
   final int statusFilter;
+  final String phoneNumber;
+  final int id;
   final int page;
 
   const SearchOrdersState(
-      {this.statusFilter, this.searchOrdersUSeCases, this.orders, this.page, this.searchOrdersType});
+      {this.statusFilter,
+      this.phoneNumber,
+      this.id,
+      this.searchOrdersUSeCases,
+      this.orders,
+      this.page,
+      this.searchOrdersType});
 
   factory SearchOrdersState.initial() {
     return SearchOrdersState(
@@ -23,17 +31,25 @@ class SearchOrdersState extends Equatable {
     );
   }
 
-  SearchOrdersState copyWith(
-      {List<OrderEntity> orders, int statusFilter, int page, SearchOrdersTypes searchOrdersType}) {
+  SearchOrdersState copyWith({
+    List<OrderEntity> orders,
+    int statusFilter,
+    int page,
+    SearchOrdersTypes searchOrdersType,
+    String phoneNumber,
+    int id,
+  }) {
     return SearchOrdersState(
       searchOrdersUSeCases: searchOrdersUSeCases,
       orders: orders ?? this.orders,
       statusFilter: statusFilter ?? this.statusFilter,
       page: page ?? this.page,
+      id: id ?? this.id,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
       searchOrdersType: searchOrdersType ?? this.searchOrdersType,
     );
   }
 
   @override
-  List<Object> get props => [searchOrdersUSeCases, orders, statusFilter, page, searchOrdersType];
+  List<Object> get props => [searchOrdersUSeCases, orders, statusFilter, page, searchOrdersType, id, phoneNumber];
 }

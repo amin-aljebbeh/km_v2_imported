@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'package:kammun_app/core/core_importer.dart';
 
+import '../../orders_feature/domain/entities/order_entity.dart';
+import '../../orders_feature/domain/entities/order_image_entity.dart';
 import '../pages/full_screen_image.dart';
 
 class OrderDetailsServices {
@@ -47,7 +49,7 @@ class OrderDetailsServices {
     }
   }
 
-  static List<InkWell> getImages({List<OrderImage> images, BuildContext context, Function(int) onDelete}) {
+  static List<InkWell> getImages({List<OrderImageEntity> images, BuildContext context, Function(int) onDelete}) {
     List<InkWell> imageWidgets = [];
     for (int i = 0; i < images.length; i++) {
       imageWidgets.add(InkWell(
@@ -90,7 +92,7 @@ class OrderDetailsServices {
     return imageWidgets;
   }
 
-  static List<Widget> calculate({OrdersOriginalData order, BuildContext context}) {
+  static List<Widget> calculate({OrderEntity order, BuildContext context}) {
     List<Widget> subWarehouseTotal = [];
     subWarehouseTotal.add(KTableRow(
       children: [
@@ -100,21 +102,23 @@ class OrderDetailsServices {
         const KTableElement(text: 'السعر الصافي')
       ],
     ));
-    for (int i = 0; i < order.orderAccountingRows.length; i++) {
-      if (order.orderAccountingRows[i].payToSubWarehouse != 0) {
-        subWarehouseTotal.add(KTableRow(
-          children: [
-            KTableElement(text: order.orderAccountingRows[i].subWarehouseName),
-            KTableElement(
-              text: StringUtils().oCcy.format(order.orderAccountingRows[i].directDiscount == 1
-                  ? Services.kRound(order.orderAccountingRows[i].payToSubWarehouse)
-                  : order.orderAccountingRows[i].payToSubWarehouse),
-            ),
-            if (Services.hasRole(context, accountingRole))
-              KTableElement(text: StringUtils().oCcy.format(order.orderAccountingRows[i].increaseValuesSum)),
-            KTableElement(text: StringUtils().oCcy.format(order.orderAccountingRows[i].netPrice)),
-          ],
-        ));
+    if (order.orderAccountingRows != null) {
+      for (int i = 0; i < order.orderAccountingRows.length; i++) {
+        if (order.orderAccountingRows[i].payToSubWarehouse != 0) {
+          subWarehouseTotal.add(KTableRow(
+            children: [
+              KTableElement(text: order.orderAccountingRows[i].subWarehouseName),
+              KTableElement(
+                text: StringUtils().oCcy.format(order.orderAccountingRows[i].directDiscount == 1
+                    ? Services.kRound(order.orderAccountingRows[i].payToSubWarehouse)
+                    : order.orderAccountingRows[i].payToSubWarehouse),
+              ),
+              if (Services.hasRole(context, accountingRole))
+                KTableElement(text: StringUtils().oCcy.format(order.orderAccountingRows[i].increaseValuesSum)),
+              KTableElement(text: StringUtils().oCcy.format(order.orderAccountingRows[i].netPrice)),
+            ],
+          ));
+        }
       }
     }
     if (!Services.hasRole(context, supplierRole)) {
@@ -164,13 +168,14 @@ class OrderDetailsServices {
                 : informationStyle)
       ]));
     } else {
-      subWarehouseTotal.add(KTableRow(children: [
-        KTableElement(text: totalString),
-        KTableElement(
-            text: StringUtils()
-                .oCcy
-                .format(Services.kRound(order.orderAccountingRows.fold(0, (sum, row) => sum + row.payToSubWarehouse))))
-      ]));
+      if (order.orderAccountingRows != null) {
+        subWarehouseTotal.add(KTableRow(children: [
+          KTableElement(text: totalString),
+          KTableElement(
+              text: StringUtils().oCcy.format(
+                  Services.kRound(order.orderAccountingRows.fold(0, (sum, row) => sum + row.payToSubWarehouse))))
+        ]));
+      }
     }
     return subWarehouseTotal;
   }

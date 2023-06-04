@@ -1,9 +1,5 @@
 class OrderImage {
-  OrderImage({
-    this.id,
-    this.orderId,
-    this.imageFileName,
-  });
+  OrderImage({this.id, this.orderId, this.imageFileName});
 
   int id;
   int orderId;

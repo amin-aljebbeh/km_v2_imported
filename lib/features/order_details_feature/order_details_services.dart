@@ -1,4 +1,5 @@
 import '../../core/core_importer.dart';
+import '../products/domain/entities/product_entity.dart';
 
 List<DropdownMenuItem<dynamic>> subWarehousesItems({BuildContext context, int subWarehouseId, bool print = false}) {
   return StaticVariables.subWarehouses
@@ -13,8 +14,8 @@ List<DropdownMenuItem<dynamic>> subWarehousesItems({BuildContext context, int su
       .toList();
 }
 
-List<OrderProduct> orderProducts({List<OrderProduct> products, bool deleted}) {
-  List<OrderProduct> productsAry = [];
+List<ProductEntity> orderProducts({List<ProductEntity> products, bool deleted}) {
+  List<ProductEntity> productsAry = [];
   productsAry.addAll(products);
   if (deleted) {
     productsAry.removeWhere((product) => product.pivot.deletedAt == 'null');

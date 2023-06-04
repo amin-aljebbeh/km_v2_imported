@@ -9,7 +9,6 @@ import 'package:map_launcher/map_launcher.dart';
 
 import '../../../core/core_importer.dart';
 import '../../users/domain/entities/user_entity.dart';
-import '../../users/presentation/pages/user_management_view.dart';
 
 class OrdersViewCard extends StatelessWidget {
   final OrdersOriginalData order;
@@ -70,7 +69,7 @@ class OrdersViewCard extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) => OrderTabsPage(
-                  orderData: order,
+                  // order: order,
                   deleted: Services.hasRole(context, operationManagerRole) &&
                       order.products.where((product) => product.pivot.deletedAt != 'null').isNotEmpty,
                   orderType: orderType))),
@@ -208,8 +207,8 @@ class OrdersViewCard extends StatelessWidget {
                         onTap: () {
                           StoreProvider.of<AppState>(context).dispatch(
                               SetUser(userEntity: UserEntity(id: order.userData.id, balance: order.userData.balance)));
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => UserManagement(order: order)));
+                          // Navigator.push(
+                          //     context, MaterialPageRoute(builder: (context) => UserManagement(order: order)));
                           StoreProvider.of<AppState>(context).dispatch(FirstCouponsPage());
                           StoreProvider.of<AppState>(context).dispatch(GetCouponsAction());
                           StoreProvider.of<AppState>(context).dispatch(GetUserCouponsAction(userId: order.userData.id));

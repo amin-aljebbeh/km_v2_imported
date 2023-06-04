@@ -1,7 +1,7 @@
 import 'package:kammun_app/features/orders_feature/domain/entities/order_entity.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../services.dart';
+import '../../orders_services.dart';
 import '../redux/orders_action.dart';
 
 class OperationButtonsWidget extends StatelessWidget {
@@ -96,10 +96,7 @@ class OperationButtonsWidget extends StatelessWidget {
                     ),
                   KammunButton(
                     text: editOrder,
-                    onTap: () {
-                      //todo handle update
-                      store.dispatch(LockOrderAction(orderId: order.id));
-                    },
+                    onTap: () => store.dispatch(LockOrderAction(orderId: order.id, context: context)),
                     color: Colors.green,
                   ),
                   if (order.userNotes.toString() != 'null')
@@ -121,7 +118,7 @@ class OperationButtonsWidget extends StatelessWidget {
                             text: 'نعم',
                             onTap: () {
                               Navigator.of(context).pop();
-                              store.dispatch(UnLockOrderAction(orderId: order.id));
+                              store.dispatch(UnLockOrderAction(orderId: order.id, context: context));
                             },
                           ),
                           const CloseWidget()

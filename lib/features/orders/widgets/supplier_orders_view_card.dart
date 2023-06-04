@@ -1,5 +1,4 @@
 import 'package:intl/intl.dart';
-import 'package:kammun_app/features/order_details_feature/presentation/pages/order_tabs_page.dart';
 
 import '../../../core/core_importer.dart';
 
@@ -31,10 +30,10 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => OrderTabsPage(orderData: widget.order, orderType: OrderTypes.myOrder)));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => OrderTabsPage(order: widget.order, orderType: OrderTypes.myOrder)));
       },
       child: Column(
         children: [

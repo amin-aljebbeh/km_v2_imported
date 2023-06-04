@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
+
 import '../../../core/core_importer.dart';
 import '../../products_view/services/products_services.dart';
 
@@ -85,7 +87,7 @@ class ProductOptionsWidget extends StatelessWidget {
             ],
           ),
         if (Services.hasRole(context, productsControllerRole))
-          PrimeProductWidget(product: OrderProduct(id: product.id, isPrimeItem: product.isPrimeItem)),
+          PrimeProductWidget(product: ProductEntity(id: product.id, isPrimeItem: product.isPrimeItem)),
         AddImageWidget(
           onSubmit: (image) async {
             bool result = await ProductsServices.setImageToProducts(productId: product.id, image: image);

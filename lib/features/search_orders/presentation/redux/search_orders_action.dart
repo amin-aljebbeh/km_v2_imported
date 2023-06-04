@@ -1,50 +1,73 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
+import 'package:kammun_app/features/search_orders/domain/entities/get_order_response_entity.dart';
 
 import '../../../orders_feature/domain/entities/order_entity.dart';
+import '../../../orders_feature/orders_services.dart';
+import '../pages/search_orders_page.dart';
 
 abstract class SearchOrdersAction {
   handle({@required Store<AppState> store});
 }
 
 class SearchOrderAction implements SearchOrdersAction {
+  final SearchOrdersTypes searchOrdersType;
+  final BuildContext context;
+
+  SearchOrderAction({this.searchOrdersType, this.context});
+
   @override
   handle({Store<AppState> store}) {
-    // TODO: implement handle
-    throw UnimplementedError();
+    ApiProvider.cancelOrdersRequests();
+    store.dispatch(StartLoading());
+    store.dispatch(SetSearchOrders(orders: []));
+    store.dispatch(SetSearchStatusFilter(filter: 0));
+    store.dispatch(SetSearchPage(page: 1));
+    store.dispatch(SetSearchOrdersType(searchOrdersType: searchOrdersType));
+    switch (searchOrdersType) {
+      case SearchOrdersTypes.phoneNumber:
+        store.dispatch(GetOrdersByUserNumberAction(phoneNumber: store.state.searchOrdersState.phoneNumber));
+        break;
+      case SearchOrdersTypes.id:
+        store.dispatch(GetOrderAction(orderId: store.state.searchOrdersState.id));
+        break;
+      case SearchOrdersTypes.none:
+        break;
+    }
+    Navigator.push(context, MaterialPageRoute(builder: (screenContext) => const SearchOrdersPage()));
   }
 }
 
 class GetOrderAction implements SearchOrdersAction {
   final int orderId;
-  final CancelToken cancelToken;
 
-  GetOrderAction({this.orderId, this.cancelToken});
+  GetOrderAction({this.orderId});
 
   @override
   handle({Store<AppState> store}) async {
-    store.dispatch(StartLoading());
     Either either = await store.state.searchOrdersState.searchOrdersUSeCases
-        .getOrderUseCase(cancelToken: cancelToken, orderId: orderId);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (orders) => store.dispatch(SetSearchOrders(orders: orders)));
+        .getOrderUseCase(cancelToken: OrdersServices.cancelRequest, orderId: orderId);
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (response) {
+      GetOrderResponseEntity order = response;
+      store.dispatch(SetSearchOrders(orders: [order.order]));
+    });
     store.dispatch(StopLoading());
   }
 }
 
 class GetOrdersByUserNumberAction implements SearchOrdersAction {
   final String phoneNumber;
-  final CancelToken cancelToken;
 
-  GetOrdersByUserNumberAction({this.cancelToken, this.phoneNumber});
+  GetOrdersByUserNumberAction({this.phoneNumber});
 
   @override
   handle({Store<AppState> store}) async {
-    store.dispatch(StartLoading());
     Either either = await store.state.searchOrdersState.searchOrdersUSeCases.getOrdersByUserNumberUseCase(
-        cancelToken: cancelToken, pageNumber: store.state.searchOrdersState.page, phoneNumber: phoneNumber);
+        cancelToken: OrdersServices.cancelRequest,
+        pageNumber: store.state.searchOrdersState.page,
+        phoneNumber: phoneNumber);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (orders) => store.dispatch(SetSearchOrders(orders: orders)));
+        (orders) => store.dispatch(FilterSearchOrders(orders: orders)));
     store.dispatch(StopLoading());
   }
 }
@@ -71,4 +94,36 @@ class SetSearchOrdersType {
   final SearchOrdersTypes searchOrdersType;
 
   SetSearchOrdersType({this.searchOrdersType});
+}
+
+class SetPhoneNumber {
+  final String phoneNumber;
+
+  SetPhoneNumber({this.phoneNumber});
+}
+
+class SetId {
+  final int id;
+
+  SetId({this.id});
+}
+
+class FilterSearchOrders extends SearchOrdersAction {
+  final List<OrderEntity> orders;
+
+  FilterSearchOrders({this.orders});
+
+  @override
+  handle({Store<AppState> store}) {
+    if (store.state.searchOrdersState.statusFilter != 0) {
+      if (store.state.searchOrdersState.statusFilter == 1) {
+        orders.removeWhere((order) => int.parse(order.orderStatusId) > 4);
+      } else {
+        orders.removeWhere((order) => int.parse(order.orderStatusId) != store.state.searchOrdersState.statusFilter - 1);
+      }
+    }
+
+    orders.removeWhere((order) => order.products.isEmpty);
+    store.dispatch(SetSearchOrders(orders: orders));
+  }
 }

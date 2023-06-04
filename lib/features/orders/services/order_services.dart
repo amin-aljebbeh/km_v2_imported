@@ -6,7 +6,6 @@ import '../model/get_order_model.dart';
 import '../model/submit_order_model.dart';
 
 class OrderServices {
-  static CancelToken cancelRequest = CancelToken();
   static int orderUnderUpdateIndex = -1;
   static String updateOrderNote = '';
   static String orderUnderUpdateStatusId = '0';
@@ -97,7 +96,7 @@ class OrderServices {
   static Future<List<OrdersOriginalData>> getShopperOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-          cancelToken: cancelRequest,
+          // cancelToken: cancelRequest,
           url: shopperViewsHisOwnOrdersApi,
           method: HttpMethods.get,
           queryParameters: {'page': pageNumber});
@@ -116,7 +115,7 @@ class OrderServices {
   static Future<List<OrdersOriginalData>> getSupplierOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-          cancelToken: cancelRequest,
+          // cancelToken: cancelRequest,
           url: getSupplierOrderApi,
           method: HttpMethods.get,
           queryParameters: {'page': pageNumber});
@@ -148,7 +147,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
           url: getOrdersByUserPhoneNumberApi,
-          cancelToken: cancelRequest,
+          // cancelToken: cancelRequest,
           method: HttpMethods.get,
           queryParameters: {'page': pageNumber, 'phone': phoneNumber});
 
@@ -165,8 +164,8 @@ class OrderServices {
   static Future<GetOrderResponse> getOrder({String orderId}) async {
     Response response;
     try {
-      response =
-          await ApiProvider.sendRequest(url: orderApi + orderId, cancelToken: cancelRequest, method: HttpMethods.get);
+      response = await ApiProvider.sendRequest(
+          url: orderApi + orderId, /*cancelToken: cancelRequest, */ method: HttpMethods.get);
 
       if (response != null) {
         if (response.statusCode == successCode) return getOrderResponseFromJson(jsonEncode(response.data));
@@ -194,7 +193,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
           url: orderApi,
-          cancelToken: cancelRequest,
+          // cancelToken: cancelRequest,
           method: HttpMethods.get,
           queryParameters: {'page': pageNumber, 'filter_evaluated_orders': filterEvaluatedOrders});
 

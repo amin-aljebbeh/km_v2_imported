@@ -1,5 +1,7 @@
 import 'package:kammun_app/core/core_importer.dart';
 
+import '../../../../core/models/shopper_model.dart';
+
 class AdminEntity extends Equatable {
   final int id;
   final String username;
@@ -7,6 +9,7 @@ class AdminEntity extends Equatable {
   final String phone;
   final String apiToken;
   final List<SubWarehouse> subWarehouses;
+  //todo replace with entities
   final List<Role> roles;
   final ShopperModel shopper;
   final List<String> permissions;

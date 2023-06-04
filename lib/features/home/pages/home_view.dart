@@ -1,6 +1,6 @@
-import 'package:kammun_app/features/orders/pages/orders_view_importer.dart';
-
 import '../../../core/core_importer.dart';
+import '../../orders_feature/presentation/pages/orders_page.dart';
+import '../../orders_feature/presentation/redux/orders_action.dart';
 import '../widgets/bottom_bar_item.dart';
 
 class HomeView extends StatefulWidget {
@@ -41,11 +41,10 @@ class HomeViewState extends State<HomeView> {
     List<BottomNavigationBarItem> bottomList = [];
     bottomList.add(BottomBarItem.build(text: store, icon: Icons.store));
     bottomList.add(BottomBarItem.build(text: cart, icon: Icons.shopping_cart));
-    if (Services.hasRole(context, operationManagerRole)) {
+    if (Services.hasRole(context, operationManagerRole) ||
+        Services.hasRole(context, shopperRole) ||
+        Services.hasRole(context, supplierRole)) {
       bottomList.add(BottomBarItem.build(text: orders, icon: Icons.reorder));
-    }
-    if (Services.hasRole(context, shopperRole) || Services.hasRole(context, supplierRole)) {
-      bottomList.add(BottomBarItem.build(text: myOrders, icon: Icons.playlist_add_check_outlined));
     }
 
     return BottomNavigationBar(
@@ -63,16 +62,20 @@ class HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     tabs.add(const StoreView());
     tabs.add(CartView(isFromUpdateOrder: isFromUpdateOrder));
-    if ((Services.hasRole(context, operationManagerRole))) tabs.add(const OrdersView());
+    if (Services.hasRole(context, operationManagerRole) ||
+        Services.hasRole(context, shopperRole) ||
+        Services.hasRole(context, supplierRole)) tabs.add(const OrdersPage());
 
-    if (Services.hasRole(context, shopperRole) || Services.hasRole(context, supplierRole)) {
-      tabs.add(const AssignedOrdersView());
-    }
     return Scaffold(body: tabs[selectedIndex], bottomNavigationBar: _bottomNavBar(context: context));
   }
 
-  void _onItemTapped(int index) => setState(() {
-        selectedIndex = index;
-        isFromUpdateOrder = false;
-      });
+  void _onItemTapped(int index) {
+    if (index == 2) {
+      StoreProvider.of<AppState>(context).dispatch(GetOrdersAction(context: context));
+    }
+    setState(() {
+      selectedIndex = index;
+      isFromUpdateOrder = false;
+    });
+  }
 }

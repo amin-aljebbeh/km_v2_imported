@@ -41,7 +41,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   List<OrdersOriginalData> orderDataList = [];
 
   _getOrder() async {
-    ApiProvider.cancelRequests();
+    ApiProvider.cancelOrdersRequests();
     try {
       setState(() {
         if (page == 1) orderLoaded = false;

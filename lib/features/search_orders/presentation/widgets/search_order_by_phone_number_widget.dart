@@ -1,9 +1,7 @@
 import 'package:call_log/call_log.dart';
-import 'package:kammun_app/features/orders/pages/order_by_id.dart';
 import 'package:kammun_app/features/orders/services/order_services.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../orders/pages/orders_view_importer.dart';
 import '../redux/search_orders_action.dart';
 
 class SearchOrderByPhoneNumber extends StatelessWidget {
@@ -16,6 +14,7 @@ class SearchOrderByPhoneNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var store = StoreProvider.of<AppState>(context);
     return IconButton(
       onPressed: () {
         showMyDialog(
@@ -32,10 +31,8 @@ class SearchOrderByPhoneNumber extends StatelessWidget {
                         if (idController.text.isNotEmpty) {
                           onChoose();
                           Navigator.of(context).pop();
-                          StoreProvider.of<AppState>(context)
-                              .dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.id));
-                          Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => OrderByID(id: idController.text)));
+                          store.dispatch(SetId(id: int.parse(idController.text)));
+                          store.dispatch(SearchOrderAction(searchOrdersType: SearchOrdersTypes.id, context: context));
                         }
                       },
                       icon: Icon(Icons.search_rounded, size: 40, color: kmColors),
@@ -50,10 +47,8 @@ class SearchOrderByPhoneNumber extends StatelessWidget {
                           if (notEmpty) {
                             onChoose();
                             Navigator.of(context).pop();
-                            StoreProvider.of<AppState>(context)
-                                .dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.id));
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => OrderByID(id: idController.text)));
+                            store.dispatch(SetId(id: int.parse(idController.text)));
+                            store.dispatch(SearchOrderAction(searchOrdersType: SearchOrdersTypes.id, context: context));
                           }
                         },
                       ),
@@ -67,13 +62,10 @@ class SearchOrderByPhoneNumber extends StatelessWidget {
                     onPressed: () {
                       if (phoneController.text.isNotEmpty) {
                         onChoose();
-                        StoreProvider.of<AppState>(context)
-                            .dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.phoneNumber));
                         Navigator.of(context).pop();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PhoneNumberOrdersView(phoneNumber: phoneController.text)));
+                        store.dispatch(SetPhoneNumber(phoneNumber: phoneController.text));
+                        store.dispatch(
+                            SearchOrderAction(searchOrdersType: SearchOrdersTypes.phoneNumber, context: context));
                       }
                     },
                     icon: Icon(Icons.search_rounded, size: 40, color: kmColors),
@@ -87,13 +79,10 @@ class SearchOrderByPhoneNumber extends StatelessWidget {
                       onSubmit: (notEmpty) {
                         if (phoneController.text.isNotEmpty) {
                           onChoose();
-                          StoreProvider.of<AppState>(context)
-                              .dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.phoneNumber));
                           Navigator.of(context).pop();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PhoneNumberOrdersView(phoneNumber: phoneController.text)));
+                          store.dispatch(SetPhoneNumber(phoneNumber: phoneController.text));
+                          store.dispatch(
+                              SearchOrderAction(searchOrdersType: SearchOrdersTypes.phoneNumber, context: context));
                         }
                       },
                     ),

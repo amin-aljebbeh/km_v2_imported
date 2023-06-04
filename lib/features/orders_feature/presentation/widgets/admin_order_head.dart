@@ -1,6 +1,6 @@
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/order_entity.dart';
-import '../../services.dart';
+import '../../orders_services.dart';
 import '../redux/orders_action.dart';
 
 class AdminOrderHead extends StatelessWidget {

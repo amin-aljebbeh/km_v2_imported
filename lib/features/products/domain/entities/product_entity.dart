@@ -10,12 +10,12 @@ class ProductEntity {
   final String description;
   final String unit;
   final String quantity;
-  final String isActive;
+  String isActive;
   final List<ProductImageEntity> images;
   final String supplierCode;
-  final int subWarehouseId;
+  int subWarehouseId;
   final String availableQuantity;
-  final int isPrimeItem;
+  int isPrimeItem;
   final OrderProductPivotEntity pivot;
   final String categoryId;
   final String price;

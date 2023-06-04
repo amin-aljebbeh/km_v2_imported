@@ -1,9 +1,10 @@
 import 'package:kammun_app/features/users/presentation/pages/user_wallet_page.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../orders_feature/domain/entities/order_entity.dart';
 
 class UserManagement extends StatefulWidget {
-  final OrdersOriginalData order;
+  final OrderEntity order;
 
   const UserManagement({Key key, this.order}) : super(key: key);
 

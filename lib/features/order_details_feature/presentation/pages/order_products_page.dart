@@ -1,9 +1,11 @@
 import '../../../../core/core_importer.dart';
+import '../../../orders_feature/domain/entities/order_entity.dart';
+import '../../../products/domain/entities/product_entity.dart';
 import '../../order_details_services.dart';
 import '../widgets/supplier_order_details_widget.dart';
 
 class OrderProductsPage extends StatefulWidget {
-  final OrdersOriginalData order;
+  final OrderEntity order;
   final OrderTypes orderType;
   final bool deleted;
 
@@ -14,7 +16,7 @@ class OrderProductsPage extends StatefulWidget {
 }
 
 class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeepAliveClientMixin<OrderProductsPage> {
-  List<OrderProduct> productsAry;
+  List<ProductEntity> productsAry;
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:kammun_app/features/orders_feature/data/models/order_model.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../orders_feature/domain/entities/order_entity.dart';
 import '../repositories/search_orders_repository.dart';
 
 class GetOrdersByUserNumberUseCase {
@@ -9,7 +9,7 @@ class GetOrdersByUserNumberUseCase {
 
   GetOrdersByUserNumberUseCase({this.ordersRepository});
 
-  Future<Either<Failure, List<OrderModel>>> call({String phoneNumber, int pageNumber, CancelToken cancelToken}) async {
+  Future<Either<Failure, List<OrderEntity>>> call({String phoneNumber, int pageNumber, CancelToken cancelToken}) async {
     return await ordersRepository.getOrdersByUserNumber(
         cancelToken: cancelToken, pageNumber: pageNumber, phoneNumber: phoneNumber);
   }

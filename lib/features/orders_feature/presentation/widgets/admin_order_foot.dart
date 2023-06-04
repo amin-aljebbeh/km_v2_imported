@@ -1,8 +1,7 @@
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/order_entity.dart';
-import '../../services.dart';
+import '../../orders_services.dart';
 import 'assignment_management_widget.dart';
-import 'operations_buttons_widget.dart';
 
 class AdminOrderFoot extends StatelessWidget {
   final OrderEntity order;
@@ -56,8 +55,7 @@ class AdminOrderFoot extends StatelessWidget {
             rightSideText: 'مسافة التوصيل : ',
             leftSideText: (int.parse(order.deliveryDistance) / 1000).toString() + ' كم ',
             leftSideStyle: informationStyle),
-        if (Services.hasRole(context, operationManagerRole))
-          Column(children: [AssignmentManagementWidget(order: order), OperationButtonsWidget(order: order)]),
+        if (Services.hasRole(context, operationManagerRole)) AssignmentManagementWidget(order: order),
       ],
     );
   }

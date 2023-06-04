@@ -1,4 +1,4 @@
-import '../../features/orders/services/order_services.dart';
+import '../../features/orders_feature/orders_services.dart';
 import '../core_importer.dart';
 
 class ApiProvider {
@@ -70,9 +70,9 @@ class ApiProvider {
     return response;
   }
 
-  static void cancelRequests() {
-    OrderServices.cancelRequest.cancel('Cancelled');
-    OrderServices.cancelRequest = CancelToken();
+  static void cancelOrdersRequests() {
+    OrdersServices.cancelRequest.cancel('Cancelled');
+    OrdersServices.cancelRequest = CancelToken();
   }
 }
 

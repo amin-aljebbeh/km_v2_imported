@@ -16,7 +16,7 @@ export 'products_categories_model.dart';
 export 'role_model.dart';
 export 'role_pivot_model.dart';
 export 'shopper_level_model.dart';
-export 'shopper_model.dart';
+// export 'shopper_model.dart';
 export 'start_models/start_model_importer.dart';
 export 'sub_warehouse_level_pivot.dart';
 export 'sub_warehouse_model.dart';

@@ -49,9 +49,11 @@ class SearchOrdersPage extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: state.searchOrdersState.orders == null ? 0 : state.searchOrdersState.orders.length,
                         itemBuilder: (BuildContext context, int index) {
-                          if (Services.hasRole(context, shopperRole) ||
-                              state.searchOrdersState.orders[index].shopper != null) {
-                            // todo orderArithmeticOperations
+                          if (!Services.hasRole(context, supplierRole) &&
+                              (Services.hasRole(context, shopperRole) ||
+                                  state.searchOrdersState.orders[index].shopper != null)) {
+                            state.searchOrdersState.orders[index].orderArithmeticOperations();
+                            state.searchOrdersState.orders[index].orderProfits(context: context);
                           }
                           return OrderWidget(
                               order: state.searchOrdersState.orders[index], orderType: OrderTypes.search);

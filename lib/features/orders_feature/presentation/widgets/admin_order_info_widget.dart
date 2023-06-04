@@ -2,11 +2,11 @@ import 'package:kammun_app/features/search_orders/presentation/redux/search_orde
 
 import '../../../../core/core_importer.dart';
 import '../../../coupons/presentation/redux/coupon_action.dart';
-import '../../../orders/pages/orders_view_importer.dart';
 import '../../../users/domain/entities/user_entity.dart';
+import '../../../users/presentation/pages/user_management_view.dart';
 import '../../../users/presentation/redux/users_action.dart';
 import '../../domain/entities/order_entity.dart';
-import '../../services.dart';
+import '../../orders_services.dart';
 
 class AdminOrderInfoWidget extends StatelessWidget {
   final OrderEntity order;
@@ -15,6 +15,7 @@ class AdminOrderInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var store = StoreProvider.of<AppState>(context);
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,
@@ -47,14 +48,11 @@ class AdminOrderInfoWidget extends StatelessWidget {
                     InkWell(
                       child: Icon(Icons.manage_accounts_rounded, color: kmColors, size: 25),
                       onTap: () {
-                        StoreProvider.of<AppState>(context)
-                            .dispatch(SetUser(userEntity: UserEntity(id: order.user.id, balance: order.user.balance)));
-                        //todo
-                        // Navigator.push(
-                        //     context, MaterialPageRoute(builder: (context) => UserManagement(order: order)));
-                        StoreProvider.of<AppState>(context).dispatch(FirstCouponsPage());
-                        StoreProvider.of<AppState>(context).dispatch(GetCouponsAction());
-                        StoreProvider.of<AppState>(context).dispatch(GetUserCouponsAction(userId: order.user.id));
+                        store.dispatch(SetUser(userEntity: UserEntity(id: order.user.id, balance: order.user.balance)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => UserManagement(order: order)));
+                        store.dispatch(FirstCouponsPage());
+                        store.dispatch(GetCouponsAction());
+                        store.dispatch(GetUserCouponsAction(userId: order.user.id));
                       },
                     ),
                   if (Services.hasRole(context, operationManagerRole))
@@ -67,12 +65,9 @@ class AdminOrderInfoWidget extends StatelessWidget {
                         if (state.searchOrdersState.searchOrdersType != SearchOrdersTypes.none) {
                           Navigator.of(context).pop();
                         }
-                        StoreProvider.of<AppState>(context)
-                            .dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.phoneNumber));
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (screenContext) => PhoneNumberOrdersView(phoneNumber: order.user.phone)));
+                        store.dispatch(SetPhoneNumber(phoneNumber: order.user.phone));
+                        store.dispatch(
+                            SearchOrderAction(context: context, searchOrdersType: SearchOrdersTypes.phoneNumber));
                       },
                     ),
                   if (Services.hasRole(context, agentRole))

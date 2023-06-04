@@ -37,7 +37,7 @@ class _OrderByIDState extends State<OrderByID> {
   String id;
 
   _getOrder() async {
-    ApiProvider.cancelRequests();
+    ApiProvider.cancelOrdersRequests();
     setState(() {
       orderLoaded = false;
       if (!theEndOfOrders) isLoading = true;

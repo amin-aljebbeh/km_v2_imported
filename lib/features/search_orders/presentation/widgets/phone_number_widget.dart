@@ -1,7 +1,6 @@
 import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_action.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../orders/pages/phone_number_order.dart';
 
 class PhoneNumberWidget extends StatelessWidget {
   final String phoneNumber;
@@ -12,15 +11,15 @@ class PhoneNumberWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var store = StoreProvider.of<AppState>(context);
+
     return InkWell(
       onTap: () {
         Navigator.of(context).pop();
         Navigator.of(context).pop();
-        StoreProvider.of<AppState>(context)
-            .dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.phoneNumber));
         onChoose();
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => PhoneNumberOrdersView(phoneNumber: phoneNumber)));
+        store.dispatch(SetPhoneNumber(phoneNumber: phoneNumber));
+        store.dispatch(SearchOrderAction(searchOrdersType: SearchOrdersTypes.phoneNumber, context: context));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

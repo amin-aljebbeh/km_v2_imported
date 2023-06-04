@@ -27,19 +27,20 @@ class OrdersFilterWidget extends StatelessWidget {
                     store.dispatch(SetOrdersPage(page: 1));
                     store.dispatch(SetLimitedOrdersPage(page: 1));
                     pageController.clear();
-                    store.dispatch(GetOrdersAction());
+                    store.dispatch(GetOrdersAction(context: context));
                   },
                 ),
-                DropdownButton(
-                  value: state.ordersState.assignFilter,
-                  items: Services.dropdownStringList(orderTypes),
-                  onChanged: (value) {
-                    store.dispatch(SetAssignFilter(filter: value));
-                    store.dispatch(SetLimitedOrdersPage(page: 1));
-                    store.dispatch(SetOrdersPage(page: 1));
-                    store.dispatch(GetOrdersAction());
-                  },
-                ),
+                if (Services.hasRole(context, operationManagerRole))
+                  DropdownButton(
+                    value: state.ordersState.assignFilter,
+                    items: Services.dropdownStringList(orderTypes),
+                    onChanged: (value) {
+                      store.dispatch(SetAssignFilter(filter: value));
+                      store.dispatch(SetLimitedOrdersPage(page: 1));
+                      store.dispatch(SetOrdersPage(page: 1));
+                      store.dispatch(GetOrdersAction(context: context));
+                    },
+                  ),
               ],
             ),
             Expanded(
@@ -54,16 +55,17 @@ class OrdersFilterWidget extends StatelessWidget {
                                 size: 40, color: state.ordersState.rateFilter == 1 ? kmColors : searchGreyColor),
                             onTap: () {
                               store.dispatch(SetRateFilter(filter: state.ordersState.rateFilter == 1 ? 0 : 1));
-                              store.dispatch(GetOrdersAction());
+                              store.dispatch(GetOrdersAction(context: context));
                             }),
-                      SearchOrderByPhoneNumber(context: context, onChoose: () {}),
+                      if (Services.hasRole(context, operationManagerRole))
+                        SearchOrderByPhoneNumber(context: context, onChoose: () {}),
                       IconButton(
                         onPressed: () {
                           if (state.ordersState.limitedOrdersPage < 15) {
                             store.dispatch(SetLimitedOrdersPage(page: state.ordersState.limitedOrdersPage + 1));
                           }
                           store.dispatch(SetOrdersPage(page: state.ordersState.ordersPage + 1));
-                          store.dispatch(GetOrdersAction());
+                          store.dispatch(GetOrdersAction(context: context));
                         },
                         icon: Icon(Icons.arrow_back, size: 40, color: kmColors),
                       ),
@@ -73,7 +75,7 @@ class OrdersFilterWidget extends StatelessWidget {
                         onChanged: (value) {
                           store.dispatch(SetOrdersPage(page: value));
                           store.dispatch(SetLimitedOrdersPage(page: value));
-                          store.dispatch(GetOrdersAction());
+                          store.dispatch(GetOrdersAction(context: context));
                         },
                       ),
                       IconButton(
@@ -84,7 +86,7 @@ class OrdersFilterWidget extends StatelessWidget {
                               store.dispatch(SetLimitedOrdersPage(page: state.ordersState.limitedOrdersPage - 1));
                             }
                           }
-                          store.dispatch(GetOrdersAction());
+                          store.dispatch(GetOrdersAction(context: context));
                         },
                         icon: Icon(Icons.arrow_forward, size: 40, color: kmColors),
                       ),
@@ -105,7 +107,7 @@ class OrdersFilterWidget extends StatelessWidget {
                             store.dispatch(SetWarehouseFilter(filter: value));
                             store.dispatch(SetOrdersPage(page: 1));
                             store.dispatch(SetLimitedOrdersPage(page: 1));
-                            store.dispatch(GetOrdersAction());
+                            store.dispatch(GetOrdersAction(context: context));
                           },
                         ),
                         SizedBox(
@@ -121,7 +123,7 @@ class OrdersFilterWidget extends StatelessWidget {
                                   if (state.ordersState.ordersPage <= 15) {
                                     store.dispatch(SetLimitedOrdersPage(page: int.parse(pageController.text)));
                                   }
-                                  store.dispatch(GetOrdersAction());
+                                  store.dispatch(GetOrdersAction(context: context));
                                 }
                               }
                             },

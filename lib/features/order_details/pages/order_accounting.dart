@@ -1,14 +1,16 @@
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/order_details/pages/invoice_view.dart';
+import 'package:kammun_app/features/orders_feature/domain/entities/order_entity.dart';
 
+import '../../orders_feature/domain/entities/order_image_entity.dart';
 import '../../transactions/presentation/pages/add_transaction_page.dart';
 import '../services/order_details_services.dart';
 
 class OrderAccounting extends StatefulWidget {
-  final OrdersOriginalData orderData;
+  final OrderEntity order;
   final Function onDelete;
 
-  const OrderAccounting({Key key, @required this.orderData, this.onDelete}) : super(key: key);
+  const OrderAccounting({Key key, @required this.order, this.onDelete}) : super(key: key);
 
   @override
   _OrderAccountingState createState() => _OrderAccountingState();
@@ -16,26 +18,26 @@ class OrderAccounting extends StatefulWidget {
 
 class _OrderAccountingState extends State<OrderAccounting> {
   List<InkWell> imageWidgets = [];
-  List<OrderImage> images = [];
+  List<OrderImageEntity> images = [];
 
   @override
   void initState() {
-    if (widget.orderData.images.isNotEmpty) images.addAll(widget.orderData.images);
+    if (widget.order.images != null) if (widget.order.images.isNotEmpty) images.addAll(widget.order.images);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.orderData.images != null) {
-      if (widget.orderData.images.isNotEmpty) {
+    if (widget.order.images != null) {
+      if (widget.order.images.isNotEmpty) {
         imageWidgets = OrderDetailsServices.getImages(
-          images: widget.orderData.images,
+          images: widget.order.images,
           context: context,
           onDelete: (i) {
             setState(() {
-              widget.orderData.images.removeWhere((image) => image.id == widget.orderData.images[i].id);
+              widget.order.images.removeWhere((image) => image.id == widget.order.images[i].id);
               images.clear();
-              images.addAll(widget.orderData.images);
+              images.addAll(widget.order.images);
               widget.onDelete();
             });
           },
@@ -52,7 +54,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
               children: [
                 ListView(
                   children: [
-                    Column(children: OrderDetailsServices.calculate(order: widget.orderData, context: context)),
+                    Column(children: OrderDetailsServices.calculate(order: widget.order, context: context)),
                     Container(
                         height: MediaQuery.of(context).size.height * 0.35,
                         margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.4),
@@ -74,7 +76,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                       AddImageWidget(
                         onSubmit: (image) async {
                           bool result = await OrderDetailsServices.addImageToOrderService(
-                              image: image, orderId: widget.orderData.id.toString());
+                              image: image, orderId: widget.order.id.toString());
                           if (result) {
                             snackBar(success: result, message: 'نجحت عملية إضافة الصورة', context: context);
                           } else {
@@ -86,7 +88,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                         KammunButton(
                           color: kmColors,
                           onTap: () {
-                            if (widget.orderData.shopper == null) {
+                            if (widget.order.shopper == null) {
                               Toast.show('هذا الطلب غير مسند لمتسوق', context,
                                   duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                             } else {
@@ -94,9 +96,9 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => AddTransactionPage(
-                                            orderId: widget.orderData.id,
+                                            orderId: widget.order.id,
                                             orderRequired: 1,
-                                            userId: int.parse(widget.orderData.userId),
+                                            userId: int.parse(widget.order.userId),
                                           )));
                             }
                           },
@@ -107,8 +109,8 @@ class _OrderAccountingState extends State<OrderAccounting> {
                       if (!Services.hasRole(context, supplierRole))
                         KammunButton(
                           color: kmColors,
-                          onTap: () => Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => InvoiceView(orderId: widget.orderData.id))),
+                          onTap: () => Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => InvoiceView(orderId: widget.order.id))),
                           text: 'تفاصيل فاتورة الزبون',
                           width: MediaQuery.of(context).size.width * 0.9,
                           height: 50,

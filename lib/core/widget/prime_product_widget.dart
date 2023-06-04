@@ -1,8 +1,10 @@
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
+
 import '../../features/products_view/services/products_services.dart';
 import '../core_importer.dart';
 
 class PrimeProductWidget extends StatefulWidget {
-  final OrderProduct product;
+  final ProductEntity product;
   const PrimeProductWidget({Key key, this.product}) : super(key: key);
 
   @override

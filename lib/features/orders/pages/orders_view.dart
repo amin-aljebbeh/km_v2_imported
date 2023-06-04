@@ -60,7 +60,7 @@ class OrdersViewState extends State<OrdersView> {
   List<OrdersOriginalData> orderDataList;
 
   _getOrders() async {
-    ApiProvider.cancelRequests();
+    ApiProvider.cancelOrdersRequests();
     setState(() {
       if (indexPage == 1) orderLoaded = false;
       if (!theEndOfOrders) isLoading = true;
@@ -517,12 +517,12 @@ class OrdersViewState extends State<OrdersView> {
                                                 if (result) {
                                                   snackBar(
                                                       success: result,
-                                                      message: 'تم تعليق الطلب بنجاح',
+                                                      message: 'تم إلغاء تعليق الطلب بنجاح',
                                                       context: context);
                                                 } else {
                                                   snackBar(
                                                       success: result,
-                                                      message: 'فشلت عملية تعليق الطلب يرجى المحاولة مجدداً',
+                                                      message: 'فشلت عملية إلغاء تعليق الطلب يرجى المحاولة مجدداً',
                                                       context: context);
                                                 }
                                                 setState(() {
