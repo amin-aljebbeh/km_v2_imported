@@ -1,5 +1,8 @@
 import 'package:kammun_app/core/core_importer.dart';
 
+import '../../orders/orders_services.dart';
+import '../model/submit_order_model.dart';
+
 class CartServices {
   static List<ProductData> cartProducts = [];
 
@@ -62,6 +65,48 @@ class CartServices {
         }
       }
       if (!added) CartServices.cartProducts.add(product);
+    }
+  }
+
+  static Future<OrderResponse> updateOrder({SubmitOrderModel submitOrderModel}) async {
+    try {
+      Map orderMap = submitOrderModel.toJson();
+      String orderId;
+
+      orderId = OrdersServices.orderUnderUpdateId;
+
+      var response =
+          await ApiProvider.sendRequest(url: orderApi + orderId, method: HttpMethods.put, body: jsonEncode(orderMap));
+
+      if (response != null) {
+        if (response.data['reason'].toString().contains('discontinued')) {
+          return OrderResponse(success: false, reason: 'discontinued');
+        }
+        return orderResponseFromJson(jsonEncode(response.data));
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<bool> updateOrderProduct(
+      {String orderId, String updateKey, String updateValue, String productId, @required BuildContext context}) async {
+    try {
+      Map updateOrderBody = {updateKey: updateValue, 'product_id': productId};
+      var response = await ApiProvider.sendRequest(
+          url: updateOrderProductsApi + orderId, method: HttpMethods.put, body: jsonEncode(updateOrderBody));
+      if (response != null) {
+        if (response.statusCode == successCode) {
+          snackBar(success: true, message: 'نجحت عملية تعديل الطلب', context: context);
+        } else {
+          snackBar(success: false, message: 'فشلت عملية تعديل الطلب يرجى المحاولة مجدداً', context: context);
+        }
+        return response.statusCode == successCode;
+      }
+      return false;
+    } catch (e) {
+      return false;
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'core/core_importer.dart';
+import 'features/orders/presentation/pages/orders_page.dart';
 import 'features/supplier/presentation/pages/supplier_remaining_statment.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -10,7 +11,7 @@ final Map<String, WidgetBuilder> routes = {
   ActivityHoursView.routeName: (_) => const ActivityHoursView(),
   CartView.routeName: (_) => const HomeView(routeIndex: 1),
   CartView.fromUpdateRouteName: (_) => const HomeView(routeIndex: 1, isFromUpdateOrder: true),
-  OrdersView.routeName: (_) => const HomeView(routeIndex: 2),
+  OrdersPage.routeName: (_) => const HomeView(routeIndex: 2),
   ProfileScreen.routeName: (_) => const ProfileScreen(),
   SalesReport.routeName: (_) => const SalesReport(),
   SalesCharts.routeName: (_) => const SalesCharts(),

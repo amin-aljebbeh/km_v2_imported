@@ -1,4 +1,4 @@
-import 'package:kammun_app/features/orders_feature/presentation/widgets/order_widget.dart';
+import 'package:kammun_app/features/orders/presentation/widgets/order_widget.dart';
 import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_action.dart';
 import 'package:kammun_app/features/search_orders/presentation/widgets/search_orders_filter_widget.dart';
 
@@ -40,7 +40,7 @@ class SearchOrdersPage extends StatelessWidget {
                                           fontWeight: FontWeight.w700, color: primaryColor, fontSize: 20.0)),
                                 ),
                               )
-                            : Container(padding: EdgeInsets.zero),
+                            : const SizedBox(),
                     Expanded(
                       child: ListView.builder(
                         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),

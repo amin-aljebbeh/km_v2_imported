@@ -8,6 +8,7 @@ import 'admins_injection.dart';
 import 'complaints_inject.dart';
 import 'coupons_injection.dart';
 import 'inventory_injection.dart';
+import 'order_details_injection.dart';
 import 'orders_injection.dart';
 import 'shoppers_injection.dart';
 
@@ -23,6 +24,7 @@ Future<void> inject() async {
   await injectSearchOrders();
   await injectTransactions();
   await injectShoppers();
+  await injectOrderDetails();
 
 //! Core
 

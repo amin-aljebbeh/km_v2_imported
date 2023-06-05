@@ -1,6 +1,6 @@
 import '../../../../core/core_importer.dart';
-import '../../../orders_feature/data/models/order_model.dart';
-import '../../../orders_feature/data/models/orders_model.dart';
+import '../../../orders/data/models/order_model.dart';
+import '../../../orders/data/models/orders_model.dart';
 import '../models/get_order_response_model.dart';
 
 abstract class SearchOrdersRemoteDataSource {

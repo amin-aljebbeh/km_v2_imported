@@ -1,9 +1,7 @@
 export '../../features/inventory_feature/presentation/widgets/inventory_products_card.dart';
 export '../../features/inventory_feature/presentation/widgets/inventory_search_text_field.dart';
-export '../../features/order_details/widgets/order_product_widget.dart';
-export '../../features/order_details/widgets/product_check_widget.dart';
-export '../../features/orders/widgets/orders_view_card.dart';
-export '../../features/orders/widgets/supplier_orders_view_card.dart';
+export '../../features/order_details/presentation/widgets/order_product_widget.dart';
+export '../../features/order_details/presentation/widgets/product_check_widget.dart';
 export '../../features/products_view/widgets/facebook_loader.dart';
 export '../../features/products_view/widgets/products_view_card.dart';
 export '../../features/search_orders/presentation/widgets/phone_number_widget.dart';

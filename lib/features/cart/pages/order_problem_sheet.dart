@@ -1,7 +1,7 @@
 import 'package:kammun_app/features/cart/services/cart_services.dart';
-import 'package:kammun_app/features/orders/services/order_services.dart';
 
 import '../../../core/core_importer.dart';
+import '../../orders/orders_services.dart';
 
 class OrderProblemBottomSheet extends StatefulWidget {
   final List<int> notActiveProducts;
@@ -57,7 +57,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
     orderArray = CartServices.cartProducts;
     makeCards();
 
-    OrderServices.updateOrderNote != null
+    OrdersServices.updateOrderNote != null
         ? WidgetsBinding.instance.addPostFrameCallback((_) {
             showMyDialog(
                 context: context, title: 'حدث خطأ بالطلب', text: dialogText, dialogButtons: [const CloseWidget()]);

@@ -2,7 +2,7 @@ import 'package:kammun_app/features/complaints/domain/entities/complaint_entity.
 import 'package:kammun_app/features/complaints/presentation/redux/complaints_action.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../orders_feature/domain/entities/order_entity.dart';
+import '../../../orders/domain/entities/order_entity.dart';
 
 class AddComplaintPage extends StatefulWidget {
   static const String routeName = '/AddComplaintPage';
@@ -68,7 +68,7 @@ class _AddComplaintPageState extends State<AddComplaintPage> {
                                       child: Text('مسبب المشكلة', style: informationStyle)),
                                   DropdownButton(
                                     items: Services.dropdownStringList(['الكابتن', 'المورد', 'غير']),
-                                    onChanged: (value) => setState(() => fault = value),
+                                    onChanged: (value) => fault = value,
                                     value: fault,
                                   ),
                                 ],
@@ -89,7 +89,7 @@ class _AddComplaintPageState extends State<AddComplaintPage> {
                                           StaticVariables.subWarehouses
                                               .map((subWarehouse) => subWarehouse.name)
                                               .toList()),
-                                      onChanged: (value) => setState(() => supplier = value),
+                                      onChanged: (value) => supplier = value,
                                       value: supplier,
                                     ),
                                   ],
@@ -104,7 +104,7 @@ class _AddComplaintPageState extends State<AddComplaintPage> {
                                       child: Text('إسناد ل', style: informationStyle)),
                                   DropdownButton(
                                     items: Services.dropdownStringList(['الكابتن', 'المورد', 'غير']),
-                                    onChanged: (value) => setState(() => admin = value),
+                                    onChanged: (value) => admin = value,
                                     value: admin,
                                   ),
                                 ],

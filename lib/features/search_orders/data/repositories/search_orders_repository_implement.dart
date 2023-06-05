@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:kammun_app/features/orders_feature/domain/entities/order_entity.dart';
+import 'package:kammun_app/features/orders/domain/entities/order_entity.dart';
 import 'package:kammun_app/features/search_orders/domain/entities/get_order_response_entity.dart';
 
 import '../../../../core/core_importer.dart';

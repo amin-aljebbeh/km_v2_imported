@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../orders_feature/domain/entities/order_entity.dart';
+import '../../../orders/domain/entities/order_entity.dart';
 import '../repositories/search_orders_repository.dart';
 
 class GetOrdersByUserNumberUseCase {

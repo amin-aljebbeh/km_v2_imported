@@ -1,18 +1,18 @@
-import 'package:kammun_app/features/orders_feature/data/data_sources/orders_remote_data_source.dart';
-import 'package:kammun_app/features/orders_feature/domain/repositories/orders_repository.dart';
-import 'package:kammun_app/features/orders_feature/domain/use_cases/orders_use_cases.dart';
-import 'package:kammun_app/features/orders_feature/domain/use_cases/re_assign_order_use_case.dart';
+import 'package:kammun_app/features/orders/data/data_sources/orders_remote_data_source.dart';
+import 'package:kammun_app/features/orders/domain/repositories/orders_repository.dart';
+import 'package:kammun_app/features/orders/domain/use_cases/orders_use_cases.dart';
+import 'package:kammun_app/features/orders/domain/use_cases/re_assign_order_use_case.dart';
 
 import '../core/core_importer.dart';
-import '../features/orders_feature/data/repositories/orders_repository_implement.dart';
-import '../features/orders_feature/domain/use_cases/assign_order_to_shopper_use_case.dart';
-import '../features/orders_feature/domain/use_cases/change_order_status_use_case.dart';
-import '../features/orders_feature/domain/use_cases/get_all_orders_use_case.dart';
-import '../features/orders_feature/domain/use_cases/get_shopper_orders_use_case.dart';
-import '../features/orders_feature/domain/use_cases/get_supplier_orders_use_case.dart';
-import '../features/orders_feature/domain/use_cases/lock_order_use_case.dart';
-import '../features/orders_feature/domain/use_cases/unlock_order_use_case.dart';
-import '../features/orders_feature/domain/use_cases/update_order_rating_use_case.dart';
+import '../features/orders/data/repositories/orders_repository_implement.dart';
+import '../features/orders/domain/use_cases/assign_order_to_shopper_use_case.dart';
+import '../features/orders/domain/use_cases/change_order_status_use_case.dart';
+import '../features/orders/domain/use_cases/get_all_orders_use_case.dart';
+import '../features/orders/domain/use_cases/get_shopper_orders_use_case.dart';
+import '../features/orders/domain/use_cases/get_supplier_orders_use_case.dart';
+import '../features/orders/domain/use_cases/lock_order_use_case.dart';
+import '../features/orders/domain/use_cases/unlock_order_use_case.dart';
+import '../features/orders/domain/use_cases/update_order_rating_use_case.dart';
 
 Future<void> injectOrders() async {
   sl.registerLazySingleton(() => ReAssignOrderUseCase(ordersRepository: sl()));

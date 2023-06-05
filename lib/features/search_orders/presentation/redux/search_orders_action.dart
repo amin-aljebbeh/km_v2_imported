@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/search_orders/domain/entities/get_order_response_entity.dart';
 
-import '../../../orders_feature/domain/entities/order_entity.dart';
-import '../../../orders_feature/orders_services.dart';
+import '../../../orders/domain/entities/order_entity.dart';
+import '../../../orders/orders_services.dart';
 import '../pages/search_orders_page.dart';
 
 abstract class SearchOrdersAction {

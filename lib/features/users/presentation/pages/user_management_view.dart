@@ -1,7 +1,7 @@
 import 'package:kammun_app/features/users/presentation/pages/user_wallet_page.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../orders_feature/domain/entities/order_entity.dart';
+import '../../../orders/domain/entities/order_entity.dart';
 
 class UserManagement extends StatefulWidget {
   final OrderEntity order;

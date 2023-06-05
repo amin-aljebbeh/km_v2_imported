@@ -1,20 +1,17 @@
-import 'package:flutter/gestures.dart';
-
 import '../core_importer.dart';
 
 class LabelRow extends StatelessWidget {
   final String rightSideText;
   final String leftSideText;
   final TextStyle leftSideStyle;
-  final Function onTap;
+  final GestureRecognizer recognizer;
 
-//todo restore the old way
   const LabelRow({
     Key key,
     @required this.rightSideText,
     @required this.leftSideText,
     @required this.leftSideStyle,
-    this.onTap,
+    this.recognizer,
   }) : super(key: key);
 
   @override
@@ -25,10 +22,7 @@ class LabelRow extends StatelessWidget {
         text: TextSpan(
           children: <TextSpan>[
             TextSpan(text: rightSideText, style: paragraphStyle),
-            TextSpan(
-                text: leftSideText,
-                style: leftSideStyle,
-                recognizer: TapGestureRecognizer()..onTap = () => onTap != null ? onTap() : {}),
+            TextSpan(text: leftSideText, style: leftSideStyle, recognizer: recognizer),
           ],
         ),
       ),

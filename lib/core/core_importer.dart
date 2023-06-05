@@ -7,6 +7,7 @@ export 'package:adv_image_cache/adv_image_cache.dart';
 export 'package:auto_size_text/auto_size_text.dart';
 export 'package:dio/dio.dart';
 export 'package:equatable/equatable.dart';
+export 'package:flutter/gestures.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter/services.dart';
 export 'package:get_it/get_it.dart';

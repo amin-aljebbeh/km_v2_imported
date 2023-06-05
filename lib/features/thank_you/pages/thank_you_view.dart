@@ -1,4 +1,5 @@
 import '../../../core/core_importer.dart';
+import '../../orders/presentation/pages/orders_page.dart';
 
 class ThankYouView extends StatefulWidget {
   final String orderMessage;
@@ -62,7 +63,7 @@ class ThankYouViewState extends State<ThankYouView> {
                     color: Theme.of(context).primaryColor,
                     height: 50,
                     onTap: () => Navigator.of(context)
-                        .pushNamedAndRemoveUntil(OrdersView.routeName, (Route<dynamic> route) => false),
+                        .pushNamedAndRemoveUntil(OrdersPage.routeName, (Route<dynamic> route) => false),
                   ),
                 ],
               ),

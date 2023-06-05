@@ -1,10 +1,10 @@
 import 'package:kammun_app/features/cart/services/cart_services.dart';
-import 'package:kammun_app/features/orders/services/order_services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../core/core_importer.dart';
-import '../../orders/model/submit_order_model.dart';
+import '../../orders/orders_services.dart';
 import '../../thank_you/pages/thank_you_view.dart';
+import '../model/submit_order_model.dart';
 import 'order_problem_sheet.dart';
 
 class CartViewFinal extends StatefulWidget {
@@ -49,7 +49,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
     subtotal = orderArray.fold(0, (sum, order) => sum + (int.parse(order.price.split('.')[0]) * order.productCount));
     total = subtotal + StaticVariables.deliveryPrice;
 
-    if (OrderServices.updateOrderNote != null) WidgetsBinding.instance.addPostFrameCallback((_) => _userNotesInitial());
+    if (OrdersServices.updateOrderNote != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _userNotesInitial());
+    }
 
     super.initState();
   }
@@ -63,7 +65,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     });
   }
 
-  _userNotesInitial() => _userNotes.text = OrderServices.updateOrderNote;
+  _userNotesInitial() => _userNotes.text = OrdersServices.updateOrderNote;
 
   _cartChanged() async {
     String productsId = '';
@@ -188,7 +190,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           ? const Loader()
                           : Column(
                               children: <Widget>[
-                                if (OrderServices.orderUnderUpdateStatusId == '5')
+                                if (OrdersServices.orderUnderUpdateStatusId == '5')
                                   Row(
                                     children: [
                                       Checkbox(
@@ -279,7 +281,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                   width: MediaQuery.of(context).size.width,
                                   color: CartServices.cartProducts.isNotEmpty ? primaryColor : Colors.grey[400],
                                   text: confirmOrder,
-                                  padding: const EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.only(bottom: 10, top: 10),
                                   onTap: () {
                                     _cartChanged();
                                     _showConfirmOrderBtnTapped();
@@ -448,7 +450,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
       OrderResponse orderResponse;
 
-      if (OrderServices.orderUnderUpdateIndex != -1) {
+      if (OrdersServices.orderUnderUpdateIndex != -1) {
         List<InvoiceProductModel> products = orderArray
             .map((product) => InvoiceProductModel(
                 quantity: product.productCount,
@@ -469,7 +471,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
             userNote: _userNotes.text,
             checkChangedPriceProduct: checkOrderPrice ? 1 : 0,
             saveRefund: refund ? 1 : 0);
-        orderResponse = await OrderServices.updateOrder(submitOrderModel: submitOrderModel);
+        orderResponse = await CartServices.updateOrder(submitOrderModel: submitOrderModel);
 
         setState(() {
           if (orderResponse != null) {
@@ -487,7 +489,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
             } else if (orderResponse.success) {
               CartViewFinal.message = orderResponse.data;
               prefs.setString('orderUnderUpdateId', '-1');
-              OrderServices.orderUnderUpdateIndex = -1;
+              OrdersServices.orderUnderUpdateIndex = -1;
             } else if (!orderResponse.success) {
               loadingScreen = false;
               errorCode = true;
@@ -497,13 +499,13 @@ class _CartViewFinalState extends State<CartViewFinal> {
             errorCode = true;
           }
         });
-      }
-      if (orderResponse.success == true) {
-        await prefs.remove('userCart');
-        CartServices.cartProducts.clear();
-        CartServices.userNote = '';
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.message)));
+        if (orderResponse.success == true) {
+          await prefs.remove('userCart');
+          CartServices.cartProducts.clear();
+          CartServices.userNote = '';
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.message)));
+        }
       }
     } catch (e) {
       /**/

@@ -1,7 +1,7 @@
 import 'package:kammun_app/features/transactions/presentation/redux/transactions_action.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../orders_feature/domain/entities/order_entity.dart';
+import '../../../orders/domain/entities/order_entity.dart';
 import '../../../transactions/domain/entities/admin_transaction_entity.dart';
 
 class UserWalletPage extends StatefulWidget {

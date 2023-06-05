@@ -1,7 +1,5 @@
-import 'package:kammun_app/features/order_details/services/order_details_services.dart';
-import 'package:kammun_app/features/orders/services/order_services.dart';
-
 import '../../../core/core_importer.dart';
+import '../../orders/orders_services.dart';
 import '../services/cart_services.dart';
 
 class CartView extends StatefulWidget {
@@ -209,8 +207,8 @@ class CartViewState extends State<CartView> {
                                           orderArray[index].quantity =
                                               (priceFactor * double.parse(_priceController.text)).toStringAsFixed(2);
                                           CartServices.cartProducts = orderArray;
-                                          OrderDetailsServices.updateOrder(
-                                              orderId: OrderServices.orderUnderUpdateId,
+                                          CartServices.updateOrderProduct(
+                                              orderId: OrdersServices.orderUnderUpdateId,
                                               context: context,
                                               updateKey: 'product_quantity',
                                               updateValue: (priceFactor * double.parse(_priceController.text))

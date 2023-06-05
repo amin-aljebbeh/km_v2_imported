@@ -1,5 +1,5 @@
 import 'package:kammun_app/features/loading/presentation/redux/loading_state.dart';
-import 'package:kammun_app/features/orders_feature/presentation/redux/orders_state.dart';
+import 'package:kammun_app/features/orders/presentation/redux/orders_state.dart';
 import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_state.dart';
 import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_state.dart';
 
@@ -9,6 +9,7 @@ import '../features/complaints/presentation/redux/complaints_state.dart';
 import '../features/coupons/presentation/redux/coupon_state.dart';
 import '../features/error/presentation/redux/error_state.dart';
 import '../features/inventory_feature/presentation/redux/inventory_state.dart';
+import '../features/order_details/presentation/redux/order_details_state.dart';
 import '../features/supplier/presentation/redux/supplier_state.dart';
 import '../features/transactions/presentation/redux/transactions_state.dart';
 import '../features/users/presentation/redux/users_state.dart';
@@ -21,6 +22,7 @@ class AppState extends Equatable {
   final ErrorState errorState;
   final InventoryState inventoryState;
   final LoadingState loadingState;
+  final OrderDetailsState orderDetailsState;
   final OrdersState ordersState;
   final SearchOrdersState searchOrdersState;
   final ShoppersState shoppersState;
@@ -30,6 +32,7 @@ class AppState extends Equatable {
 
   const AppState({
     this.ordersState,
+    this.orderDetailsState,
     this.transactionsState,
     this.inventoryState,
     this.errorState,
@@ -56,6 +59,7 @@ class AppState extends Equatable {
         ordersState: OrdersState.initial(),
         transactionsState: TransactionsState.initial(),
         shoppersState: ShoppersState.initial(),
+        orderDetailsState: OrderDetailsState.initial(),
       );
 
   AppState copyWith({
@@ -71,6 +75,7 @@ class AppState extends Equatable {
     OrdersState ordersState,
     TransactionsState transactionsState,
     ShoppersState shoppersState,
+    OrderDetailsState orderDetailsState,
   }) {
     return AppState(
       inventoryState: inventoryState ?? this.inventoryState,
@@ -85,6 +90,7 @@ class AppState extends Equatable {
       ordersState: ordersState ?? this.ordersState,
       transactionsState: transactionsState ?? this.transactionsState,
       shoppersState: shoppersState ?? this.shoppersState,
+      orderDetailsState: orderDetailsState ?? this.orderDetailsState,
     );
   }
 
@@ -101,6 +107,7 @@ class AppState extends Equatable {
         couponState,
         usersState,
         ordersState,
-        shoppersState,
+        orderDetailsState,
+        shoppersState
       ];
 }

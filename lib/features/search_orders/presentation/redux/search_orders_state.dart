@@ -1,5 +1,5 @@
 import '../../../../core/core_importer.dart';
-import '../../../orders_feature/domain/entities/order_entity.dart';
+import '../../../orders/domain/entities/order_entity.dart';
 import '../../domain/use_cases/search_orders_use_cases.dart';
 
 @immutable
@@ -12,14 +12,15 @@ class SearchOrdersState extends Equatable {
   final int id;
   final int page;
 
-  const SearchOrdersState(
-      {this.statusFilter,
-      this.phoneNumber,
-      this.id,
-      this.searchOrdersUSeCases,
-      this.orders,
-      this.page,
-      this.searchOrdersType});
+  const SearchOrdersState({
+    this.statusFilter,
+    this.phoneNumber,
+    this.id,
+    this.searchOrdersUSeCases,
+    this.orders,
+    this.page,
+    this.searchOrdersType,
+  });
 
   factory SearchOrdersState.initial() {
     return SearchOrdersState(

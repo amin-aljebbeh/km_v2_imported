@@ -1,6 +1,6 @@
 import '../../../core/core_importer.dart';
-import '../../orders_feature/presentation/pages/orders_page.dart';
-import '../../orders_feature/presentation/redux/orders_action.dart';
+import '../../orders/presentation/pages/orders_page.dart';
+import '../../orders/presentation/redux/orders_action.dart';
 import '../widgets/bottom_bar_item.dart';
 
 class HomeView extends StatefulWidget {
@@ -71,7 +71,9 @@ class HomeViewState extends State<HomeView> {
 
   void _onItemTapped(int index) {
     if (index == 2) {
-      StoreProvider.of<AppState>(context).dispatch(GetOrdersAction(context: context));
+      if (StoreProvider.of<AppState>(context).state.ordersState.orders.isEmpty) {
+        StoreProvider.of<AppState>(context).dispatch(GetOrdersAction(context: context));
+      }
     }
     setState(() {
       selectedIndex = index;
