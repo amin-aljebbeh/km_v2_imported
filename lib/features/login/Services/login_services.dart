@@ -77,10 +77,6 @@ class LoginServices {
   }
 
   static Future<void> logOutAdmin(BuildContext context) async {
-    StaticVariables.allOrdersList = [];
-    StaticVariables.myOrdersList = [];
-    StaticVariables.phoneOrderList = [];
-    StaticVariables.ordersViewFilter = 0;
     SharedPreferences preferences = await SharedPreferences.getInstance();
     baseUrl = appUrl;
     await preferences.clear();

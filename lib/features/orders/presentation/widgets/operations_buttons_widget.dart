@@ -119,7 +119,8 @@ class OperationButtonsWidget extends StatelessWidget {
                       text: editOrder,
                       onTap: () {
                         lockOrderService(
-                            orderId: order.id.toString(),
+                            orderId: order.id,
+                            context: context,
                             userNote: order.userNotes,
                             supportedCityCost: order.supportedCityCost,
                             deliveryMethodCost: order.deliveryCost); /*todo remove to cart state*/

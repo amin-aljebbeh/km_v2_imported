@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_action.dart';
 
+import '../../../cart/presentation/redux/cart_action.dart';
+import '../../domain/entities/lock_order_response_entity.dart';
 import '../../domain/entities/order_entity.dart';
 import '../../orders_services.dart';
 
@@ -163,7 +165,8 @@ class LockOrderAction implements OrdersAction {
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases.lockOrderUseCase(orderId: orderId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (response) async {
+        (responseEntity) async {
+      LockOrderResponseEntity response = responseEntity;
       if (response != null) {
         List<OrderEntity> orders = [];
         if (store.state.searchOrdersState.searchOrdersType == SearchOrdersTypes.none) {
@@ -172,7 +175,8 @@ class LockOrderAction implements OrdersAction {
           orders.addAll(store.state.searchOrdersState.orders);
         }
         if (response.success) {
-          OrdersServices.orderUnderUpdateStatusId = orders.firstWhere((order) => order.id == orderId).orderStatusId;
+          store.dispatch(
+              SetOrderStatus(statusId: int.parse(orders.firstWhere((order) => order.id == orderId).orderStatusId)));
           orders.firstWhere((order) => order.id == orderId).underUpdate = '1';
           await moveOrderProductsToCart(orderProducts: response.products, context: context);
         } else if (!response.success) {

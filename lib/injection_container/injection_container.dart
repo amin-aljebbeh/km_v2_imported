@@ -5,6 +5,7 @@ import 'package:kammun_app/injection_container/users_injection.dart';
 
 import '../core/core_importer.dart';
 import 'admins_injection.dart';
+import 'cart_injection.dart';
 import 'complaints_inject.dart';
 import 'coupons_injection.dart';
 import 'inventory_injection.dart';
@@ -25,6 +26,7 @@ Future<void> inject() async {
   await injectTransactions();
   await injectShoppers();
   await injectOrderDetails();
+  await injectCart();
 
 //! Core
 

@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/cart/presentation/pages/cart_page.dart';
+
 import '../../../core/core_importer.dart';
 
 class ProductsViewAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -27,7 +29,7 @@ class ProductsViewAppBar extends StatelessWidget with PreferredSizeWidget {
                     child: IconButton(
                       icon: const Icon(Icons.shopping_cart, size: 35, color: Colors.white),
                       onPressed: () => Navigator.of(context)
-                          .pushNamedAndRemoveUntil(CartView.routeName, (Route<dynamic> route) => false),
+                          .pushNamedAndRemoveUntil(CartPage.routeName, (Route<dynamic> route) => false),
                     ),
                   ),
                   const AppBarKammunImage(),

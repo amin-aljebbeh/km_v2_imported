@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/products/data/models/product_model.dart';
+
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/lock_order_response_entity.dart';
 
@@ -9,12 +11,11 @@ class LockOrderResponseModel extends LockOrderResponseEntity {
   factory LockOrderResponseModel.fromJson(Map<String, dynamic> json) => LockOrderResponseModel(
         success: json['success'],
         data: json['data'],
-        products: List<OrderProduct>.from(json['products'].map((x) => OrderProduct.fromJson(x))),
+        products: List<ProductModel>.from(json['products'].map((x) => ProductModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         'success': success,
         'data': data,
-        'products': List<dynamic>.from(products.map((x) => x.toJson())),
       };
 }

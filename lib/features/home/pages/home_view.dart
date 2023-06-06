@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/cart/presentation/pages/cart_page.dart';
+
 import '../../../core/core_importer.dart';
 import '../../orders/presentation/pages/orders_page.dart';
 import '../../orders/presentation/redux/orders_action.dart';
@@ -5,10 +7,9 @@ import '../widgets/bottom_bar_item.dart';
 
 class HomeView extends StatefulWidget {
   final int routeIndex;
-  final bool isFromUpdateOrder;
   final dynamic notificationValue;
 
-  const HomeView({Key key, this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue}) : super(key: key);
+  const HomeView({Key key, this.routeIndex, this.notificationValue}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => HomeViewState();
@@ -16,14 +17,12 @@ class HomeView extends StatefulWidget {
 
 class HomeViewState extends State<HomeView> {
   int selectedIndex;
-  bool isFromUpdateOrder;
 
   List<Widget> tabs = [];
 
   @override
   void initState() {
     selectedIndex = widget.routeIndex;
-    isFromUpdateOrder = widget.isFromUpdateOrder;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.notificationValue != null) {
         showMyDialog(
@@ -61,7 +60,7 @@ class HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     tabs.add(const StoreView());
-    tabs.add(CartView(isFromUpdateOrder: isFromUpdateOrder));
+    tabs.add(const CartPage());
     if (Services.hasRole(context, operationManagerRole) ||
         Services.hasRole(context, shopperRole) ||
         Services.hasRole(context, supplierRole)) tabs.add(const OrdersPage());
@@ -77,7 +76,6 @@ class HomeViewState extends State<HomeView> {
     }
     setState(() {
       selectedIndex = index;
-      isFromUpdateOrder = false;
     });
   }
 }

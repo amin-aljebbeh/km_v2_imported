@@ -5,6 +5,7 @@ import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_state.d
 
 import '../core/core_importer.dart';
 import '../features/admins/presentation/redux/admins_state.dart';
+import '../features/cart/presentation/redux/cart_state.dart';
 import '../features/complaints/presentation/redux/complaints_state.dart';
 import '../features/coupons/presentation/redux/coupon_state.dart';
 import '../features/error/presentation/redux/error_state.dart';
@@ -17,6 +18,7 @@ import '../features/users/presentation/redux/users_state.dart';
 @immutable
 class AppState extends Equatable {
   final AdminsState adminsState;
+  final CartState cartState;
   final ComplaintsState complaintsState;
   final CouponState couponState;
   final ErrorState errorState;
@@ -44,6 +46,7 @@ class AppState extends Equatable {
     this.couponState,
     this.usersState,
     this.shoppersState,
+    this.cartState,
   });
 
   factory AppState.initial() => AppState(
@@ -60,6 +63,7 @@ class AppState extends Equatable {
         transactionsState: TransactionsState.initial(),
         shoppersState: ShoppersState.initial(),
         orderDetailsState: OrderDetailsState.initial(),
+        cartState: CartState.initial(),
       );
 
   AppState copyWith({
@@ -76,6 +80,7 @@ class AppState extends Equatable {
     TransactionsState transactionsState,
     ShoppersState shoppersState,
     OrderDetailsState orderDetailsState,
+    CartState cartState,
   }) {
     return AppState(
       inventoryState: inventoryState ?? this.inventoryState,
@@ -91,6 +96,7 @@ class AppState extends Equatable {
       transactionsState: transactionsState ?? this.transactionsState,
       shoppersState: shoppersState ?? this.shoppersState,
       orderDetailsState: orderDetailsState ?? this.orderDetailsState,
+      cartState: cartState ?? this.cartState,
     );
   }
 
@@ -108,6 +114,7 @@ class AppState extends Equatable {
         usersState,
         ordersState,
         orderDetailsState,
-        shoppersState
+        shoppersState,
+        cartState,
       ];
 }

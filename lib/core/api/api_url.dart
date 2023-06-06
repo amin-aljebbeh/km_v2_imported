@@ -7,7 +7,7 @@ String baseUrl = appUrl;
 const String appleBaseUrl = 'http://apptest.kammun.com';
 const String productionBaseUrl = appUrl;
 const String getCategory = 'category/';
-const String syncCart = 'cart/sync_cart';
+const String syncCartApi = 'cart/sync_cart';
 
 const String couponApi = 'coupon/';
 const String userCouponsApi = user + 'coupons/';

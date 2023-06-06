@@ -1,14 +1,12 @@
+import 'package:kammun_app/features/cart/presentation/pages/cart_page.dart';
 import 'package:kammun_app/features/orders/domain/entities/order_entity.dart';
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 import '../../core/core_importer.dart';
-import '../cart/services/cart_services.dart';
+import '../cart/presentation/redux/cart_action.dart';
 
 class OrdersServices {
-  static int orderUnderUpdateIndex = -1;
-  static String updateOrderNote = '';
-  static String orderUnderUpdateStatusId = '0';
-  static String orderUnderUpdateId = '';
   static CancelToken cancelRequest = CancelToken();
 }
 
@@ -93,44 +91,21 @@ openMapSheet({context, double lat, double lon}) async {
   }
 }
 
-moveOrderProductsToCart({BuildContext context, List<OrderProduct> orderProducts}) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  CartServices.cartProducts.clear();
-  String productsId = '';
-  String productsQuantity = '';
-
+moveOrderProductsToCart({BuildContext context, List<ProductEntity> orderProducts}) async {
   orderProducts.removeWhere((element) => element.pivot.deletedAt != 'null');
-
   for (int i = 0; i < orderProducts.length; i++) {
-    ProductData product = ProductData();
-
-    product.id = orderProducts[i].id;
-    product.images = orderProducts[i].images;
-    product.name = orderProducts[i].name;
-    product.pivot = OrderProductPivot(
-        subWarehouseId: orderProducts[i].pivot.subWarehouseId,
-        quantity: orderProducts[i].pivot.quantity,
-        increaseValue: orderProducts[i].pivot.increaseValue,
-        purchasePrice: orderProducts[i].pivot.purchasePrice);
-    product.price =
+    orderProducts[i].price =
         (int.parse(orderProducts[i].pivot.purchasePrice.split('.')[0]) - orderProducts[i].pivot.increaseValue)
             .toString();
 
-    product.productCount = int.parse(orderProducts[i].pivot.quantity);
-    product.unit = orderProducts[i].unit;
-    product.quantity = orderProducts[i].quantity;
-    product.subWarehouseId = orderProducts[i].subWarehouseId ?? -1;
-    product.pivot = orderProducts[i].pivot;
-    CartServices.addProductToCart(product);
+    orderProducts[i].productCount = int.parse(orderProducts[i].pivot.quantity);
+    orderProducts[i].subWarehouseId = orderProducts[i].subWarehouseId ?? -1;
   }
 
-  for (int i = 0; i < CartServices.cartProducts.length; i++) {
-    productsId += CartServices.cartProducts[i].id.toString() + ';';
-    productsQuantity += CartServices.cartProducts[i].productCount.toString() + ';';
-  }
-  prefs.setString('userCart', productsId + '@' + productsQuantity);
+  StoreProvider.of<AppState>(context).dispatch(SetCartProducts(products: orderProducts));
+  StoreProvider.of<AppState>(context).dispatch(SaveCart());
 
-  Navigator.of(context).pushNamedAndRemoveUntil(CartView.fromUpdateRouteName, (Route<dynamic> route) => false);
+  Navigator.of(context).pushNamedAndRemoveUntil(CartPage.routeName, (Route<dynamic> route) => false);
 }
 
 String changeStatusButtonText(String status) {
@@ -176,25 +151,22 @@ gasAllowance({String deliveryDistance, int levelId, BuildContext context}) {
 }
 
 lockOrderService(
-    {@required String orderId,
+    {@required int orderId,
     @required String supportedCityCost,
     @required String deliveryMethodCost,
+    @required BuildContext context,
     @required String userNote}) async {
   try {
-    var response = await ApiProvider.sendRequest(url: lockOrderApi + orderId, method: HttpMethods.put);
-    if (response.data == null) return null;
-    if (response.statusCode == successCode && response.data['success']) {
-      OrdersServices.orderUnderUpdateIndex = int.parse(orderId);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('orderUnderUpdateId', orderId);
+    //todo remove or fix
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('orderUnderUpdateId', orderId);
 
-      OrdersServices.orderUnderUpdateId = orderId;
+    StoreProvider.of<AppState>(context).dispatch(SetOrderId(orderId: orderId));
 
-      StaticVariables.deliveryPrice =
-          int.parse(supportedCityCost.split('.')[0]) + int.parse(deliveryMethodCost.split('.')[0]);
+    StaticVariables.deliveryPrice =
+        int.parse(supportedCityCost.split('.')[0]) + int.parse(deliveryMethodCost.split('.')[0]);
 
-      OrdersServices.updateOrderNote = userNote;
-    }
+    StoreProvider.of<AppState>(context).dispatch(SetUserNote(note: userNote));
   } catch (e) {
     /**/
   }

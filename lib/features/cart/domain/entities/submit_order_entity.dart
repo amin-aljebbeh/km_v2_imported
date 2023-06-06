@@ -6,7 +6,7 @@ class SubmitOrderEntity {
   final int saveRefund;
   final String userNote;
   final List<InvoiceProductEntity> products;
-  final int checkChangedPriceProduct;
+  int checkChangedPriceProduct;
 
   SubmitOrderEntity({
     this.purchasePrices,

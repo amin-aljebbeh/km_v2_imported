@@ -31,11 +31,7 @@ class StaticVariables {
   // User Variables
   static List<ProductData> allProducts = [];
   static List<ProductData> notAddedProducts = [];
-  static List<OrdersOriginalData> myOrdersList = [];
-  static List<OrdersOriginalData> allOrdersList = [];
-  static List<OrdersOriginalData> phoneOrderList = [];
   static bool preferLeftSide = true;
-  static int ordersViewFilter = 0;
 
   static ShopperModel shopper;
   static bool updateOption = false;

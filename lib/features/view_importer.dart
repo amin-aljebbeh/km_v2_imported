@@ -1,9 +1,7 @@
-export 'package:kammun_app/features/cart/pages/cart_view.dart';
 export 'package:kammun_app/features/complaints/presentation/pages/add_complaint_page.dart';
 
 export '../features/coupons/presentation/pages/coupons_page.dart';
 export '../features/coupons/presentation/pages/user_coupons_page.dart';
-export 'cart/pages/cart_view_final.dart';
 export 'complaints/presentation/pages/complaints_page.dart';
 export 'home/pages/home_view.dart';
 export 'inventory/pages/inventory_importer.dart';

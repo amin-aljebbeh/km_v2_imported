@@ -1,9 +1,9 @@
-import '../../../../core/core_importer.dart';
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 
 class LockOrderResponseEntity {
   bool success;
   String data;
-  List<OrderProduct> products;
+  List<ProductEntity> products;
 
   LockOrderResponseEntity({this.success, this.data, this.products});
 }

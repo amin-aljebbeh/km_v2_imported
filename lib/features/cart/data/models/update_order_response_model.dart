@@ -21,11 +21,11 @@ class UpdateOrderResponseModel extends UpdateOrderResponseEntity {
         reason: json['reason'].toString(),
         inactiveProducts: json['inactive_products'] != null
             ? List<String>.from(json['inactive_products'].map((x) => x.toString()))
-            : [],
+            : <String>[],
         changedPriceProducts: json['changed_price_products'] != null
             ? List<ChangedPriceProductModel>.from(
                 json['changed_price_products'].map((x) => ChangedPriceProductModel.fromJson(x)))
-            : [],
+            : <ChangedPriceProductModel>[],
         message: json['message'].toString(),
       );
 

@@ -1,4 +1,4 @@
-import '../../../cart_feature/domain/entities/changed_price_product_entity.dart';
+import '../../../cart/domain/entities/changed_price_product_entity.dart';
 
 class ChangedPriceProductModel extends ChangedPriceProductEntity {
   ChangedPriceProductModel({id, oldPrice, newPrice}) : super(id: id, newPrice: newPrice, oldPrice: oldPrice);

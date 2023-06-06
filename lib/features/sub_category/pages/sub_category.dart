@@ -1,3 +1,4 @@
+import 'package:kammun_app/features/cart/presentation/pages/cart_page.dart';
 import 'package:kammun_app/features/sub_category/widgets/sub_category_widget.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 
@@ -28,7 +29,7 @@ class SubCategory extends StatelessWidget {
               icon: const Icon(Icons.shopping_cart, size: 35, color: Colors.white),
               onPressed: () {
                 if (!forProductAdding) {
-                  Navigator.of(context).pushNamedAndRemoveUntil(CartView.routeName, (Route<dynamic> route) => false);
+                  Navigator.of(context).pushNamedAndRemoveUntil(CartPage.routeName, (Route<dynamic> route) => false);
                 }
               },
             ),

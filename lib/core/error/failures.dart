@@ -25,8 +25,18 @@ class CacheFailure extends Failure {
 
 class InternalFailure extends Failure {
   final String message;
+
   @override
   List<Object> get props => [];
 
   InternalFailure({this.message});
+}
+
+class OfflineRegionFailure extends Failure {
+  final String message;
+
+  @override
+  List<Object> get props => [];
+
+  OfflineRegionFailure({this.message});
 }

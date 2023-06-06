@@ -1,5 +1,4 @@
 import '../../../core/core_importer.dart';
-import '../../cart/services/cart_services.dart';
 
 class AddToCartWidget extends StatefulWidget {
   final ProductData product;
@@ -60,21 +59,14 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
           height: 50,
           color: Theme.of(context).primaryColor,
           onTap: () async {
-            String productsId = '';
-            String productsQuantity = '';
             if (LoadingScreen.userToken.length > 5) {
               Navigator.of(context).pop(true);
               product.productCount = numberOfOrders;
               ProductData productData = product;
               productData.pivot = OrderProductPivot(increaseValue: product.increasePercentage);
               productData.price = price;
-              CartServices.addProductToCart(productData);
+              //todo handle adding to cart
               snackBar(success: true, message: 'تم إضافة ${product.name} لسلة المشتريات', context: context);
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              productsId = CartServices.cartProducts.fold('', (ids, product) => product.id.toString() + ';');
-              productsQuantity =
-                  CartServices.cartProducts.fold('', (counts, product) => product.productCount.toString() + ';');
-              prefs.setString('userCart', productsId + '@' + productsQuantity);
             } else {
               Navigator.of(context).pushNamed(LoginScreen.routeName);
             }
