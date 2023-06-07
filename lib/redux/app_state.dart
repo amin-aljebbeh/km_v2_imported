@@ -1,5 +1,7 @@
 import 'package:kammun_app/features/loading/presentation/redux/loading_state.dart';
 import 'package:kammun_app/features/orders/presentation/redux/orders_state.dart';
+import 'package:kammun_app/features/product_details/presentation/redux/product_details_state.dart';
+import 'package:kammun_app/features/products/presentation/redux/products_state.dart';
 import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_state.dart';
 import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_state.dart';
 
@@ -26,6 +28,8 @@ class AppState extends Equatable {
   final LoadingState loadingState;
   final OrderDetailsState orderDetailsState;
   final OrdersState ordersState;
+  final ProductDetailsState productDetailsState;
+  final ProductsState productsState;
   final SearchOrdersState searchOrdersState;
   final ShoppersState shoppersState;
   final SupplierState supplierState;
@@ -37,6 +41,8 @@ class AppState extends Equatable {
     this.orderDetailsState,
     this.transactionsState,
     this.inventoryState,
+    this.productDetailsState,
+    this.productsState,
     this.errorState,
     this.loadingState,
     this.searchOrdersState,
@@ -56,8 +62,10 @@ class AppState extends Equatable {
         supplierState: SupplierState.initial(),
         complaintsState: ComplaintsState.initial(),
         adminsState: AdminsState.initial(),
+        productDetailsState: ProductDetailsState.initial(),
         couponState: CouponState.initial(),
         usersState: UsersState.initial(),
+        productsState: ProductsState.initial(),
         searchOrdersState: SearchOrdersState.initial(),
         ordersState: OrdersState.initial(),
         transactionsState: TransactionsState.initial(),
@@ -70,10 +78,12 @@ class AppState extends Equatable {
     InventoryState inventoryState,
     ErrorState errorState,
     LoadingState loadingState,
+    ProductDetailsState productDetailsState,
     SupplierState supplierState,
     ComplaintsState complaintsState,
     AdminsState adminsState,
     CouponState couponState,
+    ProductsState productsState,
     UsersState usersState,
     SearchOrdersState searchOrdersState,
     OrdersState ordersState,
@@ -91,12 +101,14 @@ class AppState extends Equatable {
       adminsState: adminsState ?? this.adminsState,
       couponState: couponState ?? this.couponState,
       usersState: usersState ?? this.usersState,
+      productsState: productsState ?? this.productsState,
       searchOrdersState: searchOrdersState ?? this.searchOrdersState,
       ordersState: ordersState ?? this.ordersState,
       transactionsState: transactionsState ?? this.transactionsState,
       shoppersState: shoppersState ?? this.shoppersState,
       orderDetailsState: orderDetailsState ?? this.orderDetailsState,
       cartState: cartState ?? this.cartState,
+      productDetailsState: productDetailsState ?? this.productDetailsState,
     );
   }
 
@@ -109,8 +121,10 @@ class AppState extends Equatable {
         transactionsState,
         complaintsState,
         adminsState,
+        productsState,
         searchOrdersState,
         couponState,
+        productDetailsState,
         usersState,
         ordersState,
         orderDetailsState,

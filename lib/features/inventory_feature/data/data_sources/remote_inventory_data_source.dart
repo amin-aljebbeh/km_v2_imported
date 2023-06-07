@@ -2,12 +2,13 @@ import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
 
 import '../../../inventory/model/inventory_model_importer.dart';
+import '../../../products/data/models/product_model.dart';
 import '../models/prime_products_response_model.dart';
 
 abstract class RemoteInventoryDataSource {
   Future<FilteredProductsModel> getNotificationProducts({int pageNumber, int subWarehouseId, int isActive});
   Future<FilteredProductsModel> getPrimeProducts({int pageNumber, int subWarehouseId, int isActive});
-  Future<List<ProductData>> getUnderCheckAvailability({int subWarehouseId});
+  Future<List<ProductModel>> getUnderCheckAvailability({int subWarehouseId});
   Future<Unit> targetInventory();
   Future<Unit> keepingAnInventoriesRecord();
 }
@@ -49,14 +50,14 @@ class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
   }
 
   @override
-  Future<List<ProductData>> getUnderCheckAvailability({int subWarehouseId}) async {
+  Future<List<ProductModel>> getUnderCheckAvailability({int subWarehouseId}) async {
     Response response = await ApiProvider.sendRequest(
         url: underCheckAvailabilityApi, method: HttpMethods.get, queryParameters: {'sub_warehouse_id': subWarehouseId});
     try {
       if (response != null) {
         if (response.statusCode == successCode) {
           ProductsToReview productsToReview = productsToReviewFromJson(jsonEncode(response.data));
-          List<ProductData> products = [];
+          List<ProductModel> products = [];
           products.addAll(productsToReview.productsToActivate);
           products.addAll(productsToReview.productsToDeactivate);
           return products;

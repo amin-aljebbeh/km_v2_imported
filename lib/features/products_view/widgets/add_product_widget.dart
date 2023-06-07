@@ -5,7 +5,7 @@ import '../pages/barcode_screen.dart';
 class AddProductWidget extends StatelessWidget {
   const AddProductWidget({Key key, this.scaffoldKey, this.categoryId}) : super(key: key);
   final GlobalKey<ScaffoldState> scaffoldKey;
-  final String categoryId;
+  final int categoryId;
 
   @override
   Widget build(BuildContext context) {

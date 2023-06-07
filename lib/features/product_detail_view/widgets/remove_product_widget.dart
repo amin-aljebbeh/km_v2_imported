@@ -1,6 +1,7 @@
+import 'package:kammun_app/features/product_details/presentation/redux/product_details_action.dart';
+
 import '../../../core/core_importer.dart';
 import '../../products/domain/entities/product_entity.dart';
-import '../../products_view/services/products_services.dart';
 import 'remove_from_warehouse.dart';
 
 class RemoveProductWidget extends StatelessWidget {
@@ -21,15 +22,9 @@ class RemoveProductWidget extends StatelessWidget {
             List<DialogButton> dialogButtons = [
               DialogButton(
                 text: yes,
-                onTap: () async {
-                  bool result = await ProductsServices.deleteProductService(product.id.toString());
-                  if (result) {
-                    int count = 0;
-                    Navigator.of(context).popUntil((_) => count++ >= 2);
-                    snackBar(success: result, message: 'تم حذف المنتج بنجاح', context: context);
-                  } else {
-                    snackBar(success: result, message: 'فشلت عملية حذف المنتج يرجى المحاولة مجدداً', context: context);
-                  }
+                onTap: () {
+                  StoreProvider.of<AppState>(context)
+                      .dispatch(DeleteProductAction(productId: product.id, context: context));
                 },
               ),
               DialogButton(text: no, onTap: () => Navigator.of(context).pop()),

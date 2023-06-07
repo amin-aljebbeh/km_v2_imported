@@ -1,0 +1,17 @@
+import 'package:dartz/dartz.dart';
+
+import '../../../../core/core_importer.dart';
+import '../../domain/repositories/product_details_repository.dart';
+import '../data_sources/products_details_remote_data_source.dart';
+
+class ProductDetailsRepositoryImplement implements ProductDetailsRepository {
+  final ProductDetailsRemoteDataSource productDetailsRemoteDataSource;
+  final RepositoryFactory repositoryFactory;
+
+  ProductDetailsRepositoryImplement({this.productDetailsRemoteDataSource, this.repositoryFactory});
+  @override
+  Future<Either<Failure, Unit>> deleteProduct({int productId}) async {
+    return await repositoryFactory.failureUnitRepo(
+        function: () => productDetailsRemoteDataSource.deleteProduct(productId: productId));
+  }
+}

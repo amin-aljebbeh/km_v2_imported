@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/cart/presentation/pages/cart_page.dart';
 
 import '../../../core/core_importer.dart';
+import '../../products/presentation/redux/products_action.dart';
 
 class ProductsViewAppBar extends StatelessWidget with PreferredSizeWidget {
   const ProductsViewAppBar({Key key, this.scaffoldKey, this.searchController, this.onSubmit}) : super(key: key);
@@ -36,7 +37,10 @@ class ProductsViewAppBar extends StatelessWidget with PreferredSizeWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: InkWell(
-                      onTap: () => Navigator.of(context).pop(true),
+                      onTap: () {
+                        StoreProvider.of<AppState>(context).dispatch(InitProducts());
+                        Navigator.of(context).pop(true);
+                      },
                       child: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 40),
                     ),
                   ),

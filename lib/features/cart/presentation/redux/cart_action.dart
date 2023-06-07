@@ -55,8 +55,9 @@ class GetCartAction extends CartAction {
 class UpdateCartProducts extends CartAction {
   final int productId, quantity;
   final ProductEntity product;
+  final BuildContext context;
 
-  UpdateCartProducts({this.productId, this.quantity, this.product});
+  UpdateCartProducts({this.productId, this.quantity, this.product, this.context});
 
   @override
   handle({Store<AppState> store}) {
@@ -92,6 +93,7 @@ class UpdateCartProducts extends CartAction {
         }
       }
     }
+    if (context != null) snackBar(success: true, message: 'تم إضافة ${product.name} لسلة المشتريات', context: context);
     store.dispatch(SetCartProducts(products: products));
     store.dispatch(SaveCart());
   }
@@ -208,6 +210,12 @@ class SetUserNote {
   final String note;
 
   SetUserNote({this.note});
+}
+
+class SetDeliveryPrice {
+  final int deliveryPrice;
+
+  SetDeliveryPrice({this.deliveryPrice});
 }
 
 class SetOrderProblem {

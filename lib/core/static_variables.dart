@@ -40,6 +40,4 @@ class StaticVariables {
   static bool updateOption = false;
 
   static String productToAddName = 'null';
-
-  static int deliveryPrice = 50;
 }

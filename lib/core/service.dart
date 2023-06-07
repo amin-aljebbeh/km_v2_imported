@@ -71,20 +71,7 @@ class Services {
   static bool hasPermission(BuildContext context, String slug) =>
       StoreProvider.of<AppState>(context).state.adminsState.admin.permissions.contains(slug);
 
-  static List<ProductData> productListSort(List<ProductData> productsList) {
-    productsList.sort((a, b) {
-      if (a.categories.isNotEmpty && b.categories.isNotEmpty) {
-        if (a.categories[0].id > b.categories[0].id) {
-          return 1;
-        } else {
-          return -1;
-        }
-      } else {
-        return -1;
-      }
-    });
-    return productsList;
-  }
+//todo search productListSort
 
   static String selectedShopperId(String name, BuildContext context) => StoreProvider.of<AppState>(context)
       .state

@@ -1,9 +1,10 @@
 import 'package:kammun_app/features/products_view/pages/add_products.dart';
 import 'package:kammun_app/features/products_view/pages/barcode_screen.dart';
-import 'package:kammun_app/features/products_view/pages/products_view.dart';
 
 import '../../../core/core_importer.dart';
 import '../../categories/domain/entities/category_entity.dart';
+import '../../products/presentation/pages/products_page.dart';
+import '../../products/presentation/redux/products_action.dart';
 import '../../sub_category/pages/sub_category.dart';
 
 class StoreViewCategory extends StatelessWidget {
@@ -37,7 +38,7 @@ class StoreViewCategory extends StatelessWidget {
               var eachCategory =
                   StaticVariables.categoryList.where((category) => category.parentCategoryId == 'null').toList()[index];
               return GestureDetector(
-                onTap: () => _onTileClicked(eachCategory.id.toString(), context),
+                onTap: () => _onTileClicked(eachCategory.id, context),
                 child: ShopByCategory(
                     img: eachCategory.imageFileName, categoryName: eachCategory.name, index: index, fit: BoxFit.cover),
               );
@@ -49,7 +50,7 @@ class StoreViewCategory extends StatelessWidget {
   }
 
   // Function to be called on click
-  void _onTileClicked(String index, BuildContext context) {
+  void _onTileClicked(int index, BuildContext context) {
     List<CategoryEntity> subCategoryList = StaticVariables.categoryList
         .where((category) => category.parentCategoryId.toString() == index.toString())
         .toList();
@@ -89,7 +90,12 @@ class StoreViewCategory extends StatelessWidget {
           ),
         );
       } else {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsView(categoryId: index)));
+        StoreProvider.of<AppState>(context).dispatch(InitProducts());
+        StoreProvider.of<AppState>(context)
+            .dispatch(SetProductsViewTypes(productsViewTypes: ProductsViewTypes.category));
+        StoreProvider.of<AppState>(context).dispatch(SetCategoryId(categoryId: index));
+        StoreProvider.of<AppState>(context).dispatch(GetProductsAction());
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductsPage()));
       }
     }
   }

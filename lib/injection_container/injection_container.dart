@@ -1,8 +1,3 @@
-import 'package:kammun_app/injection_container/search_orders_injection.dart';
-import 'package:kammun_app/injection_container/supplier_injection.dart';
-import 'package:kammun_app/injection_container/transactions_injection.dart';
-import 'package:kammun_app/injection_container/users_injection.dart';
-
 import '../core/core_importer.dart';
 import 'admins_injection.dart';
 import 'cart_injection.dart';
@@ -11,7 +6,13 @@ import 'coupons_injection.dart';
 import 'inventory_injection.dart';
 import 'order_details_injection.dart';
 import 'orders_injection.dart';
+import 'product_details_injection.dart';
+import 'products_injection.dart';
+import 'search_orders_injection.dart';
 import 'shoppers_injection.dart';
+import 'supplier_injection.dart';
+import 'transactions_injection.dart';
+import 'users_injection.dart';
 
 final sl = GetIt.instance;
 Future<void> inject() async {
@@ -27,6 +28,8 @@ Future<void> inject() async {
   await injectShoppers();
   await injectOrderDetails();
   await injectCart();
+  await injectProductDetails();
+  await injectProducts();
 
 //! Core
 

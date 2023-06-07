@@ -14,12 +14,14 @@ class CartState extends Equatable {
   final bool refund;
   final List<int> notActiveProducts;
   final List<int> pricesChangesProducts;
+  final int deliveryPrice;
 
   const CartState({
     this.notActiveProducts,
     this.pricesChangesProducts,
     this.cartUSeCases,
     this.cartProducts,
+    this.deliveryPrice,
     this.orderUnderUpdateId,
     this.indexToEdit,
     this.userNote,
@@ -37,6 +39,7 @@ class CartState extends Equatable {
       pricesChangesProducts: const [],
       orderUnderUpdateStatus: 0,
       refund: false,
+      deliveryPrice: 50,
     );
   }
 
@@ -47,6 +50,7 @@ class CartState extends Equatable {
     String userNote,
     int orderUnderUpdateStatus,
     bool refund,
+    int deliveryPrice,
     List<int> notActiveProducts,
     List<int> pricesChangesProducts,
   }) {
@@ -55,6 +59,7 @@ class CartState extends Equatable {
       cartProducts: cartProducts ?? this.cartProducts,
       indexToEdit: indexToEdit ?? this.indexToEdit,
       refund: refund ?? this.refund,
+      deliveryPrice: deliveryPrice ?? this.deliveryPrice,
       userNote: userNote ?? this.userNote,
       notActiveProducts: notActiveProducts ?? this.notActiveProducts,
       pricesChangesProducts: pricesChangesProducts ?? this.pricesChangesProducts,
@@ -69,6 +74,7 @@ class CartState extends Equatable {
         cartProducts,
         orderUnderUpdateId,
         indexToEdit,
+        deliveryPrice,
         userNote,
         orderUnderUpdateStatus,
         refund,

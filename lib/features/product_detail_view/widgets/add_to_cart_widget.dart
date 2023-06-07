@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 
 import '../../../core/core_importer.dart';
+import '../../cart/presentation/redux/cart_action.dart';
 import '../../products/domain/entities/order_product_pivot_entity.dart';
 
 class AddToCartWidget extends StatefulWidget {
@@ -68,8 +69,8 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
               ProductEntity productData = product;
               productData.pivot = OrderProductPivotEntity(increaseValue: product.increasePercentage);
               productData.price = price;
-              //todo handle adding to cart
-              snackBar(success: true, message: 'تم إضافة ${product.name} لسلة المشتريات', context: context);
+              StoreProvider.of<AppState>(context).dispatch(UpdateCartProducts(
+                  productId: productData.id, quantity: numberOfOrders, product: productData, context: context));
             } else {
               Navigator.of(context).pushNamed(LoginScreen.routeName);
             }

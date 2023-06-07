@@ -18,8 +18,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Future fetchInformation;
   Future checkUpdate;
 
-  CartProduct cartLoad = CartProduct();
-
   dynamic notificationValue;
 
   @override

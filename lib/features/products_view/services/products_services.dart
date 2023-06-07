@@ -23,7 +23,7 @@ class ProductsServices {
             url: addProductToCategory + productId, method: HttpMethods.post, body: jsonEncode(body));
       } else if (!isForSubWarehouse) {
         response =
-            await ApiProvider.sendRequest(url: product + productId, method: HttpMethods.put, body: jsonEncode(body));
+            await ApiProvider.sendRequest(url: productApi + productId, method: HttpMethods.put, body: jsonEncode(body));
       } else {
         response = await ApiProvider.sendRequest(
             url: updateSubWarehouseProducts + productId,
@@ -54,7 +54,7 @@ class ProductsServices {
       String quantity,
       String unit,
       String description,
-      String categoryId,
+      int categoryId,
       int price,
       int isActive,
       String supplierCode,
@@ -75,7 +75,7 @@ class ProductsServices {
 
     try {
       var response =
-          await ApiProvider.sendRequest(url: product, method: HttpMethods.post, body: jsonEncode(productBody));
+          await ApiProvider.sendRequest(url: productApi, method: HttpMethods.post, body: jsonEncode(productBody));
 
       if (response.statusCode == successCode && response.data['success'] == true) {
         var subWarehouseBody = {
@@ -135,7 +135,7 @@ class ProductsServices {
 
   static Future<List<ProductModel>> searchProductByBarcodeService({@required String bareCode}) async {
     try {
-      var response = await ApiProvider.sendRequest(url: searchProductByBarcode + bareCode, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: searchProductByBarcodeApi + bareCode, method: HttpMethods.get);
       if (response.statusCode == successCode) return syncCartFromJson(jsonEncode(response.data['data']));
       return null;
     } catch (e) {
@@ -156,15 +156,6 @@ class ProductsServices {
   static Future<bool> deleteBarcode({@required String bareCodeId}) async {
     try {
       var response = await ApiProvider.sendRequest(url: productBarcode + bareCodeId, method: HttpMethods.delete);
-      return response.statusCode == successCode;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  static Future<bool> deleteProductService(String productId) async {
-    try {
-      var response = await ApiProvider.sendRequest(url: product + productId, method: HttpMethods.delete);
       return response.statusCode == successCode;
     } catch (e) {
       return false;

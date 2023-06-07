@@ -39,13 +39,13 @@ class ProductsViewState extends State<ProductsView> {
     if (!badWordMatched) {
       switch (type) {
         case ProductsViewTypes.search:
-          url = searchProducts + '$query?page=' + page.toString();
+          url = searchProductsApi + '$query?page=' + page.toString();
           break;
         case ProductsViewTypes.category:
-          url = getCategory + '$query?page=$page';
+          url = getCategoryApi + '$query?page=$page';
           break;
         case ProductsViewTypes.barcode:
-          url = searchProductByBarcode + query;
+          url = searchProductByBarcodeApi + query;
           break;
       }
 
@@ -128,7 +128,7 @@ class ProductsViewState extends State<ProductsView> {
       floatingActionButton: widget.queryString == null &&
               widget.barcode == null &&
               (Services.hasRole(context, adminRole) || Services.hasRole(context, productsControllerRole))
-          ? AddProductWidget(scaffoldKey: scaffoldKey, categoryId: widget.categoryId)
+          ? AddProductWidget(scaffoldKey: scaffoldKey, categoryId: int.parse(widget.categoryId))
           : null,
       appBar: ProductsViewAppBar(
           scaffoldKey: scaffoldKey,

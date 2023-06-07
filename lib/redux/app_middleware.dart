@@ -9,6 +9,8 @@ import '../features/inventory_feature/presentation/redux/inventory_middleware.da
 import '../features/loading/presentation/redux/loading_middleware.dart';
 import '../features/order_details/presentation/redux/order_details_middleware.dart';
 import '../features/orders/presentation/redux/orders_middleware.dart';
+import '../features/product_details/presentation/redux/product_details_middleware.dart';
+import '../features/products/presentation/redux/products_middleware.dart';
 import '../features/search_orders/presentation/redux/search_orders_middleware.dart';
 import '../features/supplier/presentation/redux/supplier_middleware.dart';
 import '../features/transactions/presentation/redux/transactions_middleware.dart';
@@ -31,5 +33,7 @@ List<Middleware<AppState>> appMiddleware() {
     searchOrdersMiddleware,
     orderDetailsMiddleware,
     cartMiddleware,
+    productDetailsMiddleware,
+    productsMiddleware,
   ];
 }

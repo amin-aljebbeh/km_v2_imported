@@ -114,7 +114,7 @@ class GeneralApis {
 
   static Future<bool> getCategoryService() async {
     try {
-      var response = await ApiProvider.sendRequest(url: getCategory, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: getCategoryApi, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
         StaticVariables.categoryList.clear();

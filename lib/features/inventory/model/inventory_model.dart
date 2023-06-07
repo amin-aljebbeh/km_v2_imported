@@ -4,32 +4,24 @@
 
 import 'package:kammun_app/core/models/models_importer.dart';
 
-ProductsToReview productsToReviewFromJson(String str) => ProductsToReview.fromJson(json.decode(str));
+import '../../products/data/models/product_model.dart';
 
-String productsToReviewToJson(ProductsToReview data) => json.encode(data.toJson());
+ProductsToReview productsToReviewFromJson(String str) => ProductsToReview.fromJson(json.decode(str));
 
 class ProductsToReview {
   ProductsToReview({this.success, this.productsToActivate, this.productsToDeactivate});
 
   bool success;
-  List<ProductData> productsToActivate;
-  List<ProductData> productsToDeactivate;
+  List<ProductModel> productsToActivate;
+  List<ProductModel> productsToDeactivate;
 
   factory ProductsToReview.fromJson(Map<String, dynamic> json) => ProductsToReview(
         success: json['success'],
         productsToActivate: json['products_to_activate'] == null
             ? null
-            : List<ProductData>.from(json['products_to_activate'].map((x) => ProductData.fromJson(x))),
+            : List<ProductModel>.from(json['products_to_activate'].map((x) => ProductModel.fromJson(x))),
         productsToDeactivate: json['products_to_deactivate'] == null
             ? null
-            : List<ProductData>.from(json['products_to_deactivate'].map((x) => ProductData.fromJson(x))),
+            : List<ProductModel>.from(json['products_to_deactivate'].map((x) => ProductModel.fromJson(x))),
       );
-
-  Map<String, dynamic> toJson() => {
-        'success': success,
-        'products_to_activate':
-            productsToActivate == null ? null : List<dynamic>.from(productsToActivate.map((x) => x.toJson())),
-        'products_to_deactivate':
-            productsToDeactivate == null ? null : List<dynamic>.from(productsToDeactivate.map((x) => x.toJson())),
-      };
 }

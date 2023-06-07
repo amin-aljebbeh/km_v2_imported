@@ -3,6 +3,7 @@ import 'package:kammun_app/features/inventory_feature/domain/repositories/invent
 
 import '../../../../core/core_importer.dart';
 import '../../../inventory/model/inventory_model_importer.dart';
+import '../../../products/domain/entities/product_entity.dart';
 import '../data_sources/remote_inventory_data_source.dart';
 
 class InventoryRepositoryImplement implements InventoryRepository {
@@ -48,9 +49,9 @@ class InventoryRepositoryImplement implements InventoryRepository {
   }
 
   @override
-  Future<Either<Failure, List<ProductData>>> getUnderCheckAvailability({int subWarehouseId}) async {
+  Future<Either<Failure, List<ProductEntity>>> getUnderCheckAvailability({int subWarehouseId}) async {
     try {
-      List<ProductData> products =
+      List<ProductEntity> products =
           await remoteInventoryDataSource.getUnderCheckAvailability(subWarehouseId: subWarehouseId);
       return Right(products);
     } on CacheException {

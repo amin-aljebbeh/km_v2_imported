@@ -157,14 +157,9 @@ lockOrderService(
     @required BuildContext context,
     @required String userNote}) async {
   try {
-    //todo remove or fix
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('orderUnderUpdateId', orderId);
-
     StoreProvider.of<AppState>(context).dispatch(SetOrderId(orderId: orderId));
-
-    StaticVariables.deliveryPrice =
-        int.parse(supportedCityCost.split('.')[0]) + int.parse(deliveryMethodCost.split('.')[0]);
+    StoreProvider.of<AppState>(context).dispatch(SetDeliveryPrice(
+        deliveryPrice: int.parse(supportedCityCost.split('.')[0]) + int.parse(deliveryMethodCost.split('.')[0])));
 
     StoreProvider.of<AppState>(context).dispatch(SetUserNote(note: userNote));
   } catch (e) {

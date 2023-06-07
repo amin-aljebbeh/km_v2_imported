@@ -8,8 +8,9 @@ Reducer<CartState> cartReducer = combineReducers<CartState>([
   TypedReducer<CartState, SetUserNote>(setUserNote),
   TypedReducer<CartState, SetEditIndex>(setEditIndex),
   TypedReducer<CartState, SetOrderStatus>(setOrderStatus),
-  TypedReducer<CartState, SetCartProducts>(setCartProducts),
   TypedReducer<CartState, SetOrderProblem>(setOrderProblem),
+  TypedReducer<CartState, SetCartProducts>(setCartProducts),
+  TypedReducer<CartState, SetDeliveryPrice>(setDeliveryPrice),
 ]);
 
 CartState setOrderId(CartState state, SetOrderId action) {
@@ -39,4 +40,8 @@ CartState setRefund(CartState state, SetRefund action) {
 CartState setOrderProblem(CartState state, SetOrderProblem action) {
   return state.copyWith(
       notActiveProducts: action.notActiveProducts, pricesChangesProducts: action.pricesChangesProducts);
+}
+
+CartState setDeliveryPrice(CartState state, SetDeliveryPrice action) {
+  return state.copyWith(deliveryPrice: action.deliveryPrice);
 }

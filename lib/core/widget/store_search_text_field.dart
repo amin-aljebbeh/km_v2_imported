@@ -1,6 +1,7 @@
-import 'package:kammun_app/features/products_view/pages/products_view.dart';
+import 'package:kammun_app/features/products/presentation/pages/products_page.dart';
 
 import '../../core/core_importer.dart';
+import '../../features/products/presentation/redux/products_action.dart';
 
 class StoreSearchTextField extends StatelessWidget {
   final TextEditingController searchController;
@@ -56,8 +57,11 @@ class StoreSearchTextField extends StatelessWidget {
   submit(BuildContext context) {
     if (searchController.text.isNotEmpty) {
       if (onSubmit != null) onSubmit();
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => ProductsView(queryString: searchController.text, categoryId: '0')));
+      StoreProvider.of<AppState>(context).dispatch(InitProducts());
+      StoreProvider.of<AppState>(context).dispatch(SetSearchString(searchString: searchController.text));
+      StoreProvider.of<AppState>(context).dispatch(SetProductsViewTypes(productsViewTypes: ProductsViewTypes.search));
+      StoreProvider.of<AppState>(context).dispatch(GetProductsAction());
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductsPage()));
     }
   }
 }

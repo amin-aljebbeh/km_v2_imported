@@ -2,9 +2,10 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 
 import '../../../core/core_importer.dart';
 import '../../categories/domain/entities/category_entity.dart';
+import '../../products/presentation/pages/products_page.dart';
+import '../../products/presentation/redux/products_action.dart';
 import '../../products_view/pages/add_products.dart';
 import '../../products_view/pages/barcode_screen.dart';
-import '../../products_view/pages/products_view.dart';
 import '../pages/sub_category.dart';
 
 class SubCategoryWidget extends StatelessWidget {
@@ -102,13 +103,18 @@ class SubCategoryWidget extends StatelessWidget {
                     scaffoldKey.currentContext,
                     MaterialPageRoute(
                         builder: (screenContext) =>
-                            AddProductsView(categoryId: index.toString(), barcode: param, supplierCode: supplierCode)));
+                            AddProductsView(categoryId: index, barcode: param, supplierCode: supplierCode)));
               },
             ),
           ),
         );
       } else {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsView(categoryId: index.toString())));
+        StoreProvider.of<AppState>(context).dispatch(InitProducts());
+        StoreProvider.of<AppState>(context)
+            .dispatch(SetProductsViewTypes(productsViewTypes: ProductsViewTypes.category));
+        StoreProvider.of<AppState>(context).dispatch(SetCategoryId(categoryId: index));
+        StoreProvider.of<AppState>(context).dispatch(GetProductsAction());
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductsPage()));
       }
     }
   }

@@ -5,7 +5,7 @@ import 'inventory_state.dart';
 
 Reducer<InventoryState> inventoryReducer = combineReducers<InventoryState>([
   TypedReducer<InventoryState, SetSearchFilter>(setSearchFilter),
-  TypedReducer<InventoryState, EndOfProducts>(endOfProducts),
+  TypedReducer<InventoryState, EndOfInventory>(endOfProducts),
   TypedReducer<InventoryState, NextPage>(nextPage),
   TypedReducer<InventoryState, ClearInventory>(clearInventory),
   TypedReducer<InventoryState, SetInventoryProducts>(setInventoryProducts),
@@ -33,7 +33,7 @@ InventoryState setSubWarehouseId(InventoryState state, SetSubWarehouseId action)
 
 InventoryState setIsActive(InventoryState state, SetIsActive action) => state.copyWith(isActive: action.isActive);
 
-InventoryState endOfProducts(InventoryState state, EndOfProducts action) => state.copyWith(hasNext: false);
+InventoryState endOfProducts(InventoryState state, EndOfInventory action) => state.copyWith(hasNext: false);
 
 InventoryState nextPage(InventoryState state, NextPage action) => state.copyWith(pageNumber: state.pageNumber + 1);
 

@@ -123,7 +123,7 @@ class OperationButtonsWidget extends StatelessWidget {
                             context: context,
                             userNote: order.userNotes,
                             supportedCityCost: order.supportedCityCost,
-                            deliveryMethodCost: order.deliveryCost); /*todo remove to cart state*/
+                            deliveryMethodCost: order.deliveryCost);
                         store.dispatch(LockOrderAction(orderId: order.id, context: context));
                       },
                       color: Colors.green,

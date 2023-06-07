@@ -61,7 +61,7 @@ class GetNotificationProductsAction implements InventoryAction {
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
       FilteredProductsModel filteredProductsModel = products;
       store.dispatch(SetInventoryProducts(products: filteredProductsModel.data.products));
-      if (filteredProductsModel.data.nextPageUrl == null) store.dispatch(EndOfProducts());
+      if (filteredProductsModel.data.nextPageUrl == null) store.dispatch(EndOfInventory());
     });
     store.dispatch(StopLoading());
   }
@@ -77,7 +77,7 @@ class GetPrimeProductsAction implements InventoryAction {
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
       FilteredProductsModel filteredProductsModel = products;
       store.dispatch(SetInventoryProducts(products: filteredProductsModel.data.products));
-      if (filteredProductsModel.data.nextPageUrl == null) store.dispatch(EndOfProducts());
+      if (filteredProductsModel.data.nextPageUrl == null) store.dispatch(EndOfInventory());
     });
     store.dispatch(StopLoading());
   }
@@ -94,7 +94,7 @@ class GetUnderCheckAvailabilityAction implements InventoryAction {
         theProducts.removeWhere((product) => product.isActive != store.state.inventoryState.isActive.toString());
       }
       store.dispatch(SetInventoryProducts(products: theProducts));
-      store.dispatch(EndOfProducts());
+      store.dispatch(EndOfInventory());
     });
     store.dispatch(StopLoading());
   }
@@ -114,7 +114,7 @@ class SetSearchFilter {
   SetSearchFilter({this.searchFilter});
 }
 
-class EndOfProducts {}
+class EndOfInventory {}
 
 class NextPage {}
 

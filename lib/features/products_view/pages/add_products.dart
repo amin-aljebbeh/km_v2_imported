@@ -5,7 +5,7 @@ import 'package:kammun_app/features/products_view/widgets/select_file.dart';
 import '../../../core/core_importer.dart';
 
 class AddProductsView extends StatefulWidget {
-  final String categoryId;
+  final int categoryId;
   final String supplierCode;
   final int barcode;
 

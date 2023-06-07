@@ -5,6 +5,7 @@ import 'package:kammun_app/features/inventory_feature/presentation/redux/invento
 import 'package:kammun_app/features/loading/presentation/redux/loading_reducer.dart';
 import 'package:kammun_app/features/order_details/presentation/redux/order_details_reducer.dart';
 import 'package:kammun_app/features/orders/presentation/redux/orders_reducer.dart';
+import 'package:kammun_app/features/products/presentation/redux/products_reducer.dart';
 import 'package:kammun_app/features/supplier/presentation/redux/supplier_reducer.dart';
 import 'package:kammun_app/features/transactions/presentation/redux/transactions_reducer.dart';
 import 'package:kammun_app/features/users/presentation/redux/users_reducer.dart';
@@ -12,6 +13,7 @@ import 'package:kammun_app/features/users/presentation/redux/users_reducer.dart'
 import '../core/core_importer.dart';
 import '../features/complaints/presentation/redux/complaints_reducer.dart';
 import '../features/coupons/presentation/redux/coupon_reducer.dart';
+import '../features/product_details/presentation/redux/product_details_reducer.dart';
 import '../features/search_orders/presentation/redux/search_orders_reducer.dart';
 import '../features/shoppers/presentation/redux/shoppers_reducer.dart';
 
@@ -32,5 +34,7 @@ AppState appReducer(AppState state, dynamic action) {
     searchOrdersState: searchOrdersReducer(state.searchOrdersState, action),
     orderDetailsState: orderDetailsReducer(state.orderDetailsState, action),
     cartState: cartReducer(state.cartState, action),
+    productDetailsState: productDetailsReducer(state.productDetailsState, action),
+    productsState: productsReducer(state.productsState, action),
   );
 }

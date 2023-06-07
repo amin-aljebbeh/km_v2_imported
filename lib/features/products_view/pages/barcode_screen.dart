@@ -3,7 +3,8 @@ import 'package:qr_mobile_vision/qr_camera.dart';
 
 import '../../../core/core_importer.dart';
 import '../../products/domain/entities/product_entity.dart';
-import 'products_view.dart';
+import '../../products/presentation/pages/products_page.dart';
+import '../../products/presentation/redux/products_action.dart';
 
 class BarCodeScreen extends StatefulWidget {
   final BarcodeRequestType requestType;
@@ -40,8 +41,12 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                     switch (widget.requestType) {
                       case BarcodeRequestType.search:
                         Navigator.of(context).pop();
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ProductsView(barcode: barcode, categoryId: '0')));
+                        StoreProvider.of<AppState>(context).dispatch(InitProducts());
+                        StoreProvider.of<AppState>(context)
+                            .dispatch(SetProductsViewTypes(productsViewTypes: ProductsViewTypes.barcode));
+                        StoreProvider.of<AppState>(context).dispatch(SetBarcodeString(barcodeString: barcode));
+                        StoreProvider.of<AppState>(context).dispatch(GetProductsAction());
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductsPage()));
                         break;
                       case BarcodeRequestType.addBarcode:
                       case BarcodeRequestType.addProduct:
