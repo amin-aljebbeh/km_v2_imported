@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
+
 import '../../../core/core_importer.dart';
 import '../model/inventory_model_importer.dart';
 import '../services/inventory_services.dart';
@@ -17,7 +19,7 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
   InventoryFileProductModel importedProducts = InventoryFileProductModel();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  List<ProductData> showList = [];
+  List<ProductEntity> showList = [];
   bool sent;
   bool error;
   bool loading;

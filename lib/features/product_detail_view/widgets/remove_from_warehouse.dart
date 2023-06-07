@@ -1,8 +1,9 @@
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/product_entity.dart';
 import '../../products_attached_to_warehouse/services/added_products_services.dart';
 
 class RemoveFromWarehouse extends StatelessWidget {
-  final ProductData product;
+  final ProductEntity product;
   const RemoveFromWarehouse({Key key, this.product}) : super(key: key);
 
   @override

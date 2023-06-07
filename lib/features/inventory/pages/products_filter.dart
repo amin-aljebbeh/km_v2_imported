@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/inventory/services/inventory_services.dart';
 
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/product_entity.dart';
 
 class ProductsFilterScreen extends StatefulWidget {
   static const String routeName = '/ProductsFilterScreen';
@@ -25,7 +26,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   int page;
   int filter;
   String searchFilter;
-  List<ProductData> productsList = [];
+  List<ProductEntity> productsList = [];
   int total;
 
   @override
@@ -213,7 +214,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                   shrinkWrap: true,
                                   itemCount: productsList.length,
                                   itemBuilder: (BuildContext context, int index) {
-                                    ProductData eachProduct = productsList[index];
+                                    ProductEntity eachProduct = productsList[index];
                                     if (searchFilter == null ||
                                         searchFilter == '' ||
                                         eachProduct.name.toLowerCase().contains(searchFilter.toLowerCase())) {

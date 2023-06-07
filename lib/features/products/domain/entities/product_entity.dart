@@ -6,13 +6,13 @@ import 'package:kammun_app/features/warehouses/domain/entities/warehouse_entity.
 
 class ProductEntity {
   final int id;
-  final String name;
-  final String description;
-  final String unit;
+  String name;
+  String description;
+  String unit;
   String quantity;
   String isActive;
   final List<ProductImageEntity> images;
-  final String supplierCode;
+  String supplierCode;
   int subWarehouseId;
   final String availableQuantity;
   int isPrimeItem;
@@ -24,11 +24,11 @@ class ProductEntity {
   final List<WarehouseEntity> warehouses;
   final int warehouseId;
   final int isFeatured;
-  final int priority;
+  int priority;
   final int numberOfVisits;
   final double minThreshold;
-  final int increasePercentage;
-  final String priceFactor;
+  int increasePercentage;
+  String priceFactor;
   final int underCheckAvailability;
   final String priceChange;
   final int automaticActivation;

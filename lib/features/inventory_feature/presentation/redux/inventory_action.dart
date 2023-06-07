@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../inventory/model/inventory_model_importer.dart';
@@ -88,7 +89,7 @@ class GetUnderCheckAvailabilityAction implements InventoryAction {
     Either either = await store.state.inventoryState.inventoryUseCase
         .getUnderCheckAvailabilityUseCase(subWarehouseId: store.state.inventoryState.subWarehouseId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
-      List<ProductData> theProducts = products;
+      List<ProductEntity> theProducts = products;
       if (store.state.inventoryState.isActive < 2) {
         theProducts.removeWhere((product) => product.isActive != store.state.inventoryState.isActive.toString());
       }
@@ -100,7 +101,7 @@ class GetUnderCheckAvailabilityAction implements InventoryAction {
 }
 
 class SetInventoryProducts {
-  final List<ProductData> products;
+  final List<ProductEntity> products;
 
   SetInventoryProducts({this.products});
 }

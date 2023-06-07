@@ -3,6 +3,7 @@ import 'package:kammun_app/features/products_view/pages/barcode_screen.dart';
 import 'package:kammun_app/features/products_view/pages/products_view.dart';
 
 import '../../../core/core_importer.dart';
+import '../../categories/domain/entities/category_entity.dart';
 import '../../sub_category/pages/sub_category.dart';
 
 class StoreViewCategory extends StatelessWidget {
@@ -49,7 +50,7 @@ class StoreViewCategory extends StatelessWidget {
 
   // Function to be called on click
   void _onTileClicked(String index, BuildContext context) {
-    List<CategoryOriginalData> subCategoryList = StaticVariables.categoryList
+    List<CategoryEntity> subCategoryList = StaticVariables.categoryList
         .where((category) => category.parentCategoryId.toString() == index.toString())
         .toList();
 

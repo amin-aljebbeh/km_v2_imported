@@ -1,9 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/inventory/model/inventory_model_importer.dart';
+import 'package:kammun_app/features/products/data/models/product_model.dart';
 
 class InventoryServices {
-  static Future<List<ProductData>> getSubWarehouseProductsService({String subWarehouseId}) async {
+  static Future<List<ProductModel>> getSubWarehouseProductsService({String subWarehouseId}) async {
     var response = await ApiProvider.sendRequest(url: subWarehouse + subWarehouseId, method: HttpMethods.get);
     if (response.statusCode == successCode && response.data['success']) {
       final result = syncCartFromJson(jsonEncode(response.data['data']['products']));

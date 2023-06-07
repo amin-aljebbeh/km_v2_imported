@@ -1,4 +1,5 @@
 import 'package:kammun_app/features/inventory/services/inventory_services.dart';
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 
 import '../../../core/core_importer.dart';
 
@@ -12,7 +13,7 @@ class SubWarehouseProducts extends StatefulWidget {
 }
 
 class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
-  List<ProductData> productsList = [];
+  List<ProductEntity> productsList = [];
   bool isLoading = false;
   bool isError = false;
   bool displayToActiveProducts = true;

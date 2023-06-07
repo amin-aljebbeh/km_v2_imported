@@ -2,9 +2,11 @@ import 'package:kammun_app/features/product_detail_view/widgets/change_product_c
 import 'package:kammun_app/features/product_detail_view/widgets/delete_product_image_widget.dart';
 import 'package:kammun_app/features/product_detail_view/widgets/product_options_widget.dart';
 import 'package:kammun_app/features/product_detail_view/widgets/remove_from_warehouse.dart';
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 
 import '../../../core/core_importer.dart';
+import '../../warehouses/domain/entities/warehouse_entity.dart';
 import '../widgets/add_to_cart_widget.dart';
 import '../widgets/product_categories_widget.dart';
 import '../widgets/product_details_view_app_bar.dart';
@@ -14,7 +16,7 @@ import '../widgets/product_warehouses_widget.dart';
 import '../widgets/remove_product_widget.dart';
 
 class ProductDetailView extends StatefulWidget {
-  final ProductData product;
+  final ProductEntity product;
   final Function(String) onAddBarcode;
   final Function(String) onChangePrice;
   final Function(String) onChangeUnit;
@@ -42,7 +44,9 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
   @override
   void initState() {
-    if (widget.product.warehouses.isEmpty) widget.product.warehouses.add(Warehouse(name: 'غير مضاف لمستودع', id: 0));
+    if (widget.product.warehouses.isEmpty) {
+      widget.product.warehouses.add(WarehouseEntity(name: 'غير مضاف لمستودع', id: 0));
+    }
     super.initState();
   }
 
@@ -59,7 +63,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
   @override
   Widget build(BuildContext context) {
-    ProductData product = widget.product;
+    ProductEntity product = widget.product;
     String price = product.price;
     if (Services.hasRole(context, supplierRole)) {
       price = (int.parse(product.price.split('.')[0]) - product.increasePercentage).toString();

@@ -1,9 +1,10 @@
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/product_entity.dart';
 import '../../products_view/services/products_services.dart';
 import 'remove_from_warehouse.dart';
 
 class RemoveProductWidget extends StatelessWidget {
-  final ProductData product;
+  final ProductEntity product;
   const RemoveProductWidget({Key key, this.product}) : super(key: key);
 
   @override

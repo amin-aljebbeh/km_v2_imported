@@ -2,6 +2,8 @@ import 'package:http/http.dart' as http;
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/products_attached_to_warehouse/services/added_products_services.dart';
 
+import '../../products/data/models/product_model.dart';
+
 class ProductsServices {
   static Future<bool> updateProductsDetails({
     String bodyKey,
@@ -131,7 +133,7 @@ class ProductsServices {
     }
   }
 
-  static Future<List<ProductData>> searchProductByBarcodeService({@required String bareCode}) async {
+  static Future<List<ProductModel>> searchProductByBarcodeService({@required String bareCode}) async {
     try {
       var response = await ApiProvider.sendRequest(url: searchProductByBarcode + bareCode, method: HttpMethods.get);
       if (response.statusCode == successCode) return syncCartFromJson(jsonEncode(response.data['data']));
@@ -141,7 +143,7 @@ class ProductsServices {
     }
   }
 
-  static Future<List<ProductData>> checkProductBarcodeService({@required String bareCode}) async {
+  static Future<List<ProductModel>> checkProductBarcodeService({@required String bareCode}) async {
     try {
       var response = await ApiProvider.sendRequest(url: checkProductBarcode + bareCode, method: HttpMethods.get);
       if (response.statusCode == successCode) return syncCartFromJson(jsonEncode(response.data['data']));

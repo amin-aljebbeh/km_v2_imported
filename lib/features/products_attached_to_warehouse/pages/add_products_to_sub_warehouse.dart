@@ -1,9 +1,10 @@
 import 'package:kammun_app/features/products_attached_to_warehouse/services/added_products_services.dart';
 
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/product_entity.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
-  final ProductData product;
+  final ProductEntity product;
   final int barcode;
 
   const AddProductsToSubWarehouse({Key key, this.product, this.barcode}) : super(key: key);

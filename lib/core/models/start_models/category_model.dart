@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:kammun_app/features/categories/data/models/category_model.dart';
+
 import 'start_model_importer.dart';
 
 CategoryOriginal categoryOriginalFromJson(String str) => CategoryOriginal.fromJson(json.decode(str));
@@ -24,11 +26,11 @@ class CategoryOriginal {
   CategoryOriginal({this.success, this.data});
 
   bool success;
-  List<CategoryOriginalData> data;
+  List<CategoryModel> data;
 
   factory CategoryOriginal.fromJson(Map<String, dynamic> json) => CategoryOriginal(
         success: json["success"],
-        data: List<CategoryOriginalData>.from(json["data"].map((x) => CategoryOriginalData.fromJson(x))),
+        data: List<CategoryModel>.from(json["data"].map((x) => CategoryModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {"success": success, "data": List<dynamic>.from(data.map((x) => x.toJson()))};

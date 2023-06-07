@@ -1,4 +1,5 @@
 import 'package:kammun_app/features/inventory/services/inventory_services.dart';
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 
 import '../../core/core_importer.dart';
@@ -11,7 +12,7 @@ class UpdateProductInfoWidget extends StatefulWidget {
   final String bodyKey;
   final int productId;
   final String initialText;
-  final ProductData productData;
+  final ProductEntity productData;
   final bool isForSubWarehouse;
   final bool isForPriceRate;
   final int increasePercentage;

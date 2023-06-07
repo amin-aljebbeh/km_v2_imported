@@ -4,6 +4,8 @@
 
 import 'package:kammun_app/core/models/models_importer.dart';
 
+import '../../products/data/models/product_model.dart';
+
 FilteredProductsModel filteredProductsModelFromJson(String str) => FilteredProductsModel.fromJson(json.decode(str));
 
 String filteredProductsModelToJson(FilteredProductsModel data) => json.encode(data.toJson());
@@ -37,7 +39,7 @@ class FilterPagination {
   });
 
   int currentPage;
-  List<ProductData> products;
+  List<ProductModel> products;
   String firstPageUrl;
   int from;
   int lastPage;
@@ -51,7 +53,7 @@ class FilterPagination {
 
   factory FilterPagination.fromJson(Map<String, dynamic> json) => FilterPagination(
         currentPage: json["current_page"],
-        products: List<ProductData>.from(json["data"].map((x) => ProductData.fromJson(x))),
+        products: List<ProductModel>.from(json["data"].map((x) => ProductModel.fromJson(x))),
         firstPageUrl: json["first_page_url"],
         from: json["from"],
         lastPage: json["last_page"],
@@ -66,7 +68,6 @@ class FilterPagination {
 
   Map<String, dynamic> toJson() => {
         "current_page": currentPage,
-        "data": List<dynamic>.from(products.map((x) => x.toJson())),
         "first_page_url": firstPageUrl,
         "from": from,
         "last_page": lastPage,

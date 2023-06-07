@@ -1,8 +1,9 @@
 import '../../../core/core_importer.dart';
 import '../../prices_changes/services/prices_changes_services.dart';
+import '../../products/domain/entities/product_entity.dart';
 
 class DeleteProductImageWidget extends StatelessWidget {
-  final ProductData product;
+  final ProductEntity product;
   final Future<bool> Function() onAdd;
   final Function onDone;
   const DeleteProductImageWidget({Key key, this.product, this.onAdd, this.onDone}) : super(key: key);

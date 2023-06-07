@@ -4,6 +4,8 @@
 
 import 'package:kammun_app/core/models/models_importer.dart';
 
+import '../../products/data/models/product_model.dart';
+
 PricesChanges pricesChangesFromJson(String str) => PricesChanges.fromJson(json.decode(str));
 
 String pricesChangesToJson(PricesChanges data) => json.encode(data.toJson());
@@ -17,18 +19,17 @@ class PricesChanges {
 
   bool success;
   int count;
-  List<ProductData> productsPriceChange;
+  List<ProductModel> productsPriceChange;
 
   factory PricesChanges.fromJson(Map<String, dynamic> json) => PricesChanges(
         success: json["success"],
         count: json["count"],
-        productsPriceChange: List<ProductData>.from(json["proucts_price_change"].map((x) => ProductData.fromJson(x))),
+        productsPriceChange: List<ProductModel>.from(json["proucts_price_change"].map((x) => ProductModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
         "count": count,
-        "proucts_price_change": List<dynamic>.from(productsPriceChange.map((x) => x.toJson())),
       };
 }
 

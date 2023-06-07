@@ -1,7 +1,9 @@
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
+
 import '../../../core/core_importer.dart';
 
 class ProductSubWarehouseInfoWidget extends StatelessWidget {
-  final ProductData product;
+  final ProductEntity product;
   final Function(String) onChangePrice;
   const ProductSubWarehouseInfoWidget({Key key, this.product, this.onChangePrice}) : super(key: key);
 

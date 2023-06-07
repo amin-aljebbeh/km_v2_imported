@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/product_entity.dart';
 
 class BarcodeProducts extends StatefulWidget {
   final String barcode;
@@ -13,7 +14,7 @@ class BarcodeProducts extends StatefulWidget {
 }
 
 class _BarcodeProductsState extends State<BarcodeProducts> {
-  List<ProductData> productsList = [];
+  List<ProductEntity> productsList = [];
   bool isLoading = false;
   bool isError = false;
   bool displayToActiveProducts = true;
@@ -28,7 +29,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
       isError = false;
     });
     try {
-      List<ProductData> response;
+      List<ProductEntity> response;
       if (widget.requestType == BarcodeRequestType.addProduct || widget.requestType == BarcodeRequestType.addBarcode) {
         response = await ProductsServices.checkProductBarcodeService(bareCode: widget.barcode);
       } else {
@@ -99,7 +100,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                           shrinkWrap: true,
                           itemCount: productsList == null ? 0 : productsList.length,
                           itemBuilder: (BuildContext context, int index) {
-                            var eachProduct = productsList[index];
+                            ProductEntity eachProduct = productsList[index];
                             try {
                               if (filter == null ||
                                   filter == '' ||

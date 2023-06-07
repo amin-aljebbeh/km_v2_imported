@@ -1,13 +1,14 @@
 import 'package:responsive_flutter/responsive_flutter.dart';
 
 import '../../../core/core_importer.dart';
+import '../../categories/domain/entities/category_entity.dart';
 import '../../products_view/pages/add_products.dart';
 import '../../products_view/pages/barcode_screen.dart';
 import '../../products_view/pages/products_view.dart';
 import '../pages/sub_category.dart';
 
 class SubCategoryWidget extends StatelessWidget {
-  final CategoryOriginalData subCategory;
+  final CategoryEntity subCategory;
   final bool forProductAdding;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final String supplierCode;
@@ -70,7 +71,7 @@ class SubCategoryWidget extends StatelessWidget {
   }
 
   void _onTileClicked(int index, BuildContext context) {
-    List<CategoryOriginalData> subCategoryList = StaticVariables.categoryList
+    List<CategoryEntity> subCategoryList = StaticVariables.categoryList
         .where((category) => category.parentCategoryId.toString() == index.toString())
         .toList();
 

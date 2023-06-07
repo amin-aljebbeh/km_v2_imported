@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/products_view/pages/barcode_screen.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 
+import '../../features/products/domain/entities/product_entity.dart';
 import '../core_importer.dart';
 
 class BarcodeIcon extends StatelessWidget {
@@ -10,7 +11,7 @@ class BarcodeIcon extends StatelessWidget {
   final Color color;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final Function(String) onAddBarcode;
-  final ProductData product;
+  final ProductEntity product;
 
   const BarcodeIcon({
     Key key,

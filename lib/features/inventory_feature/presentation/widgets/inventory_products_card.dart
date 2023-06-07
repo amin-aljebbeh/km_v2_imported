@@ -1,4 +1,5 @@
 import 'package:kammun_app/features/product_detail_view/pages/product_detail_view.dart';
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 import 'package:kammun_app/features/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/features/products_view/pages/barcode_screen.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
@@ -9,7 +10,7 @@ import '../../../../core/core_importer.dart';
 class InventoryProductsViewCard extends StatelessWidget {
   final Function(bool) onChangeStatus;
   final int oldPrice;
-  final ProductData productData;
+  final ProductEntity productData;
   final Function(bool) onDelete;
   final bool fromInventory;
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -58,7 +59,7 @@ class InventoryProductsViewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     int active = isActive;
     String productPrice = price;
-    ProductData product = productData;
+    ProductEntity product = productData;
     if (Services.hasRole(context, supplierRole) && productPrice != '0') {
       productPrice = (int.parse(product.price.split('.')[0]) - product.increasePercentage).toString();
     }

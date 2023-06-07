@@ -1,9 +1,11 @@
 import 'package:full_screen_image/full_screen_image.dart';
 
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/product_entity.dart';
+import '../../warehouses/domain/entities/warehouse_entity.dart';
 
 class ProductDetailsViewAppBar extends StatefulWidget {
-  final ProductData product;
+  final ProductEntity product;
   final ScrollController scrollController;
   const ProductDetailsViewAppBar({Key key, this.product, this.scrollController}) : super(key: key);
 
@@ -19,7 +21,9 @@ class _ProductDetailsViewAppBarState extends State<ProductDetailsViewAppBar> wit
 
   @override
   void initState() {
-    if (widget.product.warehouses.isEmpty) widget.product.warehouses.add(Warehouse(name: 'غير مضاف لمستودع', id: 0));
+    if (widget.product.warehouses.isEmpty) {
+      widget.product.warehouses.add(WarehouseEntity(name: 'غير مضاف لمستودع', id: 0));
+    }
     super.initState();
 
     Timer(const Duration(milliseconds: 100), () => _animateToIndex(2.5));

@@ -1,4 +1,5 @@
 import '../../../../core/core_importer.dart';
+import '../../../products/domain/entities/product_entity.dart';
 import 'inventory_action.dart';
 import 'inventory_state.dart';
 
@@ -14,7 +15,7 @@ Reducer<InventoryState> inventoryReducer = combineReducers<InventoryState>([
 ]);
 
 InventoryState setInventoryProducts(InventoryState state, SetInventoryProducts action) {
-  List<ProductData> products = [];
+  List<ProductEntity> products = [];
   products.addAll(state.products);
   products.addAll(action.products);
   return state.copyWith(products: products);

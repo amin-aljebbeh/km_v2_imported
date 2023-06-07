@@ -1,11 +1,12 @@
 import 'package:kammun_app/core/models/models_importer.dart';
 
+import '../../features/products/data/models/product_model.dart';
 import '../core_importer.dart';
 
 CategoryProduct categoryProductFromJson(String str) => CategoryProduct.fromJson(json.decode(str));
 
-List<ProductData> syncCartFromJson(String str) =>
-    List<ProductData>.from(json.decode(str).map((x) => ProductData.fromJson(x)));
+List<ProductModel> syncCartFromJson(String str) =>
+    List<ProductModel>.from(json.decode(str).map((x) => ProductModel.fromJson(x)));
 
 // CategoryProduct publicParameterFromJson(String str) =>
 //     CategoryProduct.fromJson(json.decode(str));
@@ -39,7 +40,7 @@ class ProductResponse {
   });
 
   int currentPage;
-  List<ProductData> data;
+  List<ProductModel> data;
   String firstPageUrl;
   int from;
   int lastPage;
@@ -53,7 +54,7 @@ class ProductResponse {
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) => ProductResponse(
         currentPage: json['current_page'],
-        data: List<ProductData>.from(json['data'].map((x) => x == null ? null : ProductData.fromJson(x))),
+        data: List<ProductModel>.from(json['data'].map((x) => x == null ? null : ProductModel.fromJson(x))),
         firstPageUrl: json['first_page_url'],
         from: json['from'],
         lastPage: json['last_page'],
@@ -68,7 +69,6 @@ class ProductResponse {
 
   Map<String, dynamic> toJson() => {
         'current_page': currentPage,
-        'data': List<dynamic>.from(data.map((x) => x?.toJson())),
         'first_page_url': firstPageUrl,
         'from': from,
         'last_page': lastPage,

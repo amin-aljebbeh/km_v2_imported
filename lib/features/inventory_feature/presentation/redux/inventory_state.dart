@@ -1,9 +1,11 @@
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
+
 import '../../../../core/core_importer.dart';
 import '../../domain/use_cases/inventory_use_cases.dart';
 
 @immutable
 class InventoryState extends Equatable {
-  final List<ProductData> products;
+  final List<ProductEntity> products;
   final InventoryUseCase inventoryUseCase;
   final String searchFilter;
   final int pageNumber;
@@ -36,7 +38,7 @@ class InventoryState extends Equatable {
   }
 
   InventoryState copyWith({
-    List<ProductData> products,
+    List<ProductEntity> products,
     String searchFilter,
     int pageNumber,
     bool hasNext,

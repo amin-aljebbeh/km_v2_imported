@@ -4,7 +4,7 @@ import '../../../core/core_importer.dart';
 import '../../products_view/services/products_services.dart';
 
 class ProductOptionsWidget extends StatelessWidget {
-  final ProductData product;
+  final ProductEntity product;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final Function(String) onAddBarcode;
   const ProductOptionsWidget({Key key, this.product, this.scaffoldKey, this.onAddBarcode}) : super(key: key);

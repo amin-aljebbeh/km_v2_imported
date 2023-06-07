@@ -1,7 +1,8 @@
 import '../../../core/core_importer.dart';
+import '../../warehouses/domain/entities/warehouse_entity.dart';
 
 class ProductWarehousesWidget extends StatelessWidget {
-  final List<Warehouse> warehouses;
+  final List<WarehouseEntity> warehouses;
   const ProductWarehousesWidget({Key key, this.warehouses}) : super(key: key);
 
   @override

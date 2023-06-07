@@ -2,12 +2,13 @@ import 'package:kammun_app/features/products_view/pages/barcode_products.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/product_entity.dart';
 import 'products_view.dart';
 
 class BarCodeScreen extends StatefulWidget {
   final BarcodeRequestType requestType;
   final Function(String) onIgnore;
-  final ProductData product;
+  final ProductEntity product;
 
   const BarCodeScreen({Key key, @required this.requestType, this.onIgnore, this.product}) : super(key: key);
 

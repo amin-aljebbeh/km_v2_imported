@@ -1,5 +1,6 @@
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/inventory_feature/presentation/redux/inventory_action.dart';
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 
 import '../widgets/inventory_filter_widget.dart';
 
@@ -33,7 +34,7 @@ class _InventoryPageState extends State<InventoryPage> {
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
-        List<ProductData> products = [];
+        List<ProductEntity> products = [];
         var inventoryState = state.inventoryState;
         products.addAll(inventoryState.products.where((product) =>
             inventoryState.searchFilter == null ||
@@ -155,7 +156,7 @@ class _InventoryPageState extends State<InventoryPage> {
                                       onChangeStatus: (result) {
                                         if (result) {
                                           store.dispatch(ClearInventory());
-                                          List<ProductData> products = inventoryState.products;
+                                          List<ProductEntity> products = inventoryState.products;
                                           products.removeAt(index);
                                           store.dispatch(SetInventoryProducts(products: products));
                                         }
@@ -163,7 +164,7 @@ class _InventoryPageState extends State<InventoryPage> {
                                       onDelete: (result) {
                                         if (result) {
                                           store.dispatch(ClearInventory());
-                                          List<ProductData> products = inventoryState.products;
+                                          List<ProductEntity> products = inventoryState.products;
                                           products.removeAt(index);
                                           store.dispatch(SetInventoryProducts(products: products));
                                         }

@@ -1,10 +1,11 @@
 import 'package:search_choices/search_choices.dart';
 
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/product_entity.dart';
 import '../../products_attached_to_warehouse/services/added_products_services.dart';
 
 class ChangeProductCategoryAndSubWarehouseWidget extends StatefulWidget {
-  final ProductData product;
+  final ProductEntity product;
   final Function(String) onChangeSubWarehouse;
   final Function(String) onChangeCategory;
   const ChangeProductCategoryAndSubWarehouseWidget(
@@ -21,7 +22,7 @@ class _ChangeProductCategoryAndSubWarehouseWidgetState extends State<ChangeProdu
 
   @override
   Widget build(BuildContext context) {
-    ProductData product = widget.product;
+    ProductEntity product = widget.product;
     return Column(
       children: [
         Container(

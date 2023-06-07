@@ -3,10 +3,11 @@ import 'package:kammun_app/features/sub_category/widgets/sub_category_widget.dar
 import 'package:responsive_flutter/responsive_flutter.dart';
 
 import '../../../core/core_importer.dart';
+import '../../categories/domain/entities/category_entity.dart';
 
 class SubCategory extends StatelessWidget {
   static int cartCount = 0;
-  final List<CategoryOriginalData> subCategory;
+  final List<CategoryEntity> subCategory;
   final bool forProductAdding;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final String supplierCode;

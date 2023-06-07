@@ -2,10 +2,11 @@ import 'package:kammun_app/features/product_detail_view/pages/product_detail_vie
 import 'package:kammun_app/features/products_view/pages/barcode_screen.dart';
 
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/product_entity.dart';
 
 class ProductsViewCard extends StatefulWidget {
   final int index;
-  final ProductData product;
+  final ProductEntity product;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final Function(String) onAddBarcode;
   final Function(String) onChangePrice;

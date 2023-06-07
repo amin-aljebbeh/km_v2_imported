@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/products_attached_to_warehouse/services/added_products_services.dart';
 
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/product_entity.dart';
 
 class AllProducts extends StatefulWidget {
   static const String routeName = '/AllProducts';
@@ -11,7 +12,7 @@ class AllProducts extends StatefulWidget {
 }
 
 class _AllProductsState extends State<AllProducts> {
-  List<ProductData> productsList = [];
+  List<ProductEntity> productsList = [];
   bool isLoading = false;
   bool isError = false;
   final TextEditingController _controller = TextEditingController();

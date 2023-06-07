@@ -1,6 +1,9 @@
 import 'package:kammun_app/core/core_importer.dart';
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 import 'package:kammun_app/features/products_view/widgets/add_product_widget.dart';
 import 'package:kammun_app/features/products_view/widgets/products_view_app_bar.dart';
+
+import '../../products/domain/entities/barcode_entity.dart';
 
 class ProductsView extends StatefulWidget {
   final String categoryId;
@@ -20,7 +23,7 @@ class ProductsViewState extends State<ProductsView> {
   bool isLoading = false;
   bool firstLoading = false;
   int page = 1;
-  List<ProductData> productsList = [];
+  List<ProductEntity> productsList = [];
   bool searchLoading = false;
   bool theEndOfProducts = false;
   String errorMessage = 'لم يتم العثور على المنتج';
@@ -175,7 +178,7 @@ class ProductsViewState extends State<ProductsView> {
                                   scaffoldKey: scaffoldKey,
                                   onAddBarcode: (result) {
                                     if (result != 'error') {
-                                      setState(() => productsList[index].barcodes.add(Barcode(barcode: result)));
+                                      setState(() => productsList[index].barcodes.add(BarcodeEntity(barcode: result)));
                                     }
                                   },
                                   onChangePrice: (newValue) => setState(() => productsList[index].price = newValue),

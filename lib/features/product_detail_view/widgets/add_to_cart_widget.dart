@@ -1,7 +1,10 @@
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
+
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/order_product_pivot_entity.dart';
 
 class AddToCartWidget extends StatefulWidget {
-  final ProductData product;
+  final ProductEntity product;
   const AddToCartWidget({Key key, this.product}) : super(key: key);
 
   @override
@@ -12,7 +15,7 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
   int numberOfOrders = 1;
   @override
   Widget build(BuildContext context) {
-    ProductData product = widget.product;
+    ProductEntity product = widget.product;
     String price = product.price;
     if (Services.hasRole(context, supplierRole)) {
       price = (int.parse(product.price.split('.')[0]) - product.increasePercentage).toString();
@@ -62,8 +65,8 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
             if (LoadingScreen.userToken.length > 5) {
               Navigator.of(context).pop(true);
               product.productCount = numberOfOrders;
-              ProductData productData = product;
-              productData.pivot = OrderProductPivot(increaseValue: product.increasePercentage);
+              ProductEntity productData = product;
+              productData.pivot = OrderProductPivotEntity(increaseValue: product.increasePercentage);
               productData.price = price;
               //todo handle adding to cart
               snackBar(success: true, message: 'تم إضافة ${product.name} لسلة المشتريات', context: context);

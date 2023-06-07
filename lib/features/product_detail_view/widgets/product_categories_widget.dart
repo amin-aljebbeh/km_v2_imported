@@ -1,8 +1,9 @@
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/product_entity.dart';
 import '../../products_view/services/products_services.dart';
 
 class ProductCategoriesWidget extends StatelessWidget {
-  final ProductData product;
+  final ProductEntity product;
   final Function(int) onRemove;
   const ProductCategoriesWidget({Key key, this.product, this.onRemove}) : super(key: key);
 

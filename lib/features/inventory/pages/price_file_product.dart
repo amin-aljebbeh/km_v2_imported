@@ -1,4 +1,5 @@
 import '../../../core/core_importer.dart';
+import '../../products/domain/entities/product_entity.dart';
 import '../model/inventory_model_importer.dart';
 import '../services/inventory_services.dart';
 
@@ -13,7 +14,7 @@ class PriceFileProduct extends StatefulWidget {
 
 class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepAliveClientMixin<PriceFileProduct> {
   PriceFileProductModel importedProducts = PriceFileProductModel();
-  List<ProductData> showList = [];
+  List<ProductEntity> showList = [];
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool sent;
   bool error;
