@@ -40,34 +40,38 @@ class GetCategoryProductsAction extends ProductsAction {
       products.addAll(store.state.productsState.products);
       products.addAll(categoryProducts.page.products);
       store.dispatch(SetProducts(products: products));
-      Tools.logToConsole('page');
-      Tools.logToConsole(categoryProducts.page.lastPage);
       if (categoryProducts.page.lastPage == store.state.productsState.productsPage) {
         store.dispatch(EndOfProducts(endOfProducts: true));
       }
     });
+    store.dispatch(StopLoading());
   }
 }
 
 class SearchProductsAction extends ProductsAction {
   @override
   handle({Store<AppState> store}) async {
-    store.dispatch(StartLoading());
-    Either either = await store.state.productsState.productsUSeCases.searchProductsUseCase(
-        query: store.state.productsState.searchString, pageNumber: store.state.productsState.productsPage);
-    either.fold(
-        (failure) => store
-            .dispatch(CatchError(errorMessage: 'حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت')),
-        (response) {
-      CategoryProductsEntity categoryProducts = response;
-      List<ProductEntity> products = [];
-      products.addAll(store.state.productsState.products);
-      products.addAll(categoryProducts.page.products);
-      store.dispatch(SetProducts(products: products));
-      if (categoryProducts.page.lastPage == store.state.productsState.productsPage) {
-        store.dispatch(EndOfProducts(endOfProducts: true));
-      }
-    });
+    if (badWords.contains(store.state.productsState.searchString)) {
+      store.dispatch(BadWordMatched(matched: true));
+    } else {
+      store.dispatch(StartLoading());
+      Either either = await store.state.productsState.productsUSeCases.searchProductsUseCase(
+          query: store.state.productsState.searchString, pageNumber: store.state.productsState.productsPage);
+      either.fold(
+          (failure) => store.dispatch(
+              CatchError(errorMessage: 'حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت')),
+          (response) {
+        CategoryProductsEntity categoryProducts = response;
+        List<ProductEntity> products = [];
+        products.addAll(store.state.productsState.products);
+        products.addAll(categoryProducts.page.products);
+        store.dispatch(SetProducts(products: products));
+        if (categoryProducts.page.lastPage == store.state.productsState.productsPage) {
+          store.dispatch(EndOfProducts(endOfProducts: true));
+        }
+      });
+      store.dispatch(StopLoading());
+    }
   }
 }
 
@@ -75,18 +79,17 @@ class GetBarcodeProductsAction extends ProductsAction {
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
-    Either either = await store.state.productsState.productsUSeCases.getBarcodeProductsUseCase();
+    Either either = await store.state.productsState.productsUSeCases
+        .getBarcodeProductsUseCase(barcode: store.state.productsState.barcodeString);
     either.fold(
         (failure) => store
             .dispatch(CatchError(errorMessage: 'حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت')),
         (response) {
       List<ProductEntity> barcodeProducts = response;
-      List<ProductEntity> products = [];
-      products.addAll(store.state.productsState.products);
-      products.addAll(barcodeProducts);
-      store.dispatch(SetProducts(products: products));
+      store.dispatch(SetProducts(products: barcodeProducts));
       store.dispatch(EndOfProducts(endOfProducts: true));
     });
+    store.dispatch(StopLoading());
   }
 }
 
@@ -148,6 +151,6 @@ class InitProducts extends ProductsAction {
     store.dispatch(BadWordMatched(matched: false));
     store.dispatch(SetSearchString(searchString: 'null'));
     store.dispatch(SetBarcodeString(barcodeString: 'null'));
-    store.dispatch(StopLoading());
+    if (store.state.loadingState.loading.isNotEmpty) store.dispatch(StopLoading());
   }
 }

@@ -3,27 +3,13 @@ import 'package:kammun_app/features/store/widgets/store_view_category_grid.dart'
 import '../../../core/core_importer.dart';
 import '../widgets/categories_title.dart';
 import '../widgets/image_carousel.dart';
-import '../widgets/show_update_dialog.dart';
 import '../widgets/store_app_bar.dart';
 
-class StoreView extends StatefulWidget {
+class StoreView extends StatelessWidget {
   static const String routeName = '/StoreView';
-  const StoreView({Key key}) : super(key: key);
+  StoreView({Key key}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() => StoreViewState();
-}
-
-class StoreViewState extends State<StoreView> {
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    super.initState();
-    if (StaticVariables.updateOption) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => showUpdateDialog(context: context));
-    }
-  }
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {

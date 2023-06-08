@@ -66,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 leftSideText:
                                     StringUtils().oCcy.format(state.adminsState.admin.balance).replaceAll('-', '') +
                                         ' ' +
-                                        StaticVariables.companyInformation.currency,
+                                        state.generalInformationState.companyInformation.currency,
                                 leftSideStyle:
                                     state.adminsState.admin.balance.isNegative ? warningStyle : informationStyle),
                           ),
@@ -75,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             title: 'المستودع',
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: StaticVariables.subWarehouses
+                                children: state.generalInformationState.subWarehouses
                                     .map((subWarehouse) => Padding(
                                         padding: const EdgeInsets.all(5),
                                         child: Text(subWarehouse.name,

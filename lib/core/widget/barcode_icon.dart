@@ -1,4 +1,4 @@
-import 'package:kammun_app/features/products_view/pages/barcode_screen.dart';
+import 'package:kammun_app/features/barcode/presentation/pages/barcode_scanner_page.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 
 import '../../features/products/domain/entities/product_entity.dart';
@@ -35,7 +35,7 @@ class BarcodeIcon extends StatelessWidget {
         Navigator.push(
           scaffoldKey.currentContext,
           MaterialPageRoute(
-            builder: (screenContext) => BarCodeScreen(
+            builder: (screenContext) => BarcodeScannerPage(
               product: product,
               requestType: requestType,
               onIgnore: (barcode) async {

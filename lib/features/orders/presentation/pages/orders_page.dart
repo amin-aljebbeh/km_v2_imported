@@ -49,7 +49,7 @@ class OrdersPage extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           if (Services.hasRole(context, shopperRole) ||
                               state.ordersState.orders[index].shopper != null) {
-                            state.ordersState.orders[index].orderArithmeticOperations();
+                            state.ordersState.orders[index].orderArithmeticOperations(context);
                             if (!Services.hasRole(context, supplierRole)) {
                               state.ordersState.orders[index].orderProfits(context: context);
                             }

@@ -1,3 +1,4 @@
+import 'package:kammun_app/features/general_information/data/models/warehouse_model.dart';
 import 'package:kammun_app/features/product_detail_view/widgets/change_product_category_and_sub_warehouse_widget.dart';
 import 'package:kammun_app/features/product_detail_view/widgets/delete_product_image_widget.dart';
 import 'package:kammun_app/features/product_detail_view/widgets/product_options_widget.dart';
@@ -6,7 +7,6 @@ import 'package:kammun_app/features/products/domain/entities/product_entity.dart
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 
 import '../../../core/core_importer.dart';
-import '../../warehouses/domain/entities/warehouse_entity.dart';
 import '../widgets/add_to_cart_widget.dart';
 import '../widgets/product_categories_widget.dart';
 import '../widgets/product_details_view_app_bar.dart';
@@ -45,7 +45,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
   @override
   void initState() {
     if (widget.product.warehouses.isEmpty) {
-      widget.product.warehouses.add(WarehouseEntity(name: 'غير مضاف لمستودع', id: 0));
+      widget.product.warehouses.add(WarehouseModel(name: 'غير مضاف لمستودع', id: 0));
     }
     super.initState();
   }
@@ -126,7 +126,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                   child: Text(priceString + ' :', style: paragraphStyle),
                                 ),
                                 Text(
-                                    '${StringUtils().oCcy.format(int.parse(price.split('.')[0]))} ${StaticVariables.companyInformation.currency}',
+                                    StringUtils().oCcy.format(int.parse(price.split('.')[0])) +
+                                        state.generalInformationState.companyInformation.currency,
                                     style: informationStyle),
                               ],
                             ),
@@ -152,7 +153,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         AddToCartWidget(product: product),
                         if (Services.hasRole(context, productsControllerRole) ||
                             Services.hasRole(context, adminRole) ||
-                            (StaticVariables.subWarehouses.any((element) => element.id == product.subWarehouseId)))
+                            (state.generalInformationState.subWarehouses
+                                .any((element) => element.id == product.subWarehouseId)))
                           Column(
                             children: [
                               ProductSubWarehouseInfoWidget(
@@ -178,7 +180,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                   value: selectedValueCategoryValue,
                                                   productId: product.id.toString()),
                                               onDone: () => setState(() => product.categories.add(
-                                                  StaticVariables.categoryList.firstWhere((category) =>
+                                                  state.generalInformationState.categories.firstWhere((category) =>
                                                       category.id.toString() == selectedValueCategoryValue)))),
                                           ProductOptionsWidget(
                                               product: product,
@@ -191,7 +193,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                       ),
                                     )
                                   : Services.hasRole(context, supplierRole) &&
-                                          (StaticVariables.subWarehouses
+                                          (state.generalInformationState.subWarehouses
                                               .any((element) => element.id == product.subWarehouseId))
                                       ? RemoveFromWarehouse(product: product)
                                       : Container(),

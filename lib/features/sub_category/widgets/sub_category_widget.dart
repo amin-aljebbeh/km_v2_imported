@@ -1,11 +1,11 @@
 import 'package:responsive_flutter/responsive_flutter.dart';
 
 import '../../../core/core_importer.dart';
-import '../../categories/domain/entities/category_entity.dart';
+import '../../general_information/domain/entities/category_entity.dart';
 import '../../products/presentation/pages/products_page.dart';
 import '../../products/presentation/redux/products_action.dart';
 import '../../products_view/pages/add_products.dart';
-import '../../products_view/pages/barcode_screen.dart';
+import '../../barcode/presentation/pages/barcode_scanner_page.dart';
 import '../pages/sub_category.dart';
 
 class SubCategoryWidget extends StatelessWidget {
@@ -72,7 +72,10 @@ class SubCategoryWidget extends StatelessWidget {
   }
 
   void _onTileClicked(int index, BuildContext context) {
-    List<CategoryEntity> subCategoryList = StaticVariables.categoryList
+    List<CategoryEntity> subCategoryList = StoreProvider.of<AppState>(context)
+        .state
+        .generalInformationState
+        .categories
         .where((category) => category.parentCategoryId.toString() == index.toString())
         .toList();
 
@@ -90,7 +93,7 @@ class SubCategoryWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BarCodeScreen(
+            builder: (context) => BarcodeScannerPage(
               requestType: BarcodeRequestType.addProduct,
               onIgnore: (barcode) {
                 int param;

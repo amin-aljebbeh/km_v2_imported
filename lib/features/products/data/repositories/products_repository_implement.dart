@@ -22,7 +22,7 @@ class ProductsRepositoryImplement implements ProductsRepository {
     } on OfflineException {
       return Left(OfflineFailure());
     } catch (e) {
-      return Left(InternalFailure());
+      return Left(InternalFailure(message: e.toString()));
     }
   }
 

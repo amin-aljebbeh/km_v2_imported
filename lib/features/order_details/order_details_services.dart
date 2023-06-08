@@ -7,7 +7,10 @@ import '../orders/domain/entities/order_image_entity.dart';
 import '../products/domain/entities/product_entity.dart';
 
 List<DropdownMenuItem<dynamic>> subWarehousesItems({BuildContext context, int subWarehouseId, bool print = false}) {
-  return StaticVariables.subWarehouses
+  return StoreProvider.of<AppState>(context)
+      .state
+      .generalInformationState
+      .subWarehouses
       .where((subWarehouse) =>
           subWarehouse.id == subWarehouseId ||
           subWarehouse.allowShopperAssign == '1' ||
@@ -19,7 +22,7 @@ List<DropdownMenuItem<dynamic>> subWarehousesItems({BuildContext context, int su
       .toList();
 }
 
-List<ProductEntity> orderProducts({List<ProductEntity> products, bool deleted}) {
+List<ProductEntity> orderProducts({List<ProductEntity> products, bool deleted, BuildContext context}) {
   List<ProductEntity> productsAry = [];
   productsAry.addAll(products);
   if (deleted) {
@@ -27,7 +30,7 @@ List<ProductEntity> orderProducts({List<ProductEntity> products, bool deleted}) 
   } else {
     productsAry.removeWhere((product) => product.pivot.deletedAt != 'null');
   }
-  if (StaticVariables.subWarehouses.length == 1) {
+  if (StoreProvider.of<AppState>(context).state.generalInformationState.subWarehouses.length == 1) {
     productsAry.sort((a, b) {
       if (a.pivot.subWarehouseId > b.pivot.subWarehouseId) {
         return -1;
@@ -49,14 +52,6 @@ List<ProductEntity> orderProducts({List<ProductEntity> products, bool deleted}) 
     });
   }
   return productsAry;
-}
-
-double kRound(double number) {
-  double doubleSum = number / 100;
-  String stringSum = doubleSum.toString().split('.')[0];
-  double result = double.parse(stringSum);
-  result *= 100;
-  return result;
 }
 
 List<Widget> calculate({OrderEntity order, BuildContext context}) {

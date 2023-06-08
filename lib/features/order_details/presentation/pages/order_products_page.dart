@@ -24,11 +24,14 @@ class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeep
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    productsAry = orderProducts(deleted: widget.deleted, products: widget.order.products);
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
+        productsAry = orderProducts(
+            deleted: widget.deleted,
+            products: state.ordersState.orders.firstWhere((element) => element.id == widget.order.id).products,
+            context: context);
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColorLight,
           body: Column(
@@ -45,7 +48,7 @@ class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeep
                     return OrderProductWidget(
                       onCheckbox: () {
                         if (!widget.deleted) {
-                          setState(() => productsAry.removeAt(index));
+                          setState(() {});
                           switch (state.searchOrdersState.searchOrdersType) {
                             case SearchOrdersTypes.phoneNumber:
                             case SearchOrdersTypes.id:

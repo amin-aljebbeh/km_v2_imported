@@ -73,7 +73,7 @@ class OrderEntity {
     this.user,
   });
 
-  orderArithmeticOperations() {
+  orderArithmeticOperations(BuildContext context) {
     OrderAccountingRow row = OrderAccountingRow(
         subWarehouseId: 0,
         subWarehouseName: 'subWarehouse.name',
@@ -83,7 +83,10 @@ class OrderEntity {
         directDiscount: 0);
     kammunProfit = 0;
     shopperProfit = 0;
-    orderAccountingRows = StaticVariables.subWarehouses
+    orderAccountingRows = StoreProvider.of<AppState>(context)
+        .state
+        .generalInformationState
+        .subWarehouses
         .where((subWarehouse) => products.map((product) => product.subWarehouseId).contains(subWarehouse.id))
         .map((subWarehouse) => OrderAccountingRow(
             subWarehouseId: subWarehouse.id,
@@ -103,7 +106,7 @@ class OrderEntity {
       orderAccountingRows
           .firstWhere((row) => row.subWarehouseId == product.pivot.subWarehouseId, orElse: () => row)
           .netPrice += netPrice;
-      double discountPercentage = SubWarehouse.getDiscountPercentage(product.pivot.subWarehouseId);
+      double discountPercentage = SubWarehouse.getDiscountPercentage(product.pivot.subWarehouseId, context);
       orderAccountingRows
           .firstWhere((row) => row.subWarehouseId == product.pivot.subWarehouseId, orElse: () => row)
           .payToSubWarehouse += netPrice;
@@ -141,7 +144,7 @@ class OrderEntity {
             .levelPivot;
         shopperSubWarehouseProfit = pivot.shoppingProfitPercentage / 100;
         increaseProfit = pivot.valueAddedPercentage / 100;
-        double discountPercentage = SubWarehouse.getDiscountPercentage(orderAccountingRows[i].subWarehouseId);
+        double discountPercentage = SubWarehouse.getDiscountPercentage(orderAccountingRows[i].subWarehouseId, context);
         shopperProfit += orderAccountingRows[i].increaseValuesSum * increaseProfit;
         kammunProfit +=
             orderAccountingRows[i].increaseValuesSum - (orderAccountingRows[i].increaseValuesSum * increaseProfit);

@@ -51,7 +51,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
               .toList());
           roles.add(DropdownMenuItem<int>(child: Text('الكل', style: mainStyle), value: null));
         }
-        List<DropdownMenuItem<int>> warehouses = StaticVariables.warehouses
+        List<DropdownMenuItem<int>> warehouses = state.generalInformationState.warehouses
             .map((warehouse) => DropdownMenuItem<int>(
                 child: AutoSizeText(warehouse.name, style: mainStyle, maxFontSize: 15), value: warehouse.id))
             .toList();

@@ -55,7 +55,7 @@ class ProductsState extends Equatable {
       productsUSeCases: productsUSeCases,
       productsViewType: productsViewType ?? this.productsViewType,
       hasNextProducts: hasNextProducts ?? this.hasNextProducts,
-      badWordMatched: badWordMatched ?? this.hasNextProducts,
+      badWordMatched: badWordMatched ?? this.badWordMatched,
       categoryId: categoryId ?? this.categoryId,
       searchString: searchString ?? this.searchString,
       barcodeString: barcodeString ?? this.barcodeString,

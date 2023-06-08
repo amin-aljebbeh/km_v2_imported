@@ -38,7 +38,7 @@ class CartRemoteDataSourceImplement implements CartRemoteDataSource {
         }));
     try {
       if (response != null) {
-        if (response.statusCode == successCode) return getCartFromJson(jsonEncode(response.data));
+        if (response.statusCode == successCode) return getCartFromJson(jsonEncode(response.data)).products;
       }
     } catch (e) {
       throw (InternalException(message: e.toString()));

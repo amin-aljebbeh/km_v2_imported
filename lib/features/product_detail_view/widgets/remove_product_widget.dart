@@ -10,33 +10,39 @@ class RemoveProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (StaticVariables.subWarehouses.any((element) => element.id == product.subWarehouseId))
-          RemoveFromWarehouse(product: product),
-        KammunButton(
-          height: 50,
-          text: 'حذف المنتج',
-          color: Colors.red,
-          onTap: () {
-            List<DialogButton> dialogButtons = [
-              DialogButton(
-                text: yes,
-                onTap: () {
-                  StoreProvider.of<AppState>(context)
-                      .dispatch(DeleteProductAction(productId: product.id, context: context));
-                },
-              ),
-              DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
-            ];
-            showMyDialog(
-                context: context,
-                title: '',
-                text: 'هل تريد حذف ${product.name} نهائياً ؟',
-                dialogButtons: dialogButtons);
-          },
-        ),
-      ],
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) {
+        return Column(
+          children: [
+            if (state.generalInformationState.subWarehouses.any((element) => element.id == product.subWarehouseId))
+              RemoveFromWarehouse(product: product),
+            KammunButton(
+              height: 50,
+              text: 'حذف المنتج',
+              color: Colors.red,
+              onTap: () {
+                List<DialogButton> dialogButtons = [
+                  DialogButton(
+                    text: yes,
+                    onTap: () {
+                      StoreProvider.of<AppState>(context)
+                          .dispatch(DeleteProductAction(productId: product.id, context: context));
+                    },
+                  ),
+                  DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
+                ];
+                showMyDialog(
+                    context: context,
+                    title: '',
+                    text: 'هل تريد حذف ${product.name} نهائياً ؟',
+                    dialogButtons: dialogButtons);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

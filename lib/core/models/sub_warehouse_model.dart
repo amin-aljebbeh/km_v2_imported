@@ -2,9 +2,9 @@
 //
 //     final subWarehouse = subWarehouseFromJson(jsonString);
 
-import 'package:kammun_app/core/static_variables.dart';
+import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
 
-import 'models_importer.dart';
+import '../core_importer.dart';
 
 List<SubWarehouse> subWarehouseFromJson(String str) =>
     List<SubWarehouse>.from(json.decode(str).map((x) => SubWarehouse.fromJson(x)));
@@ -28,9 +28,12 @@ class SubWarehouse {
   double discountPercentage;
   String allowShopperAssign;
 
-  static double getDiscountPercentage(int subWarehouseId) => (StaticVariables.subWarehouses
+  static double getDiscountPercentage(int subWarehouseId, BuildContext context) => (StoreProvider.of<AppState>(context)
+          .state
+          .generalInformationState
+          .subWarehouses
           .firstWhere((subWarehouse) => subWarehouse.id == subWarehouseId,
-              orElse: () => SubWarehouse(discountPercentage: 1))
+              orElse: () => SubWarehouseModel(discountPercentage: 1.0))
           .discountPercentage /
       100);
 

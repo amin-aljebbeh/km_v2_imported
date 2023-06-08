@@ -1,7 +1,11 @@
 import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_action.dart';
+import 'package:kammun_app/features/general_information/presentation/redux/general_information_action.dart';
 
 import '../features/login/Services/login_services.dart';
 import '../features/shoppers/data/models/get_shoppers_model.dart';
+import '../features/general_information/data/models/warehouse_model.dart';
+import '../features/general_information/domain/entities/sub_warehouse_entity.dart';
+import '../features/general_information/domain/entities/warehouse_entity.dart';
 import '../features/transactions/presentation/redux/transactions_action.dart';
 import 'core_importer.dart';
 
@@ -53,15 +57,16 @@ class GeneralApis {
     }
   }
 
-  static Future<List<Warehouse>> getWarehousesService() async {
+  static Future<List<WarehouseEntity>> getWarehousesService({BuildContext context}) async {
     try {
       var response = await ApiProvider.sendRequest(url: warehouse, method: HttpMethods.get);
-
+      List<WarehouseEntity> warehouses;
       if (response.statusCode == successCode && response.data['success'].toString() == 'true') {
-        StaticVariables.warehouses = List<Warehouse>.from(response.data['data'].map((x) => Warehouse.fromJson(x)));
-        StaticVariables.warehouses.removeWhere((warehouse) => warehouse.isActive == 0);
+        warehouses = List<WarehouseModel>.from(response.data['data'].map((x) => WarehouseModel.fromJson(x)));
+        warehouses.removeWhere((warehouse) => warehouse.isActive == 0);
+        StoreProvider.of<AppState>(context).dispatch(SetWarehouses(warehouses: warehouses));
       }
-      return StaticVariables.warehouses;
+      return warehouses;
     } catch (e) {
       return null;
     }
@@ -79,13 +84,13 @@ class GeneralApis {
 
   static Future<bool> getSubWarehouse({BuildContext context}) async {
     try {
-      StaticVariables.subWarehouses.clear();
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      List<SubWarehouse> response = await LoginServices.getAdmin(adminId: prefs.getString('adminId'), context: context);
+      List<SubWarehouseEntity> response =
+          await LoginServices.getAdmin(adminId: prefs.getString('adminId'), context: context);
 
       if (response != null) {
-        StaticVariables.subWarehouses.addAll(response);
+        StoreProvider.of<AppState>(context).dispatch(SetSubWarehouses(subWarehouses: response));
         return true;
       }
       return false;
@@ -112,15 +117,13 @@ class GeneralApis {
     }
   }
 
-  static Future<bool> getCategoryService() async {
+  static Future<bool> getCategoryService(BuildContext context) async {
     try {
       var response = await ApiProvider.sendRequest(url: getCategoryApi, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
-        StaticVariables.categoryList.clear();
-        StaticVariables.fullCategoryList.clear();
         final categories = categoryOriginalFromJson(jsonEncode(response.data)).data;
-        StaticVariables.fullCategoryList = categories
+        var fullCategoryList = categories
             .where((category) => category.parentCategoryId == 'null')
             .toList()
             .map((category) => DropdownMenuItem(
@@ -136,18 +139,14 @@ class GeneralApis {
                 value: category.name + ';' + category.id.toString()))
             .toList();
 
-        StaticVariables.fullCategoryList.addAll(categories
+        fullCategoryList.addAll(categories
             .where((category) => category.parentCategoryId != null)
             .toList()
             .map((category) => DropdownMenuItem(
                 child: Text(category.name, style: warehouseStyle.copyWith(fontSize: 18)),
                 value: category.name + ';' + category.id.toString()))
             .toList());
-        StaticVariables.categoryList = categories
-            .where((category) => category.warehouses.isNotEmpty && category.warehouses[0].pivot.isActive == '1')
-            .toList();
-
-        StaticVariables.categoryList.sort((a, b) {
+        categories.sort((a, b) {
           if ((int.parse(a.warehouses[0].pivot.priority)) > (int.parse(b.warehouses[0].pivot.priority))) {
             return 1;
           } else if ((int.parse(a.warehouses[0].pivot.priority) < (int.parse(b.warehouses[0].pivot.priority)))) {
@@ -156,6 +155,12 @@ class GeneralApis {
             return 0;
           }
         });
+        StoreProvider.of<AppState>(context).dispatch(SetCategoriesMenu(categories: fullCategoryList));
+        StoreProvider.of<AppState>(context).dispatch(SetCategories(
+            categories: categories
+                .where((category) => category.warehouses.isNotEmpty && category.warehouses[0].pivot.isActive == '1')
+                .toList()));
+
         return true;
       }
       return false;
@@ -173,9 +178,9 @@ class GeneralApis {
         responses = await Future.wait([
           getSupportedCity(),
           getSubWarehouse(context: context),
-          getCategoryService(),
-          GeneralApis.getWarehousesService(),
-          Services.initializeVariables()
+          getCategoryService(context),
+          GeneralApis.getWarehousesService(context: context),
+          Services.initializeVariables(context)
         ]);
         if (Services.hasRole(context, operationManagerRole) ||
             Services.hasRole(context, adminRole) ||
@@ -188,7 +193,7 @@ class GeneralApis {
         }
 
         if (responses[1] == null) {
-          Services.initializeVariables();
+          Services.initializeVariables(context);
         } else {
           return responses[0] && responses[1];
         }

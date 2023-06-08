@@ -76,7 +76,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           } else if (StaticVariables.updateRequired) {
             return const UpdateScreen();
           } else {
-            final child = HomeView(routeIndex: 0, notificationValue: notificationValue);
+            final child = HomePage(notificationValue: notificationValue);
             return AnimatedSwitcher(
               transitionBuilder: (Widget child, Animation<double> animation) {
                 var begin = const Offset(0.0, 1.0);
@@ -86,7 +86,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 var tween = Tween(begin: begin, end: end);
                 var curvedAnimation = CurvedAnimation(parent: animation, curve: curve);
 
-                final slide = HomeView(routeIndex: 0, notificationValue: notificationValue);
+                final slide = HomePage(notificationValue: notificationValue);
                 return SlideTransition(position: tween.animate(curvedAnimation), child: slide);
               },
               duration: const Duration(milliseconds: 250),

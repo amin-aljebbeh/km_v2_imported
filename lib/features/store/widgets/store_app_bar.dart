@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/cart/presentation/pages/cart_page.dart';
 
 import '../../../core/core_importer.dart';
+import '../../home/presentation/redux/home_action.dart';
 
 class StoreAppBar extends StatefulWidget with PreferredSizeWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -65,8 +66,12 @@ class _StoreAppBarState extends State<StoreAppBar> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: IconButton(
                             icon: const Icon(Icons.shopping_cart, size: 35, color: Colors.white),
-                            onPressed: () => Navigator.of(context)
-                                .pushNamedAndRemoveUntil(CartPage.routeName, (Route<dynamic> route) => false),
+                            onPressed: () {
+                              StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 1));
+
+                              Navigator.of(context)
+                                  .pushNamedAndRemoveUntil(CartPage.routeName, (Route<dynamic> route) => false);
+                            },
                           ),
                         ),
                 ],

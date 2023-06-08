@@ -1,9 +1,9 @@
-import 'package:kammun_app/features/categories/data/models/category_model.dart';
+import 'package:kammun_app/features/general_information/data/models/category_model.dart';
+import 'package:kammun_app/features/general_information/data/models/warehouse_model.dart';
 import 'package:kammun_app/features/products/data/models/barcode_model.dart';
 import 'package:kammun_app/features/products/data/models/order_product_pivot_model.dart';
 import 'package:kammun_app/features/products/data/models/product_image_model.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
-import 'package:kammun_app/features/warehouses/data/models/warehouse_model.dart';
 
 class ProductModel extends ProductEntity {
   ProductModel({

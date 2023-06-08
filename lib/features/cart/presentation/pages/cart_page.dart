@@ -47,7 +47,11 @@ class CartPage extends StatelessWidget {
                       children: <Widget>[
                         Text(subtotalString, style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 19.0)),
                         Text(
-                          '${StringUtils().oCcy.format(state.cartState.cartProducts.fold(0, (sum, order) => sum + ((int.parse(order.price.split('.')[0])) * order.productCount)))} ${StaticVariables.companyInformation.currency}',
+                          StringUtils().oCcy.format(state.cartState.cartProducts.fold(
+                                  0,
+                                  (sum, order) =>
+                                      sum + ((int.parse(order.price.split('.')[0])) * order.productCount))) +
+                              state.generalInformationState.companyInformation.currency,
                           style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 19),
                         ),
                       ],

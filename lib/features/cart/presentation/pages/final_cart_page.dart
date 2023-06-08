@@ -85,7 +85,7 @@ class FinalCartPage extends StatelessWidget {
                                           0,
                                           (sum, order) =>
                                               sum + (int.parse(order.price.split('.')[0]) * order.productCount))) +
-                                      StaticVariables.companyInformation.currency,
+                                      state.generalInformationState.companyInformation.currency,
                                   style: mainStyle.copyWith(
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).primaryColorDark,
@@ -105,7 +105,7 @@ class FinalCartPage extends StatelessWidget {
                                   )),
                               Text(
                                 StringUtils().oCcy.format(state.cartState.deliveryPrice) +
-                                    StaticVariables.companyInformation.currency,
+                                    state.generalInformationState.companyInformation.currency,
                                 style: mainStyle.copyWith(
                                     fontWeight: FontWeight.w500,
                                     color: Theme.of(context).primaryColorDark,
@@ -130,7 +130,7 @@ class FinalCartPage extends StatelessWidget {
                                               (sum, order) =>
                                                   sum + (int.parse(order.price.split('.')[0]) * order.productCount)) +
                                           state.cartState.deliveryPrice) +
-                                      StaticVariables.companyInformation.currency,
+                                      state.generalInformationState.companyInformation.currency,
                                   style: mainStyle.copyWith(
                                       fontWeight: FontWeight.w700,
                                       color: Theme.of(context).primaryColorDark,

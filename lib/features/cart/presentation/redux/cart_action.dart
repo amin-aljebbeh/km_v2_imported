@@ -14,35 +14,22 @@ abstract class CartAction {
   handle({@required Store<AppState> store});
 }
 
-class SaveCart extends CartAction {
-  @override
-  handle({Store<AppState> store}) async {
-    String productsId = '';
-    String productsQuantity = '';
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    productsId = store.state.cartState.cartProducts.fold('', (ids, product) => ids + product.id.toString() + ';');
-    productsQuantity = store.state.cartState.cartProducts
-        .fold('', (counts, product) => counts + product.productCount.toString() + ';');
-    prefs.setString('userCart', productsId + '@' + productsQuantity);
-  }
-}
-
 class GetCartAction extends CartAction {
   GetCartAction();
 
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String cart = prefs.getString('userCart');
-    List<String> productsCounts = cart.split("@")[1].split(";");
+    List<int> counts = store.state.cartState.cartProducts.map((product) => product.productCount).toList();
+    String cart = store.state.cartState.cartProducts.fold('', (ids, product) => ids + product.id.toString() + ';');
+    cart.replaceRange(cart.length - 1, cart.length, '');
 
     Either either = await store.state.cartState.cartUSeCases.getCartUseCase(cart: cart);
     either.fold((failure) {}, (response) {
-      List<ProductEntity> products;
+      List<ProductEntity> products = response;
       for (int i = 0; i < products.length; i++) {
         if (products[i] != null) {
-          products[i].productCount = int.parse(productsCounts[i]);
+          products[i].productCount = counts[i];
           products[i].pivot = OrderProductPivotEntity(increaseValue: products[i].increasePercentage);
         }
       }
@@ -70,7 +57,7 @@ class UpdateCartProducts extends CartAction {
         products.firstWhere((product) => product.id == productId).productCount = quantity;
       } else {
         products.add(product);
-        if (StaticVariables.subWarehouses.length == 1) {
+        if (StoreProvider.of<AppState>(context).state.generalInformationState.subWarehouses.length == 1) {
           products.sort((a, b) {
             if (a.subWarehouseId > b.subWarehouseId) {
               return -1;
@@ -95,7 +82,6 @@ class UpdateCartProducts extends CartAction {
     }
     if (context != null) snackBar(success: true, message: 'تم إضافة ${product.name} لسلة المشتريات', context: context);
     store.dispatch(SetCartProducts(products: products));
-    store.dispatch(SaveCart());
   }
 }
 
@@ -165,7 +151,6 @@ class UpdateOrderAction extends CartAction {
         store.dispatch(SetOrderId(orderId: 0));
         store.dispatch(SetCartProducts(products: []));
         store.dispatch(SetRefund(refund: false));
-        store.dispatch(SaveCart());
         store.dispatch(SetUserNote(note: ''));
         store.dispatch(StopLoading());
       } else {

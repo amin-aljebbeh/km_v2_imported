@@ -209,64 +209,72 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
   }
 
   Widget cardBodyPriceProblem(int index, BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              width: 75.0,
-              height: 75.0,
-              decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-              margin: const EdgeInsets.only(left: 10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Hero(
-                  tag: index + 100,
-                  child: Image(
-                    image: widget.cartProducts[index].images.isNotEmpty
-                        ? AdvImageCache(
-                            StaticVariables.imagePrefixUrl + widget.cartProducts[index].images[0].imageFileName,
-                            useMemCache: true,
-                            diskCacheExpire: const Duration(days: 400))
-                        : const AssetImage('assets/kmIcon.png'),
-                    width: MediaQuery.of(context).size.width,
-                    height: 120,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Wrap(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(widget.cartProducts[index].name,
-                            style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 6, bottom: 8),
-                          child: Text(widget.cartProducts[index].quantity + ' ' + widget.cartProducts[index].unit,
-                              style: mainStyle.copyWith(
-                                  fontWeight: FontWeight.w400, color: searchGreyColor, fontSize: 17)),
-                        ),
-                        Text(
-                            '${StringUtils().oCcy.format(int.parse(widget.cartProducts[index].price.split('.')[0]))} ${StaticVariables.companyInformation.currency}',
-                            style: mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
-                      ],
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 75.0,
+                  height: 75.0,
+                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  margin: const EdgeInsets.only(left: 10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Hero(
+                      tag: index + 100,
+                      child: Image(
+                        image: widget.cartProducts[index].images.isNotEmpty
+                            ? AdvImageCache(
+                                StaticVariables.imagePrefixUrl + widget.cartProducts[index].images[0].imageFileName,
+                                useMemCache: true,
+                                diskCacheExpire: const Duration(days: 400))
+                            : const AssetImage('assets/kmIcon.png'),
+                        width: MediaQuery.of(context).size.width,
+                        height: 120,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: Wrap(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(widget.cartProducts[index].name,
+                                style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 6, bottom: 8),
+                              child: Text(widget.cartProducts[index].quantity + ' ' + widget.cartProducts[index].unit,
+                                  style: mainStyle.copyWith(
+                                      fontWeight: FontWeight.w400, color: searchGreyColor, fontSize: 17)),
+                            ),
+                            Text(
+                                StringUtils().oCcy.format(int.parse(widget.cartProducts[index].price.split('.')[0])) +
+                                    state.generalInformationState.companyInformation.currency,
+                                style:
+                                    mainStyle.copyWith(fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
+            const Divider(thickness: 3)
           ],
-        ),
-        const Divider(thickness: 3)
-      ],
+        );
+      },
     );
   }
 }

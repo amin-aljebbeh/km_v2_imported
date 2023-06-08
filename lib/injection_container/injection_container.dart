@@ -3,6 +3,7 @@ import 'admins_injection.dart';
 import 'cart_injection.dart';
 import 'complaints_inject.dart';
 import 'coupons_injection.dart';
+import 'home_injection.dart';
 import 'inventory_injection.dart';
 import 'order_details_injection.dart';
 import 'orders_injection.dart';
@@ -30,6 +31,7 @@ Future<void> inject() async {
   await injectCart();
   await injectProductDetails();
   await injectProducts();
+  await injectHome();
 
 //! Core
 

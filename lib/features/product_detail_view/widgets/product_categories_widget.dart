@@ -14,6 +14,7 @@ class ProductCategoriesWidget extends StatelessWidget {
       child: ListView.builder(
         itemCount: product.categories.length,
         scrollDirection: Axis.horizontal,
+        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
         itemBuilder: (BuildContext context, int index) {
           return SizedBox(
             width: MediaQuery.of(context).size.width * 0.45,

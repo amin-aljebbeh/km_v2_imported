@@ -13,8 +13,8 @@ import '../../transactions/presentation/redux/transactions_action.dart';
 List<Widget> getDrawerChildren(BuildContext context) {
   var store = StoreProvider.of<AppState>(context);
   return [
-    SideBarRow(icon: Icons.phone, text: 'الإتصال بكمون', onTap: () => Services.openUrl('number')),
-    SideBarRow(icon: Icons.share, text: 'إرسال التطبيق للأصدقاء', onTap: () => Services.shareApp()),
+    SideBarRow(icon: Icons.phone, text: 'الإتصال بكمون', onTap: () => Services.openUrl('number', context)),
+    SideBarRow(icon: Icons.share, text: 'إرسال التطبيق للأصدقاء', onTap: () => Services.shareApp(context)),
     SideBarRow(pushedRoute: ProfileScreen.routeName, icon: Icons.person, text: profile),
     if (Services.hasRole(context, operationManagerRole))
       const SideBarRow(

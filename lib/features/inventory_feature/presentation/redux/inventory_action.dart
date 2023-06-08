@@ -93,6 +93,17 @@ class GetUnderCheckAvailabilityAction implements InventoryAction {
       if (store.state.inventoryState.isActive < 2) {
         theProducts.removeWhere((product) => product.isActive != store.state.inventoryState.isActive.toString());
       }
+      theProducts.sort((a, b) {
+        if (a.categories.isNotEmpty && b.categories.isNotEmpty) {
+          if (a.categories[0].id > b.categories[0].id) {
+            return 1;
+          } else {
+            return -1;
+          }
+        } else {
+          return -1;
+        }
+      });
       store.dispatch(SetInventoryProducts(products: theProducts));
       store.dispatch(EndOfInventory());
     });

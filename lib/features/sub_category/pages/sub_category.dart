@@ -3,7 +3,8 @@ import 'package:kammun_app/features/sub_category/widgets/sub_category_widget.dar
 import 'package:responsive_flutter/responsive_flutter.dart';
 
 import '../../../core/core_importer.dart';
-import '../../categories/domain/entities/category_entity.dart';
+import '../../general_information/domain/entities/category_entity.dart';
+import '../../home/presentation/redux/home_action.dart';
 
 class SubCategory extends StatelessWidget {
   static int cartCount = 0;
@@ -30,6 +31,7 @@ class SubCategory extends StatelessWidget {
               icon: const Icon(Icons.shopping_cart, size: 35, color: Colors.white),
               onPressed: () {
                 if (!forProductAdding) {
+                  StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 1));
                   Navigator.of(context).pushNamedAndRemoveUntil(CartPage.routeName, (Route<dynamic> route) => false);
                 }
               },

@@ -36,7 +36,7 @@ class TransactionRequestWidget extends StatelessWidget {
                             Text(
                                 StringUtils().oCcy.format(transactionRequestEntity.value) +
                                     ' ' +
-                                    StaticVariables.companyInformation.currency,
+                                    state.generalInformationState.companyInformation.currency,
                                 style: informationStyle),
                             Text(transactionRequestEntity.requestStatus.slug,
                                 style: paragraphStyle.copyWith(

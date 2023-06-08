@@ -11,8 +11,10 @@ import '../features/cart/presentation/redux/cart_state.dart';
 import '../features/complaints/presentation/redux/complaints_state.dart';
 import '../features/coupons/presentation/redux/coupon_state.dart';
 import '../features/error/presentation/redux/error_state.dart';
+import '../features/home/presentation/redux/home_state.dart';
 import '../features/inventory_feature/presentation/redux/inventory_state.dart';
 import '../features/order_details/presentation/redux/order_details_state.dart';
+import '../features/general_information/presentation/redux/general_information_state.dart';
 import '../features/supplier/presentation/redux/supplier_state.dart';
 import '../features/transactions/presentation/redux/transactions_state.dart';
 import '../features/users/presentation/redux/users_state.dart';
@@ -24,6 +26,8 @@ class AppState extends Equatable {
   final ComplaintsState complaintsState;
   final CouponState couponState;
   final ErrorState errorState;
+  final GeneralInformationState generalInformationState;
+  final HomeState homeState;
   final InventoryState inventoryState;
   final LoadingState loadingState;
   final OrderDetailsState orderDetailsState;
@@ -38,8 +42,10 @@ class AppState extends Equatable {
 
   const AppState({
     this.ordersState,
+    this.generalInformationState,
     this.orderDetailsState,
     this.transactionsState,
+    this.homeState,
     this.inventoryState,
     this.productDetailsState,
     this.productsState,
@@ -62,6 +68,8 @@ class AppState extends Equatable {
         supplierState: SupplierState.initial(),
         complaintsState: ComplaintsState.initial(),
         adminsState: AdminsState.initial(),
+        generalInformationState: GeneralInformationState.initial(),
+        homeState: HomeState.initial(),
         productDetailsState: ProductDetailsState.initial(),
         couponState: CouponState.initial(),
         usersState: UsersState.initial(),
@@ -85,6 +93,8 @@ class AppState extends Equatable {
     CouponState couponState,
     ProductsState productsState,
     UsersState usersState,
+    GeneralInformationState generalInformationState,
+    HomeState homeState,
     SearchOrdersState searchOrdersState,
     OrdersState ordersState,
     TransactionsState transactionsState,
@@ -94,11 +104,13 @@ class AppState extends Equatable {
   }) {
     return AppState(
       inventoryState: inventoryState ?? this.inventoryState,
+      generalInformationState: generalInformationState ?? this.generalInformationState,
       errorState: errorState ?? this.errorState,
       loadingState: loadingState ?? this.loadingState,
       supplierState: supplierState ?? this.supplierState,
       complaintsState: complaintsState ?? this.complaintsState,
       adminsState: adminsState ?? this.adminsState,
+      homeState: homeState ?? this.homeState,
       couponState: couponState ?? this.couponState,
       usersState: usersState ?? this.usersState,
       productsState: productsState ?? this.productsState,
@@ -117,12 +129,14 @@ class AppState extends Equatable {
         inventoryState,
         errorState,
         loadingState,
+        homeState,
         supplierState,
         transactionsState,
         complaintsState,
         adminsState,
         productsState,
         searchOrdersState,
+        generalInformationState,
         couponState,
         productDetailsState,
         usersState,

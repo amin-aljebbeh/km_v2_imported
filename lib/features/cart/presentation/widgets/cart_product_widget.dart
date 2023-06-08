@@ -73,7 +73,8 @@ class CartProductWidget extends StatelessWidget {
                                         ),
                                       )
                                     : Text(
-                                        '${StringUtils().oCcy.format(int.parse(product.price.split('.')[0]))} ${StaticVariables.companyInformation.currency}',
+                                        StringUtils().oCcy.format(int.parse(product.price.split('.')[0])) +
+                                            state.generalInformationState.companyInformation.currency,
                                         style: mainStyle.copyWith(
                                             fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                                 if (editPrice)

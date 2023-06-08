@@ -5,6 +5,9 @@ import 'features/supplier/presentation/pages/supplier_remaining_statment.dart';
 
 final Map<String, WidgetBuilder> routes = {
   Prices.routeName: (_) => const Prices(),
+  CartPage.routeName: (_) => const HomePage(),
+  StoreView.routeName: (_) => const HomePage(),
+  OrdersPage.routeName: (_) => const HomePage(),
   CouponsPage.routeName: (_) => const CouponsPage(),
   SalesReport.routeName: (_) => const SalesReport(),
   SalesCharts.routeName: (_) => const SalesCharts(),
@@ -15,8 +18,6 @@ final Map<String, WidgetBuilder> routes = {
   ProfileScreen.routeName: (_) => const ProfileScreen(),
   ComplaintsPage.routeName: (_) => const ComplaintsPage(),
   GetSubWarehouse.routeName: (_) => const GetSubWarehouse(),
-  StoreView.routeName: (_) => const HomeView(routeIndex: 0),
-  OrdersPage.routeName: (_) => const HomeView(routeIndex: 2),
   AddComplaintPage.routeName: (_) => const AddComplaintPage(),
   SupplierAccounts.routeName: (_) => const SupplierAccounts(),
   ActivityHoursView.routeName: (_) => const ActivityHoursView(),
@@ -29,6 +30,5 @@ final Map<String, WidgetBuilder> routes = {
   ShopperWorkingHoursView.routeName: (_) => const ShopperWorkingHoursView(),
   AddedProductsToWarehouse.routeName: (_) => const AddedProductsToWarehouse(),
   SupplierRemainingAccounts.routeName: (_) => const SupplierRemainingAccounts(),
-  CartPage.routeName: (_) => const HomeView(routeIndex: 1),
   NotAddedProductsToWarehouse.routeName: (_) => const NotAddedProductsToWarehouse(),
 };

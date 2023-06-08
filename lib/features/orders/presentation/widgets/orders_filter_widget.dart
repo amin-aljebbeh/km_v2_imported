@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/general_information/domain/entities/warehouse_entity.dart';
+
 import '../../../../core/core_importer.dart';
 import '../redux/orders_action.dart';
 
@@ -12,8 +14,8 @@ class OrdersFilterWidget extends StatelessWidget {
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
-        List<Warehouse> warehouses = [Warehouse(name: 'جميع المستودعات', id: 0)];
-        warehouses.addAll(StaticVariables.warehouses);
+        List<WarehouseEntity> warehouses = [WarehouseEntity(name: 'جميع المستودعات', id: 0)];
+        warehouses.addAll(state.generalInformationState.warehouses);
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

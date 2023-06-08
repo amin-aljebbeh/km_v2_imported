@@ -1,4 +1,5 @@
 import 'package:kammun_app/features/admins/domain/entities/admins_entity.dart';
+import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../../core/models/shopper_model.dart';
@@ -31,7 +32,7 @@ class AdminModel extends AdminEntity {
         permissions: json['permissions'] != null ? List<String>.from(json['permissions'].map((x) => x)) : [''],
         subWarehouses: json['sub_warehouses'] == null
             ? null
-            : List<SubWarehouse>.from(json['sub_warehouses'].map((x) => SubWarehouse.fromJson(x))),
+            : List<SubWarehouseModel>.from(json['sub_warehouses'].map((x) => SubWarehouseModel.fromJson(x))),
         roles: json['roles'] == null ? null : List<Role>.from(json['roles'].map((x) => Role.fromJson(x))),
         shopper: json['shopper'] == null ? null : ShopperModel.fromJson(json['shopper']),
       );
@@ -42,7 +43,6 @@ class AdminModel extends AdminEntity {
         'name': name,
         'phone': phone,
         'api_token': apiToken,
-        'sub_warehouses': subWarehouses == null ? null : List<dynamic>.from(subWarehouses.map((x) => x.toJson())),
         'roles': roles == null ? null : List<dynamic>.from(roles.map((x) => x.toJson())),
       };
 }

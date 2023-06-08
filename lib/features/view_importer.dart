@@ -3,7 +3,7 @@ export 'package:kammun_app/features/complaints/presentation/pages/add_complaint_
 export '../features/coupons/presentation/pages/coupons_page.dart';
 export '../features/coupons/presentation/pages/user_coupons_page.dart';
 export 'complaints/presentation/pages/complaints_page.dart';
-export 'home/pages/home_view.dart';
+export 'home/presentation/pages/home_page.dart';
 export 'inventory/pages/inventory_importer.dart';
 export 'inventory_feature/presentation/pages/inventory_page.dart';
 export 'login/pages/login_view.dart';

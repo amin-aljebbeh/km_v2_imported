@@ -1,7 +1,7 @@
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/products/presentation/widgets/product_widget.dart';
-import 'package:kammun_app/features/products_view/widgets/add_product_widget.dart';
-import 'package:kammun_app/features/products_view/widgets/products_view_app_bar.dart';
+import 'package:kammun_app/features/products/presentation/widgets/add_product_widget.dart';
+import 'package:kammun_app/features/products/presentation/widgets/products_view_app_bar.dart';
 
 import '../../domain/entities/barcode_entity.dart';
 import '../redux/products_action.dart';
@@ -59,8 +59,8 @@ class ProductsPageState extends State<ProductsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Expanded(
-                                child: NotificationListener<ScrollNotification>(
-                                  onNotification: (ScrollNotification scrollInfo) {
+                                child: NotificationListener<ScrollEndNotification>(
+                                  onNotification: (ScrollEndNotification scrollInfo) {
                                     if (state.loadingState.loading.isEmpty &&
                                         state.productsState.hasNextProducts &&
                                         scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
@@ -102,16 +102,19 @@ class ProductsPageState extends State<ProductsPage> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: state.loadingState.loading.isNotEmpty ? 50.0 : 0,
-                                color: Colors.transparent,
-                                child: Center(
-                                  child: !state.productsState.hasNextProducts
-                                      ? Text('تم جلب جميع المنتجات', style: boldStyle)
-                                      : const Loader(),
+                              if (state.loadingState.loading.isNotEmpty || !state.productsState.hasNextProducts)
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 50,
+                                  color: Colors.transparent,
+                                  child: Center(
+                                    child: !state.productsState.hasNextProducts
+                                        ? Text('تم جلب جميع المنتجات', style: boldStyle)
+                                        : state.loadingState.loading.isNotEmpty
+                                            ? const Loader()
+                                            : const SizedBox(),
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         ),

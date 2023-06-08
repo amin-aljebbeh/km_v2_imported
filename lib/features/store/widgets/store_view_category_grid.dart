@@ -1,8 +1,8 @@
+import 'package:kammun_app/features/barcode/presentation/pages/barcode_scanner_page.dart';
 import 'package:kammun_app/features/products_view/pages/add_products.dart';
-import 'package:kammun_app/features/products_view/pages/barcode_screen.dart';
 
 import '../../../core/core_importer.dart';
-import '../../categories/domain/entities/category_entity.dart';
+import '../../general_information/domain/entities/category_entity.dart';
 import '../../products/presentation/pages/products_page.dart';
 import '../../products/presentation/redux/products_action.dart';
 import '../../sub_category/pages/sub_category.dart';
@@ -19,39 +19,54 @@ class StoreViewCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          GridView.builder(
-            primary: false,
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
-            itemCount:
-                StaticVariables.categoryList.where((category) => category.parentCategoryId == 'null').toList().length,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: _crossAxisCount,
-                crossAxisSpacing: _crossAxisSpacing,
-                mainAxisSpacing: _mainAxisSpacing,
-                childAspectRatio: _aspectRatio),
-            itemBuilder: (BuildContext context, int index) {
-              var eachCategory =
-                  StaticVariables.categoryList.where((category) => category.parentCategoryId == 'null').toList()[index];
-              return GestureDetector(
-                onTap: () => _onTileClicked(eachCategory.id, context),
-                child: ShopByCategory(
-                    img: eachCategory.imageFileName, categoryName: eachCategory.name, index: index, fit: BoxFit.cover),
-              );
-            },
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) {
+        return SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              GridView.builder(
+                primary: false,
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
+                itemCount: state.generalInformationState.categories
+                    .where((category) => category.parentCategoryId == 'null')
+                    .toList()
+                    .length,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: _crossAxisCount,
+                    crossAxisSpacing: _crossAxisSpacing,
+                    mainAxisSpacing: _mainAxisSpacing,
+                    childAspectRatio: _aspectRatio),
+                itemBuilder: (BuildContext context, int index) {
+                  var eachCategory = state.generalInformationState.categories
+                      .where((category) => category.parentCategoryId == 'null')
+                      .toList()[index];
+                  return GestureDetector(
+                    onTap: () => _onTileClicked(eachCategory.id, context),
+                    child: ShopByCategory(
+                        img: eachCategory.imageFileName,
+                        categoryName: eachCategory.name,
+                        index: index,
+                        fit: BoxFit.cover),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
   // Function to be called on click
   void _onTileClicked(int index, BuildContext context) {
-    List<CategoryEntity> subCategoryList = StaticVariables.categoryList
+    List<CategoryEntity> subCategoryList = StoreProvider.of<AppState>(context)
+        .state
+        .generalInformationState
+        .categories
         .where((category) => category.parentCategoryId.toString() == index.toString())
         .toList();
 
@@ -69,7 +84,7 @@ class StoreViewCategory extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BarCodeScreen(
+            builder: (context) => BarcodeScannerPage(
               requestType: BarcodeRequestType.addProduct,
               onIgnore: (barcode) {
                 int param;

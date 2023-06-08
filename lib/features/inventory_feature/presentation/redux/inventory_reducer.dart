@@ -18,6 +18,7 @@ InventoryState setInventoryProducts(InventoryState state, SetInventoryProducts a
   List<ProductEntity> products = [];
   products.addAll(state.products);
   products.addAll(action.products);
+
   return state.copyWith(products: products);
 }
 

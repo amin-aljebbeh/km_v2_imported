@@ -1,8 +1,9 @@
 import 'package:full_screen_image/full_screen_image.dart';
 
 import '../../../core/core_importer.dart';
+import '../../general_information/domain/entities/warehouse_entity.dart';
+import '../../home/presentation/redux/home_action.dart';
 import '../../products/domain/entities/product_entity.dart';
-import '../../warehouses/domain/entities/warehouse_entity.dart';
 
 class ProductDetailsViewAppBar extends StatefulWidget {
   final ProductEntity product;
@@ -54,8 +55,10 @@ class _ProductDetailsViewAppBarState extends State<ProductDetailsViewAppBar> wit
             iconSize: 35,
             icon: const Icon(Icons.home),
             tooltip: 'Back to Store Page',
-            onPressed: () =>
-                Navigator.of(context).pushNamedAndRemoveUntil(StoreView.routeName, (Route<dynamic> route) => false)),
+            onPressed: () {
+              StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 0));
+              Navigator.of(context).pushNamedAndRemoveUntil(StoreView.routeName, (Route<dynamic> route) => false);
+            }),
         actions: <Widget>[
           IconButton(
               onPressed: () => Navigator.of(context).pop(true), icon: const Icon(Icons.arrow_forward_ios, size: 35))

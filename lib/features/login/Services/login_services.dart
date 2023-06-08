@@ -1,6 +1,7 @@
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/admins/presentation/redux/admins_action.dart';
 import 'package:kammun_app/features/login/models/login_admin_model.dart';
+import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
 
 class LoginServices {
   static String replaceFarsiNumber(String s) {
@@ -84,7 +85,7 @@ class LoginServices {
     KammunRestart.restartApp(context);
   }
 
-  static Future<List<SubWarehouse>> getAdmin({String adminId, BuildContext context}) async {
+  static Future<List<SubWarehouseModel>> getAdmin({String adminId, BuildContext context}) async {
     try {
       var response = await ApiProvider.sendRequest(url: admin + adminId, method: HttpMethods.get);
 

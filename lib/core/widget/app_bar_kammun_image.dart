@@ -1,3 +1,6 @@
+import 'package:kammun_app/features/products/presentation/redux/products_action.dart';
+
+import '../../features/home/presentation/redux/home_action.dart';
 import '../core_importer.dart';
 
 class AppBarKammunImage extends StatelessWidget {
@@ -12,8 +15,11 @@ class AppBarKammunImage extends StatelessWidget {
           child: Transform.scale(
             scale: 2,
             child: InkWell(
-              onTap: () =>
-                  Navigator.pushNamedAndRemoveUntil(context, StoreView.routeName, (Route<dynamic> route) => false),
+              onTap: () {
+                StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 0));
+                StoreProvider.of<AppState>(context).dispatch(InitProducts());
+                Navigator.pushNamedAndRemoveUntil(context, StoreView.routeName, (Route<dynamic> route) => false);
+              },
               child: Image.asset('assets/logobw.png', width: 150, height: 50),
             ),
           ),

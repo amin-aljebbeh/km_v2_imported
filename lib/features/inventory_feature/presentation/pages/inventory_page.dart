@@ -96,8 +96,9 @@ class _InventoryPageState extends State<InventoryPage> {
                                     if (products[index].subWarehouseId != -1) {
                                       id = products[index].subWarehouseId.toString();
                                     } else {
-                                      List<int> subWarehousesIds =
-                                          StaticVariables.subWarehouses.map((warehouse) => warehouse.id).toList();
+                                      List<int> subWarehousesIds = state.generalInformationState.subWarehouses
+                                          .map((warehouse) => warehouse.id)
+                                          .toList();
                                       List<int> productIds = products[index]
                                           .warehouses
                                           .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))

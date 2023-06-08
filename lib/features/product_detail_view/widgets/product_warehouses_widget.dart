@@ -1,5 +1,5 @@
 import '../../../core/core_importer.dart';
-import '../../warehouses/domain/entities/warehouse_entity.dart';
+import '../../general_information/domain/entities/warehouse_entity.dart';
 
 class ProductWarehousesWidget extends StatelessWidget {
   final List<WarehouseEntity> warehouses;
@@ -12,6 +12,7 @@ class ProductWarehousesWidget extends StatelessWidget {
       child: SizedBox(
         height: 74,
         child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           itemCount: warehouses.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {

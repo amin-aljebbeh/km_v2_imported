@@ -23,7 +23,7 @@ ProductsState setProductsPage(ProductsState state, SetProductsPage action) {
 }
 
 ProductsState endOfProducts(ProductsState state, EndOfProducts action) {
-  return state.copyWith(hasNextProducts: action.endOfProducts);
+  return state.copyWith(hasNextProducts: !action.endOfProducts);
 }
 
 ProductsState badWordMatched(ProductsState state, BadWordMatched action) {

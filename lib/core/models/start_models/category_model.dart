@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:kammun_app/features/categories/data/models/category_model.dart';
+import 'package:kammun_app/features/general_information/data/models/category_model.dart';
 
 import 'start_model_importer.dart';
 

@@ -3,6 +3,7 @@ import 'package:kammun_app/features/products_view/services/products_services.dar
 import 'package:kammun_app/features/products_view/widgets/select_file.dart';
 
 import '../../../core/core_importer.dart';
+import '../../home/presentation/redux/home_action.dart';
 
 class AddProductsView extends StatefulWidget {
   final int categoryId;
@@ -117,171 +118,184 @@ class _AddProductsViewState extends State<AddProductsView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 210, 178, 2),
-        automaticallyImplyLeading: false,
-        flexibleSpace: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: const Color.fromARGB(255, 210, 178, 2),
+            automaticallyImplyLeading: false,
+            flexibleSpace: SafeArea(
+              child: Column(
                 children: <Widget>[
-                  const Opacity(opacity: 0.0, child: Icon(Icons.home, color: Colors.white, size: 40)),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
-                    child: Transform.scale(
-                      scale: 2,
-                      child: InkWell(
-                        onTap: () => Navigator.pushNamedAndRemoveUntil(
-                            context, StoreView.routeName, (Route<dynamic> route) => false),
-                        child: Image.asset('assets/logobw.png', width: 150, height: 50),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const Opacity(opacity: 0.0, child: Icon(Icons.home, color: Colors.white, size: 40)),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: Transform.scale(
+                          scale: 2,
+                          child: InkWell(
+                            onTap: () {
+                              StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 0));
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, StoreView.routeName, (Route<dynamic> route) => false);
+                            },
+                            child: Image.asset('assets/logobw.png', width: 150, height: 50),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5.0, left: 0),
-                    child: IconButton(
-                      onPressed: () => Navigator.of(context).pop(true),
-                      icon: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 40),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5.0, left: 0),
+                        child: IconButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          icon: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 40),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 25.0, bottom: 8, left: 8, right: 8),
-          child: isLoading
-              ? const Center(child: Loader())
-              : ListView(
-                  shrinkWrap: true,
-                  children: [
-                    Text('يرجى إختيار المستودع التابع لهذه المادة', style: boldStyle),
-                    ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
-                      title: Column(
-                        children: StaticVariables.subWarehouses
-                            .map((data) => Container(
-                                  decoration: const BoxDecoration(color: Colors.white),
-                                  child: RadioListTile(
-                                    controlAffinity: ListTileControlAffinity.trailing,
-                                    activeColor: Theme.of(context).primaryColor,
-                                    title: Text(data.name, style: mainStyle),
-                                    groupValue: _selectedSubWarehouseValue,
-                                    value: data.id,
-                                    onChanged: (val) => setState(() => _selectedSubWarehouseValue = data.id),
-                                  ),
-                                ))
-                            .toList(),
-                      ),
-                    ),
-                    ProductEntryField(controller: nameController, title: 'اسم المنتج', hint: 'زيت سولينا'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 25.0, bottom: 8, left: 8, right: 8),
+              child: isLoading
+                  ? const Center(child: Loader())
+                  : ListView(
+                      shrinkWrap: true,
                       children: [
-                        ProductEntryField(
-                            controller: quantityController,
-                            title: quantityString,
-                            hint: '100',
-                            width: MediaQuery.of(context).size.width / 4),
-                        ProductEntryField(
-                            controller: unitController,
-                            title: unitString,
-                            hint: 'لتر',
-                            width: MediaQuery.of(context).size.width / 4),
-                        ProductEntryField(
-                            controller: priceFactorController,
-                            title: priceFactor,
-                            hint: '1',
-                            width: MediaQuery.of(context).size.width / 4),
-                      ],
-                    ),
-                    ProductEntryField(
-                        controller: descriptionController,
-                        title: descriptionString,
-                        hint: 'زيت دوار الشمس الصافي @كلمات مفتاحية'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ProductEntryField(
-                            controller: supplierCodeController,
-                            title: supplierCodeString,
-                            hint: '123456',
-                            width: MediaQuery.of(context).size.width / 3),
-                        ProductEntryField(
-                            controller: priceController,
-                            title: priceString,
-                            hint: '5000',
-                            width: MediaQuery.of(context).size.width / 3),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        TextButton(child: Icon(Icons.camera, color: kmColors), onPressed: () => getImageCamera()),
-                        TextButton(child: Icon(Icons.image, color: kmColors), onPressed: () => getImageGallery()),
-                        Container(
-                          width: 80,
-                          margin: const EdgeInsets.all(15.0),
-                          padding: const EdgeInsets.all(3.0),
-                          decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                              border: Border.all(color: switchController ? kmColors2 : searchGreyColor, width: 2)),
-                          child: Switch(
-                            value: switchController,
-                            onChanged: (value) => setState(() => switchController = value),
-                            activeTrackColor: kmColors2,
-                            activeColor: kmColors,
+                        Text('يرجى إختيار المستودع التابع لهذه المادة', style: boldStyle),
+                        ListTile(
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                          title: Column(
+                            children: state.generalInformationState.subWarehouses
+                                .map((data) => Container(
+                                      decoration: const BoxDecoration(color: Colors.white),
+                                      child: RadioListTile(
+                                        controlAffinity: ListTileControlAffinity.trailing,
+                                        activeColor: Theme.of(context).primaryColor,
+                                        title: Text(data.name, style: mainStyle),
+                                        groupValue: _selectedSubWarehouseValue,
+                                        value: data.id,
+                                        onChanged: (val) => setState(() => _selectedSubWarehouseValue = data.id),
+                                      ),
+                                    ))
+                                .toList(),
                           ),
                         ),
+                        ProductEntryField(controller: nameController, title: 'اسم المنتج', hint: 'زيت سولينا'),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ProductEntryField(
+                                controller: quantityController,
+                                title: quantityString,
+                                hint: '100',
+                                width: MediaQuery.of(context).size.width / 4),
+                            ProductEntryField(
+                                controller: unitController,
+                                title: unitString,
+                                hint: 'لتر',
+                                width: MediaQuery.of(context).size.width / 4),
+                            ProductEntryField(
+                                controller: priceFactorController,
+                                title: priceFactor,
+                                hint: '1',
+                                width: MediaQuery.of(context).size.width / 4),
+                          ],
+                        ),
+                        ProductEntryField(
+                            controller: descriptionController,
+                            title: descriptionString,
+                            hint: 'زيت دوار الشمس الصافي @كلمات مفتاحية'),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ProductEntryField(
+                                controller: supplierCodeController,
+                                title: supplierCodeString,
+                                hint: '123456',
+                                width: MediaQuery.of(context).size.width / 3),
+                            ProductEntryField(
+                                controller: priceController,
+                                title: priceString,
+                                hint: '5000',
+                                width: MediaQuery.of(context).size.width / 3),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TextButton(child: Icon(Icons.camera, color: kmColors), onPressed: () => getImageCamera()),
+                            TextButton(child: Icon(Icons.image, color: kmColors), onPressed: () => getImageGallery()),
+                            Container(
+                              width: 80,
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                  border: Border.all(color: switchController ? kmColors2 : searchGreyColor, width: 2)),
+                              child: Switch(
+                                value: switchController,
+                                onChanged: (value) => setState(() => switchController = value),
+                                activeTrackColor: kmColors2,
+                                activeColor: kmColors,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                          Text('السماح بتفعيل المنتاج تلقائيا', style: boldStyle),
+                          Container(
+                            width: 80,
+                            margin: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsets.all(3.0),
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                border: Border.all(
+                                    color: autoActivationController ? kmColors2 : searchGreyColor, width: 2)),
+                            child: Switch(
+                              value: autoActivationController,
+                              onChanged: (value) => setState(() => autoActivationController = value),
+                              activeTrackColor: kmColors2,
+                              activeColor: kmColors,
+                            ),
+                          ),
+                        ]),
+                        if (_image != null) imagesBody(),
+                        KammunButton(
+                          height: 50,
+                          text: save,
+                          color: toastList() == 0 ? kmColors2 : searchGreyColor,
+                          onTap: () {
+                            if (toastList() == 0) {
+                              _addNewProduct(barcode: widget.barcode, context: context);
+                            } else {
+                              Toast.show(
+                                  'يرجى ادخال البيانات التالية:\n' +
+                                      productData
+                                          .toString()
+                                          .replaceAll(',', '\n')
+                                          .replaceAll('[', '')
+                                          .replaceAll(']', ''),
+                                  context,
+                                  duration: Toast.LENGTH_LONG,
+                                  gravity: Toast.CENTER);
+                            }
+                          },
+                        ),
                       ],
                     ),
-                    Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                      Text('السماح بتفعيل المنتاج تلقائيا', style: boldStyle),
-                      Container(
-                        width: 80,
-                        margin: const EdgeInsets.all(15.0),
-                        padding: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                            border:
-                                Border.all(color: autoActivationController ? kmColors2 : searchGreyColor, width: 2)),
-                        child: Switch(
-                          value: autoActivationController,
-                          onChanged: (value) => setState(() => autoActivationController = value),
-                          activeTrackColor: kmColors2,
-                          activeColor: kmColors,
-                        ),
-                      ),
-                    ]),
-                    if (_image != null) imagesBody(),
-                    KammunButton(
-                      height: 50,
-                      text: save,
-                      color: toastList() == 0 ? kmColors2 : searchGreyColor,
-                      onTap: () {
-                        if (toastList() == 0) {
-                          _addNewProduct(barcode: widget.barcode, context: context);
-                        } else {
-                          Toast.show(
-                              'يرجى ادخال البيانات التالية:\n' +
-                                  productData.toString().replaceAll(',', '\n').replaceAll('[', '').replaceAll(']', ''),
-                              context,
-                              duration: Toast.LENGTH_LONG,
-                              gravity: Toast.CENTER);
-                        }
-                      },
-                    ),
-                  ],
-                ),
-        ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 

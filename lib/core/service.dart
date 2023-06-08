@@ -1,21 +1,32 @@
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../features/general_information/presentation/redux/general_information_action.dart';
 import 'core_importer.dart';
 
 class Services {
-  static List<DropdownMenuItem<int>> inventorySubWarehouseNames() {
-    List<String> names = StaticVariables.subWarehouses.map((subWarehouse) => subWarehouse.name).toList();
+  static List<DropdownMenuItem<int>> inventorySubWarehouseNames(BuildContext context) {
+    List<String> names = StoreProvider.of<AppState>(context)
+        .state
+        .generalInformationState
+        .subWarehouses
+        .map((subWarehouse) => subWarehouse.name)
+        .toList();
     names.add('الجميع');
     return dropdownStringList(names);
   }
 
-  static List<DropdownMenuItem<String>> productSubWarehouseNames(BuildContext context) => StaticVariables.subWarehouses
-      .map((subWarehouse) => DropdownMenuItem<String>(
-          child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.68, child: Text(subWarehouse.name, style: warehouseStyle)),
-          value: subWarehouse.id.toString()))
-      .toList();
+  static List<DropdownMenuItem<String>> productSubWarehouseNames(BuildContext context) =>
+      StoreProvider.of<AppState>(context)
+          .state
+          .generalInformationState
+          .subWarehouses
+          .map((subWarehouse) => DropdownMenuItem<String>(
+              child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.68,
+                  child: Text(subWarehouse.name, style: warehouseStyle)),
+              value: subWarehouse.id.toString()))
+          .toList();
 
   static List<DropdownMenuItem<int>> dropdownIntList({List<String> inputList}) => inputList
       .asMap()
@@ -71,8 +82,6 @@ class Services {
   static bool hasPermission(BuildContext context, String slug) =>
       StoreProvider.of<AppState>(context).state.adminsState.admin.permissions.contains(slug);
 
-//todo search productListSort
-
   static String selectedShopperId(String name, BuildContext context) => StoreProvider.of<AppState>(context)
       .state
       .shoppersState
@@ -105,32 +114,33 @@ class Services {
     }
   }
 
-  static openUrl(String selected, {String mobileNumber}) async {
+  static openUrl(String selected, BuildContext context, {String mobileNumber}) async {
+    var info = StoreProvider.of<AppState>(context).state.generalInformationState.companyInformation;
+
     String url = '';
     switch (selected) {
       case 'whatsapp':
-        url = 'whatsapp://send?phone=' + StaticVariables.companyInformation.whatsappNumber;
+        url = 'whatsapp://send?phone=' + info.whatsappNumber;
         break;
       case 'messenger':
-        url = StaticVariables.companyInformation.messengerUrl;
+        url = info.messengerUrl;
         break;
       case 'facebook':
-        url = 'fb://page/' + StaticVariables.companyInformation.facebookUrl;
+        url = 'fb://page/' + info.facebookUrl;
         break;
       case 'instagram':
-        url = StaticVariables.companyInformation.instagramUrl;
+        url = info.instagramUrl;
         break;
       case 'website':
-        url = StaticVariables.companyInformation.websiteUrl;
+        url = info.websiteUrl;
         break;
       case 'email':
         String platform = 'Android';
         if (Platform.isIOS) platform = 'iPhone';
-        url =
-            'mailto:${StaticVariables.companyInformation.email}?subject=Support Request From $platform Application&body=';
+        url = 'mailto:${info.email}?subject=Support Request From $platform Application&body=';
         break;
       case 'number':
-        url = 'tel:${StaticVariables.companyInformation.supportNumber}';
+        url = 'tel:${info.supportNumber}';
         break;
       case 'customer_whatsapp':
         url = 'whatsapp://send?phone=+963' + mobileNumber;
@@ -139,76 +149,61 @@ class Services {
     launch(url);
   }
 
-  static shareApp() {
+  static shareApp(BuildContext context) {
+    var info = StoreProvider.of<AppState>(context).state.generalInformationState.companyInformation;
     String infoMessage = 'تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n';
     String androidGrating = '\n لتحميل التطبيق على الأندوريد \n';
 
-    String androidUrl = androidGrating + StaticVariables.androidShareUrl;
+    String androidUrl = androidGrating + info.androidShareUrl;
     String iosGrating = '\n لتحميل التطبيق على الآيفون \n';
-    String iPhoneUrl = iosGrating + StaticVariables.iOSShareUrl;
+    String iPhoneUrl = iosGrating + info.iOSShareUrl;
 
     Share.share(infoMessage + androidUrl + iPhoneUrl);
   }
 
+  //todo ask for permission to delete this feature
   static setPreferLeftSide(bool side) async {
     StaticVariables.preferLeftSide = side;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('preferLeftSide', side);
   }
 
-  static Future<bool> initializeVariables() async {
+  static Future<bool> initializeVariables(BuildContext context) async {
     String buildNumber = '100';
     int lastSupported;
-    int currentVersion;
 
-    StaticVariables.companyInformation = CompanyOriginalData(
-        email: 'support@kammun.com',
-        whatsappNumber: '+963969999204',
-        supportNumber: '0969999204',
-        facebookUrl: '106414764313952',
-        instagramUrl: 'https://www.instagram.com/kammunapp',
-        messengerUrl: 'http://m.me/KammunApp',
-        supportUrl: 'https://www.instagram.com/',
-        baseUrl: 'https://kammun.com',
-        imageBaseUrl: 'https://kammun.app/images/',
-        currency: 'S.P',
-        additionalInfo: 'http://m.me/KammunApp');
+    StoreProvider.of<AppState>(context).dispatch(SetCompanyInfo(
+        info: CompanyInfoEntity(
+            email: 'support@kammun.com',
+            whatsappNumber: '+963969999204',
+            supportNumber: '0969999204',
+            facebookUrl: '106414764313952',
+            instagramUrl: 'https://www.instagram.com/kammunapp',
+            messengerUrl: 'http://m.me/KammunApp',
+            androidShareUrl: 'https://play.google.com/store/apps/details?id=com.kammun.app',
+            iOSShareUrl: 'https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329',
+            supportUrl: 'https://www.instagram.com/',
+            currency: 'S.P',
+            imagePrefixUrl: 'https://kammun.app/images/',
+            additionalInfo: 'http://m.me/KammunApp')));
 
     StaticVariables.imagePrefixUrl = 'https://kammun.app/images/';
 
     // Mobile Configuration
 
-    StaticVariables.androidShareUrl = 'https://play.google.com/store/apps/details?id=com.kammun.app';
-    StaticVariables.iOSShareUrl = 'https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329';
-
     if (Platform.isIOS) {
       lastSupported = 100;
-      currentVersion = 100;
 
       LoadingScreen.updateUrl = 'https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329';
     } else {
       lastSupported = 100;
-      currentVersion = 100;
       LoadingScreen.updateUrl = 'https://play.google.com/store/apps/details?id=com.kammun.app';
     }
 
     if (int.parse(buildNumber) < lastSupported) {
       StaticVariables.updateRequired = true;
-    } else if (int.parse(buildNumber) < currentVersion) {
-      StaticVariables.updateOptional = true;
     }
 
-    StaticVariables.bannerListNetwork.clear();
-    StaticVariables.bannerListNetwork.add(FadeInImage(
-      image: AdvImageCache(StaticVariables.imagePrefixUrl + 'slide3.png',
-          useMemCache: true, diskCacheExpire: const Duration(days: 400)),
-      fadeInDuration: const Duration(seconds: 1),
-      fadeInCurve: Curves.fastOutSlowIn,
-      placeholderErrorBuilder: (ctx, err, trace) => Image.asset('assets/kmlogoo.png'),
-      imageErrorBuilder: (ctx, err, trace) => Image.asset('assets/kmlogoo.png'),
-      placeholder: const AssetImage('assets/kmlogoo.png'),
-      fit: BoxFit.cover,
-    ));
     return true;
   }
 

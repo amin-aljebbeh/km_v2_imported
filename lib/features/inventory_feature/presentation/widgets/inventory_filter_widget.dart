@@ -9,8 +9,17 @@ class InventoryFilterWidget extends StatefulWidget {
 }
 
 class _InventoryFilterWidgetState extends State<InventoryFilterWidget> {
-  int subWarehouseFilter = StaticVariables.subWarehouses.length;
+  int subWarehouseFilter;
   final List<String> activeList = ['بحاجة تفعيل', 'بحاجة إيقاف تفعيل', 'الجميع'];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      subWarehouseFilter = StoreProvider.of<AppState>(context).state.generalInformationState.subWarehouses.length;
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var store = StoreProvider.of<AppState>(context);
@@ -26,12 +35,12 @@ class _InventoryFilterWidgetState extends State<InventoryFilterWidget> {
             children: [
               DropdownButton(
                 value: subWarehouseFilter,
-                items: Services.inventorySubWarehouseNames(),
+                items: Services.inventorySubWarehouseNames(context),
                 onChanged: (value) {
                   subWarehouseFilter = value;
                   store.dispatch(SetSubWarehouseId(
-                      subWarehouseId: value != StaticVariables.subWarehouses.length
-                          ? StaticVariables.subWarehouses[value].id
+                      subWarehouseId: value != state.generalInformationState.subWarehouses.length
+                          ? state.generalInformationState.subWarehouses[value].id
                           : -1));
                   store.dispatch(InitialInventory());
                 },

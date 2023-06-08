@@ -55,7 +55,7 @@ class _UserWalletPageState extends State<UserWalletPage> {
                               leftSideText: StringUtils().oCcy.format(int.parse(
                                       state.usersState.userEntity.balance.replaceAll('-', '').split('.')[0])) +
                                   ' ' +
-                                  StaticVariables.companyInformation.currency,
+                                  state.generalInformationState.companyInformation.currency,
                               leftSideStyle: state.usersState.userEntity.balance.contains('-')
                                   ? loseStyle
                                   : warehouseStyle.copyWith(color: Colors.black)),
@@ -153,7 +153,7 @@ class _UserWalletPageState extends State<UserWalletPage> {
                                           text: StringUtils().oCcy.format(int.parse(valueController.text)) + ' ',
                                           style: negative ? lightLoseStyle : lightProfitStyle),
                                       TextSpan(
-                                          text: StaticVariables.companyInformation.currency + ' ',
+                                          text: state.generalInformationState.companyInformation.currency + ' ',
                                           style: negative ? lightLoseStyle : lightProfitStyle),
                                       negative
                                           ? TextSpan(

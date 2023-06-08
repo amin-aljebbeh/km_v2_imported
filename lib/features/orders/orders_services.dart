@@ -1,4 +1,5 @@
 import 'package:kammun_app/features/cart/presentation/pages/cart_page.dart';
+import 'package:kammun_app/features/home/presentation/redux/home_action.dart';
 import 'package:kammun_app/features/orders/domain/entities/order_entity.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 import 'package:map_launcher/map_launcher.dart';
@@ -103,7 +104,7 @@ moveOrderProductsToCart({BuildContext context, List<ProductEntity> orderProducts
   }
 
   StoreProvider.of<AppState>(context).dispatch(SetCartProducts(products: orderProducts));
-  StoreProvider.of<AppState>(context).dispatch(SaveCart());
+  StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 1));
 
   Navigator.of(context).pushNamedAndRemoveUntil(CartPage.routeName, (Route<dynamic> route) => false);
 }

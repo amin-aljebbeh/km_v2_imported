@@ -34,8 +34,6 @@ class ProductsRemoteDataSourceImplement implements ProductsRemoteDataSource {
         if (response.statusCode == successCode) return categoryProductsFromJson(jsonEncode(response.data));
       }
     } catch (e) {
-      Tools.logToConsole('exception data');
-      Tools.logToConsole(e.toString());
       throw (InternalException(message: e.toString()));
     }
     throw (ServerException());

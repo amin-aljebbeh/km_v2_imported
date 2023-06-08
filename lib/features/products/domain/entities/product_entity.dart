@@ -1,8 +1,8 @@
-import 'package:kammun_app/features/categories/domain/entities/category_entity.dart';
+import 'package:kammun_app/features/general_information/domain/entities/category_entity.dart';
 import 'package:kammun_app/features/products/domain/entities/barcode_entity.dart';
 import 'package:kammun_app/features/products/domain/entities/order_product_pivot_entity.dart';
 import 'package:kammun_app/features/products/domain/entities/product_image_entity.dart';
-import 'package:kammun_app/features/warehouses/domain/entities/warehouse_entity.dart';
+import 'package:kammun_app/features/general_information/domain/entities/warehouse_entity.dart';
 
 class ProductEntity {
   final int id;

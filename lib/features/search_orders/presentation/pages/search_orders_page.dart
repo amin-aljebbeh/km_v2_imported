@@ -52,7 +52,7 @@ class SearchOrdersPage extends StatelessWidget {
                           if (!Services.hasRole(context, supplierRole) &&
                               (Services.hasRole(context, shopperRole) ||
                                   state.searchOrdersState.orders[index].shopper != null)) {
-                            state.searchOrdersState.orders[index].orderArithmeticOperations();
+                            state.searchOrdersState.orders[index].orderArithmeticOperations(context);
                             state.searchOrdersState.orders[index].orderProfits(context: context);
                           }
                           return OrderWidget(

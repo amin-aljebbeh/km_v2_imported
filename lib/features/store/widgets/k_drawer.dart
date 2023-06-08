@@ -1,5 +1,5 @@
-import 'drawer_children.dart';
 import '../../../core/core_importer.dart';
+import 'drawer_children.dart';
 
 class KDrawer extends StatelessWidget {
   const KDrawer({Key key}) : super(key: key);
@@ -52,7 +52,7 @@ class KDrawer extends StatelessWidget {
                           rightSideText: 'الرصيد: ',
                           leftSideText: StringUtils().oCcy.format(state.adminsState.admin.balance).replaceAll('-', '') +
                               ' ' +
-                              StaticVariables.companyInformation.currency,
+                              state.generalInformationState.companyInformation.currency,
                           leftSideStyle: state.adminsState.admin.balance.isNegative ? warningStyle : informationStyle),
                     ),
                   Divider(color: kmColors),

@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/home/presentation/redux/home_action.dart';
+
 import '../../../core/core_importer.dart';
 import '../../orders/presentation/pages/orders_page.dart';
 
@@ -62,8 +64,11 @@ class ThankYouViewState extends State<ThankYouView> {
                     text: continueShopping,
                     color: Theme.of(context).primaryColor,
                     height: 50,
-                    onTap: () => Navigator.of(context)
-                        .pushNamedAndRemoveUntil(OrdersPage.routeName, (Route<dynamic> route) => false),
+                    onTap: () {
+                      StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 2));
+                      Navigator.of(context)
+                          .pushNamedAndRemoveUntil(OrdersPage.routeName, (Route<dynamic> route) => false);
+                    },
                   ),
                 ],
               ),

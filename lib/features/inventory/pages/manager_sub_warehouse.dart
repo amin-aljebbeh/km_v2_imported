@@ -1,4 +1,5 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:kammun_app/features/general_information/domain/entities/sub_warehouse_entity.dart';
 import 'package:kammun_app/features/inventory_feature/presentation/redux/inventory_action.dart';
 
 import '../../../core/core_importer.dart';
@@ -17,7 +18,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
   bool isLoading = false;
   bool isError = false;
 
-  List<SubWarehouse> listOfWubWarehouse = [];
+  List<SubWarehouseEntity> listOfWubWarehouse = [];
 
   _getSubWarehouse({BuildContext context}) async {
     setState(() {
@@ -25,9 +26,9 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
       isError = false;
     });
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    List<SubWarehouse> response = await LoginServices.getAdmin(adminId: prefs.getString('adminId'), context: context);
+// todo ask for permission to delete this request
+    String adminId = StoreProvider.of<AppState>(context).state.adminsState.admin.id.toString();
+    List<SubWarehouseEntity> response = await LoginServices.getAdmin(adminId: adminId, context: context);
     if (response != null) {
       setState(() {
         listOfWubWarehouse.addAll(response);
