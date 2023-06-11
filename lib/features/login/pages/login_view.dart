@@ -4,10 +4,6 @@ import '../../../core/core_importer.dart';
 import '../Services/login_services.dart';
 
 class LoginScreen extends StatefulWidget {
-  static String routeName = '/LoginScreen';
-  static String phoneNumber = '';
-  static String supportedCityId;
-
   const LoginScreen({Key key}) : super(key: key);
 
   @override
@@ -15,7 +11,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin {
-  String currentText = '';
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 

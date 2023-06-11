@@ -3,8 +3,6 @@ import '../../domain/entities/coupon_entity.dart';
 import '../widgets/user_coupon_widget.dart';
 
 class UserCouponsPage extends StatelessWidget {
-  static String routeName = '/UserCouponsPage';
-
   UserCouponsPage({Key key}) : super(key: key);
 
   final FocusNode focusNode = FocusNode();

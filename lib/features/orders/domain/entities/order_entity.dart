@@ -1,10 +1,15 @@
+import 'package:kammun_app/features/general_information/data/models/sub_warehouse_level_pivot_model.dart';
+import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
+import 'package:kammun_app/features/general_information/domain/entities/sub_warehouse_level_pivot_entity.dart';
 import 'package:kammun_app/features/orders/domain/entities/address_entity.dart';
 import 'package:kammun_app/features/orders/domain/entities/order_image_entity.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 import 'package:kammun_app/features/shoppers/domain/entities/shopper_entity.dart';
+import 'package:kammun_app/features/shoppers/domain/entities/shopper_level_entity.dart';
 import 'package:kammun_app/features/users/domain/entities/user_entity.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../order_details/order_details_services.dart';
 
 class OrderEntity {
   int id;
@@ -106,7 +111,7 @@ class OrderEntity {
       orderAccountingRows
           .firstWhere((row) => row.subWarehouseId == product.pivot.subWarehouseId, orElse: () => row)
           .netPrice += netPrice;
-      double discountPercentage = SubWarehouse.getDiscountPercentage(product.pivot.subWarehouseId, context);
+      double discountPercentage = getDiscountPercentage(product.pivot.subWarehouseId, context);
       orderAccountingRows
           .firstWhere((row) => row.subWarehouseId == product.pivot.subWarehouseId, orElse: () => row)
           .payToSubWarehouse += netPrice;
@@ -122,19 +127,23 @@ class OrderEntity {
       shopperProfit = 0;
       kammunProfit = 0;
     } else {
-      Level orderLevel;
+      ShopperLevelEntity orderLevel;
       if (Services.hasRole(context, shopperRole)) {
-        orderLevel = StaticVariables.shopper.level;
+        orderLevel = StoreProvider.of<AppState>(context).state.shoppersState.shopper.level;
       } else {
-        orderLevel = StaticVariables.levels.firstWhere((level) => level.id == shopper.levelId);
+        orderLevel = StoreProvider.of<AppState>(context)
+            .state
+            .shoppersState
+            .levels
+            .firstWhere((level) => level.id == shopper.levelId);
       }
       for (int i = 0; i < orderAccountingRows.length; i++) {
         double shopperSubWarehouseProfit = 0.0;
         double increaseProfit = 0.0;
-        SubWarehouseLevelPivot pivot = orderLevel.subWarehouses
+        SubWarehouseLevelPivotEntity pivot = orderLevel.subWarehouses
             .firstWhere((subWarehouse) => subWarehouse.id == orderAccountingRows[i].subWarehouseId,
-                orElse: () => SubWarehouse(
-                    levelPivot: SubWarehouseLevelPivot(
+                orElse: () => SubWarehouseModel(
+                    levelPivot: SubWarehouseLevelPivotModel(
                         subWarehouseId: 0,
                         levelId: 0,
                         valueAddedPercentage: 0,
@@ -144,7 +153,7 @@ class OrderEntity {
             .levelPivot;
         shopperSubWarehouseProfit = pivot.shoppingProfitPercentage / 100;
         increaseProfit = pivot.valueAddedPercentage / 100;
-        double discountPercentage = SubWarehouse.getDiscountPercentage(orderAccountingRows[i].subWarehouseId, context);
+        double discountPercentage = getDiscountPercentage(orderAccountingRows[i].subWarehouseId, context);
         shopperProfit += orderAccountingRows[i].increaseValuesSum * increaseProfit;
         kammunProfit +=
             orderAccountingRows[i].increaseValuesSum - (orderAccountingRows[i].increaseValuesSum * increaseProfit);

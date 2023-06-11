@@ -4,8 +4,6 @@ import 'package:kammun_app/features/transactions/presentation/widgets/transactio
 import '../../../../core/core_importer.dart';
 
 class TransactionRequestsPage extends StatelessWidget {
-  static String routeName = '/TransactionRequestsPage';
-
   TransactionRequestsPage({Key key}) : super(key: key);
 
   final List<String> statuses = ['معلق', 'مقبول', 'مرفوض'];

@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/orders/domain/entities/order_entity.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../order_details_services.dart';
 
 class SupplierOrderDetailsWidget extends StatelessWidget {
   final OrderEntity order;
@@ -80,7 +81,7 @@ class SupplierOrderDetailsWidget extends StatelessWidget {
     double total = 0;
     for (int i = 0; i < order.products.length; i++) {
       if ((order.products[i].pivot.deletedAt == 'null')) {
-        double discountPercentage = SubWarehouse.getDiscountPercentage(order.products[i].subWarehouseId, context);
+        double discountPercentage = getDiscountPercentage(order.products[i].subWarehouseId, context);
         double subTotal =
             (double.parse(order.products[i].pivot.purchasePrice) - order.products[i].pivot.increaseValue) -
                 (double.parse(order.products[i].pivot.purchasePrice) * discountPercentage);

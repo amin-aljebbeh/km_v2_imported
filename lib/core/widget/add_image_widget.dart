@@ -15,46 +15,53 @@ class AddImageWidget extends StatefulWidget {
 class _AddImageWidgetState extends State<AddImageWidget> {
   final picker = ImagePicker();
   File image;
-  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) {
+        return Column(
           children: [
-            TextButton(
-                child: Icon(Icons.camera, color: kmColors, size: 40), onPressed: () => getImage(ImageSource.camera)),
-            TextButton(
-                child: Icon(Icons.image, color: kmColors, size: 40), onPressed: () => getImage(ImageSource.gallery)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextButton(
+                    child: Icon(Icons.camera, color: kmColors, size: 40),
+                    onPressed: () => getImage(ImageSource.camera)),
+                TextButton(
+                    child: Icon(Icons.image, color: kmColors, size: 40),
+                    onPressed: () => getImage(ImageSource.gallery)),
+              ],
+            ),
+            state.loadingState.loading.isNotEmpty
+                ? const Loader()
+                : image != null
+                    ? Column(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.only(top: 10),
+                            child:
+                                SelectedFileToUpload(image: image, name: '', close: () => setState(() => image = null)),
+                          ),
+                          KammunButton(
+                            text: 'حفظ الصورة',
+                            height: 50,
+                            color: kmColors,
+                            onTap: () async {
+                              StoreProvider.of<AppState>(context).dispatch(StartLoading());
+                              await widget.onSubmit(image);
+                              StoreProvider.of<AppState>(context).dispatch(StopLoading());
+                            },
+                          ),
+                        ],
+                      )
+                    : Container(),
           ],
-        ),
-        isLoading
-            ? const Loader()
-            : image != null
-                ? Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.only(top: 10),
-                        child: SelectedFileToUpload(image: image, name: '', close: () => setState(() => image = null)),
-                      ),
-                      KammunButton(
-                        text: 'حفظ الصورة',
-                        height: 50,
-                        color: kmColors,
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        onTap: () async {
-                          setState(() => isLoading = true);
-                          await widget.onSubmit(image);
-                          setState(() => isLoading = false);
-                        },
-                      ),
-                    ],
-                  )
-                : Container(),
-      ],
+        );
+      },
     );
   }
 

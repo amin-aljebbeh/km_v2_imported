@@ -2,8 +2,6 @@ import '../../../../core/core_importer.dart';
 import '../redux/supplier_action.dart';
 
 class SupplierRemainingAccounts extends StatelessWidget {
-  static const String routeName = '/SupplierRemainingAccounts';
-
   const SupplierRemainingAccounts({Key key}) : super(key: key);
 
   @override

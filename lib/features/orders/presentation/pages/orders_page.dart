@@ -4,7 +4,6 @@ import '../../../../core/core_importer.dart';
 import '../widgets/order_widget.dart';
 
 class OrdersPage extends StatelessWidget {
-  static const String routeName = '/OrdersPage';
   const OrdersPage({Key key}) : super(key: key);
 
   @override
@@ -54,7 +53,7 @@ class OrdersPage extends StatelessWidget {
                               state.ordersState.orders[index].orderProfits(context: context);
                             }
                           }
-                          return OrderWidget(order: state.ordersState.orders[index], orderType: OrderTypes.allOrder);
+                          return OrderWidget(order: state.ordersState.orders[index]);
                         },
                       ),
                     ),

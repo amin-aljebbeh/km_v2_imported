@@ -4,8 +4,6 @@ import '../../../../core/core_importer.dart';
 import '../widgets/coupon_widget.dart';
 
 class CouponsPage extends StatefulWidget {
-  static String routeName = '/CouponsView';
-
   const CouponsPage({Key key}) : super(key: key);
 
   @override

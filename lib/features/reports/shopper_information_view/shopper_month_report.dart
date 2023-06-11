@@ -3,8 +3,6 @@ import '../models/shopper_monthly_report_model.dart';
 import '../services/reports_services.dart';
 
 class ShopperMonthReport extends StatefulWidget {
-  static const String routeName = '/ShopperMonthReport';
-
   const ShopperMonthReport({Key key}) : super(key: key);
 
   @override
@@ -29,7 +27,7 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
         selected = Services.hasRole(context, shopperRole);
         if (Services.hasRole(context, shopperRole)) {
           loading = true;
-          getMonthlyReports(shopperId: StaticVariables.shopper.id.toString());
+          getMonthlyReports(shopperId: StoreProvider.of<AppState>(context).state.shoppersState.shopper.id.toString());
         }
       });
     }

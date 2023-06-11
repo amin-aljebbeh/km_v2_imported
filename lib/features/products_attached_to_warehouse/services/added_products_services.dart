@@ -1,29 +1,8 @@
 import 'package:kammun_app/core/core_importer.dart';
 
-import '../../products/data/models/product_model.dart';
 import '../../products/domain/entities/product_entity.dart';
 
 class AddedProductsServices {
-  static Future<List<ProductModel>> getAddedProductsToWarehouseService() async {
-    try {
-      var response = await ApiProvider.sendRequest(url: getAddedProductsToWarehouse, method: HttpMethods.get);
-      if (response.statusCode == successCode && response.data['success']) {
-        return syncCartFromJson(jsonEncode(response.data['data']));
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<List<ProductModel>> getNotAddedProductsToWarehouseService() async {
-    var response = await ApiProvider.sendRequest(url: getNotAddedProductsToWarehouse, method: HttpMethods.get);
-    if (response.statusCode == successCode && response.data['success']) {
-      return syncCartFromJson(jsonEncode(response.data['data']));
-    }
-    return null;
-  }
-
   static Future<bool> unAttachProductsToSubWarehouseService({String productsId, String subWarehouse}) async {
     try {
       Map<String, int> body = {'sub_warehouse_id': int.parse(subWarehouse)};
@@ -48,14 +27,6 @@ class AddedProductsServices {
     } catch (e) {
       return null;
     }
-  }
-
-  static Future<List<ProductModel>> getAllProducts() async {
-    var response = await ApiProvider.sendRequest(url: productApi, method: HttpMethods.get);
-    if (response.statusCode == successCode && response.data['success']) {
-      return syncCartFromJson(jsonEncode(response.data['data']));
-    }
-    return null;
   }
 
   static Future<bool> changeProductSubWarehouse(

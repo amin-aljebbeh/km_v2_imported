@@ -1,14 +1,14 @@
+import 'package:kammun_app/features/barcode/presentation/pages/barcode_scanner_page.dart';
+import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
 import 'package:kammun_app/features/product_detail_view/pages/product_detail_view.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 import 'package:kammun_app/features/products_attached_to_warehouse/services/added_products_services.dart';
-import 'package:kammun_app/features/barcode/presentation/pages/barcode_scanner_page.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 import 'package:kammun_app/features/store/widgets/store_view_category_grid.dart';
-import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
 
 import '../../../../core/core_importer.dart';
 
-class InventoryProductsViewCard extends StatelessWidget {
+class InventoryProductWidget extends StatelessWidget {
   final Function(bool) onChangeStatus;
   final int oldPrice;
   final ProductEntity productData;
@@ -28,7 +28,7 @@ class InventoryProductsViewCard extends StatelessWidget {
   final Function(String) onChangeQuantity;
   final Function(String) onChangeSubWarehouse;
 
-  const InventoryProductsViewCard({
+  const InventoryProductWidget({
     Key key,
     this.onChangeStatus,
     this.oldPrice,
@@ -100,7 +100,8 @@ class InventoryProductsViewCard extends StatelessWidget {
                       child: KCacheImage(
                         tag: product.id + index,
                         image: product.images.isNotEmpty
-                            ? StaticVariables.imagePrefixUrl + product.images[0].imageFileName
+                            ? state.generalInformationState.companyInformation.imagePrefixUrl +
+                                product.images[0].imageFileName
                             : '',
                       ),
                     ),
@@ -247,7 +248,6 @@ class InventoryProductsViewCard extends StatelessWidget {
                                             icon: const Icon(Icons.add, color: Colors.green),
                                             onPressed: () {
                                               if (product.id == 0) {
-                                                StaticVariables.productToAddName = product.name;
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -255,6 +255,7 @@ class InventoryProductsViewCard extends StatelessWidget {
                                                         body: SafeArea(
                                                             child: StoreViewCategory(
                                                                 scaffoldKey: scaffoldKey,
+                                                                productName: product.name,
                                                                 supplierCode: supplierCode,
                                                                 forProductAdding: true))),
                                                   ),

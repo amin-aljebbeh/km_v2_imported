@@ -18,7 +18,7 @@ class AppBarKammunImage extends StatelessWidget {
               onTap: () {
                 StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 0));
                 StoreProvider.of<AppState>(context).dispatch(InitProducts());
-                Navigator.pushNamedAndRemoveUntil(context, StoreView.routeName, (Route<dynamic> route) => false);
+                Navigator.pushNamedAndRemoveUntil(context, HomePage.routeName, (Route<dynamic> route) => false);
               },
               child: Image.asset('assets/logobw.png', width: 150, height: 50),
             ),

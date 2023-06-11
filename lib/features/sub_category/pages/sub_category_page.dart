@@ -1,4 +1,3 @@
-import 'package:kammun_app/features/cart/presentation/pages/cart_page.dart';
 import 'package:kammun_app/features/sub_category/widgets/sub_category_widget.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 
@@ -6,14 +5,15 @@ import '../../../core/core_importer.dart';
 import '../../general_information/domain/entities/category_entity.dart';
 import '../../home/presentation/redux/home_action.dart';
 
-class SubCategory extends StatelessWidget {
-  static int cartCount = 0;
+class SubCategoryPage extends StatelessWidget {
   final List<CategoryEntity> subCategory;
   final bool forProductAdding;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final String supplierCode;
+  final String productName;
 
-  SubCategory({Key key, this.subCategory, this.forProductAdding = false, this.scaffoldKey, this.supplierCode})
+  SubCategoryPage(
+      {Key key, this.subCategory, this.forProductAdding = false, this.scaffoldKey, this.supplierCode, this.productName})
       : super(key: key);
 
   final TextEditingController searchController = TextEditingController();
@@ -32,7 +32,7 @@ class SubCategory extends StatelessWidget {
               onPressed: () {
                 if (!forProductAdding) {
                   StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 1));
-                  Navigator.of(context).pushNamedAndRemoveUntil(CartPage.routeName, (Route<dynamic> route) => false);
+                  Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
                 }
               },
             ),
@@ -90,6 +90,7 @@ class SubCategory extends StatelessWidget {
                 return SubCategoryWidget(
                     forProductAdding: forProductAdding,
                     scaffoldKey: scaffoldKey,
+                    productName: productName,
                     subCategory: subCategory[index],
                     supplierCode: supplierCode);
               },

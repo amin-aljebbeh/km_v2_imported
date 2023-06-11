@@ -95,7 +95,7 @@ class AdminOrderInfoWidget extends StatelessWidget {
                 leftSideStyle: informationStyle),
             LabelRow(
                 rightSideText: city,
-                leftSideText: StaticVariables.supportedCitiesListIntro
+                leftSideText: state.generalInformationState.supportedCities
                         .where((supportedCity) => supportedCity.id == order.supportedCityId)
                         .first
                         .name +

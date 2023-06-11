@@ -15,10 +15,10 @@ List<Widget> getDrawerChildren(BuildContext context) {
   return [
     SideBarRow(icon: Icons.phone, text: 'الإتصال بكمون', onTap: () => Services.openUrl('number', context)),
     SideBarRow(icon: Icons.share, text: 'إرسال التطبيق للأصدقاء', onTap: () => Services.shareApp(context)),
-    SideBarRow(pushedRoute: ProfileScreen.routeName, icon: Icons.person, text: profile),
+    SideBarRow(pushedRoute: const ProfileScreen(), icon: Icons.person, text: profile),
     if (Services.hasRole(context, operationManagerRole))
       const SideBarRow(
-          pushedRoute: ShopperManagementView.routeName, icon: Icons.supervisor_account_sharp, text: 'فريق التوصيل'),
+          pushedRoute: ShopperManagementView(), icon: Icons.supervisor_account_sharp, text: 'فريق التوصيل'),
     if (Services.hasPermission(context, transactionPermission))
       SideBarRow(
         text: financial,
@@ -58,7 +58,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       store.dispatch(NoError());
                       store.dispatch(FirstRequestsPage());
                       store.dispatch(GetTransactionRequestsAction());
-                      Navigator.pushNamed(context, TransactionRequestsPage.routeName);
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => TransactionRequestsPage()));
                     },
                     icon: Icons.list_rounded,
                     text: 'طلبات مالية'),
@@ -71,7 +71,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                   const SideBarRow(
                     icon: Icons.delivery_dining_rounded,
                     text: 'إحصائيات عامة',
-                    pushedRoute: ShopperInformationView.routeName,
+                    pushedRoute: ShopperInformationView(),
                   ),
                 if (Services.hasRole(context, accountingRole))
                   Column(
@@ -80,14 +80,14 @@ List<Widget> getDrawerChildren(BuildContext context) {
                         icon: Icons.account_balance_wallet_outlined,
                         onTap: () {
                           store.dispatch(SetRemainingStatment(remaining: []));
-                          Navigator.pushNamed(context, SupplierRemainingAccounts.routeName);
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => const SupplierRemainingAccounts()));
                         },
                         text: 'أرصدة الموردين',
                       ),
                       const SideBarRow(
                         icon: Icons.delivery_dining_rounded,
                         text: 'معلومات المتسوقين',
-                        pushedRoute: ShopperInformationView.routeName,
+                        pushedRoute: ShopperInformationView(),
                       ),
                     ],
                   ),
@@ -100,17 +100,17 @@ List<Widget> getDrawerChildren(BuildContext context) {
       SideBarRow(
         onTap: () {
           store.dispatch(SetRemainingStatment(remaining: []));
-          Navigator.pushNamed(context, SupplierRemainingAccounts.routeName);
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const SupplierRemainingAccounts()));
         },
         icon: KIcons.coins,
         text: 'كشف حساب الزوائد',
       ),
     if (Services.hasRole(context, supplierRole))
-      const SideBarRow(pushedRoute: SupplierAccounts.routeName, icon: Icons.account_balance, text: 'كشف حساب المورد'),
+      const SideBarRow(pushedRoute: SupplierAccounts(), icon: Icons.account_balance, text: 'كشف حساب المورد'),
     if (Services.hasRole(context, supplierRole) ||
         Services.hasRole(context, productsControllerRole) ||
         Services.hasRole(context, adminRole))
-      const SideBarRow(pushedRoute: GetSubWarehouse.routeName, icon: Icons.inventory, text: 'إدارة المستودعات'),
+      const SideBarRow(pushedRoute: GetSubWarehouse(), icon: Icons.inventory, text: 'إدارة المستودعات'),
     if (Services.hasRole(context, productsControllerRole) || Services.hasRole(context, supplierRole))
       SideBarRow(
         text: productManagement,
@@ -126,37 +126,42 @@ List<Widget> getDrawerChildren(BuildContext context) {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SideBarRow(
-                            pushedRoute: AddedProductsToWarehouse.routeName,
+                        SideBarRow(
+                            onTap: () => store
+                                .dispatch(GoToInventoryPage(context: context, inventoryType: InventoryTypes.added)),
                             icon: Icons.category,
                             text: 'المنتجات المضافة للمستودع'),
-                        const SideBarRow(
-                            pushedRoute: NotAddedProductsToWarehouse.routeName,
+                        SideBarRow(
+                            onTap: () => store
+                                .dispatch(GoToInventoryPage(context: context, inventoryType: InventoryTypes.notAdded)),
                             icon: Icons.category_outlined,
                             text: 'المنتجات الغير مضافة للمستودع'),
                         if (Services.hasRole(context, adminRole))
-                          const SideBarRow(
-                              pushedRoute: AllProducts.routeName, icon: Icons.category_rounded, text: 'جميع المنتجات'),
+                          SideBarRow(
+                              onTap: () => store
+                                  .dispatch(GoToInventoryPage(context: context, inventoryType: InventoryTypes.all)),
+                              icon: Icons.category_rounded,
+                              text: 'جميع المنتجات'),
                         const SideBarRow(
                           icon: Icons.filter_list_sharp,
                           text: 'فلترة المنتجات',
-                          pushedRoute: ProductsFilterScreen.routeName,
+                          pushedRoute: ProductsFilterScreen(),
                         ),
                       ],
                     ),
                   SideBarRow(
                       onTap: () => store.dispatch(
-                          GoInventoryPage(inventoryType: InventoryTypes.underCheckAvailability, context: context)),
+                          GoToInventoryPage(inventoryType: InventoryTypes.underCheckAvailability, context: context)),
                       icon: Icons.fact_check,
                       text: inventory),
                   SideBarRow(
-                      onTap: () =>
-                          store.dispatch(GoInventoryPage(inventoryType: InventoryTypes.notification, context: context)),
+                      onTap: () => store
+                          .dispatch(GoToInventoryPage(inventoryType: InventoryTypes.notification, context: context)),
                       icon: Icons.notifications_active_rounded,
                       text: 'المنتجات على قائمة الانتظار'),
                   SideBarRow(
                       onTap: () =>
-                          store.dispatch(GoInventoryPage(inventoryType: InventoryTypes.prime, context: context)),
+                          store.dispatch(GoToInventoryPage(inventoryType: InventoryTypes.prime, context: context)),
                       icon: Icons.label_important_rounded,
                       text: 'المنتجات الأساسية'),
                 ],
@@ -176,19 +181,19 @@ List<Widget> getDrawerChildren(BuildContext context) {
                     title: adminPanel,
                     children: [
                       const SideBarRow(
-                          pushedRoute: SalesReport.routeName, icon: Icons.table_view_rounded, text: 'تقرير المبيعات'),
+                          pushedRoute: SalesReport(), icon: Icons.table_view_rounded, text: 'تقرير المبيعات'),
                       if (Services.hasPermission(context, advancedAdminPanelPermission))
                         Column(
                           children: const [
                             SideBarRow(
-                                pushedRoute: SalesCharts.routeName,
+                                pushedRoute: SalesCharts(),
                                 icon: Icons.insert_chart_outlined_rounded,
                                 text: 'إحصائيات المبيعات'),
                             SideBarRow(
-                                pushedRoute: FinancialReportView.routeName,
+                                pushedRoute: FinancialReportView(),
                                 icon: Icons.payment,
                                 text: 'الأرباح والمستحقات المالية'),
-                            SideBarRow(pushedRoute: Prices.routeName, icon: Icons.attach_money, text: 'تغير الأسعار'),
+                            SideBarRow(pushedRoute: Prices(), icon: Icons.attach_money, text: 'تغير الأسعار'),
                           ],
                         ),
                     ],
@@ -196,14 +201,14 @@ List<Widget> getDrawerChildren(BuildContext context) {
         ),
       ),
     if (Services.hasRole(context, agentRole))
-      const SideBarRow(icon: Icons.report_problem_rounded, text: 'إضافة شكوى', pushedRoute: AddComplaintPage.routeName),
+      const SideBarRow(icon: Icons.report_problem_rounded, text: 'إضافة شكوى', pushedRoute: AddComplaintPage()),
     if (Services.hasRole(context, agentRole))
       SideBarRow(
         icon: Icons.report_problem_rounded,
         text: 'الشكاوى',
         onTap: () {
           store.dispatch(GetComplaintAction(context: context));
-          Navigator.of(context).pushNamed(ComplaintsPage.routeName);
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const ComplaintsPage()));
         },
       ),
     SideBarRow(icon: Icons.logout, text: 'تسجيل الخروج', onTap: () async => await LoginServices.logOutAdmin(context)),

@@ -5,8 +5,6 @@ import '../models/sales_reports_model.dart';
 import '../services/reports_services.dart';
 
 class SalesReport extends StatefulWidget {
-  static const String routeName = '/SalesReport';
-
   const SalesReport({Key key}) : super(key: key);
 
   @override

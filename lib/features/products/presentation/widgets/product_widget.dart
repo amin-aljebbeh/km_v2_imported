@@ -73,7 +73,8 @@ class ProductWidgetState extends State<ProductWidget> {
                     child: KCacheImage(
                       tag: widget.index + 100,
                       image: product.images.isNotEmpty
-                          ? StaticVariables.imagePrefixUrl + product.images[0].imageFileName
+                          ? state.generalInformationState.companyInformation.imagePrefixUrl +
+                              product.images[0].imageFileName
                           : '',
                     ),
                   ),

@@ -26,23 +26,21 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
   int selectedList;
 
   assignArray() {
-    setState(() {
-      showList = [];
-      switch (selectedList) {
-        case 0:
-          showList.addAll(importedProducts.nonIntroducedProducts);
-          break;
-        case 1:
-          showList.addAll(importedProducts.toActiveList);
-          break;
-        case 2:
-          showList.addAll(importedProducts.toDeActiveList);
-          break;
-        case 3:
-          showList.addAll(importedProducts.activatedList);
-          break;
-      }
-    });
+    showList = [];
+    switch (selectedList) {
+      case 0:
+        showList.addAll(importedProducts.nonIntroducedProducts);
+        break;
+      case 1:
+        showList.addAll(importedProducts.toActiveList);
+        break;
+      case 2:
+        showList.addAll(importedProducts.toDeActiveList);
+        break;
+      case 3:
+        showList.addAll(importedProducts.activatedList);
+        break;
+    }
   }
 
   loadData() async {
@@ -182,7 +180,7 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                                             }
                                           }
                                           if (selectedList == 0) attached = false;
-                                          return InventoryProductsViewCard(
+                                          return InventoryProductWidget(
                                             index: index,
                                             onChangeSubWarehouse: (id) =>
                                                 setState(() => showList[index].subWarehouseId = int.parse(id)),

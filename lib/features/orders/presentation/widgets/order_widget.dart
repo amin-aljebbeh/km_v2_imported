@@ -13,9 +13,8 @@ import 'operations_buttons_widget.dart';
 
 class OrderWidget extends StatelessWidget {
   final OrderEntity order;
-  final OrderTypes orderType;
 
-  const OrderWidget({Key key, @required this.order, @required this.orderType}) : super(key: key);
+  const OrderWidget({Key key, @required this.order}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +25,7 @@ class OrderWidget extends StatelessWidget {
               builder: (context) => OrderTabsPage(
                   order: order,
                   deleted: Services.hasRole(context, operationManagerRole) &&
-                      order.products.where((product) => product.pivot.deletedAt != 'null').isNotEmpty,
-                  orderType: orderType))),
+                      order.products.where((product) => product.pivot.deletedAt != 'null').isNotEmpty))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

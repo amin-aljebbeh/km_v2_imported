@@ -1,4 +1,5 @@
-import '../../../../core/core_importer.dart';
+import '../../../general_information/domain/entities/sub_warehouse_entity.dart';
+import '../../../general_information/domain/entities/supported_city_entity.dart';
 
 class ShopperLevelEntity {
   ShopperLevelEntity({
@@ -22,6 +23,6 @@ class ShopperLevelEntity {
   int maxCompanyBalance;
   int points;
   String pricePerKilo;
-  List<SubWarehouse> subWarehouses;
-  List<SupportedCity> supportedCities;
+  List<SubWarehouseEntity> subWarehouses;
+  List<SupportedCityEntity> supportedCities;
 }

@@ -13,7 +13,8 @@ class PricesChangesServices {
 
   static Future<bool> deleteImage({int imageId}) async {
     try {
-      var response = await ApiProvider.sendRequest(url: productImage + imageId.toString(), method: HttpMethods.delete);
+      var response =
+          await ApiProvider.sendRequest(url: productImageApi + imageId.toString(), method: HttpMethods.delete);
       return response.statusCode == successCode && response.data["success"];
     } catch (e) {
       return false;

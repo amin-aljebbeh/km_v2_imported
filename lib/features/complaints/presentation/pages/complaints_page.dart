@@ -3,7 +3,6 @@ import 'package:kammun_app/features/complaints/presentation/widgets/complaint_wi
 import '../../../../core/core_importer.dart';
 
 class ComplaintsPage extends StatelessWidget {
-  static const String routeName = '/ComplaintsPage';
   const ComplaintsPage({Key key}) : super(key: key);
 
   @override

@@ -4,8 +4,6 @@ import '../../../core/core_importer.dart';
 import '../widgets/profile_container.dart';
 
 class ProfileScreen extends StatefulWidget {
-  static const String routeName = '/ProfileScreen';
-
   const ProfileScreen({Key key}) : super(key: key);
 
   @override

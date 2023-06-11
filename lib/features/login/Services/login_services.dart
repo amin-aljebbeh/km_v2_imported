@@ -1,7 +1,9 @@
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/admins/presentation/redux/admins_action.dart';
-import 'package:kammun_app/features/login/models/login_admin_model.dart';
 import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
+import 'package:kammun_app/features/login/models/login_admin_model.dart';
+import 'package:kammun_app/features/shoppers/domain/entities/shopper_entity.dart';
+import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_action.dart';
 
 class LoginServices {
   static String replaceFarsiNumber(String s) {
@@ -95,8 +97,9 @@ class LoginServices {
         StoreProvider.of<AppState>(context).dispatch(SetAdmin(admin: result.data));
         if (result.data.roles.isNotEmpty) {
           if (result.data.shopper != null) {
-            StaticVariables.shopper = result.data.shopper;
-            StaticVariables.shopper.level = await GeneralApis.getLevelService(result.data.shopper.levelId.toString());
+            ShopperEntity shopper = result.data.shopper;
+            shopper.level = await GeneralApis.getLevelService(result.data.shopper.levelId.toString());
+            StoreProvider.of<AppState>(context).dispatch(SetShopper(shopper: shopper));
           }
         }
         return result.data.subWarehouses;

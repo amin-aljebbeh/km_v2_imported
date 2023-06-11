@@ -4,7 +4,6 @@ import 'package:kammun_app/features/cart/presentation/widgets/cart_product_widge
 import '../../../../core/core_importer.dart';
 
 class CartPage extends StatelessWidget {
-  static const String routeName = '/CartPage';
   const CartPage({Key key}) : super(key: key);
 
   @override

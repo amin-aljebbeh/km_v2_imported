@@ -179,7 +179,12 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
               padding: const EdgeInsets.only(left: 10),
               child: KCacheImage(
                   tag: index + 100,
-                  image: StaticVariables.imagePrefixUrl + widget.cartProducts[index].images[0].imageFileName),
+                  image: StoreProvider.of<AppState>(context)
+                          .state
+                          .generalInformationState
+                          .companyInformation
+                          .imagePrefixUrl +
+                      widget.cartProducts[index].images[0].imageFileName),
             ),
             Expanded(
               child: Wrap(
@@ -231,7 +236,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       child: Image(
                         image: widget.cartProducts[index].images.isNotEmpty
                             ? AdvImageCache(
-                                StaticVariables.imagePrefixUrl + widget.cartProducts[index].images[0].imageFileName,
+                                state.generalInformationState.companyInformation.imagePrefixUrl +
+                                    widget.cartProducts[index].images[0].imageFileName,
                                 useMemCache: true,
                                 diskCacheExpire: const Duration(days: 400))
                             : const AssetImage('assets/kmIcon.png'),

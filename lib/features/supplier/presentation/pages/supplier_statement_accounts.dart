@@ -3,7 +3,6 @@ import 'package:kammun_app/features/supplier/presentation/redux/supplier_action.
 import '../../../../core/core_importer.dart';
 
 class SupplierAccounts extends StatelessWidget {
-  static const String routeName = '/SupplierAccounts';
   const SupplierAccounts({Key key}) : super(key: key);
 
   @override

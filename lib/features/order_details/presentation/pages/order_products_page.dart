@@ -9,10 +9,9 @@ import '../widgets/supplier_order_details_widget.dart';
 
 class OrderProductsPage extends StatefulWidget {
   final OrderEntity order;
-  final OrderTypes orderType;
   final bool deleted;
 
-  const OrderProductsPage({Key key, this.order, @required this.orderType, this.deleted}) : super(key: key);
+  const OrderProductsPage({Key key, this.order, this.deleted}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => OrderProductsPageState();

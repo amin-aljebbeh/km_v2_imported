@@ -5,8 +5,6 @@ import 'package:kammun_app/features/products/domain/entities/product_entity.dart
 import '../widgets/inventory_filter_widget.dart';
 
 class InventoryPage extends StatefulWidget {
-  static const String routeName = '/InventoryPage';
-
   const InventoryPage({Key key}) : super(key: key);
 
   @override
@@ -19,9 +17,8 @@ class _InventoryPageState extends State<InventoryPage> {
 
   @override
   initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      StoreProvider.of<AppState>(context).dispatch(InitialInventory());
-    });
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => StoreProvider.of<AppState>(context).dispatch(InitialInventory()));
     controller.addListener(
         () => StoreProvider.of<AppState>(context).dispatch(SetSearchFilter(searchFilter: controller.text)));
     super.initState();
@@ -37,14 +34,35 @@ class _InventoryPageState extends State<InventoryPage> {
         List<ProductEntity> products = [];
         var inventoryState = state.inventoryState;
         products.addAll(inventoryState.products.where((product) =>
-            inventoryState.searchFilter == null ||
-            inventoryState.searchFilter == '' ||
-            product.name.toLowerCase().contains(inventoryState.searchFilter.toLowerCase())));
+            (inventoryState.searchFilter == null ||
+                inventoryState.searchFilter == '' ||
+                product.name.toLowerCase().contains(inventoryState.searchFilter.toLowerCase())) &&
+            ![InventoryTypes.notAdded, InventoryTypes.all].contains(store.state.inventoryState.inventoryType)));
+        products.addAll(inventoryState.allProducts.where((product) =>
+            (inventoryState.searchFilter == null ||
+                inventoryState.searchFilter == '' ||
+                product.name.toLowerCase().contains(inventoryState.searchFilter.toLowerCase())) &&
+            InventoryTypes.all == store.state.inventoryState.inventoryType));
+        products.addAll(inventoryState.notAddedProducts.where((product) =>
+            (inventoryState.searchFilter == null ||
+                inventoryState.searchFilter == '' ||
+                product.name.toLowerCase().contains(inventoryState.searchFilter.toLowerCase())) &&
+            InventoryTypes.notAdded == store.state.inventoryState.inventoryType));
         return Scaffold(
           key: scaffoldKey,
           backgroundColor: Colors.white,
           appBar: InventorySearchTextField(
-              onReload: () => store.dispatch(InitialInventory()), controller: controller, context: context),
+              onReload: () {
+                if (state.inventoryState.inventoryType == InventoryTypes.all) {
+                  StoreProvider.of<AppState>(context).dispatch(SetIAllProducts(products: []));
+                }
+                if (state.inventoryState.inventoryType == InventoryTypes.notAdded) {
+                  StoreProvider.of<AppState>(context).dispatch(SetNotAddedProducts(products: []));
+                }
+                StoreProvider.of<AppState>(context).dispatch(InitialInventory());
+              },
+              controller: controller,
+              context: context),
           body: WillPopScope(
             onWillPop: () async {
               store.dispatch(NoError());
@@ -53,7 +71,9 @@ class _InventoryPageState extends State<InventoryPage> {
             child: SafeArea(
               child: Column(
                 children: <Widget>[
-                  const InventoryFilterWidget(),
+                  if (![InventoryTypes.notAdded, InventoryTypes.all, InventoryTypes.added]
+                      .contains(inventoryState.inventoryType))
+                    const InventoryFilterWidget(),
                   state.errorState.isError
                       ? Expanded(
                           child: Column(
@@ -110,7 +130,8 @@ class _InventoryPageState extends State<InventoryPage> {
                                         id = products[index].warehouses[0].pivot.subWarehouseId;
                                       }
                                     }
-                                    if (products[index].supplierCode != null) {
+                                    if (products[index].supplierCode != null &&
+                                        products[index].supplierCode != 'null') {
                                       supplierCode = products[index].supplierCode;
                                     } else if (products[index].warehouses.isNotEmpty) {
                                       supplierCode = products[index]
@@ -138,7 +159,7 @@ class _InventoryPageState extends State<InventoryPage> {
                                             .isNotEmpty;
                                       }
                                     }
-                                    return InventoryProductsViewCard(
+                                    return InventoryProductWidget(
                                       index: 0,
                                       id: id,
                                       onChangeSubWarehouse: (id) => products[index].subWarehouseId = int.parse(id),

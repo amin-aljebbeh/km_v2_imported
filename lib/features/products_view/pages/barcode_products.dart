@@ -159,7 +159,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                             .isNotEmpty;
                                       }
                                     }
-                                    return InventoryProductsViewCard(
+                                    return InventoryProductWidget(
                                       index: index + 100,
                                       id: id,
                                       onChangeSubWarehouse: (id) =>

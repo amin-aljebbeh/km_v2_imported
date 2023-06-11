@@ -5,7 +5,6 @@ import '../../../../core/core_importer.dart';
 import '../../../orders/domain/entities/order_entity.dart';
 
 class AddComplaintPage extends StatefulWidget {
-  static const String routeName = '/AddComplaintPage';
   final OrderEntity orderData;
   const AddComplaintPage({Key key, this.orderData}) : super(key: key);
 

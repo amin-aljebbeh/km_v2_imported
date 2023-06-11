@@ -6,7 +6,6 @@ import '../widgets/image_carousel.dart';
 import '../widgets/store_app_bar.dart';
 
 class StoreView extends StatelessWidget {
-  static const String routeName = '/StoreView';
   StoreView({Key key}) : super(key: key);
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();

@@ -1,7 +1,7 @@
-import 'package:kammun_app/features/cart/presentation/pages/cart_page.dart';
 import 'package:kammun_app/features/home/presentation/redux/home_action.dart';
 import 'package:kammun_app/features/orders/domain/entities/order_entity.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
+import 'package:kammun_app/features/shoppers/domain/entities/shopper_level_entity.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 import '../../core/core_importer.dart';
@@ -106,7 +106,7 @@ moveOrderProductsToCart({BuildContext context, List<ProductEntity> orderProducts
   StoreProvider.of<AppState>(context).dispatch(SetCartProducts(products: orderProducts));
   StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 1));
 
-  Navigator.of(context).pushNamedAndRemoveUntil(CartPage.routeName, (Route<dynamic> route) => false);
+  Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
 }
 
 String changeStatusButtonText(String status) {
@@ -142,11 +142,12 @@ int newStatus(String status) {
 }
 
 gasAllowance({String deliveryDistance, int levelId, BuildContext context}) {
-  Level orderLevel;
+  ShopperLevelEntity orderLevel;
   if (Services.hasRole(context, shopperRole)) {
-    orderLevel = StaticVariables.shopper.level;
+    orderLevel = StoreProvider.of<AppState>(context).state.shoppersState.shopper.level;
   } else {
-    orderLevel = StaticVariables.levels.firstWhere((level) => level.id == levelId);
+    orderLevel =
+        StoreProvider.of<AppState>(context).state.shoppersState.levels.firstWhere((level) => level.id == levelId);
   }
   return (int.parse(orderLevel.pricePerKilo.split('.')[0]) * (int.parse(deliveryDistance) / 1000));
 }

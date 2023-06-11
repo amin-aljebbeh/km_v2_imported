@@ -1,4 +1,4 @@
-import 'package:kammun_app/core/models/shopper_level_model.dart';
+import 'package:kammun_app/features/shoppers/data/models/shopper_level_model.dart';
 
 class ShopperModel {
   ShopperModel({
@@ -21,7 +21,7 @@ class ShopperModel {
   int levelId;
   DateTime createdAt;
   DateTime updatedAt;
-  Level level;
+  ShopperLevelModel level;
 
   factory ShopperModel.fromJson(Map<String, dynamic> json) => ShopperModel(
         id: json["id"],
@@ -32,7 +32,7 @@ class ShopperModel {
         levelId: json["level_id"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        level: json["level"] == null ? null : Level.fromJson(json["level"]),
+        level: json["level"] == null ? null : ShopperLevelModel.fromJson(json["level"]),
       );
 
   Map<String, dynamic> toJson() => {

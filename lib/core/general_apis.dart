@@ -1,11 +1,14 @@
-import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_action.dart';
 import 'package:kammun_app/features/general_information/presentation/redux/general_information_action.dart';
+import 'package:kammun_app/features/shoppers/data/models/shopper_level_model.dart';
+import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_action.dart';
 
-import '../features/login/Services/login_services.dart';
-import '../features/shoppers/data/models/get_shoppers_model.dart';
+import '../features/general_information/data/models/supported_city_model.dart';
 import '../features/general_information/data/models/warehouse_model.dart';
 import '../features/general_information/domain/entities/sub_warehouse_entity.dart';
 import '../features/general_information/domain/entities/warehouse_entity.dart';
+import '../features/login/Services/login_services.dart';
+import '../features/shoppers/data/models/get_shoppers_model.dart';
+import '../features/shoppers/domain/entities/shopper_level_entity.dart';
 import '../features/transactions/presentation/redux/transactions_action.dart';
 import 'core_importer.dart';
 
@@ -23,7 +26,7 @@ class GeneralApis {
     }
   }
 
-  static Future<Level> getLevelService(String levelId) async {
+  static Future<ShopperLevelModel> getLevelService(String levelId) async {
     try {
       var response = await ApiProvider.sendRequest(url: level + levelId, method: HttpMethods.get);
 
@@ -34,11 +37,11 @@ class GeneralApis {
     }
   }
 
-  static Future<List<Level>> getLevels() async {
+  static Future<List<ShopperLevelModel>> getLevels() async {
     try {
       var response = await ApiProvider.sendRequest(url: level, method: HttpMethods.get);
 
-      if (response.statusCode == successCode) return LevelsResponse.fromJson(response.data).levels;
+      if (response.statusCode == successCode) return levelsFromJson(jsonEncode(response.data)).levels;
       return null;
     } catch (e) {
       return null;
@@ -99,15 +102,13 @@ class GeneralApis {
     }
   }
 
-  static Future<bool> getSupportedCity() async {
+  static Future<bool> getSupportedCity(BuildContext context) async {
     try {
-      var response = await ApiProvider.sendRequest(url: supportedCity, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: supportedCityApi, method: HttpMethods.get);
       if (response.statusCode == successCode) {
-        final supportedCitiesResponse = supportedCityOriginalFromJson(jsonEncode(response.data));
+        final supportedCitiesResponse = SupportedCitiesResponse.fromJson((response.data)).cities;
 
-        StaticVariables.supportedCitiesListIntro.clear();
-
-        StaticVariables.supportedCitiesListIntro.addAll(supportedCitiesResponse.data);
+        StoreProvider.of<AppState>(context).dispatch(SetSupportedCities(supportedCities: supportedCitiesResponse));
 
         return true;
       }
@@ -176,7 +177,7 @@ class GeneralApis {
       if (userLoggedIn) {
         List responses;
         responses = await Future.wait([
-          getSupportedCity(),
+          getSupportedCity(context),
           getSubWarehouse(context: context),
           getCategoryService(context),
           GeneralApis.getWarehousesService(context: context),
@@ -186,7 +187,8 @@ class GeneralApis {
             Services.hasRole(context, adminRole) ||
             Services.hasRole(context, accountingRole)) {
           await GeneralApis.getShoppers(context: context);
-          StaticVariables.levels = await GeneralApis.getLevels();
+          final List<ShopperLevelEntity> levels = await GeneralApis.getLevels();
+          StoreProvider.of<AppState>(context).dispatch(SetLevels(levels: levels));
         }
         if (Services.hasPermission(context, transactionPermission)) {
           store.dispatch(GetTransactionCategoriesAction());

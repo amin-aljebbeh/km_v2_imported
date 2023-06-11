@@ -7,19 +7,17 @@ import 'start_model_importer.dart';
 CategoryOriginal categoryOriginalFromJson(String str) => CategoryOriginal.fromJson(json.decode(str));
 
 class Category {
-  Category({this.headers, this.original, this.exception});
+  Category({ this.original, this.exception});
 
-  KHeaders headers;
   CategoryOriginal original;
   dynamic exception;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        headers: KHeaders.fromJson(json["headers"]),
         original: CategoryOriginal.fromJson(json["original"]),
         exception: json["exception"],
       );
 
-  Map<String, dynamic> toJson() => {"headers": headers.toJson(), "original": original.toJson(), "exception": exception};
+  Map<String, dynamic> toJson() => { "original": original.toJson(), "exception": exception};
 }
 
 class CategoryOriginal {

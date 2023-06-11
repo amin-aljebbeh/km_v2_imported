@@ -1,5 +1,3 @@
-import 'package:kammun_app/features/cart/presentation/pages/cart_page.dart';
-
 import '../../../../core/core_importer.dart';
 import '../../../home/presentation/redux/home_action.dart';
 import '../redux/products_action.dart';
@@ -33,7 +31,7 @@ class ProductsViewAppBar extends StatelessWidget with PreferredSizeWidget {
                       onPressed: () {
                         StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 1));
                         Navigator.of(context)
-                            .pushNamedAndRemoveUntil(CartPage.routeName, (Route<dynamic> route) => false);
+                            .pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
                       },
                     ),
                   ),

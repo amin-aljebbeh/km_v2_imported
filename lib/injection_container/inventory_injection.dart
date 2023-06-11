@@ -2,6 +2,9 @@ import '../core/core_importer.dart';
 import '../features/inventory_feature/data/data_sources/remote_inventory_data_source.dart';
 import '../features/inventory_feature/data/repositories/inventory_repository_implement.dart';
 import '../features/inventory_feature/domain/repositories/inventory_repository.dart';
+import '../features/inventory_feature/domain/use_cases/get_added_products_use_cases.dart';
+import '../features/inventory_feature/domain/use_cases/get_all_products_use_cases.dart';
+import '../features/inventory_feature/domain/use_cases/get_not_added_products_use_cases.dart';
 import '../features/inventory_feature/domain/use_cases/get_notification_products_use_cases.dart';
 import '../features/inventory_feature/domain/use_cases/get_prime_products_use_case.dart';
 import '../features/inventory_feature/domain/use_cases/get_under_check_availability_use_case.dart';
@@ -15,8 +18,14 @@ Future<void> injectInventory() async {
   sl.registerLazySingleton(() => GetUnderCheckAvailabilityUseCase(inventoryRepository: sl()));
   sl.registerLazySingleton(() => TargetInventoryUseCase(inventoryRepository: sl()));
   sl.registerLazySingleton(() => KeepingInventoriesRecordUseCase(inventoryRepository: sl()));
+  sl.registerLazySingleton(() => GetNotAddedProductsUseCase(inventoryRepository: sl()));
+  sl.registerLazySingleton(() => GetAddedProductsUseCase(inventoryRepository: sl()));
+  sl.registerLazySingleton(() => GetAllProductsUseCase(inventoryRepository: sl()));
   sl.registerLazySingleton<InventoryUseCase>(() => InventoryUseCase(
         getNotificationProductsUseCase: sl(),
+        getAllProductsUseCase: sl(),
+        getAddedProductsUseCase: sl(),
+        getNotAddedProductsUseCase: sl(),
         getPrimeProductsUseCase: sl(),
         keepingInventoriesRecordUseCase: sl(),
         getUnderCheckAvailabilityUseCase: sl(),

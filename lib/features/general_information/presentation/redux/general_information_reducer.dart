@@ -9,7 +9,12 @@ Reducer<GeneralInformationState> generalInformationReducer = combineReducers<Gen
   TypedReducer<GeneralInformationState, SetCategories>(setCategories),
   TypedReducer<GeneralInformationState, SetCategoriesMenu>(setCategoriesMenu),
   TypedReducer<GeneralInformationState, SetCompanyInfo>(setCompanyInfo),
+  TypedReducer<GeneralInformationState, UpdateRequired>(updateRequired),
+  TypedReducer<GeneralInformationState, SetSupportedCities>(setSupportedCities),
 ]);
+
+GeneralInformationState setSupportedCities(GeneralInformationState state, SetSupportedCities action) =>
+    state.copyWith(supportedCities: action.supportedCities);
 
 GeneralInformationState setSubWarehouses(GeneralInformationState state, SetSubWarehouses action) =>
     state.copyWith(subWarehouses: action.subWarehouses);
@@ -25,3 +30,6 @@ GeneralInformationState setCategoriesMenu(GeneralInformationState state, SetCate
 
 GeneralInformationState setCompanyInfo(GeneralInformationState state, SetCompanyInfo action) =>
     state.copyWith(companyInformation: action.info);
+
+GeneralInformationState updateRequired(GeneralInformationState state, UpdateRequired action) =>
+    state.copyWith(companyInformation: state.companyInformation.copyWith(updateRequired: true));

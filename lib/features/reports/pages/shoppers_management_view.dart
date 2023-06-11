@@ -1,7 +1,6 @@
 import '../../../core/core_importer.dart';
 
 class ShopperManagementView extends StatefulWidget {
-  static const String routeName = '/ShopperManagementView';
   const ShopperManagementView({Key key}) : super(key: key);
 
   @override

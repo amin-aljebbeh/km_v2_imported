@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/features/inventory_feature/domain/repositories/inventory_repository.dart';
+import 'package:kammun_app/features/products/data/models/product_model.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../inventory/model/inventory_model_importer.dart';
@@ -74,5 +75,53 @@ class InventoryRepositoryImplement implements InventoryRepository {
   Future<Either<Failure, Unit>> keepingAnInventoriesRecord() async {
     return await repositoryFactory.failureUnitRepo(
         function: () => remoteInventoryDataSource.keepingAnInventoriesRecord());
+  }
+
+  @override
+  Future<Either<Failure, List<ProductModel>>> getAllProducts() async {
+    try {
+      List<ProductEntity> products = await remoteInventoryDataSource.getAllProducts();
+      return Right(products);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ProductModel>>> getNotAddedProducts() async {
+    try {
+      List<ProductEntity> products = await remoteInventoryDataSource.getNotAddedProducts();
+      return Right(products);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ProductModel>>> getAddedProducts() async {
+    try {
+      List<ProductEntity> products = await remoteInventoryDataSource.getAddedProducts();
+      return Right(products);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure(message: e.toString()));
+    }
   }
 }

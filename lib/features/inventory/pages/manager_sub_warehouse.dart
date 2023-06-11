@@ -6,8 +6,6 @@ import '../../../core/core_importer.dart';
 import '../../login/Services/login_services.dart';
 
 class GetSubWarehouse extends StatefulWidget {
-  static const String routeName = '/GetSubWarehouse';
-
   const GetSubWarehouse({Key key}) : super(key: key);
 
   @override

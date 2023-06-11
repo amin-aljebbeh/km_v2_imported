@@ -2,6 +2,7 @@ import 'package:kammun_app/features/order_details/presentation/pages/full_screen
 import 'package:kammun_app/features/order_details/presentation/redux/order_details_action.dart';
 
 import '../../core/core_importer.dart';
+import '../general_information/data/models/sub_warehouse_model.dart';
 import '../orders/domain/entities/order_entity.dart';
 import '../orders/domain/entities/order_image_entity.dart';
 import '../products/domain/entities/product_entity.dart';
@@ -168,14 +169,33 @@ List<InkWell> getImages({List<OrderImageEntity> images, BuildContext context, Fu
             context,
             MaterialPageRoute(
                 builder: (_) => FullScreenImage(
-                    imageUrl: StaticVariables.imagePrefixUrl + 'orders/' + images[i].imageFileName,
+                    imageUrl: StoreProvider.of<AppState>(context)
+                            .state
+                            .generalInformationState
+                            .companyInformation
+                            .imagePrefixUrl +
+                        'orders/' +
+                        images[i].imageFileName,
                     tag: 'generate_a_unique_tag')));
       },
       child: images != null && images.isNotEmpty
           ? KCacheImage(
-              tag: images[i].imageFileName, image: StaticVariables.imagePrefixUrl + 'orders/' + images[i].imageFileName)
+              tag: images[i].imageFileName,
+              image:
+                  StoreProvider.of<AppState>(context).state.generalInformationState.companyInformation.imagePrefixUrl +
+                      'orders/' +
+                      images[i].imageFileName)
           : const AssetImage('assets/kmIcon.png'),
     ));
   }
   return imageWidgets;
 }
+
+ double getDiscountPercentage(int subWarehouseId, BuildContext context) => (StoreProvider.of<AppState>(context)
+.state
+    .generalInformationState
+    .subWarehouses
+    .firstWhere((subWarehouse) => subWarehouse.id == subWarehouseId,
+orElse: () => SubWarehouseModel(discountPercentage: 1.0))
+.discountPercentage /
+100);

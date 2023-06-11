@@ -2,7 +2,7 @@ import 'package:kammun_app/features/admins/domain/entities/admins_entity.dart';
 import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../../core/models/shopper_model.dart';
+import '../../../shoppers/data/models/shopper_model.dart';
 
 class AdminModel extends AdminEntity {
   const AdminModel(

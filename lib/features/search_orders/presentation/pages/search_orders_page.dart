@@ -55,8 +55,7 @@ class SearchOrdersPage extends StatelessWidget {
                             state.searchOrdersState.orders[index].orderArithmeticOperations(context);
                             state.searchOrdersState.orders[index].orderProfits(context: context);
                           }
-                          return OrderWidget(
-                              order: state.searchOrdersState.orders[index], orderType: OrderTypes.search);
+                          return OrderWidget(order: state.searchOrdersState.orders[index]);
                         },
                       ),
                     ),

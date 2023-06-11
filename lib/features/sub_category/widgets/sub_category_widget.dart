@@ -1,73 +1,81 @@
 import 'package:responsive_flutter/responsive_flutter.dart';
 
 import '../../../core/core_importer.dart';
+import '../../barcode/presentation/pages/barcode_scanner_page.dart';
 import '../../general_information/domain/entities/category_entity.dart';
 import '../../products/presentation/pages/products_page.dart';
 import '../../products/presentation/redux/products_action.dart';
 import '../../products_view/pages/add_products.dart';
-import '../../barcode/presentation/pages/barcode_scanner_page.dart';
-import '../pages/sub_category.dart';
+import '../pages/sub_category_page.dart';
 
 class SubCategoryWidget extends StatelessWidget {
   final CategoryEntity subCategory;
   final bool forProductAdding;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final String supplierCode;
+  final String productName;
 
-  const SubCategoryWidget({Key key, this.subCategory, this.forProductAdding, this.scaffoldKey, this.supplierCode})
+  const SubCategoryWidget(
+      {Key key, this.subCategory, this.forProductAdding, this.scaffoldKey, this.supplierCode, this.productName})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () => _onTileClicked(subCategory.id, context),
-      child: Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30), side: BorderSide(color: kmColors, width: 4.0)),
-        elevation: 4,
-        margin: const EdgeInsets.all(10),
-        child: Column(
-          children: <Widget>[
-            Stack(
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) {
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => _onTileClicked(subCategory.id, context),
+          child: Card(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30), side: BorderSide(color: kmColors, width: 4.0)),
+            elevation: 4,
+            margin: const EdgeInsets.all(10),
+            child: Column(
               children: <Widget>[
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  child: Image(
-                    image: AdvImageCache(
-                      StaticVariables.imagePrefixUrl + subCategory.imageFileName,
-                      useMemCache: true,
-                      diskCacheExpire: const Duration(days: 400),
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    width: double.infinity,
-                    color: Colors.black54,
-                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        subCategory.name,
-                        style: mainStyle.copyWith(
-                            fontSize: ResponsiveFlutter.of(context).fontSize(4), color: Colors.white),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
+                Stack(
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                      child: Image(
+                        image: AdvImageCache(
+                          state.generalInformationState.companyInformation.imagePrefixUrl + subCategory.imageFileName,
+                          useMemCache: true,
+                          diskCacheExpire: const Duration(days: 400),
+                        ),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ),
+                    ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        width: double.infinity,
+                        color: Colors.black54,
+                        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            subCategory.name,
+                            style: mainStyle.copyWith(
+                                fontSize: ResponsiveFlutter.of(context).fontSize(4), color: Colors.white),
+                            softWrap: true,
+                            overflow: TextOverflow.fade,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -83,9 +91,10 @@ class SubCategoryWidget extends StatelessWidget {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => SubCategory(
+              builder: (context) => SubCategoryPage(
                   subCategory: subCategoryList,
                   scaffoldKey: scaffoldKey,
+                  productName: productName,
                   forProductAdding: forProductAdding,
                   supplierCode: supplierCode)));
     } else {
@@ -105,8 +114,8 @@ class SubCategoryWidget extends StatelessWidget {
                 Navigator.push(
                     scaffoldKey.currentContext,
                     MaterialPageRoute(
-                        builder: (screenContext) =>
-                            AddProductsView(categoryId: index, barcode: param, supplierCode: supplierCode)));
+                        builder: (screenContext) => AddProductsView(
+                            categoryId: index, barcode: param, supplierCode: supplierCode, productName: productName)));
               },
             ),
           ),

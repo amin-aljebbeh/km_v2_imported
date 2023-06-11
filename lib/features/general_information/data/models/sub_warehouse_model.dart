@@ -11,6 +11,7 @@ class SubWarehouseModel extends SubWarehouseEntity {
           discountPercentage: discountPercentage,
           allowShopperAssign: allowShopperAssign,
         );
+
   factory SubWarehouseModel.fromJson(Map<String, dynamic> json) => SubWarehouseModel(
         id: json['id'],
         name: json['name'],

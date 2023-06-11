@@ -8,6 +8,7 @@ import '../widgets/bottom_bar_item.dart';
 
 class HomePage extends StatefulWidget {
   final dynamic notificationValue;
+  static const String routeName = '/HomePage';
 
   const HomePage({Key key, this.notificationValue}) : super(key: key);
 

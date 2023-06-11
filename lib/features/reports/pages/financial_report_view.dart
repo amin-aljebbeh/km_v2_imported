@@ -6,8 +6,6 @@ import '../models/report_model_importer.dart';
 import '../services/reports_services.dart';
 
 class FinancialReportView extends StatefulWidget {
-  static const String routeName = '/FinancialReportView';
-
   const FinancialReportView({Key key}) : super(key: key);
 
   @override

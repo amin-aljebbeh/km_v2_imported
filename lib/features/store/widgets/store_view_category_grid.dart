@@ -5,14 +5,16 @@ import '../../../core/core_importer.dart';
 import '../../general_information/domain/entities/category_entity.dart';
 import '../../products/presentation/pages/products_page.dart';
 import '../../products/presentation/redux/products_action.dart';
-import '../../sub_category/pages/sub_category.dart';
+import '../../sub_category/pages/sub_category_page.dart';
 
 class StoreViewCategory extends StatelessWidget {
   final String supplierCode;
   final bool forProductAdding;
   final GlobalKey<ScaffoldState> scaffoldKey;
+  final String productName;
 
-  const StoreViewCategory({Key key, this.forProductAdding = false, this.scaffoldKey, this.supplierCode})
+  const StoreViewCategory(
+      {Key key, this.forProductAdding = false, this.scaffoldKey, this.supplierCode, this.productName})
       : super(key: key);
   final double _crossAxisSpacing = 8, _mainAxisSpacing = 12, _aspectRatio = 2;
   final int _crossAxisCount = 2;
@@ -74,10 +76,11 @@ class StoreViewCategory extends StatelessWidget {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => SubCategory(
+              builder: (context) => SubCategoryPage(
                   subCategory: subCategoryList,
                   forProductAdding: forProductAdding,
                   scaffoldKey: scaffoldKey,
+                  productName: productName,
                   supplierCode: supplierCode)));
     } else {
       if (forProductAdding) {
@@ -96,8 +99,8 @@ class StoreViewCategory extends StatelessWidget {
                 Navigator.push(
                   scaffoldKey.currentContext,
                   MaterialPageRoute(
-                    builder: (screenContext) =>
-                        AddProductsView(categoryId: index, barcode: param, supplierCode: supplierCode),
+                    builder: (screenContext) => AddProductsView(
+                        categoryId: index, barcode: param, supplierCode: supplierCode, productName: productName),
                   ),
                 );
               },

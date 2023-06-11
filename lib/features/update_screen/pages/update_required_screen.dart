@@ -3,8 +3,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../core/core_importer.dart';
 
 class UpdateScreen extends StatelessWidget {
-  static const String routeName = '/update';
-
   const UpdateScreen({Key key}) : super(key: key);
 
   _iosUpdateLink() async {

@@ -180,7 +180,7 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                                             }
                                           }
                                           if (selectedList == 1) attached = false;
-                                          return InventoryProductsViewCard(
+                                          return InventoryProductWidget(
                                             index: index,
                                             onChangeSubWarehouse: (id) =>
                                                 setState(() => showList[index].subWarehouseId = int.parse(id)),

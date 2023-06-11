@@ -192,7 +192,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                                         .isNotEmpty;
                                   }
                                 }
-                                return InventoryProductsViewCard(
+                                return InventoryProductWidget(
                                   index: 0,
                                   onChangeSubWarehouse: (id) =>
                                       setState(() => productsList[index].subWarehouseId = int.parse(id)),

@@ -6,10 +6,9 @@ import 'order_products_page.dart';
 
 class OrderTabsPage extends StatefulWidget {
   final OrderEntity order;
-  final OrderTypes orderType;
   final bool deleted;
 
-  const OrderTabsPage({Key key, this.orderType, this.order, this.deleted = false}) : super(key: key);
+  const OrderTabsPage({Key key, this.order, this.deleted = false}) : super(key: key);
 
   @override
   _OrderTabsPageState createState() => _OrderTabsPageState();
@@ -22,10 +21,10 @@ class _OrderTabsPageState extends State<OrderTabsPage> with SingleTickerProvider
 
   tabBarList() {
     tabList.add(Tab(child: Center(child: Text('المنتجات', style: tabStyle))));
-    screenList.add(OrderProductsPage(order: widget.order, orderType: widget.orderType, deleted: false));
+    screenList.add(OrderProductsPage(order: widget.order, deleted: false));
     if (widget.deleted) {
       tabList.add(Center(child: Tab(child: Center(child: Text(' المحذوفة', style: tabStyle)))));
-      screenList.add(OrderProductsPage(order: widget.order, orderType: widget.orderType, deleted: true));
+      screenList.add(OrderProductsPage(order: widget.order, deleted: true));
     }
     tabList.add(Tab(child: Center(child: Text('الحسابات', style: tabStyle))));
     screenList.add(OrderAccounting(order: widget.order, onDelete: () => controller.animateTo(0)));

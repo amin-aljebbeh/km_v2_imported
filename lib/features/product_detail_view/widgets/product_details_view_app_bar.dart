@@ -49,60 +49,68 @@ class _ProductDetailsViewAppBarState extends State<ProductDetailsViewAppBar> wit
 
   @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-            iconSize: 35,
-            icon: const Icon(Icons.home),
-            tooltip: 'Back to Store Page',
-            onPressed: () {
-              StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 0));
-              Navigator.of(context).pushNamedAndRemoveUntil(StoreView.routeName, (Route<dynamic> route) => false);
-            }),
-        actions: <Widget>[
-          IconButton(
-              onPressed: () => Navigator.of(context).pop(true), icon: const Icon(Icons.arrow_forward_ios, size: 35))
-        ],
-        backgroundColor: primaryColor,
-        expandedHeight: 300.0,
-        floating: false,
-        pinned: true,
-        title: Container(
-            alignment: Alignment.bottomCenter,
-            child: done ? AutoSizeText(widget.product.name, maxLines: 1, style: mainStyle) : Container()),
-        flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: FlexibleSpaceBar(
-                centerTitle: true,
-                background: !done
-                    ? FullScreenWidget(
-                        backgroundColor: Colors.white,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: FadeTransition(
-                                opacity: _animation,
-                                child: widget.product.images.isNotEmpty
-                                    ? Image(
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) {
+        return SliverAppBar(
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+                iconSize: 35,
+                icon: const Icon(Icons.home),
+                tooltip: 'Back to Store Page',
+                onPressed: () {
+                  StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 0));
+                  Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
+                }),
+            actions: <Widget>[
+              IconButton(
+                  onPressed: () => Navigator.of(context).pop(true), icon: const Icon(Icons.arrow_forward_ios, size: 35))
+            ],
+            backgroundColor: primaryColor,
+            expandedHeight: 300.0,
+            floating: false,
+            pinned: true,
+            title: Container(
+                alignment: Alignment.bottomCenter,
+                child: done ? AutoSizeText(widget.product.name, maxLines: 1, style: mainStyle) : Container()),
+            flexibleSpace: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: FlexibleSpaceBar(
+                    centerTitle: true,
+                    background: !done
+                        ? FullScreenWidget(
+                            backgroundColor: Colors.white,
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: FadeTransition(
+                                    opacity: _animation,
+                                    child: widget.product.images.isNotEmpty
+                                        ? Image(
+                                            image: AdvImageCache(
+                                                state.generalInformationState.companyInformation.imagePrefixUrl +
+                                                    widget.product.images[0].imageFileName,
+                                                useMemCache: true,
+                                                diskCacheExpire: const Duration(days: 400)),
+                                            width: MediaQuery.of(context).size.width / 2,
+                                            height: 120,
+                                            fit: BoxFit.contain)
+                                        : Image.asset('assets/logobw.png'))))
+                        : widget.product.images.isNotEmpty
+                            ? FullScreenWidget(
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image(
                                         image: AdvImageCache(
-                                            StaticVariables.imagePrefixUrl + widget.product.images[0].imageFileName,
+                                            state.generalInformationState.companyInformation.imagePrefixUrl +
+                                                widget.product.images[0].imageFileName,
                                             useMemCache: true,
                                             diskCacheExpire: const Duration(days: 400)),
                                         width: MediaQuery.of(context).size.width / 2,
                                         height: 120,
-                                        fit: BoxFit.contain)
-                                    : Image.asset('assets/logobw.png'))))
-                    : widget.product.images.isNotEmpty
-                        ? FullScreenWidget(
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: Image(
-                                    image: AdvImageCache(
-                                        StaticVariables.imagePrefixUrl + widget.product.images[0].imageFileName,
-                                        useMemCache: true,
-                                        diskCacheExpire: const Duration(days: 400)),
-                                    width: MediaQuery.of(context).size.width / 2,
-                                    height: 120,
-                                    fit: BoxFit.contain)))
-                        : Image.asset('assets/logobw.png'))));
+                                        fit: BoxFit.contain)))
+                            : Image.asset('assets/logobw.png'))));
+      },
+    );
   }
 }

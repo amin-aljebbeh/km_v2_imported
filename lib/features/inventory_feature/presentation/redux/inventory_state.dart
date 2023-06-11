@@ -6,6 +6,8 @@ import '../../domain/use_cases/inventory_use_cases.dart';
 @immutable
 class InventoryState extends Equatable {
   final List<ProductEntity> products;
+  final List<ProductEntity> allProducts;
+  final List<ProductEntity> notAddedProducts;
   final InventoryUseCase inventoryUseCase;
   final String searchFilter;
   final int pageNumber;
@@ -13,7 +15,10 @@ class InventoryState extends Equatable {
   final int subWarehouseId;
   final int isActive;
   final InventoryTypes inventoryType;
+
   const InventoryState({
+    this.allProducts,
+    this.notAddedProducts,
     this.subWarehouseId,
     this.isActive,
     this.products,
@@ -27,6 +32,8 @@ class InventoryState extends Equatable {
   factory InventoryState.initial() {
     return InventoryState(
       products: const [],
+      allProducts: const [],
+      notAddedProducts: const [],
       inventoryUseCase: sl<InventoryUseCase>(),
       searchFilter: '',
       pageNumber: 1,
@@ -45,6 +52,8 @@ class InventoryState extends Equatable {
     InventoryTypes inventoryType,
     int subWarehouseId,
     int isActive,
+    List<ProductEntity> allProducts,
+    List<ProductEntity> notAddedProducts,
   }) {
     return InventoryState(
       inventoryUseCase: inventoryUseCase,
@@ -55,10 +64,22 @@ class InventoryState extends Equatable {
       pageNumber: pageNumber ?? this.pageNumber,
       subWarehouseId: subWarehouseId == -1 ? null : subWarehouseId ?? this.subWarehouseId,
       isActive: isActive ?? this.isActive,
+      allProducts: allProducts ?? this.allProducts,
+      notAddedProducts: notAddedProducts ?? this.notAddedProducts,
     );
   }
 
   @override
-  List<Object> get props =>
-      [inventoryUseCase, products, searchFilter, hasNext, pageNumber, inventoryType, subWarehouseId, isActive];
+  List<Object> get props => [
+        inventoryUseCase,
+        products,
+        searchFilter,
+        hasNext,
+        pageNumber,
+        inventoryType,
+        subWarehouseId,
+        isActive,
+        allProducts,
+        notAddedProducts
+      ];
 }

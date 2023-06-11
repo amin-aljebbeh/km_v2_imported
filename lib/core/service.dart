@@ -187,10 +187,6 @@ class Services {
             imagePrefixUrl: 'https://kammun.app/images/',
             additionalInfo: 'http://m.me/KammunApp')));
 
-    StaticVariables.imagePrefixUrl = 'https://kammun.app/images/';
-
-    // Mobile Configuration
-
     if (Platform.isIOS) {
       lastSupported = 100;
 
@@ -200,9 +196,7 @@ class Services {
       LoadingScreen.updateUrl = 'https://play.google.com/store/apps/details?id=com.kammun.app';
     }
 
-    if (int.parse(buildNumber) < lastSupported) {
-      StaticVariables.updateRequired = true;
-    }
+    if (int.parse(buildNumber) < lastSupported) StoreProvider.of<AppState>(context).dispatch(UpdateRequired());
 
     return true;
   }

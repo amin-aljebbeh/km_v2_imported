@@ -63,17 +63,13 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
           height: 50,
           color: Theme.of(context).primaryColor,
           onTap: () async {
-            if (LoadingScreen.userToken.length > 5) {
-              Navigator.of(context).pop(true);
-              product.productCount = numberOfOrders;
-              ProductEntity productData = product;
-              productData.pivot = OrderProductPivotEntity(increaseValue: product.increasePercentage);
-              productData.price = price;
-              StoreProvider.of<AppState>(context).dispatch(UpdateCartProducts(
-                  productId: productData.id, quantity: numberOfOrders, product: productData, context: context));
-            } else {
-              Navigator.of(context).pushNamed(LoginScreen.routeName);
-            }
+            Navigator.of(context).pop(true);
+            product.productCount = numberOfOrders;
+            ProductEntity productData = product;
+            productData.pivot = OrderProductPivotEntity(increaseValue: product.increasePercentage);
+            productData.price = price;
+            StoreProvider.of<AppState>(context).dispatch(UpdateCartProducts(
+                productId: productData.id, quantity: numberOfOrders, product: productData, context: context));
           },
         ),
       ],

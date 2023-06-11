@@ -8,9 +8,12 @@ import '../../home/presentation/redux/home_action.dart';
 class AddProductsView extends StatefulWidget {
   final int categoryId;
   final String supplierCode;
+  final String productName;
   final int barcode;
 
-  const AddProductsView({Key key, @required this.categoryId, this.barcode, this.supplierCode}) : super(key: key);
+  const AddProductsView(
+      {Key key, @required this.categoryId, this.barcode, this.supplierCode, this.productName = 'null'})
+      : super(key: key);
 
   @override
   _AddProductsViewState createState() => _AddProductsViewState();
@@ -112,7 +115,7 @@ class _AddProductsViewState extends State<AddProductsView> {
   @override
   void initState() {
     if (widget.supplierCode != null) supplierCodeController.text = widget.supplierCode;
-    if (StaticVariables.productToAddName != 'null') nameController.text = StaticVariables.productToAddName;
+    if (widget.productName != 'null') nameController.text = widget.productName;
     super.initState();
   }
 
@@ -142,7 +145,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                             onTap: () {
                               StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 0));
                               Navigator.pushNamedAndRemoveUntil(
-                                  context, StoreView.routeName, (Route<dynamic> route) => false);
+                                  context, HomePage.routeName, (Route<dynamic> route) => false);
                             },
                             child: Image.asset('assets/logobw.png', width: 150, height: 50),
                           ),

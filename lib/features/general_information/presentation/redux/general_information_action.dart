@@ -2,6 +2,7 @@ import 'package:kammun_app/features/general_information/domain/entities/sub_ware
 
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/category_entity.dart';
+import '../../domain/entities/supported_city_entity.dart';
 import '../../domain/entities/warehouse_entity.dart';
 
 class SetSubWarehouses {
@@ -22,6 +23,12 @@ class SetCategories {
   SetCategories({this.categories});
 }
 
+class SetSupportedCities {
+  final List<SupportedCityEntity> supportedCities;
+
+  SetSupportedCities({this.supportedCities});
+}
+
 class SetCategoriesMenu {
   final List<DropdownMenuItem> categories;
 
@@ -33,3 +40,5 @@ class SetCompanyInfo {
 
   SetCompanyInfo({this.info});
 }
+
+class UpdateRequired {}

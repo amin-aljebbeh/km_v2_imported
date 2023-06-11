@@ -5,8 +5,6 @@ import '../models/report_model_importer.dart';
 import '../services/reports_services.dart';
 
 class SalesCharts extends StatefulWidget {
-  static const String routeName = '/SalesCharts';
-
   const SalesCharts({Key key}) : super(key: key);
 
   @override

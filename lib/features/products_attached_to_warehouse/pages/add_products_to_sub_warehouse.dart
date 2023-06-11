@@ -87,7 +87,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                               onTap: () {
                                 StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 0));
                                 Navigator.pushNamedAndRemoveUntil(
-                                    context, StoreView.routeName, (Route<dynamic> route) => false);
+                                    context, HomePage.routeName, (Route<dynamic> route) => false);
                               },
                               child: Image.asset('assets/logobw.png', width: 150, height: 50),
                             ),

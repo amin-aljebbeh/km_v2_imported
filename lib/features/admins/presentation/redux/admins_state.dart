@@ -8,12 +8,11 @@ import '../../../../core/core_importer.dart';
 class AdminsState extends Equatable {
   final AdminsUseCases adminsUseCases;
   final List<AdminEntity> admins;
-  final List<AdminEntity> shoppers;
   final List<AdminEntity> transactionsActors;
   final List<RoleEntity> roles;
   final AdminEntity admin;
 
-  const AdminsState({this.admin, this.adminsUseCases, this.admins, this.transactionsActors, this.shoppers, this.roles});
+  const AdminsState({this.admin, this.adminsUseCases, this.admins, this.transactionsActors, this.roles});
 
   factory AdminsState.initial() {
     return AdminsState(
@@ -21,7 +20,6 @@ class AdminsState extends Equatable {
       admin: null,
       adminsUseCases: sl<AdminsUseCases>(),
       transactionsActors: const [],
-      shoppers: const [],
       roles: const [],
     );
   }
@@ -30,19 +28,17 @@ class AdminsState extends Equatable {
     List<AdminEntity> admins,
     AdminEntity admin,
     List<AdminEntity> transactionsActors,
-    List<AdminEntity> shoppers,
     List<RoleEntity> roles,
   }) {
     return AdminsState(
       adminsUseCases: adminsUseCases,
       admins: admins ?? this.admins,
       admin: admin ?? this.admin,
-      shoppers: shoppers ?? this.shoppers,
       transactionsActors: transactionsActors ?? this.transactionsActors,
       roles: roles ?? this.roles,
     );
   }
 
   @override
-  List<Object> get props => [admins, adminsUseCases, admin, transactionsActors, shoppers, roles];
+  List<Object> get props => [admins, adminsUseCases, admin, transactionsActors, roles];
 }

@@ -65,37 +65,43 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: fetchInformation,
-      builder: (context, snapShot) {
-        if (snapShot.data == 'userNotLoggedIn') return const LoginScreen();
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) {
+        return FutureBuilder(
+          future: fetchInformation,
+          builder: (context, snapShot) {
+            if (snapShot.data == 'userNotLoggedIn') return const LoginScreen();
 
-        if (snapShot.connectionState == ConnectionState.done) {
-          if (snapShot.hasError || snapShot.data == false) {
-            return const InternetError();
-          } else if (StaticVariables.updateRequired) {
-            return const UpdateScreen();
-          } else {
-            final child = HomePage(notificationValue: notificationValue);
-            return AnimatedSwitcher(
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                var begin = const Offset(0.0, 1.0);
-                var end = Offset.zero;
-                var curve = Curves.ease;
+            if (snapShot.connectionState == ConnectionState.done) {
+              if (snapShot.hasError || snapShot.data == false) {
+                return const InternetError();
+              } else if (state.generalInformationState.companyInformation.updateRequired) {
+                return const UpdateScreen();
+              } else {
+                final child = HomePage(notificationValue: notificationValue);
+                return AnimatedSwitcher(
+                  transitionBuilder: (Widget child, Animation<double> animation) {
+                    var begin = const Offset(0.0, 1.0);
+                    var end = Offset.zero;
+                    var curve = Curves.ease;
 
-                var tween = Tween(begin: begin, end: end);
-                var curvedAnimation = CurvedAnimation(parent: animation, curve: curve);
+                    var tween = Tween(begin: begin, end: end);
+                    var curvedAnimation = CurvedAnimation(parent: animation, curve: curve);
 
-                final slide = HomePage(notificationValue: notificationValue);
-                return SlideTransition(position: tween.animate(curvedAnimation), child: slide);
-              },
-              duration: const Duration(milliseconds: 250),
-              child: child,
-            );
-          }
-        } else {
-          return loadingProgress();
-        }
+                    final slide = HomePage(notificationValue: notificationValue);
+                    return SlideTransition(position: tween.animate(curvedAnimation), child: slide);
+                  },
+                  duration: const Duration(milliseconds: 250),
+                  child: child,
+                );
+              }
+            } else {
+              return loadingProgress();
+            }
+          },
+        );
       },
     );
   }

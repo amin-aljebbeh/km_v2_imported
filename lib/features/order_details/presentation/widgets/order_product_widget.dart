@@ -1,8 +1,9 @@
+import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
 import 'package:kammun_app/features/order_details/presentation/pages/full_screen_image.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
-import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../order_details_services.dart';
 import 'product_sub_warehouse_widget.dart';
 
 class OrderProductWidget extends StatelessWidget {
@@ -15,7 +16,7 @@ class OrderProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int purchasePrice = int.parse(productData.pivot.purchasePrice.split('.')[0]) - productData.pivot.increaseValue;
-    double discountPercentage = SubWarehouse.getDiscountPercentage(productData.subWarehouseId, context);
+    double discountPercentage = getDiscountPercentage(productData.subWarehouseId, context);
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,
@@ -50,13 +51,15 @@ class OrderProductWidget extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (_) => FullScreenImage(
                               imageUrl: productData.images.isNotEmpty
-                                  ? StaticVariables.imagePrefixUrl + productData.images[0].imageFileName
+                                  ? state.generalInformationState.companyInformation.imagePrefixUrl +
+                                      productData.images[0].imageFileName
                                   : '',
                               tag: 'generate_a_unique_tag'))),
                   child: KCacheImage(
                     tag: int.parse(productData.pivot.productId),
                     image: productData.images.isNotEmpty
-                        ? StaticVariables.imagePrefixUrl + productData.images[0].imageFileName
+                        ? state.generalInformationState.companyInformation.imagePrefixUrl +
+                            productData.images[0].imageFileName
                         : '',
                   ),
                 ),

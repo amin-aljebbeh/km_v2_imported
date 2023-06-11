@@ -4,8 +4,6 @@ import '../../../core/core_importer.dart';
 import '../model/prices_changes_model.dart';
 
 class Prices extends StatefulWidget {
-  static const String routeName = '/Prices';
-
   const Prices({Key key}) : super(key: key);
 
   @override
@@ -147,7 +145,7 @@ class _PricesState extends State<Prices> {
                                             .isNotEmpty;
                                       }
                                     }
-                                    return InventoryProductsViewCard(
+                                    return InventoryProductWidget(
                                       index: 0,
                                       id: id,
                                       attached: attached,

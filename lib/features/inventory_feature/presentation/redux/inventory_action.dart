@@ -9,20 +9,28 @@ abstract class InventoryAction {
 }
 
 class InitialInventory extends InventoryAction {
+  InitialInventory();
   @override
   handle({Store<AppState> store}) {
-    store.dispatch(StartLoading());
     store.dispatch(NoError());
     store.dispatch(ClearInventory());
-    store.dispatch(GetInventory());
+    if ((((store.state.inventoryState.inventoryType == InventoryTypes.notAdded &&
+                store.state.inventoryState.notAddedProducts.isEmpty) ||
+            (store.state.inventoryState.inventoryType == InventoryTypes.all &&
+                store.state.inventoryState.allProducts.isEmpty))) ||
+        ![InventoryTypes.notAdded, InventoryTypes.all].contains(store.state.inventoryState.inventoryType)) {
+      store.dispatch(StartLoading());
+      store.dispatch(GetInventory());
+    }
   }
 }
 
-class GoInventoryPage extends InventoryAction {
+class GoToInventoryPage extends InventoryAction {
   final InventoryTypes inventoryType;
   final BuildContext context;
 
-  GoInventoryPage({this.inventoryType, this.context});
+  GoToInventoryPage({this.inventoryType, this.context});
+
   @override
   handle({Store<AppState> store}) {
     store.dispatch(SetSearchFilter(searchFilter: ''));
@@ -30,7 +38,7 @@ class GoInventoryPage extends InventoryAction {
     store.dispatch(NoError());
     store.dispatch(SetInventoryType(inventoryType: inventoryType));
     store.dispatch(SetSubWarehouseId(subWarehouseId: -1));
-    Navigator.pushNamed(context, InventoryPage.routeName);
+    Navigator.push(context, MaterialPageRoute(builder: (_) => const InventoryPage()));
   }
 }
 
@@ -46,6 +54,15 @@ class GetInventory implements InventoryAction {
         break;
       case InventoryTypes.underCheckAvailability:
         store.dispatch(GetUnderCheckAvailabilityAction());
+        break;
+      case InventoryTypes.all:
+        store.dispatch(GetAllProductsAction());
+        break;
+      case InventoryTypes.notAdded:
+        store.dispatch(GetNotAddedProductsAction());
+        break;
+      case InventoryTypes.added:
+        store.dispatch(GetAddedProductsAction());
         break;
     }
   }
@@ -78,6 +95,50 @@ class GetPrimeProductsAction implements InventoryAction {
       FilteredProductsModel filteredProductsModel = products;
       store.dispatch(SetInventoryProducts(products: filteredProductsModel.data.products));
       if (filteredProductsModel.data.nextPageUrl == null) store.dispatch(EndOfInventory());
+    });
+    store.dispatch(StopLoading());
+  }
+}
+
+class GetAllProductsAction implements InventoryAction {
+  @override
+  handle({Store<AppState> store}) async {
+    Either either = await store.state.inventoryState.inventoryUseCase.getAllProductsUseCase();
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
+      store.dispatch(SetIAllProducts(products: products));
+      store.dispatch(EndOfInventory());
+    });
+    store.dispatch(StopLoading());
+  }
+}
+
+class GetNotAddedProductsAction implements InventoryAction {
+  @override
+  handle({Store<AppState> store}) async {
+    Either either = await store.state.inventoryState.inventoryUseCase.getNotAddedProductsUseCase();
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
+      products.sort((a, b) {
+        if (a.id > b.id) {
+          return -1;
+        } else if (a.id < b.id) {
+          return 1;
+        }
+        return 0;
+      });
+      store.dispatch(EndOfInventory());
+      store.dispatch(SetNotAddedProducts(products: products));
+    });
+    store.dispatch(StopLoading());
+  }
+}
+
+class GetAddedProductsAction implements InventoryAction {
+  @override
+  handle({Store<AppState> store}) async {
+    Either either = await store.state.inventoryState.inventoryUseCase.getAddedProductsUseCase();
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
+      store.dispatch(EndOfInventory());
+      store.dispatch(SetInventoryProducts(products: products));
     });
     store.dispatch(StopLoading());
   }
@@ -117,6 +178,18 @@ class SetInventoryProducts {
   SetInventoryProducts({this.products});
 }
 
+class SetIAllProducts {
+  final List<ProductEntity> products;
+
+  SetIAllProducts({this.products});
+}
+
+class SetNotAddedProducts {
+  final List<ProductEntity> products;
+
+  SetNotAddedProducts({this.products});
+}
+
 class ClearInventory {}
 
 class SetSearchFilter {
@@ -149,6 +222,7 @@ class SetIsActive {
 
 class TargetInventoryAction implements InventoryAction {
   final BuildContext context;
+
   TargetInventoryAction({this.context});
 
   @override
@@ -163,6 +237,7 @@ class TargetInventoryAction implements InventoryAction {
 
 class KeepingInventoriesRecordAction implements InventoryAction {
   final BuildContext context;
+
   KeepingInventoriesRecordAction({this.context});
 
   @override
