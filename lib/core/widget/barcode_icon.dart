@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/barcode/presentation/pages/barcode_scanner_page.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 
+import '../../features/barcode/presentation/redux/barcode_action.dart';
 import '../../features/products/domain/entities/product_entity.dart';
 import '../core_importer.dart';
 
@@ -32,26 +33,20 @@ class BarcodeIcon extends StatelessWidget {
         bool result;
         String resultBarcode;
         if (onPressed != null) onPressed();
-        Navigator.push(
-          scaffoldKey.currentContext,
-          MaterialPageRoute(
-            builder: (screenContext) => BarcodeScannerPage(
-              product: product,
-              requestType: requestType,
-              onIgnore: (barcode) async {
-                resultBarcode =
-                    await ProductsServices.setBarcodeToProduct(bareCode: int.parse(barcode), productId: productId);
-                result = (resultBarcode != 'error');
-                if (result) {
-                  snackBar(success: result, message: 'تم إرسال الرمز بنجاح', context: context);
-                } else {
-                  snackBar(success: result, message: 'فشلت عملية إرسال الرمز يرجى المحاولة مجدداً', context: context);
-                }
-                onAddBarcode(resultBarcode);
-              },
-            ),
-          ),
-        );
+        StoreProvider.of<AppState>(context).dispatch(SetBarcodeType(barcodeRequestType: requestType));
+        StoreProvider.of<AppState>(context).dispatch(SetonIgnore(onIgnore: (barcode) async {
+          resultBarcode =
+              await ProductsServices.setBarcodeToProduct(bareCode: int.parse(barcode), productId: productId);
+          result = (resultBarcode != 'error');
+          if (result) {
+            snackBar(success: result, message: 'تم إرسال الرمز بنجاح', context: context);
+          } else {
+            snackBar(success: result, message: 'فشلت عملية إرسال الرمز يرجى المحاولة مجدداً', context: context);
+          }
+          onAddBarcode(resultBarcode);
+        }));
+        Navigator.push(scaffoldKey.currentContext,
+            MaterialPageRoute(builder: (screenContext) => BarcodeScannerPage(product: product)));
       },
     );
   }

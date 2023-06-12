@@ -3,10 +3,13 @@ import 'package:kammun_app/features/inventory_feature/domain/use_cases/get_notif
 import 'package:kammun_app/features/inventory_feature/domain/use_cases/get_prime_products_use_case.dart';
 import 'package:kammun_app/features/inventory_feature/domain/use_cases/get_under_check_availability_use_case.dart';
 import 'package:kammun_app/features/inventory_feature/domain/use_cases/keeping_inventories_record_use_cases.dart';
+import 'package:kammun_app/features/inventory_feature/domain/use_cases/search_product_by_barcode_use_cases.dart';
 
+import 'check_product_barcode_use_cases.dart';
 import 'get_added_products_use_cases.dart';
 import 'get_all_products_use_cases.dart';
 import 'get_not_added_products_use_cases.dart';
+import 'get_price_changes_use_cases.dart';
 import 'target_inventory_use_case.dart';
 
 class InventoryUseCase {
@@ -16,6 +19,9 @@ class InventoryUseCase {
   final GetAllProductsUseCase getAllProductsUseCase;
   final GetPrimeProductsUseCase getPrimeProductsUseCase;
   final GetUnderCheckAvailabilityUseCase getUnderCheckAvailabilityUseCase;
+  final CheckProductsBarcodeUseCase checkProductsBarcodeUseCase;
+  final SearchProductByBarcodeUseCase searchProductByBarcodeUseCase;
+  final GetPriceChangesUseCase getPriceChangesUseCase;
   final TargetInventoryUseCase targetInventoryUseCase;
   final KeepingInventoriesRecordUseCase keepingInventoriesRecordUseCase;
 
@@ -28,10 +34,16 @@ class InventoryUseCase {
     @required this.getNotAddedProductsUseCase,
     @required this.getAddedProductsUseCase,
     @required this.getAllProductsUseCase,
+    @required this.checkProductsBarcodeUseCase,
+    @required this.searchProductByBarcodeUseCase,
+    @required this.getPriceChangesUseCase,
   }) : assert(
           getNotificationProductsUseCase != null &&
               getPrimeProductsUseCase != null &&
               targetInventoryUseCase != null &&
+              checkProductsBarcodeUseCase != null &&
+              getPriceChangesUseCase != null &&
+              searchProductByBarcodeUseCase != null &&
               getNotAddedProductsUseCase != null &&
               getAddedProductsUseCase != null &&
               getAllProductsUseCase != null &&

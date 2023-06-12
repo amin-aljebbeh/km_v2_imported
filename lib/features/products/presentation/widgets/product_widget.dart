@@ -1,7 +1,10 @@
-import 'package:kammun_app/features/product_detail_view/pages/product_detail_view.dart';
 import 'package:kammun_app/features/barcode/presentation/pages/barcode_scanner_page.dart';
+import 'package:kammun_app/features/general_information/data/models/warehouse_model.dart';
+import 'package:kammun_app/features/product_detail_view/pages/product_detail_view.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../barcode/presentation/redux/barcode_action.dart';
+import '../../../general_information/data/models/warehouse_pivot_model.dart';
 import '../../domain/entities/product_entity.dart';
 
 class ProductWidget extends StatefulWidget {
@@ -34,6 +37,20 @@ class ProductWidgetState extends State<ProductWidget> {
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
+    int subWarehouseId = product.subWarehouseId != -1
+        ? product.subWarehouseId
+        : int.parse(product.warehouses
+            .firstWhere(
+                (element) => StoreProvider.of<AppState>(context)
+                    .state
+                    .adminsState
+                    .admin
+                    .subWarehouses
+                    .map((e) => e.id.toString())
+                    .contains(element.pivot.subWarehouseId),
+                orElse: () => WarehouseModel(pivot: WarehousePivotModel(subWarehouseId: '-1')))
+            .pivot
+            .subWarehouseId);
     String price = product.price;
     if (Services.hasRole(context, supplierRole)) {
       price = (int.parse(product.price.split('.')[0]) - product.increasePercentage).toString();
@@ -123,7 +140,7 @@ class ProductWidgetState extends State<ProductWidget> {
                       ],
                     ),
                   ),
-                  product.subWarehouseId != -1
+                  subWarehouseId != -1
                       ? Column(
                           children: [
                             if (state.generalInformationState.subWarehouses
@@ -176,28 +193,27 @@ class ProductWidgetState extends State<ProductWidget> {
                             icon: const Icon(Icons.add, color: Colors.green),
                             onPressed: () {
                               if (product.barcodes.isEmpty) {
+                                StoreProvider.of<AppState>(context)
+                                    .dispatch(SetBarcodeType(barcodeRequestType: BarcodeRequestType.attachProduct));
+                                StoreProvider.of<AppState>(context).dispatch(SetonIgnore(
+                                  onIgnore: (barcode) async {
+                                    int param;
+                                    if (barcode == null) {
+                                      param = null;
+                                    } else {
+                                      param = int.parse(barcode);
+                                    }
+                                    Navigator.push(
+                                        widget.scaffoldKey.currentContext,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddProductsToSubWarehouse(barcode: param, product: product)));
+                                  },
+                                ));
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (screenContext) => BarcodeScannerPage(
-                                      product: product,
-                                      requestType: BarcodeRequestType.attachProduct,
-                                      onIgnore: (barcode) async {
-                                        int param;
-                                        if (barcode == null) {
-                                          param = null;
-                                        } else {
-                                          param = int.parse(barcode);
-                                        }
-                                        Navigator.push(
-                                            widget.scaffoldKey.currentContext,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AddProductsToSubWarehouse(barcode: param, product: product)));
-                                      },
-                                    ),
-                                  ),
-                                );
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (screenContext) => BarcodeScannerPage(product: product)));
                               } else {
                                 Navigator.push(
                                     widget.scaffoldKey.currentContext,

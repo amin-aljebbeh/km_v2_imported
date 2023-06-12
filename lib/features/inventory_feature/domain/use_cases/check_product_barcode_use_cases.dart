@@ -4,12 +4,12 @@ import 'package:kammun_app/features/products/domain/entities/product_entity.dart
 
 import '../../../../core/core_importer.dart';
 
-class GetAllProductsUseCase {
+class CheckProductsBarcodeUseCase {
   final InventoryRepository inventoryRepository;
 
-  GetAllProductsUseCase({this.inventoryRepository});
+  CheckProductsBarcodeUseCase({this.inventoryRepository});
 
-  Future<Either<Failure, List<ProductEntity>>> call() async {
-    return await inventoryRepository.getAllProducts();
+  Future<Either<Failure, List<ProductEntity>>> call({String barcode}) async {
+    return await inventoryRepository.checkProductBarcode(barcode: barcode);
   }
 }

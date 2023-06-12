@@ -1,5 +1,5 @@
 import '../../../core/core_importer.dart';
-import '../../prices_changes/services/prices_changes_services.dart';
+import '../../product_details/presentation/redux/product_details_action.dart';
 import '../../products/domain/entities/product_entity.dart';
 
 class DeleteProductImageWidget extends StatelessWidget {
@@ -34,15 +34,8 @@ class DeleteProductImageWidget extends StatelessWidget {
                       text: yes,
                       onTap: () async {
                         Navigator.of(context).pop();
-                        bool result = await PricesChangesServices.deleteImage(imageId: product.images[0].id);
-                        if (result) {
-                          snackBar(success: result, message: 'تم حذف صورة المنتج بنجاح', context: context);
-                        } else {
-                          snackBar(
-                              success: result,
-                              message: 'فشلت عملية حذف صورة المنتج يرجى المحاولة مجدداً',
-                              context: context);
-                        }
+                        StoreProvider.of<AppState>(context)
+                            .dispatch(DeleteImageAction(context: context, imageId: product.images[0].id));
                       },
                     )
                   ]);

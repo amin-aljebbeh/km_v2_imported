@@ -7,7 +7,6 @@ export 'home/presentation/pages/home_page.dart';
 export 'inventory/pages/inventory_importer.dart';
 export 'inventory_feature/presentation/pages/inventory_page.dart';
 export 'login/pages/login_view.dart';
-export 'prices_changes/pages/prices.dart';
 export 'products_attached_to_warehouse/pages/products_attached_to_warehouse_importer.dart';
 export 'profile/pages/profile_screen.dart';
 export 'reports/pages/reports_importer.dart';

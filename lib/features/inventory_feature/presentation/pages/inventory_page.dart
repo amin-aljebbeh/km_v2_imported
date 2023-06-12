@@ -18,7 +18,7 @@ class _InventoryPageState extends State<InventoryPage> {
   @override
   initState() {
     WidgetsBinding.instance
-        .addPostFrameCallback((_) => StoreProvider.of<AppState>(context).dispatch(InitialInventory()));
+        .addPostFrameCallback((_) => StoreProvider.of<AppState>(context).dispatch(InitialInventory(context: context)));
     controller.addListener(
         () => StoreProvider.of<AppState>(context).dispatch(SetSearchFilter(searchFilter: controller.text)));
     super.initState();
@@ -34,22 +34,23 @@ class _InventoryPageState extends State<InventoryPage> {
         List<ProductEntity> products = [];
         var inventoryState = state.inventoryState;
         products.addAll(inventoryState.products.where((product) =>
-            (inventoryState.searchFilter == null ||
-                inventoryState.searchFilter == '' ||
-                product.name.toLowerCase().contains(inventoryState.searchFilter.toLowerCase())) &&
             ![InventoryTypes.notAdded, InventoryTypes.all].contains(store.state.inventoryState.inventoryType)));
-        products.addAll(inventoryState.allProducts.where((product) =>
-            (inventoryState.searchFilter == null ||
-                inventoryState.searchFilter == '' ||
-                product.name.toLowerCase().contains(inventoryState.searchFilter.toLowerCase())) &&
-            InventoryTypes.all == store.state.inventoryState.inventoryType));
-        products.addAll(inventoryState.notAddedProducts.where((product) =>
-            (inventoryState.searchFilter == null ||
-                inventoryState.searchFilter == '' ||
-                product.name.toLowerCase().contains(inventoryState.searchFilter.toLowerCase())) &&
-            InventoryTypes.notAdded == store.state.inventoryState.inventoryType));
+        products.addAll(inventoryState.allProducts
+            .where((product) => InventoryTypes.all == store.state.inventoryState.inventoryType));
+        products.addAll(inventoryState.notAddedProducts
+            .where((product) => InventoryTypes.notAdded == store.state.inventoryState.inventoryType));
+        products.removeWhere((product) =>
+            (inventoryState.searchFilter != null && inventoryState.searchFilter != '') &&
+            !product.name.toLowerCase().contains(inventoryState.searchFilter.toLowerCase()));
         return Scaffold(
           key: scaffoldKey,
+          floatingActionButton: inventoryState.inventoryType == InventoryTypes.prices
+              ? FloatingActionButton(
+                  onPressed: () {},
+                  backgroundColor: primaryColor,
+                  child: Text(products.length.toString(), style: mainStyle.copyWith(fontSize: 20)),
+                )
+              : const SizedBox(),
           backgroundColor: Colors.white,
           appBar: InventorySearchTextField(
               onReload: () {
@@ -59,7 +60,7 @@ class _InventoryPageState extends State<InventoryPage> {
                 if (state.inventoryState.inventoryType == InventoryTypes.notAdded) {
                   StoreProvider.of<AppState>(context).dispatch(SetNotAddedProducts(products: []));
                 }
-                StoreProvider.of<AppState>(context).dispatch(InitialInventory());
+                StoreProvider.of<AppState>(context).dispatch(InitialInventory(context: context));
               },
               controller: controller,
               context: context),
@@ -71,8 +72,13 @@ class _InventoryPageState extends State<InventoryPage> {
             child: SafeArea(
               child: Column(
                 children: <Widget>[
-                  if (![InventoryTypes.notAdded, InventoryTypes.all, InventoryTypes.added]
-                      .contains(inventoryState.inventoryType))
+                  if (![
+                    InventoryTypes.notAdded,
+                    InventoryTypes.all,
+                    InventoryTypes.added,
+                    InventoryTypes.barcode,
+                    InventoryTypes.prices
+                  ].contains(inventoryState.inventoryType))
                     const InventoryFilterWidget(),
                   state.errorState.isError
                       ? Expanded(
@@ -80,7 +86,7 @@ class _InventoryPageState extends State<InventoryPage> {
                             children: [
                               AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
                               KammunButton(
-                                  onTap: () => store.dispatch(InitialInventory()),
+                                  onTap: () => store.dispatch(InitialInventory(context: context)),
                                   color: primaryColor,
                                   width: MediaQuery.of(context).size.width / 2.5,
                                   text: 'المحاولة من جديد'),
@@ -99,7 +105,7 @@ class _InventoryPageState extends State<InventoryPage> {
                                       inventoryState.hasNext) {
                                     store.dispatch(StartLoading());
                                     store.dispatch(NextPage());
-                                    store.dispatch(GetInventory());
+                                    store.dispatch(GetInventory(context: context));
                                   }
                                   return;
                                 },
@@ -199,6 +205,17 @@ class _InventoryPageState extends State<InventoryPage> {
                                 ),
                               ),
                             ),
+                  if (state.inventoryState.inventoryType == InventoryTypes.barcode)
+                    KammunButton(
+                      color: primaryColor,
+                      onTap: () {
+                        Navigator.pop(context);
+                        state.barcodeState.onIgnore(state.barcodeState.barcodeString);
+                      },
+                      text: 'تجاهل',
+                      height: 50,
+                      width: MediaQuery.of(context).size.width * 0.95,
+                    ),
                   if ((inventoryState.hasNext && state.loadingState.loading.isNotEmpty) ||
                       (!inventoryState.hasNext && products.isNotEmpty))
                     Container(
@@ -208,7 +225,7 @@ class _InventoryPageState extends State<InventoryPage> {
                         child: Center(
                             child: inventoryState.hasNext && state.loadingState.loading.isNotEmpty
                                 ? const Loader()
-                                : !inventoryState.hasNext
+                                : !inventoryState.hasNext && inventoryState.inventoryType != InventoryTypes.barcode
                                     ? Text('تم جلب جميع المنتجات', style: paragraphStyle)
                                     : Container())),
                 ],

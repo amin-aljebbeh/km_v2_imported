@@ -11,7 +11,6 @@ Reducer<ProductsState> productsReducer = combineReducers<ProductsState>([
   TypedReducer<ProductsState, SetProductsViewTypes>(setProductsViewTypes),
   TypedReducer<ProductsState, SetCategoryId>(setCategoryId),
   TypedReducer<ProductsState, SetSearchString>(setSearchString),
-  TypedReducer<ProductsState, SetBarcodeString>(setBarcodeString),
 ]);
 
 ProductsState setProducts(ProductsState state, SetProducts action) {
@@ -40,8 +39,4 @@ ProductsState setCategoryId(ProductsState state, SetCategoryId action) {
 
 ProductsState setSearchString(ProductsState state, SetSearchString action) {
   return state.copyWith(searchString: action.searchString);
-}
-
-ProductsState setBarcodeString(ProductsState state, SetBarcodeString action) {
-  return state.copyWith(barcodeString: action.barcodeString);
 }

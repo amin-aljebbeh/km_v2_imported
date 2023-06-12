@@ -1,4 +1,5 @@
 import 'package:kammun_app/features/barcode/presentation/pages/barcode_scanner_page.dart';
+import 'package:kammun_app/features/barcode/presentation/redux/barcode_action.dart';
 import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
 import 'package:kammun_app/features/product_detail_view/pages/product_detail_view.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
@@ -49,6 +50,7 @@ class InventoryProductWidget extends StatelessWidget {
     this.onChangeQuantity,
     this.onChangeSubWarehouse,
   }) : super(key: key);
+
   _unAttachProduct() async {
     bool result = await AddedProductsServices.unAttachProductsToSubWarehouseService(
         productsId: productData.id.toString(), subWarehouse: id);
@@ -262,28 +264,27 @@ class InventoryProductWidget extends StatelessWidget {
                                                 );
                                               } else {
                                                 if (barcode == null) {
+                                                  StoreProvider.of<AppState>(context).dispatch(SetBarcodeType(
+                                                      barcodeRequestType: BarcodeRequestType.attachProduct));
+                                                  StoreProvider.of<AppState>(context)
+                                                      .dispatch(SetonIgnore(onIgnore: (barcode) async {
+                                                    int param;
+                                                    if (barcode == null) {
+                                                      param = null;
+                                                    } else {
+                                                      param = int.parse(barcode);
+                                                    }
+                                                    Navigator.push(
+                                                        scaffoldKey.currentContext,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => AddProductsToSubWarehouse(
+                                                                barcode: param, product: product)));
+                                                  }));
                                                   Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (screenContext) => BarcodeScannerPage(
-                                                        product: product,
-                                                        requestType: BarcodeRequestType.attachProduct,
-                                                        onIgnore: (barcode) async {
-                                                          int param;
-                                                          if (barcode == null) {
-                                                            param = null;
-                                                          } else {
-                                                            param = int.parse(barcode);
-                                                          }
-                                                          Navigator.push(
-                                                              scaffoldKey.currentContext,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) => AddProductsToSubWarehouse(
-                                                                      barcode: param, product: product)));
-                                                        },
-                                                      ),
-                                                    ),
-                                                  );
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (screenContext) =>
+                                                              BarcodeScannerPage(product: product)));
                                                 } else {
                                                   Navigator.push(
                                                     scaffoldKey.currentContext,

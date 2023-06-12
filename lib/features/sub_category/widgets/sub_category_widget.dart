@@ -2,6 +2,7 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 
 import '../../../core/core_importer.dart';
 import '../../barcode/presentation/pages/barcode_scanner_page.dart';
+import '../../barcode/presentation/redux/barcode_action.dart';
 import '../../general_information/domain/entities/category_entity.dart';
 import '../../products/presentation/pages/products_page.dart';
 import '../../products/presentation/redux/products_action.dart';
@@ -99,27 +100,23 @@ class SubCategoryWidget extends StatelessWidget {
                   supplierCode: supplierCode)));
     } else {
       if (forProductAdding) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BarcodeScannerPage(
-              requestType: BarcodeRequestType.addProduct,
-              onIgnore: (barcode) {
-                int param;
-                if (barcode == null) {
-                  param = null;
-                } else {
-                  param = int.parse(barcode);
-                }
-                Navigator.push(
-                    scaffoldKey.currentContext,
-                    MaterialPageRoute(
-                        builder: (screenContext) => AddProductsView(
-                            categoryId: index, barcode: param, supplierCode: supplierCode, productName: productName)));
-              },
-            ),
-          ),
-        );
+        StoreProvider.of<AppState>(context).dispatch(SetBarcodeType(barcodeRequestType: BarcodeRequestType.addProduct));
+        StoreProvider.of<AppState>(context).dispatch(SetonIgnore(
+          onIgnore: (barcode) {
+            int param;
+            if (barcode == null) {
+              param = null;
+            } else {
+              param = int.parse(barcode);
+            }
+            Navigator.push(
+                scaffoldKey.currentContext,
+                MaterialPageRoute(
+                    builder: (screenContext) => AddProductsView(
+                        categoryId: index, barcode: param, supplierCode: supplierCode, productName: productName)));
+          },
+        ));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const BarcodeScannerPage()));
       } else {
         StoreProvider.of<AppState>(context).dispatch(InitProducts());
         StoreProvider.of<AppState>(context)

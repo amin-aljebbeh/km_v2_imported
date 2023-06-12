@@ -1,9 +1,9 @@
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/features/products/presentation/widgets/product_widget.dart';
+import 'package:kammun_app/features/products/data/models/barcode_model.dart';
 import 'package:kammun_app/features/products/presentation/widgets/add_product_widget.dart';
+import 'package:kammun_app/features/products/presentation/widgets/product_widget.dart';
 import 'package:kammun_app/features/products/presentation/widgets/products_view_app_bar.dart';
 
-import '../../domain/entities/barcode_entity.dart';
 import '../redux/products_action.dart';
 
 class ProductsPage extends StatefulWidget {
@@ -16,8 +16,6 @@ class ProductsPage extends StatefulWidget {
 class ProductsPageState extends State<ProductsPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController searchController = TextEditingController();
-
-  final _random = Random();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +32,7 @@ class ProductsPageState extends State<ProductsPage> {
           child: Scaffold(
             key: scaffoldKey,
             floatingActionButton: state.productsState.searchString == 'null' &&
-                    state.productsState.barcodeString == 'null' &&
+                    state.barcodeState.barcodeRequestType != BarcodeRequestType.addBarcode &&
                     (Services.hasRole(context, adminRole) || Services.hasRole(context, productsControllerRole))
                 ? AddProductWidget(scaffoldKey: scaffoldKey, categoryId: state.productsState.categoryId)
                 : null,
@@ -45,7 +43,7 @@ class ProductsPageState extends State<ProductsPage> {
             backgroundColor: Theme.of(context).primaryColorLight,
             body: SafeArea(
               child: state.productsState.badWordMatched
-                  ? Center(child: funnyImages[_random.nextInt(funnyImages.length)])
+                  ? Center(child: funnyImages[0])
                   : state.productsState.products.isEmpty
                       ? ((state.loadingState.loading.isNotEmpty && state.productsState.products.isEmpty))
                           ? const FacebookLoader()
@@ -88,7 +86,7 @@ class ProductsPageState extends State<ProductsPage> {
                                         onAddBarcode: (result) {
                                           if (result != 'error') {
                                             setState(() => state.productsState.products[index].barcodes
-                                                .add(BarcodeEntity(barcode: result)));
+                                                .add(BarcodeModel(barcode: result)));
                                           }
                                         },
                                         onChangePrice: (newValue) =>

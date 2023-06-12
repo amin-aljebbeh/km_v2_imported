@@ -25,3 +25,21 @@ class DeleteProductAction extends ProductDetailsAction {
     store.dispatch(StopLoading());
   }
 }
+
+class DeleteImageAction extends ProductDetailsAction {
+  final int imageId;
+  final BuildContext context;
+
+  DeleteImageAction({this.imageId, this.context});
+
+  @override
+  handle({Store<AppState> store}) async {
+    store.dispatch(StartLoading());
+    Either either = await store.state.productDetailsState.productDetailsUSeCases.deleteImageUseCase(imageId: imageId);
+    either.fold(
+        (failure) =>
+            snackBar(success: false, message: 'فشلت عملية حذف صورة المنتج يرجى المحاولة مجدداً', context: context),
+        (_) => snackBar(success: true, message: 'تم حذف صورة المنتج بنجاح', context: context));
+    store.dispatch(StopLoading());
+  }
+}

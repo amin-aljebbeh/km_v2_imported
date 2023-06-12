@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:kammun_app/features/inventory_feature/domain/entities/prices_changes_entity.dart';
 import 'package:kammun_app/features/inventory_feature/domain/repositories/inventory_repository.dart';
 import 'package:kammun_app/features/products/data/models/product_model.dart';
 
@@ -113,6 +114,54 @@ class InventoryRepositoryImplement implements InventoryRepository {
   Future<Either<Failure, List<ProductModel>>> getAddedProducts() async {
     try {
       List<ProductEntity> products = await remoteInventoryDataSource.getAddedProducts();
+      return Right(products);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ProductEntity>>> checkProductBarcode({String barcode}) async {
+    try {
+      List<ProductEntity> products = await remoteInventoryDataSource.checkProductBarcode(barcode: barcode);
+      return Right(products);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ProductEntity>>> searchProductByBarcode({String barcode}) async {
+    try {
+      List<ProductEntity> products = await remoteInventoryDataSource.searchProductByBarcode(barcode: barcode);
+      return Right(products);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PricesChangesEntity>> getPriceChanges() async {
+    try {
+      PricesChangesEntity products = await remoteInventoryDataSource.getPriceChanges();
       return Right(products);
     } on CacheException {
       return Left(CacheFailure());

@@ -184,16 +184,20 @@ List<Widget> getDrawerChildren(BuildContext context) {
                           pushedRoute: SalesReport(), icon: Icons.table_view_rounded, text: 'تقرير المبيعات'),
                       if (Services.hasPermission(context, advancedAdminPanelPermission))
                         Column(
-                          children: const [
-                            SideBarRow(
+                          children: [
+                            const SideBarRow(
                                 pushedRoute: SalesCharts(),
                                 icon: Icons.insert_chart_outlined_rounded,
                                 text: 'إحصائيات المبيعات'),
-                            SideBarRow(
+                            const SideBarRow(
                                 pushedRoute: FinancialReportView(),
                                 icon: Icons.payment,
                                 text: 'الأرباح والمستحقات المالية'),
-                            SideBarRow(pushedRoute: Prices(), icon: Icons.attach_money, text: 'تغير الأسعار'),
+                            SideBarRow(
+                                onTap: () => store.dispatch(
+                                    GoToInventoryPage(inventoryType: InventoryTypes.prices, context: context)),
+                                icon: Icons.attach_money,
+                                text: 'تغير الأسعار'),
                           ],
                         ),
                     ],

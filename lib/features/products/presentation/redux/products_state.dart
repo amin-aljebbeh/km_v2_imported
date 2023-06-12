@@ -12,13 +12,11 @@ class ProductsState extends Equatable {
   final ProductsViewTypes productsViewType;
   final int categoryId;
   final String searchString;
-  final String barcodeString;
 
   const ProductsState({
     this.categoryId,
     this.searchString,
     this.productsUSeCases,
-    this.barcodeString,
     this.products,
     this.productsPage,
     this.hasNextProducts,
@@ -32,7 +30,6 @@ class ProductsState extends Equatable {
       hasNextProducts: false,
       products: const [],
       categoryId: -1,
-      barcodeString: 'null',
       searchString: 'null',
       productsPage: 1,
       productsUSeCases: sl<ProductsUSeCases>(),
@@ -47,7 +44,6 @@ class ProductsState extends Equatable {
     ProductsViewTypes productsViewType,
     int categoryId,
     String searchString,
-    String barcodeString,
   }) {
     return ProductsState(
       productsPage: productsPage ?? this.productsPage,
@@ -58,7 +54,6 @@ class ProductsState extends Equatable {
       badWordMatched: badWordMatched ?? this.badWordMatched,
       categoryId: categoryId ?? this.categoryId,
       searchString: searchString ?? this.searchString,
-      barcodeString: barcodeString ?? this.barcodeString,
     );
   }
 
@@ -71,6 +66,5 @@ class ProductsState extends Equatable {
         productsViewType,
         categoryId,
         searchString,
-        barcodeString
       ];
 }

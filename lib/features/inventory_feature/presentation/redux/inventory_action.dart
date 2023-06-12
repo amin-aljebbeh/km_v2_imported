@@ -3,13 +3,17 @@ import 'package:kammun_app/features/products/domain/entities/product_entity.dart
 
 import '../../../../core/core_importer.dart';
 import '../../../inventory/model/inventory_model_importer.dart';
+import '../../domain/entities/prices_changes_entity.dart';
 
 abstract class InventoryAction {
   handle({@required Store<AppState> store});
 }
 
 class InitialInventory extends InventoryAction {
-  InitialInventory();
+  InitialInventory({this.context});
+
+  final BuildContext context;
+
   @override
   handle({Store<AppState> store}) {
     store.dispatch(NoError());
@@ -20,7 +24,7 @@ class InitialInventory extends InventoryAction {
                 store.state.inventoryState.allProducts.isEmpty))) ||
         ![InventoryTypes.notAdded, InventoryTypes.all].contains(store.state.inventoryState.inventoryType)) {
       store.dispatch(StartLoading());
-      store.dispatch(GetInventory());
+      store.dispatch(GetInventory(context: context));
     }
   }
 }
@@ -43,6 +47,10 @@ class GoToInventoryPage extends InventoryAction {
 }
 
 class GetInventory implements InventoryAction {
+  final BuildContext context;
+
+  GetInventory({this.context});
+
   @override
   handle({Store<AppState> store}) async {
     switch (store.state.inventoryState.inventoryType) {
@@ -64,6 +72,23 @@ class GetInventory implements InventoryAction {
       case InventoryTypes.added:
         store.dispatch(GetAddedProductsAction());
         break;
+      case InventoryTypes.barcode:
+        switch (store.state.barcodeState.barcodeRequestType) {
+          case BarcodeRequestType.addBarcode:
+          case BarcodeRequestType.addProduct:
+            store.dispatch(CheckProductsBarcodeAction(context: context));
+            break;
+
+          case BarcodeRequestType.attachProduct:
+            store.dispatch(SearchProductByBarcodeAction(context: context));
+            break;
+          case BarcodeRequestType.search:
+            break;
+        }
+        break;
+      case InventoryTypes.prices:
+        store.dispatch(GetPriceChangesAction());
+        break;
     }
   }
 }
@@ -79,6 +104,63 @@ class GetNotificationProductsAction implements InventoryAction {
       FilteredProductsModel filteredProductsModel = products;
       store.dispatch(SetInventoryProducts(products: filteredProductsModel.data.products));
       if (filteredProductsModel.data.nextPageUrl == null) store.dispatch(EndOfInventory());
+    });
+    store.dispatch(StopLoading());
+  }
+}
+
+class GetPriceChangesAction implements InventoryAction {
+  @override
+  handle({Store<AppState> store}) async {
+    Either either = await store.state.inventoryState.inventoryUseCase.getPriceChangesUseCase();
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
+      PricesChangesEntity prices = products;
+      store.dispatch(SetInventoryProducts(products: prices.products));
+      store.dispatch(EndOfInventory());
+    });
+    store.dispatch(StopLoading());
+  }
+}
+
+class CheckProductsBarcodeAction implements InventoryAction {
+  final BuildContext context;
+
+  CheckProductsBarcodeAction({this.context});
+
+  @override
+  handle({Store<AppState> store}) async {
+    Either either = await store.state.inventoryState.inventoryUseCase
+        .checkProductsBarcodeUseCase(barcode: store.state.barcodeState.barcodeString);
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
+      if (products.isEmpty) {
+        Navigator.pop(context);
+        store.state.barcodeState.onIgnore(store.state.barcodeState.barcodeString);
+      } else {
+        store.dispatch(SetInventoryProducts(products: products));
+        store.dispatch(EndOfInventory());
+      }
+    });
+    store.dispatch(StopLoading());
+  }
+}
+
+class SearchProductByBarcodeAction implements InventoryAction {
+  final BuildContext context;
+
+  SearchProductByBarcodeAction({this.context});
+
+  @override
+  handle({Store<AppState> store}) async {
+    Either either = await store.state.inventoryState.inventoryUseCase
+        .searchProductByBarcodeUseCase(barcode: store.state.barcodeState.barcodeString);
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
+      if (products.isEmpty) {
+        Navigator.pop(context);
+        store.state.barcodeState.onIgnore(store.state.barcodeState.barcodeString);
+      } else {
+        store.dispatch(SetInventoryProducts(products: products));
+        store.dispatch(EndOfInventory());
+      }
     });
     store.dispatch(StopLoading());
   }

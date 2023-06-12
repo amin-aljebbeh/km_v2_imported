@@ -80,7 +80,7 @@ class GetBarcodeProductsAction extends ProductsAction {
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     Either either = await store.state.productsState.productsUSeCases
-        .getBarcodeProductsUseCase(barcode: store.state.productsState.barcodeString);
+        .getBarcodeProductsUseCase(barcode: store.state.barcodeState.barcodeString);
     either.fold(
         (failure) => store
             .dispatch(CatchError(errorMessage: 'حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت')),
@@ -135,12 +135,6 @@ class SetSearchString {
   SetSearchString({this.searchString});
 }
 
-class SetBarcodeString {
-  final String barcodeString;
-
-  SetBarcodeString({this.barcodeString});
-}
-
 class InitProducts extends ProductsAction {
   @override
   handle({Store<AppState> store}) {
@@ -150,7 +144,6 @@ class InitProducts extends ProductsAction {
     store.dispatch(SetCategoryId(categoryId: -1));
     store.dispatch(BadWordMatched(matched: false));
     store.dispatch(SetSearchString(searchString: 'null'));
-    store.dispatch(SetBarcodeString(barcodeString: 'null'));
     if (store.state.loadingState.loading.isNotEmpty) store.dispatch(StopLoading());
   }
 }

@@ -9,9 +9,16 @@ class ProductDetailsRepositoryImplement implements ProductDetailsRepository {
   final RepositoryFactory repositoryFactory;
 
   ProductDetailsRepositoryImplement({this.productDetailsRemoteDataSource, this.repositoryFactory});
+
   @override
   Future<Either<Failure, Unit>> deleteProduct({int productId}) async {
     return await repositoryFactory.failureUnitRepo(
         function: () => productDetailsRemoteDataSource.deleteProduct(productId: productId));
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteImage({int imageId}) async {
+    return await repositoryFactory.failureUnitRepo(
+        function: () => productDetailsRemoteDataSource.deleteImage(imageId: imageId));
   }
 }

@@ -4,6 +4,7 @@ import 'package:kammun_app/core/core_importer.dart';
 import '../../../cart/data/models/get_cart_model.dart';
 import '../../../inventory/model/inventory_model_importer.dart';
 import '../../../products/data/models/product_model.dart';
+import '../models/prices_changes_model.dart';
 import '../models/prime_products_response_model.dart';
 
 abstract class RemoteInventoryDataSource {
@@ -22,6 +23,12 @@ abstract class RemoteInventoryDataSource {
   Future<Unit> targetInventory();
 
   Future<Unit> keepingAnInventoriesRecord();
+
+  Future<List<ProductModel>> checkProductBarcode({String barcode});
+
+  Future<List<ProductModel>> searchProductByBarcode({String barcode});
+
+  Future<PricesChangesModel> getPriceChanges();
 }
 
 class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
@@ -134,6 +141,46 @@ class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
     try {
       if (response != null) {
         if (response.statusCode == successCode) return getProductsFromJson(jsonEncode(response.data)).products;
+      }
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<List<ProductModel>> checkProductBarcode({String barcode}) async {
+    Response response = await ApiProvider.sendRequest(url: checkProductBarcodeApi + barcode, method: HttpMethods.get);
+    try {
+      if (response != null) {
+        if (response.statusCode == successCode) return getProductsFromJson(jsonEncode(response.data)).products;
+      }
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<List<ProductModel>> searchProductByBarcode({String barcode}) async {
+    Response response =
+        await ApiProvider.sendRequest(url: searchProductByBarcodeApi + barcode, method: HttpMethods.get);
+    try {
+      if (response != null) {
+        if (response.statusCode == successCode) return getProductsFromJson(jsonEncode(response.data)).products;
+      }
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<PricesChangesModel> getPriceChanges() async {
+    Response response = await ApiProvider.sendRequest(url: getPriceChangedApi, method: HttpMethods.get);
+    try {
+      if (response != null) {
+        if (response.statusCode == successCode) return PricesChangesModel.fromJson(response.data);
       }
     } catch (e) {
       throw (InternalException(message: e.toString()));

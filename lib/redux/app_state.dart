@@ -1,3 +1,4 @@
+import 'package:kammun_app/features/barcode/presentation/redux/barcode_state.dart';
 import 'package:kammun_app/features/loading/presentation/redux/loading_state.dart';
 import 'package:kammun_app/features/orders/presentation/redux/orders_state.dart';
 import 'package:kammun_app/features/product_details/presentation/redux/product_details_state.dart';
@@ -11,10 +12,10 @@ import '../features/cart/presentation/redux/cart_state.dart';
 import '../features/complaints/presentation/redux/complaints_state.dart';
 import '../features/coupons/presentation/redux/coupon_state.dart';
 import '../features/error/presentation/redux/error_state.dart';
+import '../features/general_information/presentation/redux/general_information_state.dart';
 import '../features/home/presentation/redux/home_state.dart';
 import '../features/inventory_feature/presentation/redux/inventory_state.dart';
 import '../features/order_details/presentation/redux/order_details_state.dart';
-import '../features/general_information/presentation/redux/general_information_state.dart';
 import '../features/supplier/presentation/redux/supplier_state.dart';
 import '../features/transactions/presentation/redux/transactions_state.dart';
 import '../features/users/presentation/redux/users_state.dart';
@@ -22,6 +23,7 @@ import '../features/users/presentation/redux/users_state.dart';
 @immutable
 class AppState extends Equatable {
   final AdminsState adminsState;
+  final BarcodeState barcodeState;
   final CartState cartState;
   final ComplaintsState complaintsState;
   final CouponState couponState;
@@ -59,6 +61,7 @@ class AppState extends Equatable {
     this.usersState,
     this.shoppersState,
     this.cartState,
+    this.barcodeState,
   });
 
   factory AppState.initial() => AppState(
@@ -80,6 +83,7 @@ class AppState extends Equatable {
         shoppersState: ShoppersState.initial(),
         orderDetailsState: OrderDetailsState.initial(),
         cartState: CartState.initial(),
+        barcodeState: BarcodeState.initial(),
       );
 
   AppState copyWith({
@@ -101,9 +105,11 @@ class AppState extends Equatable {
     ShoppersState shoppersState,
     OrderDetailsState orderDetailsState,
     CartState cartState,
+    BarcodeState barcodeState,
   }) {
     return AppState(
       inventoryState: inventoryState ?? this.inventoryState,
+      barcodeState: barcodeState ?? this.barcodeState,
       generalInformationState: generalInformationState ?? this.generalInformationState,
       errorState: errorState ?? this.errorState,
       loadingState: loadingState ?? this.loadingState,
@@ -133,6 +139,7 @@ class AppState extends Equatable {
         supplierState,
         transactionsState,
         complaintsState,
+        barcodeState,
         adminsState,
         productsState,
         searchOrdersState,

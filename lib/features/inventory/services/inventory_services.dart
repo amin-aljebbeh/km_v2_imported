@@ -59,7 +59,9 @@ class InventoryServices {
       request.files.add(await http.MultipartFile.fromPath('file', file.path));
       request.headers.addAll(headers);
       var response = await request.send();
+      Tools.logToConsole(response);
       if (response.statusCode == 200) {
+        Tools.logToConsole(response.stream.bytesToString());
         PriceFileProductModel price = priceFileProductModelFromJson(await response.stream.bytesToString());
         return price;
       }
@@ -79,7 +81,9 @@ class InventoryServices {
       request.files.add(await http.MultipartFile.fromPath('file', file.path));
       request.headers.addAll(headers);
       response = await request.send();
+      Tools.logToConsole(response);
       if (response.statusCode == 200) {
+        Tools.logToConsole(response.stream.bytesToString());
         InventoryFileProductModel price =
             inventoryFileProductModelProductsFromJson(await response.stream.bytesToString());
         return price;

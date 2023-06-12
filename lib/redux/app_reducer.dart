@@ -11,13 +11,14 @@ import 'package:kammun_app/features/transactions/presentation/redux/transactions
 import 'package:kammun_app/features/users/presentation/redux/users_reducer.dart';
 
 import '../core/core_importer.dart';
+import '../features/barcode/presentation/redux/barcode_reducer.dart';
 import '../features/complaints/presentation/redux/complaints_reducer.dart';
 import '../features/coupons/presentation/redux/coupon_reducer.dart';
+import '../features/general_information/presentation/redux/general_information_reducer.dart';
 import '../features/home/presentation/redux/home_reducer.dart';
 import '../features/product_details/presentation/redux/product_details_reducer.dart';
 import '../features/search_orders/presentation/redux/search_orders_reducer.dart';
 import '../features/shoppers/presentation/redux/shoppers_reducer.dart';
-import '../features/general_information/presentation/redux/general_information_reducer.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   if (action is RestartApp) return AppState.initial();
@@ -40,5 +41,6 @@ AppState appReducer(AppState state, dynamic action) {
     productsState: productsReducer(state.productsState, action),
     homeState: homeReducer(state.homeState, action),
     generalInformationState: generalInformationReducer(state.generalInformationState, action),
+    barcodeState: barcodeReducer(state.barcodeState, action),
   );
 }

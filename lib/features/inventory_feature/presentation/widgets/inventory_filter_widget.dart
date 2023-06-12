@@ -42,7 +42,7 @@ class _InventoryFilterWidgetState extends State<InventoryFilterWidget> {
                       subWarehouseId: value != state.generalInformationState.subWarehouses.length
                           ? state.generalInformationState.subWarehouses[value].id
                           : -1));
-                  store.dispatch(InitialInventory());
+                  store.dispatch(InitialInventory(context: context));
                 },
               ),
               DropdownButton(
@@ -50,7 +50,7 @@ class _InventoryFilterWidgetState extends State<InventoryFilterWidget> {
                 items: Services.dropdownStringList(activeList),
                 onChanged: (value) {
                   store.dispatch(SetIsActive(isActive: value));
-                  store.dispatch(InitialInventory());
+                  store.dispatch(InitialInventory(context: context));
                 },
               ),
             ],

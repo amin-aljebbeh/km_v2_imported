@@ -19,6 +19,6 @@ LoadingState startLoading(LoadingState state, StartLoading action) {
 LoadingState stopLoading(LoadingState state, StopLoading action) {
   List<int> loading = [];
   loading.addAll(state.loading);
-  loading.removeLast();
+  if (loading.isNotEmpty) loading.removeLast();
   return state.copyWith(loading: loading);
 }
