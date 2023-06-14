@@ -1,0 +1,3 @@
+abstract class ProductsFilterRemoteDataSource {}
+
+class ProductsFilterRemoteDataSourceImplement implements ProductsFilterRemoteDataSource {}

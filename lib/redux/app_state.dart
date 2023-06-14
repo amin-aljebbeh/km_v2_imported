@@ -3,6 +3,7 @@ import 'package:kammun_app/features/loading/presentation/redux/loading_state.dar
 import 'package:kammun_app/features/orders/presentation/redux/orders_state.dart';
 import 'package:kammun_app/features/product_details/presentation/redux/product_details_state.dart';
 import 'package:kammun_app/features/products/presentation/redux/products_state.dart';
+import 'package:kammun_app/features/products_filter/presentation/redux/products_filter_state.dart';
 import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_state.dart';
 import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_state.dart';
 
@@ -36,6 +37,7 @@ class AppState extends Equatable {
   final OrdersState ordersState;
   final ProductDetailsState productDetailsState;
   final ProductsState productsState;
+  final ProductsFilterState productsFilterState;
   final SearchOrdersState searchOrdersState;
   final ShoppersState shoppersState;
   final SupplierState supplierState;
@@ -44,6 +46,7 @@ class AppState extends Equatable {
 
   const AppState({
     this.ordersState,
+    this.productsFilterState,
     this.generalInformationState,
     this.orderDetailsState,
     this.transactionsState,
@@ -67,6 +70,7 @@ class AppState extends Equatable {
   factory AppState.initial() => AppState(
         inventoryState: InventoryState.initial(),
         errorState: ErrorState.initial(),
+        productsFilterState: ProductsFilterState.initial(),
         loadingState: LoadingState.initial(),
         supplierState: SupplierState.initial(),
         complaintsState: ComplaintsState.initial(),
@@ -97,6 +101,7 @@ class AppState extends Equatable {
     CouponState couponState,
     ProductsState productsState,
     UsersState usersState,
+    ProductsFilterState productsFilterState,
     GeneralInformationState generalInformationState,
     HomeState homeState,
     SearchOrdersState searchOrdersState,
@@ -110,6 +115,7 @@ class AppState extends Equatable {
     return AppState(
       inventoryState: inventoryState ?? this.inventoryState,
       barcodeState: barcodeState ?? this.barcodeState,
+      productsFilterState: productsFilterState ?? this.productsFilterState,
       generalInformationState: generalInformationState ?? this.generalInformationState,
       errorState: errorState ?? this.errorState,
       loadingState: loadingState ?? this.loadingState,
@@ -141,6 +147,7 @@ class AppState extends Equatable {
         complaintsState,
         barcodeState,
         adminsState,
+        productsFilterState,
         productsState,
         searchOrdersState,
         generalInformationState,

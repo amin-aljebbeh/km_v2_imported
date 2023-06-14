@@ -8,6 +8,7 @@ import 'inventory_injection.dart';
 import 'order_details_injection.dart';
 import 'orders_injection.dart';
 import 'product_details_injection.dart';
+import 'products_filter_injection.dart';
 import 'products_injection.dart';
 import 'search_orders_injection.dart';
 import 'shoppers_injection.dart';
@@ -32,6 +33,7 @@ Future<void> inject() async {
   await injectProductDetails();
   await injectProducts();
   await injectHome();
+  await injectProductsFilter();
 
 //! Core
 

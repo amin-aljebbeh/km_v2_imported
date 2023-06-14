@@ -17,6 +17,7 @@ import '../features/coupons/presentation/redux/coupon_reducer.dart';
 import '../features/general_information/presentation/redux/general_information_reducer.dart';
 import '../features/home/presentation/redux/home_reducer.dart';
 import '../features/product_details/presentation/redux/product_details_reducer.dart';
+import '../features/products_filter/presentation/redux/products_filter_reducer.dart';
 import '../features/search_orders/presentation/redux/search_orders_reducer.dart';
 import '../features/shoppers/presentation/redux/shoppers_reducer.dart';
 
@@ -40,6 +41,7 @@ AppState appReducer(AppState state, dynamic action) {
     productDetailsState: productDetailsReducer(state.productDetailsState, action),
     productsState: productsReducer(state.productsState, action),
     homeState: homeReducer(state.homeState, action),
+    productsFilterState: productsFilterReducer(state.productsFilterState, action),
     generalInformationState: generalInformationReducer(state.generalInformationState, action),
     barcodeState: barcodeReducer(state.barcodeState, action),
   );

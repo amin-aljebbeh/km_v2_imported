@@ -17,7 +17,7 @@ class InventoryServices {
       params = {'page': page, 'from_date': fromDate, 'to_date': toDate};
     }
     var response = await ApiProvider.sendRequest(
-        url: productFilterUrls[filterIndex], method: HttpMethods.get, queryParameters: params);
+        url: productFilterApis[filterIndex], method: HttpMethods.get, queryParameters: params);
     if (response.statusCode == successCode && response.data['success']) {
       final result = filteredProductsModelFromJson(jsonEncode(response.data)).data;
 

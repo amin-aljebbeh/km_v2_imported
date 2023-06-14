@@ -98,11 +98,11 @@ String errorMessage = 'حدث خطأ اثناء محاولة جلب البيان
 
 List<String> productFilter = ['الغير مفعلة', 'عدد مرات البيع', 'عدد مرات العرض', 'المنتجات المحذوفة'];
 
-List<String> productFilterUrls = [
-  filterByLastActivationDate,
-  filterByNumberOfSales,
-  filterByNumberOfVisits,
-  productsDeletedFromOrders
+List<String> productFilterApis = [
+  filterByLastActivationDateApi,
+  filterByNumberOfSalesApi,
+  filterByNumberOfVisitsApi,
+  productsDeletedFromOrdersApi
 ];
 
 List<String> productFilterParams = ['number_of_days', 'number_of_sale', 'number_of_visit'];
