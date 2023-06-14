@@ -173,4 +173,25 @@ class InventoryRepositoryImplement implements InventoryRepository {
       return Left(InternalFailure(message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<ProductEntity>>> getSubWarehouseProducts({int subWarehouseId}) async {
+    try {
+      List<ProductEntity> products =
+          await remoteInventoryDataSource.getSubWarehouseProducts(subWarehouseId: subWarehouseId);
+      Tools.logToConsole('products repo');
+      Tools.logToConsole(products);
+      return Right(products);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      Tools.logToConsole('exception repo');
+      Tools.logToConsole(e.toString());
+      return Left(InternalFailure(message: e.toString()));
+    }
+  }
 }

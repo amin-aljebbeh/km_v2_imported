@@ -13,6 +13,7 @@ class InventoryState extends Equatable {
   final int pageNumber;
   final bool hasNext;
   final int subWarehouseId;
+  final int subWarehouseFilter;
   final int isActive;
   final InventoryTypes inventoryType;
 
@@ -27,6 +28,7 @@ class InventoryState extends Equatable {
     this.pageNumber,
     this.hasNext,
     this.inventoryType,
+    this.subWarehouseFilter,
   });
 
   factory InventoryState.initial() {
@@ -39,6 +41,7 @@ class InventoryState extends Equatable {
       pageNumber: 1,
       isActive: 0,
       subWarehouseId: null,
+      subWarehouseFilter: 0,
       hasNext: true,
       inventoryType: null,
     );
@@ -51,6 +54,7 @@ class InventoryState extends Equatable {
     bool hasNext,
     InventoryTypes inventoryType,
     int subWarehouseId,
+    int subWarehouseFilter,
     int isActive,
     List<ProductEntity> allProducts,
     List<ProductEntity> notAddedProducts,
@@ -58,6 +62,7 @@ class InventoryState extends Equatable {
     return InventoryState(
       inventoryUseCase: inventoryUseCase,
       products: products ?? this.products,
+      subWarehouseFilter: subWarehouseFilter ?? this.subWarehouseFilter,
       searchFilter: searchFilter ?? this.searchFilter,
       hasNext: hasNext ?? this.hasNext,
       inventoryType: inventoryType ?? this.inventoryType,
@@ -75,6 +80,7 @@ class InventoryState extends Equatable {
         products,
         searchFilter,
         hasNext,
+        subWarehouseFilter,
         pageNumber,
         inventoryType,
         subWarehouseId,

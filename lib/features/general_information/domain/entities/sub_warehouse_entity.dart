@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
+
 import 'sub_warehouse_level_pivot_entity.dart';
 
 class SubWarehouseEntity {
@@ -7,6 +9,7 @@ class SubWarehouseEntity {
   final SubWarehouseLevelPivotEntity levelPivot;
   final double discountPercentage;
   final String allowShopperAssign;
+  final List<ProductEntity> products;
 
   SubWarehouseEntity({
     this.id,
@@ -15,5 +18,6 @@ class SubWarehouseEntity {
     this.levelPivot,
     this.discountPercentage,
     this.allowShopperAssign,
+    this.products,
   });
 }

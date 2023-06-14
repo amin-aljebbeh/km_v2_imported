@@ -101,11 +101,10 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                             color: selected ? Theme.of(context).primaryColor : searchGreyColor,
                             onTap: () {
                               if (selected) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SubWarehouseProducts(
-                                            subWarehouseId: _selectedSubWarehouseValue.toString())));
+                                StoreProvider.of<AppState>(context).dispatch(GoToInventoryPage(
+                                    context: context,
+                                    inventoryType: InventoryTypes.subWarehouse,
+                                    subWarehouseId: _selectedSubWarehouseValue));
                               } else {
                                 Toast.show('يرجى اختيار المستودع', context,
                                     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);

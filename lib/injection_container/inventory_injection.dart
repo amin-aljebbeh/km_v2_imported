@@ -9,6 +9,7 @@ import '../features/inventory_feature/domain/use_cases/get_not_added_products_us
 import '../features/inventory_feature/domain/use_cases/get_notification_products_use_cases.dart';
 import '../features/inventory_feature/domain/use_cases/get_price_changes_use_cases.dart';
 import '../features/inventory_feature/domain/use_cases/get_prime_products_use_case.dart';
+import '../features/inventory_feature/domain/use_cases/get_sub_warehouse_products_use_cases.dart';
 import '../features/inventory_feature/domain/use_cases/get_under_check_availability_use_case.dart';
 import '../features/inventory_feature/domain/use_cases/inventory_use_cases.dart';
 import '../features/inventory_feature/domain/use_cases/keeping_inventories_record_use_cases.dart';
@@ -27,8 +28,10 @@ Future<void> injectInventory() async {
   sl.registerLazySingleton(() => CheckProductsBarcodeUseCase(inventoryRepository: sl()));
   sl.registerLazySingleton(() => SearchProductByBarcodeUseCase(inventoryRepository: sl()));
   sl.registerLazySingleton(() => GetPriceChangesUseCase(inventoryRepository: sl()));
+  sl.registerLazySingleton(() => GetSubWarehouseProductsUseCase(inventoryRepository: sl()));
   sl.registerLazySingleton<InventoryUseCase>(() => InventoryUseCase(
         getNotificationProductsUseCase: sl(),
+        getSubWarehouseProductsUseCase: sl(),
         getPriceChangesUseCase: sl(),
         searchProductByBarcodeUseCase: sl(),
         checkProductsBarcodeUseCase: sl(),

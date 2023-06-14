@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
 
 import '../../../cart/data/models/get_cart_model.dart';
+import '../../../general_information/data/models/sub_warehouse_model.dart';
 import '../../../inventory/model/inventory_model_importer.dart';
 import '../../../products/data/models/product_model.dart';
 import '../models/prices_changes_model.dart';
@@ -29,6 +30,8 @@ abstract class RemoteInventoryDataSource {
   Future<List<ProductModel>> searchProductByBarcode({String barcode});
 
   Future<PricesChangesModel> getPriceChanges();
+
+  Future<List<ProductModel>> getSubWarehouseProducts({int subWarehouseId});
 }
 
 class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
@@ -181,6 +184,22 @@ class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
     try {
       if (response != null) {
         if (response.statusCode == successCode) return PricesChangesModel.fromJson(response.data);
+      }
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<List<ProductModel>> getSubWarehouseProducts({int subWarehouseId}) async {
+    Response response =
+        await ApiProvider.sendRequest(url: subWarehouseApi + subWarehouseId.toString(), method: HttpMethods.get);
+    try {
+      if (response != null) {
+        if (response.statusCode == successCode) {
+          return subWarehouseModelFromJson(jsonEncode(response.data)).data.products;
+        }
       }
     } catch (e) {
       throw (InternalException(message: e.toString()));

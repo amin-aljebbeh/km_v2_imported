@@ -10,6 +10,7 @@ import 'get_added_products_use_cases.dart';
 import 'get_all_products_use_cases.dart';
 import 'get_not_added_products_use_cases.dart';
 import 'get_price_changes_use_cases.dart';
+import 'get_sub_warehouse_products_use_cases.dart';
 import 'target_inventory_use_case.dart';
 
 class InventoryUseCase {
@@ -24,6 +25,7 @@ class InventoryUseCase {
   final GetPriceChangesUseCase getPriceChangesUseCase;
   final TargetInventoryUseCase targetInventoryUseCase;
   final KeepingInventoriesRecordUseCase keepingInventoriesRecordUseCase;
+  final GetSubWarehouseProductsUseCase getSubWarehouseProductsUseCase;
 
   InventoryUseCase({
     @required this.getPrimeProductsUseCase,
@@ -36,6 +38,7 @@ class InventoryUseCase {
     @required this.getAllProductsUseCase,
     @required this.checkProductsBarcodeUseCase,
     @required this.searchProductByBarcodeUseCase,
+    @required this.getSubWarehouseProductsUseCase,
     @required this.getPriceChangesUseCase,
   }) : assert(
           getNotificationProductsUseCase != null &&
@@ -46,6 +49,7 @@ class InventoryUseCase {
               searchProductByBarcodeUseCase != null &&
               getNotAddedProductsUseCase != null &&
               getAddedProductsUseCase != null &&
+              getSubWarehouseProductsUseCase != null &&
               getAllProductsUseCase != null &&
               keepingInventoriesRecordUseCase != null &&
               getUnderCheckAvailabilityUseCase != null,

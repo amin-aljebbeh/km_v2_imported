@@ -13,7 +13,9 @@ Reducer<InventoryState> inventoryReducer = combineReducers<InventoryState>([
   TypedReducer<InventoryState, SetSubWarehouseId>(setSubWarehouseId),
   TypedReducer<InventoryState, SetIsActive>(setIsActive),
   TypedReducer<InventoryState, SetIAllProducts>(setIAllProducts),
+  TypedReducer<InventoryState, ChangeSubWarehouseFilter>(changeSubWarehouseFilter),
   TypedReducer<InventoryState, SetNotAddedProducts>(setNotAddedProducts),
+  TypedReducer<InventoryState, SetSubWarehouseFilter>(setSubWarehouseFilter),
 ]);
 
 InventoryState setInventoryProducts(InventoryState state, SetInventoryProducts action) {
@@ -37,6 +39,49 @@ InventoryState setInventoryType(InventoryState state, SetInventoryType action) {
   return state.copyWith(inventoryType: action.inventoryType);
 }
 
+InventoryState changeSubWarehouseFilter(InventoryState state, ChangeSubWarehouseFilter action) {
+  int filter = state.subWarehouseFilter;
+  List<ProductEntity> products = state.products;
+  switch (filter) {
+    case 0:
+      products.sort((a, b) {
+        if (int.parse(a.isActive) == 0) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+      filter = 1;
+      snackBar(success: true, message: 'فرز حسب المواد الغير مفعلة', context: action.context);
+      break;
+    case 1:
+      products.sort((a, b) {
+        if (int.parse(a.isActive) == 0) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
+      filter = 2;
+      snackBar(success: true, message: 'فرز حسب المواد  المفعلة', context: action.context);
+      break;
+    case 2:
+      products.sort((a, b) {
+        if (a.id > b.id) {
+          return -1;
+        } else if (a.id < b.id) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      filter = 0;
+      snackBar(success: true, message: 'فرز حسب المواد المضافة حديثاً', context: action.context);
+      break;
+  }
+  return state.copyWith(products: products, subWarehouseFilter: filter);
+}
+
 InventoryState setSubWarehouseId(InventoryState state, SetSubWarehouseId action) =>
     state.copyWith(subWarehouseId: action.subWarehouseId);
 
@@ -48,3 +93,6 @@ InventoryState nextPage(InventoryState state, NextPage action) => state.copyWith
 
 InventoryState clearInventory(InventoryState state, ClearInventory action) =>
     state.copyWith(products: [], pageNumber: 1, hasNext: true);
+
+InventoryState setSubWarehouseFilter(InventoryState state, SetSubWarehouseFilter action) =>
+    state.copyWith(subWarehouseFilter: action.filter);

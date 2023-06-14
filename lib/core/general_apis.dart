@@ -28,7 +28,7 @@ class GeneralApis {
 
   static Future<ShopperLevelModel> getLevelService(String levelId) async {
     try {
-      var response = await ApiProvider.sendRequest(url: level + levelId, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: levelApi + levelId, method: HttpMethods.get);
 
       if (response.statusCode == successCode) return LevelModelResponse.fromJson(response.data).data;
       return null;
@@ -39,7 +39,7 @@ class GeneralApis {
 
   static Future<List<ShopperLevelModel>> getLevels() async {
     try {
-      var response = await ApiProvider.sendRequest(url: level, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: levelApi, method: HttpMethods.get);
 
       if (response.statusCode == successCode) return levelsFromJson(jsonEncode(response.data)).levels;
       return null;

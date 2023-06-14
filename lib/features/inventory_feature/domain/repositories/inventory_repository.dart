@@ -27,5 +27,7 @@ abstract class InventoryRepository {
 
   Future<Either<Failure, List<ProductEntity>>> searchProductByBarcode({String barcode});
 
+  Future<Either<Failure, List<ProductEntity>>> getSubWarehouseProducts({int subWarehouseId});
+
   Future<Either<Failure, PricesChangesEntity>> getPriceChanges();
 }

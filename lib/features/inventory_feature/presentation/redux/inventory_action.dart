@@ -32,16 +32,18 @@ class InitialInventory extends InventoryAction {
 class GoToInventoryPage extends InventoryAction {
   final InventoryTypes inventoryType;
   final BuildContext context;
+  final int subWarehouseId;
 
-  GoToInventoryPage({this.inventoryType, this.context});
+  GoToInventoryPage({this.subWarehouseId = -1, this.inventoryType, this.context});
 
   @override
   handle({Store<AppState> store}) {
     store.dispatch(SetSearchFilter(searchFilter: ''));
+    store.dispatch(SetSubWarehouseFilter(filter: 0));
     store.dispatch(SetIsActive(isActive: 0));
     store.dispatch(NoError());
     store.dispatch(SetInventoryType(inventoryType: inventoryType));
-    store.dispatch(SetSubWarehouseId(subWarehouseId: -1));
+    store.dispatch(SetSubWarehouseId(subWarehouseId: subWarehouseId));
     Navigator.push(context, MaterialPageRoute(builder: (_) => const InventoryPage()));
   }
 }
@@ -88,6 +90,9 @@ class GetInventory implements InventoryAction {
         break;
       case InventoryTypes.prices:
         store.dispatch(GetPriceChangesAction());
+        break;
+      case InventoryTypes.subWarehouse:
+        store.dispatch(GetSubWarehouseProductsAction());
         break;
     }
   }
@@ -226,6 +231,28 @@ class GetAddedProductsAction implements InventoryAction {
   }
 }
 
+class GetSubWarehouseProductsAction implements InventoryAction {
+  @override
+  handle({Store<AppState> store}) async {
+    Either either = await store.state.inventoryState.inventoryUseCase
+        .getSubWarehouseProductsUseCase(subWarehouseId: store.state.inventoryState.subWarehouseId);
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
+      Tools.logToConsole('products');
+      Tools.logToConsole(products);
+      products.sort((a, b) {
+        if (int.parse(a.isActive) == 0) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+      store.dispatch(EndOfInventory());
+      store.dispatch(SetInventoryProducts(products: products));
+    });
+    store.dispatch(StopLoading());
+  }
+}
+
 class GetUnderCheckAvailabilityAction implements InventoryAction {
   @override
   handle({Store<AppState> store}) async {
@@ -278,6 +305,18 @@ class SetSearchFilter {
   final String searchFilter;
 
   SetSearchFilter({this.searchFilter});
+}
+
+class ChangeSubWarehouseFilter {
+  final BuildContext context;
+
+  ChangeSubWarehouseFilter({this.context});
+}
+
+class SetSubWarehouseFilter {
+  final int filter;
+
+  SetSubWarehouseFilter({this.filter});
 }
 
 class EndOfInventory {}

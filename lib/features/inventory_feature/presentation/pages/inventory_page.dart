@@ -3,6 +3,7 @@ import 'package:kammun_app/features/inventory_feature/presentation/redux/invento
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 
 import '../widgets/inventory_filter_widget.dart';
+import '../widgets/inventory_floating_action_button.dart';
 
 class InventoryPage extends StatefulWidget {
   const InventoryPage({Key key}) : super(key: key);
@@ -33,37 +34,32 @@ class _InventoryPageState extends State<InventoryPage> {
       builder: (context, state) {
         List<ProductEntity> products = [];
         var inventoryState = state.inventoryState;
-        products.addAll(inventoryState.products.where((product) =>
-            ![InventoryTypes.notAdded, InventoryTypes.all].contains(store.state.inventoryState.inventoryType)));
-        products.addAll(inventoryState.allProducts
-            .where((product) => InventoryTypes.all == store.state.inventoryState.inventoryType));
+        products.addAll(inventoryState.products
+            .where((product) => ![InventoryTypes.notAdded, InventoryTypes.all].contains(inventoryState.inventoryType)));
+        products
+            .addAll(inventoryState.allProducts.where((product) => InventoryTypes.all == inventoryState.inventoryType));
         products.addAll(inventoryState.notAddedProducts
-            .where((product) => InventoryTypes.notAdded == store.state.inventoryState.inventoryType));
+            .where((product) => InventoryTypes.notAdded == inventoryState.inventoryType));
         products.removeWhere((product) =>
             (inventoryState.searchFilter != null && inventoryState.searchFilter != '') &&
             !product.name.toLowerCase().contains(inventoryState.searchFilter.toLowerCase()));
         return Scaffold(
           key: scaffoldKey,
-          floatingActionButton: inventoryState.inventoryType == InventoryTypes.prices
-              ? FloatingActionButton(
-                  onPressed: () {},
-                  backgroundColor: primaryColor,
-                  child: Text(products.length.toString(), style: mainStyle.copyWith(fontSize: 20)),
-                )
-              : const SizedBox(),
+          floatingActionButton: const InventoryFloatingActionButton(),
           backgroundColor: Colors.white,
           appBar: InventorySearchTextField(
-              onReload: () {
-                if (state.inventoryState.inventoryType == InventoryTypes.all) {
-                  StoreProvider.of<AppState>(context).dispatch(SetIAllProducts(products: []));
-                }
-                if (state.inventoryState.inventoryType == InventoryTypes.notAdded) {
-                  StoreProvider.of<AppState>(context).dispatch(SetNotAddedProducts(products: []));
-                }
-                StoreProvider.of<AppState>(context).dispatch(InitialInventory(context: context));
-              },
-              controller: controller,
-              context: context),
+            onReload: () {
+              if (state.inventoryState.inventoryType == InventoryTypes.all) {
+                StoreProvider.of<AppState>(context).dispatch(SetIAllProducts(products: []));
+              }
+              if (state.inventoryState.inventoryType == InventoryTypes.notAdded) {
+                StoreProvider.of<AppState>(context).dispatch(SetNotAddedProducts(products: []));
+              }
+              StoreProvider.of<AppState>(context).dispatch(InitialInventory(context: context));
+            },
+            controller: controller,
+            context: context,
+          ),
           body: WillPopScope(
             onWillPop: () async {
               store.dispatch(NoError());
@@ -77,6 +73,7 @@ class _InventoryPageState extends State<InventoryPage> {
                     InventoryTypes.all,
                     InventoryTypes.added,
                     InventoryTypes.barcode,
+                    InventoryTypes.subWarehouse,
                     InventoryTypes.prices
                   ].contains(inventoryState.inventoryType))
                     const InventoryFilterWidget(),

@@ -62,7 +62,7 @@ class LoginServices {
     Map loginBody = {'username': username, 'password': password};
     try {
       var response = await ApiProvider.sendRequest(
-          url: login, method: HttpMethods.post, body: jsonEncode(loginBody), responseType: ResponseType.json);
+          url: loginApi, method: HttpMethods.post, body: jsonEncode(loginBody), responseType: ResponseType.json);
       var theResponse = response.data;
       if (response.statusCode == successCode && (theResponse['success'].toString() == 'true')) {
         final newResponse = adminLoginResponseFromJson(jsonEncode(response.data));
