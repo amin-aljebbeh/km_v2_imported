@@ -10,8 +10,18 @@ class ProductsFilterState extends Equatable {
   final bool hasNextFilteredProducts;
   final FilteredProductsTypes filteredProductsTypes;
   final String productsFilterSearchString;
+  final bool biggerThan;
+  final int number;
+  final int total;
+  final String fromDate;
+  final String toDate;
 
   const ProductsFilterState({
+    this.biggerThan,
+    this.number,
+    this.fromDate,
+    this.total,
+    this.toDate,
     this.filteredProductsTypes,
     this.productsFilterSearchString,
     this.productsUSeCases,
@@ -24,8 +34,10 @@ class ProductsFilterState extends Equatable {
     return ProductsFilterState(
       hasNextFilteredProducts: false,
       filteredProducts: const [],
-      productsFilterSearchString: 'null',
+      productsFilterSearchString: '',
       filteredProductsPage: 1,
+      biggerThan: true,
+      total: 0,
       productsUSeCases: sl<ProductsFilterUseCases>(),
     );
   }
@@ -36,6 +48,11 @@ class ProductsFilterState extends Equatable {
     bool hasNextFilteredProducts,
     FilteredProductsTypes filteredProductsTypes,
     String productsFilterSearchString,
+    int total,
+    bool biggerThan,
+    int number,
+    String fromDate,
+    String toDate,
   }) {
     return ProductsFilterState(
       filteredProductsPage: filteredProductsPage ?? this.filteredProductsPage,
@@ -44,16 +61,26 @@ class ProductsFilterState extends Equatable {
       filteredProductsTypes: filteredProductsTypes ?? this.filteredProductsTypes,
       hasNextFilteredProducts: hasNextFilteredProducts ?? this.hasNextFilteredProducts,
       productsFilterSearchString: productsFilterSearchString ?? this.productsFilterSearchString,
+      biggerThan: biggerThan ?? this.biggerThan,
+      number: number ?? this.number,
+      fromDate: fromDate ?? this.fromDate,
+      total: total ?? this.total,
+      toDate: toDate ?? this.toDate,
     );
   }
 
   @override
   List<Object> get props => [
         filteredProducts,
+        total,
         filteredProductsPage,
         hasNextFilteredProducts,
         filteredProductsTypes,
         productsFilterSearchString,
         productsUSeCases,
+        biggerThan,
+        number,
+        fromDate,
+        toDate,
       ];
 }

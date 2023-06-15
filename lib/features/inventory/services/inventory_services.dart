@@ -3,29 +3,6 @@ import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/inventory/model/inventory_model_importer.dart';
 
 class InventoryServices {
-  static Future<FilterPagination> getFilteredProducts(
-      {int page,
-      int filterIndex,
-      String number = '0',
-      int biggerThan = 0,
-      String fromDate = ' ',
-      String toDate = ' '}) async {
-    Map<String, dynamic> params;
-    if (filterIndex < 3) {
-      params = {productFilterParams[filterIndex]: number, 'page': page, 'biggar_than': biggerThan};
-    } else {
-      params = {'page': page, 'from_date': fromDate, 'to_date': toDate};
-    }
-    var response = await ApiProvider.sendRequest(
-        url: productFilterApis[filterIndex], method: HttpMethods.get, queryParameters: params);
-    if (response.statusCode == successCode && response.data['success']) {
-      final result = filteredProductsModelFromJson(jsonEncode(response.data)).data;
-
-      return result;
-    }
-    return null;
-  }
-
   static Future<bool> updatePriceRateThresholdService(String threshold) async {
     Map thresholdMap = {'threshold': threshold};
     try {

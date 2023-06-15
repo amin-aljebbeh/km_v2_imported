@@ -5,6 +5,7 @@ import '../../../core/core_importer.dart';
 import '../../../core/widget/management_view.dart';
 import '../../admins/presentation/redux/admins_action.dart';
 import '../../login/Services/login_services.dart';
+import '../../products_filter/presentation/pages/products_filter_page.dart';
 import '../../supplier/presentation/pages/supplier_remaining_statment.dart';
 import '../../supplier/presentation/redux/supplier_action.dart';
 import '../../transactions/presentation/pages/add_transaction_page.dart';
@@ -145,7 +146,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                         const SideBarRow(
                           icon: Icons.filter_list_sharp,
                           text: 'فلترة المنتجات',
-                          pushedRoute: ProductsFilterScreen(),
+                          pushedRoute: ProductsFilterPage(),
                         ),
                       ],
                     ),

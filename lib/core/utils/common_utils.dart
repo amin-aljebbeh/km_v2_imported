@@ -14,7 +14,7 @@ enum BarcodeRequestType { addBarcode, search, addProduct, attachProduct }
 
 enum ProductsViewTypes { search, category, barcode }
 
-enum FilteredProductsTypes { nonActive, numberOfSales, numberOfShows, deleted }
+enum FilteredProductsTypes { lastActivation, numberOfSales, numberOfVisits, deleted }
 
 class MyThemes {
   static final ThemeData lightTheme = ThemeData(

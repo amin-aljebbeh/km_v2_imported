@@ -8,6 +8,11 @@ Reducer<ProductsFilterState> productsFilterReducer = combineReducers<ProductsFil
   TypedReducer<ProductsFilterState, EndOfFilteredProducts>(endOfFilteredProducts),
   TypedReducer<ProductsFilterState, SetFilteredProductsViewTypes>(setFilteredProductsViewTypes),
   TypedReducer<ProductsFilterState, SetProductsFilterSearchString>(setProductsFilterSearchString),
+  TypedReducer<ProductsFilterState, SetBiggerThan>(setBiggerThan),
+  TypedReducer<ProductsFilterState, SetFilterValue>(setFilterValue),
+  TypedReducer<ProductsFilterState, SetFromDate>(setFromDate),
+  TypedReducer<ProductsFilterState, SetToDate>(setToDate),
+  TypedReducer<ProductsFilterState, SetTotal>(setTotal),
 ]);
 
 ProductsFilterState setFilteredProducts(ProductsFilterState state, SetFilteredProducts action) {
@@ -19,7 +24,7 @@ ProductsFilterState setFilteredProductsPage(ProductsFilterState state, SetFilter
 }
 
 ProductsFilterState endOfFilteredProducts(ProductsFilterState state, EndOfFilteredProducts action) {
-  return state.copyWith(hasNextFilteredProducts: action.endOfProducts);
+  return state.copyWith(hasNextFilteredProducts: !action.endOfProducts);
 }
 
 ProductsFilterState setFilteredProductsViewTypes(ProductsFilterState state, SetFilteredProductsViewTypes action) {
@@ -28,4 +33,24 @@ ProductsFilterState setFilteredProductsViewTypes(ProductsFilterState state, SetF
 
 ProductsFilterState setProductsFilterSearchString(ProductsFilterState state, SetProductsFilterSearchString action) {
   return state.copyWith(productsFilterSearchString: action.searchString);
+}
+
+ProductsFilterState setBiggerThan(ProductsFilterState state, SetBiggerThan action) {
+  return state.copyWith(biggerThan: action.biggerThan);
+}
+
+ProductsFilterState setFromDate(ProductsFilterState state, SetFromDate action) {
+  return state.copyWith(fromDate: action.fromDate);
+}
+
+ProductsFilterState setToDate(ProductsFilterState state, SetToDate action) {
+  return state.copyWith(toDate: action.toDate);
+}
+
+ProductsFilterState setFilterValue(ProductsFilterState state, SetFilterValue action) {
+  return state.copyWith(number: action.value);
+}
+
+ProductsFilterState setTotal(ProductsFilterState state, SetTotal action) {
+  return state.copyWith(total: action.total);
 }
