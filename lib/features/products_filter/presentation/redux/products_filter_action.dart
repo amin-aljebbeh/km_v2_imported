@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 
-import '../../domain/entities/filtered_products_entity.dart';
+import '../../domain/entities/products_pagination_entity.dart';
 
 abstract class ProductsFilterAction {
   handle({@required Store<AppState> store});
@@ -63,7 +63,7 @@ class FilterByLastActivationDateAction extends ProductsFilterAction {
         biggerThan: store.state.productsFilterState.biggerThan ? 1 : 0,
         numberOfDays: store.state.productsFilterState.number);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (page) {
-      FilterPaginationEntity filterPage = page;
+      ProductsPageEntity filterPage = page;
       store.dispatch(SetFilteredProducts(products: filterPage.products));
       store.dispatch(SetTotal(total: filterPage.total));
       if (filterPage.currentPage == filterPage.lastPage) store.dispatch(EndOfFilteredProducts(endOfProducts: true));
@@ -81,7 +81,7 @@ class FilterByNumberOfSalesAction extends ProductsFilterAction {
         biggerThan: store.state.productsFilterState.biggerThan ? 1 : 0,
         numberOfSale: store.state.productsFilterState.number);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (page) {
-      FilterPaginationEntity filterPage = page;
+      ProductsPageEntity filterPage = page;
       store.dispatch(SetFilteredProducts(products: filterPage.products));
       store.dispatch(SetTotal(total: filterPage.total));
       if (filterPage.currentPage == filterPage.lastPage) store.dispatch(EndOfFilteredProducts(endOfProducts: true));
@@ -99,7 +99,7 @@ class FilterByNumberOfVisitsAction extends ProductsFilterAction {
         biggerThan: store.state.productsFilterState.biggerThan ? 1 : 0,
         numberOfVisit: store.state.productsFilterState.number);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (page) {
-      FilterPaginationEntity filterPage = page;
+      ProductsPageEntity filterPage = page;
       store.dispatch(SetFilteredProducts(products: filterPage.products));
       store.dispatch(SetTotal(total: filterPage.total));
       if (filterPage.currentPage == filterPage.lastPage) store.dispatch(EndOfFilteredProducts(endOfProducts: true));
@@ -118,7 +118,7 @@ class GetDeletedProductsFromOrdersAction extends ProductsFilterAction {
       toDate: store.state.productsFilterState.toDate,
     );
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (page) {
-      FilterPaginationEntity filterPage = page;
+      ProductsPageEntity filterPage = page;
       store.dispatch(SetFilteredProducts(products: filterPage.products));
       store.dispatch(SetTotal(total: filterPage.total));
       if (filterPage.currentPage == filterPage.lastPage) store.dispatch(EndOfFilteredProducts(endOfProducts: true));

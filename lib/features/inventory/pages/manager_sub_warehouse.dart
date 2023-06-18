@@ -1,8 +1,11 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:kammun_app/features/general_information/domain/entities/sub_warehouse_entity.dart';
+import 'package:kammun_app/features/general_information/presentation/redux/general_information_action.dart';
 import 'package:kammun_app/features/inventory_feature/presentation/redux/inventory_action.dart';
 
 import '../../../core/core_importer.dart';
+import '../../excel_inventory/presentation/pages/excel_inventory_page.dart';
+import '../../excel_inventory/presentation/redux/excel_inventory_action.dart';
 import '../../login/Services/login_services.dart';
 
 class GetSubWarehouse extends StatefulWidget {
@@ -16,8 +19,6 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
   bool isLoading = false;
   bool isError = false;
 
-  List<SubWarehouseEntity> listOfWubWarehouse = [];
-
   _getSubWarehouse({BuildContext context}) async {
     setState(() {
       isLoading = true;
@@ -27,9 +28,9 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
 // todo ask for permission to delete this request
     String adminId = StoreProvider.of<AppState>(context).state.adminsState.admin.id.toString();
     List<SubWarehouseEntity> response = await LoginServices.getAdmin(adminId: adminId, context: context);
+    StoreProvider.of<AppState>(context).dispatch(SetSubWarehouses(subWarehouses: response));
     if (response != null) {
       setState(() {
-        listOfWubWarehouse.addAll(response);
         isLoading = false;
         isError = false;
       });
@@ -45,12 +46,12 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getSubWarehouse(context: context);
+      StoreProvider.of<AppState>(context).dispatch(InitExcelInventory());
     });
 
     super.initState();
   }
 
-  int _selectedSubWarehouseValue = -1;
   bool selected = false;
 
   @override
@@ -75,19 +76,20 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                           ListTile(
                             contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                             title: Column(
-                              children: listOfWubWarehouse
+                              children: state.generalInformationState.subWarehouses
                                   .map((data) => Container(
                                         decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
                                         child: RadioListTile(
                                           controlAffinity: ListTileControlAffinity.trailing,
                                           activeColor: Theme.of(context).primaryColor,
                                           title: Text(data.name, style: mainStyle),
-                                          groupValue: _selectedSubWarehouseValue,
+                                          groupValue: state.excelInventoryState.subWarehouseId,
                                           value: data.id,
                                           onChanged: (val) {
                                             setState(() {
                                               selected = true;
-                                              _selectedSubWarehouseValue = data.id;
+                                              StoreProvider.of<AppState>(context)
+                                                  .dispatch(SetSubWarehouseId(subWarehouseId: data.id));
                                             });
                                           },
                                         ),
@@ -104,7 +106,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                                 StoreProvider.of<AppState>(context).dispatch(GoToInventoryPage(
                                     context: context,
                                     inventoryType: InventoryTypes.subWarehouse,
-                                    subWarehouseId: _selectedSubWarehouseValue));
+                                    subWarehouseId: state.excelInventoryState.subWarehouseId));
                               } else {
                                 Toast.show('يرجى اختيار المستودع', context,
                                     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
@@ -119,12 +121,10 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                               onTap: () async {
                                 if (selected) {
                                   File file = await pickFile();
+                                  StoreProvider.of<AppState>(context).dispatch(SetFile(file: file));
                                   if (file != null) {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ExcelInventory(
-                                                file: file, subWarehouseId: _selectedSubWarehouseValue.toString())));
+                                        context, MaterialPageRoute(builder: (context) => const ExcelInventoryPage()));
                                   }
                                 } else {
                                   Toast.show('يرجى اختيار المستودع', context,

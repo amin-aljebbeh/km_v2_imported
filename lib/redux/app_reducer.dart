@@ -14,6 +14,9 @@ import '../core/core_importer.dart';
 import '../features/barcode/presentation/redux/barcode_reducer.dart';
 import '../features/complaints/presentation/redux/complaints_reducer.dart';
 import '../features/coupons/presentation/redux/coupon_reducer.dart';
+import '../features/excel_inventory/presentation/inventory_file_redux/inventory_file_reducer.dart';
+import '../features/excel_inventory/presentation/price_file_redux/price_file_reducer.dart';
+import '../features/excel_inventory/presentation/redux/excel_inventory_reducer.dart';
 import '../features/general_information/presentation/redux/general_information_reducer.dart';
 import '../features/home/presentation/redux/home_reducer.dart';
 import '../features/product_details/presentation/redux/product_details_reducer.dart';
@@ -41,8 +44,11 @@ AppState appReducer(AppState state, dynamic action) {
     productDetailsState: productDetailsReducer(state.productDetailsState, action),
     productsState: productsReducer(state.productsState, action),
     homeState: homeReducer(state.homeState, action),
+    excelInventoryState: excelInventoryReducer(state.excelInventoryState, action),
     productsFilterState: productsFilterReducer(state.productsFilterState, action),
     generalInformationState: generalInformationReducer(state.generalInformationState, action),
     barcodeState: barcodeReducer(state.barcodeState, action),
+    inventoryFileState: inventoryFileReducer(state.inventoryFileState, action),
+    priceFileState: priceFileReducer(state.priceFileState, action),
   );
 }

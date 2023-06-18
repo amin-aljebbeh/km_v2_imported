@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/features/products_filter/data/data_sources/products_filter_remote_data_source.dart';
-import 'package:kammun_app/features/products_filter/domain/entities/filtered_products_entity.dart';
+import 'package:kammun_app/features/products_filter/domain/entities/products_pagination_entity.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../domain/repositories/products_filter_repository.dart';
@@ -12,10 +12,10 @@ class ProductsFilterRepositoryImplement implements ProductsFilterRepository {
   ProductsFilterRepositoryImplement({this.productsFilterRemoteDataSource, this.repositoryFactory});
 
   @override
-  Future<Either<Failure, FilterPaginationEntity>> filterByNumberOfSales(
+  Future<Either<Failure, ProductsPageEntity>> filterByNumberOfSales(
       {int numberOfSale, int page, int biggerThan}) async {
     try {
-      FilterPaginationEntity products = await productsFilterRemoteDataSource.filterByNumberOfSales(
+      ProductsPageEntity products = await productsFilterRemoteDataSource.filterByNumberOfSales(
           page: page, biggerThan: biggerThan, numberOfSale: numberOfSale);
       return Right(products);
     } on CacheException {
@@ -30,10 +30,10 @@ class ProductsFilterRepositoryImplement implements ProductsFilterRepository {
   }
 
   @override
-  Future<Either<Failure, FilterPaginationEntity>> filterByNumberOfVisits(
+  Future<Either<Failure, ProductsPageEntity>> filterByNumberOfVisits(
       {int numberOfVisit, int page, int biggerThan}) async {
     try {
-      FilterPaginationEntity products = await productsFilterRemoteDataSource.filterByNumberOfVisits(
+      ProductsPageEntity products = await productsFilterRemoteDataSource.filterByNumberOfVisits(
           page: page, biggerThan: biggerThan, numberOfVisit: numberOfVisit);
       return Right(products);
     } on CacheException {
@@ -48,10 +48,10 @@ class ProductsFilterRepositoryImplement implements ProductsFilterRepository {
   }
 
   @override
-  Future<Either<Failure, FilterPaginationEntity>> getDeletedProductsFromOrders(
+  Future<Either<Failure, ProductsPageEntity>> getDeletedProductsFromOrders(
       {int page, String fromDate, String toDate}) async {
     try {
-      FilterPaginationEntity products = await productsFilterRemoteDataSource.getDeletedProductsFromOrders(
+      ProductsPageEntity products = await productsFilterRemoteDataSource.getDeletedProductsFromOrders(
           page: page, fromDate: fromDate, toDate: toDate);
       return Right(products);
     } on CacheException {
@@ -66,10 +66,10 @@ class ProductsFilterRepositoryImplement implements ProductsFilterRepository {
   }
 
   @override
-  Future<Either<Failure, FilterPaginationEntity>> filterByLastActivationDate(
+  Future<Either<Failure, ProductsPageEntity>> filterByLastActivationDate(
       {int numberOfDays, int page, int biggerThan}) async {
     try {
-      FilterPaginationEntity products = await productsFilterRemoteDataSource.filterByLastActivationDate(
+      ProductsPageEntity products = await productsFilterRemoteDataSource.filterByLastActivationDate(
           page: page, biggerThan: biggerThan, numberOfDays: numberOfDays);
       return Right(products);
     } on CacheException {

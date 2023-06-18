@@ -10,7 +10,7 @@ Reducer<InventoryState> inventoryReducer = combineReducers<InventoryState>([
   TypedReducer<InventoryState, ClearInventory>(clearInventory),
   TypedReducer<InventoryState, SetInventoryProducts>(setInventoryProducts),
   TypedReducer<InventoryState, SetInventoryType>(setInventoryType),
-  TypedReducer<InventoryState, SetSubWarehouseId>(setSubWarehouseId),
+  TypedReducer<InventoryState, SetInventorySubWarehouseId>(setSubWarehouseId),
   TypedReducer<InventoryState, SetIsActive>(setIsActive),
   TypedReducer<InventoryState, SetIAllProducts>(setIAllProducts),
   TypedReducer<InventoryState, ChangeSubWarehouseFilter>(changeSubWarehouseFilter),
@@ -82,7 +82,7 @@ InventoryState changeSubWarehouseFilter(InventoryState state, ChangeSubWarehouse
   return state.copyWith(products: products, subWarehouseFilter: filter);
 }
 
-InventoryState setSubWarehouseId(InventoryState state, SetSubWarehouseId action) =>
+InventoryState setSubWarehouseId(InventoryState state, SetInventorySubWarehouseId action) =>
     state.copyWith(subWarehouseId: action.subWarehouseId);
 
 InventoryState setIsActive(InventoryState state, SetIsActive action) => state.copyWith(isActive: action.isActive);

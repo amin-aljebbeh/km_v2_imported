@@ -4,8 +4,8 @@ import 'package:kammun_app/features/inventory_feature/domain/repositories/invent
 import 'package:kammun_app/features/products/data/models/product_model.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../inventory/model/inventory_model_importer.dart';
 import '../../../products/domain/entities/product_entity.dart';
+import '../../../products_filter/domain/entities/products_pagination_entity.dart';
 import '../data_sources/remote_inventory_data_source.dart';
 
 class InventoryRepositoryImplement implements InventoryRepository {
@@ -15,10 +15,10 @@ class InventoryRepositoryImplement implements InventoryRepository {
   InventoryRepositoryImplement({this.remoteInventoryDataSource, this.repositoryFactory});
 
   @override
-  Future<Either<Failure, FilteredProductsModel>> getNotificationProducts(
+  Future<Either<Failure, ProductsPaginationEntity>> getNotificationProducts(
       {int pageNumber, int subWarehouseId, int isActive}) async {
     try {
-      FilteredProductsModel products = await remoteInventoryDataSource.getNotificationProducts(
+      ProductsPaginationEntity products = await remoteInventoryDataSource.getNotificationProducts(
           pageNumber: pageNumber, isActive: isActive, subWarehouseId: subWarehouseId);
       return Right(products);
     } on CacheException {
@@ -33,10 +33,10 @@ class InventoryRepositoryImplement implements InventoryRepository {
   }
 
   @override
-  Future<Either<Failure, FilteredProductsModel>> getPrimeProducts(
+  Future<Either<Failure, ProductsPageEntity>> getPrimeProducts(
       {int pageNumber, int subWarehouseId, int isActive}) async {
     try {
-      FilteredProductsModel products = await remoteInventoryDataSource.getPrimeProducts(
+      ProductsPageEntity products = await remoteInventoryDataSource.getPrimeProducts(
           pageNumber: pageNumber, isActive: isActive, subWarehouseId: subWarehouseId);
       return Right(products);
     } on CacheException {
@@ -179,8 +179,6 @@ class InventoryRepositoryImplement implements InventoryRepository {
     try {
       List<ProductEntity> products =
           await remoteInventoryDataSource.getSubWarehouseProducts(subWarehouseId: subWarehouseId);
-      Tools.logToConsole('products repo');
-      Tools.logToConsole(products);
       return Right(products);
     } on CacheException {
       return Left(CacheFailure());
@@ -189,8 +187,6 @@ class InventoryRepositoryImplement implements InventoryRepository {
     } on OfflineException {
       return Left(OfflineFailure());
     } catch (e) {
-      Tools.logToConsole('exception repo');
-      Tools.logToConsole(e.toString());
       return Left(InternalFailure(message: e.toString()));
     }
   }

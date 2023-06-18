@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../inventory/model/inventory_model_importer.dart';
+import '../../../products_filter/domain/entities/products_pagination_entity.dart';
 import '../../domain/entities/prices_changes_entity.dart';
 
 abstract class InventoryAction {
@@ -43,7 +43,7 @@ class GoToInventoryPage extends InventoryAction {
     store.dispatch(SetIsActive(isActive: 0));
     store.dispatch(NoError());
     store.dispatch(SetInventoryType(inventoryType: inventoryType));
-    store.dispatch(SetSubWarehouseId(subWarehouseId: subWarehouseId));
+    store.dispatch(SetInventorySubWarehouseId(subWarehouseId: subWarehouseId));
     Navigator.push(context, MaterialPageRoute(builder: (_) => const InventoryPage()));
   }
 }
@@ -106,9 +106,9 @@ class GetNotificationProductsAction implements InventoryAction {
         subWarehouseId: store.state.inventoryState.subWarehouseId,
         isActive: store.state.inventoryState.isActive);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
-      FilteredProductsModel filteredProductsModel = products;
-      store.dispatch(SetInventoryProducts(products: filteredProductsModel.data.products));
-      if (filteredProductsModel.data.nextPageUrl == null) store.dispatch(EndOfInventory());
+      ProductsPaginationEntity filteredProductsModel = products;
+      store.dispatch(SetInventoryProducts(products: filteredProductsModel.page.products));
+      if (filteredProductsModel.page.nextPageUrl == null) store.dispatch(EndOfInventory());
     });
     store.dispatch(StopLoading());
   }
@@ -179,9 +179,9 @@ class GetPrimeProductsAction implements InventoryAction {
         isActive: store.state.inventoryState.isActive,
         subWarehouseId: store.state.inventoryState.subWarehouseId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
-      FilteredProductsModel filteredProductsModel = products;
-      store.dispatch(SetInventoryProducts(products: filteredProductsModel.data.products));
-      if (filteredProductsModel.data.nextPageUrl == null) store.dispatch(EndOfInventory());
+      ProductsPageEntity filteredProductsModel = products;
+      store.dispatch(SetInventoryProducts(products: filteredProductsModel.products));
+      if (filteredProductsModel.nextPageUrl == null) store.dispatch(EndOfInventory());
     });
     store.dispatch(StopLoading());
   }
@@ -237,8 +237,6 @@ class GetSubWarehouseProductsAction implements InventoryAction {
     Either either = await store.state.inventoryState.inventoryUseCase
         .getSubWarehouseProductsUseCase(subWarehouseId: store.state.inventoryState.subWarehouseId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
-      Tools.logToConsole('products');
-      Tools.logToConsole(products);
       products.sort((a, b) {
         if (int.parse(a.isActive) == 0) {
           return -1;
@@ -329,10 +327,10 @@ class SetInventoryType {
   SetInventoryType({this.inventoryType});
 }
 
-class SetSubWarehouseId {
+class SetInventorySubWarehouseId {
   final int subWarehouseId;
 
-  SetSubWarehouseId({this.subWarehouseId});
+  SetInventorySubWarehouseId({this.subWarehouseId});
 }
 
 class SetIsActive {

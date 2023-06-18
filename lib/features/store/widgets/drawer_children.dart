@@ -4,6 +4,7 @@ import 'package:kammun_app/features/inventory_feature/presentation/redux/invento
 import '../../../core/core_importer.dart';
 import '../../../core/widget/management_view.dart';
 import '../../admins/presentation/redux/admins_action.dart';
+import '../../inventory/pages/manager_sub_warehouse.dart';
 import '../../login/Services/login_services.dart';
 import '../../products_filter/presentation/pages/products_filter_page.dart';
 import '../../supplier/presentation/pages/supplier_remaining_statment.dart';

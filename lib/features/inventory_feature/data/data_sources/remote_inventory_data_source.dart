@@ -3,15 +3,16 @@ import 'package:kammun_app/core/core_importer.dart';
 
 import '../../../cart/data/models/get_cart_model.dart';
 import '../../../general_information/data/models/sub_warehouse_model.dart';
-import '../../../inventory/model/inventory_model_importer.dart';
 import '../../../products/data/models/product_model.dart';
+import '../../../products_filter/data/models/products_pagination_model.dart';
+import '../models/inventory_model.dart';
 import '../models/prices_changes_model.dart';
 import '../models/prime_products_response_model.dart';
 
 abstract class RemoteInventoryDataSource {
-  Future<FilteredProductsModel> getNotificationProducts({int pageNumber, int subWarehouseId, int isActive});
+  Future<ProductsPaginationModel> getNotificationProducts({int pageNumber, int subWarehouseId, int isActive});
 
-  Future<FilteredProductsModel> getPrimeProducts({int pageNumber, int subWarehouseId, int isActive});
+  Future<ProductsPageModel> getPrimeProducts({int pageNumber, int subWarehouseId, int isActive});
 
   Future<List<ProductModel>> getUnderCheckAvailability({int subWarehouseId});
 
@@ -36,14 +37,14 @@ abstract class RemoteInventoryDataSource {
 
 class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
   @override
-  Future<FilteredProductsModel> getNotificationProducts({int pageNumber, int subWarehouseId, int isActive}) async {
+  Future<ProductsPaginationModel> getNotificationProducts({int pageNumber, int subWarehouseId, int isActive}) async {
     Response response = await ApiProvider.sendRequest(
         url: getProductsOfWaitingListApi,
         method: HttpMethods.get,
         queryParameters: {'page': pageNumber, 'sub_warehouse_id': subWarehouseId, 'is_active': isActive});
     try {
       if (response != null) {
-        if (response.statusCode == successCode) return filteredProductsModelFromJson(jsonEncode(response.data));
+        if (response.statusCode == successCode) return productsPaginationModelFromJson(jsonEncode(response.data));
       }
     } catch (e) {
       throw (InternalException(message: e.toString()));
@@ -52,7 +53,7 @@ class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
   }
 
   @override
-  Future<FilteredProductsModel> getPrimeProducts({int pageNumber, int subWarehouseId, int isActive}) async {
+  Future<ProductsPageModel> getPrimeProducts({int pageNumber, int subWarehouseId, int isActive}) async {
     Response response = await ApiProvider.sendRequest(
         url: primeProductsListApi,
         method: HttpMethods.get,
@@ -60,8 +61,7 @@ class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
     try {
       if (response != null) {
         if (response.statusCode == successCode) {
-          return FilteredProductsModel(
-              data: primeProductsResponseModelFromJson(jsonEncode(response.data)).data.primeProducts);
+          return primeProductsResponseModelFromJson(jsonEncode(response.data)).data.primeProducts;
         }
       }
     } catch (e) {

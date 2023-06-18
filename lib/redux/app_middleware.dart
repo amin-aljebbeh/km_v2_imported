@@ -6,6 +6,9 @@ import '../features/cart/presentation/redux/cart_middleware.dart';
 import '../features/complaints/presentation/redux/complaints_middleware.dart';
 import '../features/coupons/presentation/redux/coupon_middleware.dart';
 import '../features/error/presentation/redux/error_middleware.dart';
+import '../features/excel_inventory/presentation/inventory_file_redux/inventory_file_middleware.dart';
+import '../features/excel_inventory/presentation/price_file_redux/price_file_middleware.dart';
+import '../features/excel_inventory/presentation/redux/excel_inventory_middleware.dart';
 import '../features/general_information/presentation/redux/general_information_middleware.dart';
 import '../features/home/presentation/redux/home_middleware.dart';
 import '../features/inventory_feature/presentation/redux/inventory_middleware.dart';
@@ -42,6 +45,9 @@ List<Middleware<AppState>> appMiddleware() {
     homeMiddleware,
     generalInformationMiddleware,
     barcodeMiddleware,
+    excelInventoryMiddleware,
     productsFilterMiddleware,
+    priceFileMiddleware,
+    inventoryFileMiddleware,
   ];
 }

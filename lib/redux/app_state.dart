@@ -13,6 +13,9 @@ import '../features/cart/presentation/redux/cart_state.dart';
 import '../features/complaints/presentation/redux/complaints_state.dart';
 import '../features/coupons/presentation/redux/coupon_state.dart';
 import '../features/error/presentation/redux/error_state.dart';
+import '../features/excel_inventory/presentation/inventory_file_redux/inventory_file_state.dart';
+import '../features/excel_inventory/presentation/price_file_redux/price_file_state.dart';
+import '../features/excel_inventory/presentation/redux/excel_inventory_state.dart';
 import '../features/general_information/presentation/redux/general_information_state.dart';
 import '../features/home/presentation/redux/home_state.dart';
 import '../features/inventory_feature/presentation/redux/inventory_state.dart';
@@ -29,6 +32,9 @@ class AppState extends Equatable {
   final ComplaintsState complaintsState;
   final CouponState couponState;
   final ErrorState errorState;
+  final InventoryFileState inventoryFileState;
+  final PriceFileState priceFileState;
+  final ExcelInventoryState excelInventoryState;
   final GeneralInformationState generalInformationState;
   final HomeState homeState;
   final InventoryState inventoryState;
@@ -45,6 +51,9 @@ class AppState extends Equatable {
   final UsersState usersState;
 
   const AppState({
+    this.excelInventoryState,
+    this.inventoryFileState,
+    this.priceFileState,
     this.ordersState,
     this.productsFilterState,
     this.generalInformationState,
@@ -87,10 +96,16 @@ class AppState extends Equatable {
         shoppersState: ShoppersState.initial(),
         orderDetailsState: OrderDetailsState.initial(),
         cartState: CartState.initial(),
+        inventoryFileState: InventoryFileState.initial(),
+        priceFileState: PriceFileState.initial(),
+        excelInventoryState: ExcelInventoryState.initial(),
         barcodeState: BarcodeState.initial(),
       );
 
   AppState copyWith({
+    ExcelInventoryState excelInventoryState,
+    PriceFileState priceFileState,
+    InventoryFileState inventoryFileState,
     InventoryState inventoryState,
     ErrorState errorState,
     LoadingState loadingState,
@@ -114,15 +129,18 @@ class AppState extends Equatable {
   }) {
     return AppState(
       inventoryState: inventoryState ?? this.inventoryState,
+      excelInventoryState: excelInventoryState ?? this.excelInventoryState,
       barcodeState: barcodeState ?? this.barcodeState,
       productsFilterState: productsFilterState ?? this.productsFilterState,
       generalInformationState: generalInformationState ?? this.generalInformationState,
       errorState: errorState ?? this.errorState,
       loadingState: loadingState ?? this.loadingState,
+      inventoryFileState: inventoryFileState ?? this.inventoryFileState,
       supplierState: supplierState ?? this.supplierState,
       complaintsState: complaintsState ?? this.complaintsState,
       adminsState: adminsState ?? this.adminsState,
       homeState: homeState ?? this.homeState,
+      priceFileState: priceFileState ?? this.priceFileState,
       couponState: couponState ?? this.couponState,
       usersState: usersState ?? this.usersState,
       productsState: productsState ?? this.productsState,
@@ -149,6 +167,7 @@ class AppState extends Equatable {
         adminsState,
         productsFilterState,
         productsState,
+        excelInventoryState,
         searchOrdersState,
         generalInformationState,
         couponState,
@@ -158,5 +177,7 @@ class AppState extends Equatable {
         orderDetailsState,
         shoppersState,
         cartState,
+        priceFileState,
+        inventoryFileState,
       ];
 }

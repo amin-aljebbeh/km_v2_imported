@@ -13,7 +13,7 @@ class ProductModel extends ProductEntity {
     String unit,
     String quantity,
     String isActive,
-    images,
+    List<ProductImageModel> images,
     String supplierCode,
     int subWarehouseId,
     String availableQuantity,

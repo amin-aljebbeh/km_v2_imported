@@ -66,7 +66,6 @@ class ProductFilterPageHeaderWidget extends StatelessWidget {
                     );
                   } else {
                     if (controller.text.isNotEmpty) {
-                      Tools.logToConsole(';a;a');
                       store.dispatch(InitProductsFilter(context: context));
                     }
                   }

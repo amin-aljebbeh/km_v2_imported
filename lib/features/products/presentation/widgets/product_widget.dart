@@ -1,6 +1,6 @@
 import 'package:kammun_app/features/barcode/presentation/pages/barcode_scanner_page.dart';
 import 'package:kammun_app/features/general_information/data/models/warehouse_model.dart';
-import 'package:kammun_app/features/product_detail_view/pages/product_detail_view.dart';
+import 'package:kammun_app/features/product_details/presentation/pages/product_detail_view.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../barcode/presentation/redux/barcode_action.dart';
