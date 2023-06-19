@@ -1,12 +1,13 @@
 import 'package:kammun_app/features/complaints/presentation/redux/complaints_action.dart';
-import 'package:kammun_app/features/inventory_feature/presentation/redux/inventory_action.dart';
+import 'package:kammun_app/features/inventory/presentation/redux/inventory_action.dart';
+import 'package:kammun_app/features/sub_warehouse_manager/presentation/redux/sub_warehouse_manager_action.dart';
 
 import '../../../core/core_importer.dart';
 import '../../../core/widget/management_view.dart';
 import '../../admins/presentation/redux/admins_action.dart';
-import '../../inventory/pages/manager_sub_warehouse.dart';
 import '../../login/Services/login_services.dart';
 import '../../products_filter/presentation/pages/products_filter_page.dart';
+import '../../sub_warehouse_manager/presentation/pages/sub_warehouse_manager_page.dart';
 import '../../supplier/presentation/pages/supplier_remaining_statment.dart';
 import '../../supplier/presentation/redux/supplier_action.dart';
 import '../../transactions/presentation/pages/add_transaction_page.dart';
@@ -112,7 +113,13 @@ List<Widget> getDrawerChildren(BuildContext context) {
     if (Services.hasRole(context, supplierRole) ||
         Services.hasRole(context, productsControllerRole) ||
         Services.hasRole(context, adminRole))
-      const SideBarRow(pushedRoute: GetSubWarehouse(), icon: Icons.inventory, text: 'إدارة المستودعات'),
+      SideBarRow(
+          onTap: () {
+            store.dispatch(InitExcelInventory());
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const SubWarehouseManagerPage()));
+          },
+          icon: Icons.inventory,
+          text: 'إدارة المستودعات'),
     if (Services.hasRole(context, productsControllerRole) || Services.hasRole(context, supplierRole))
       SideBarRow(
         text: productManagement,

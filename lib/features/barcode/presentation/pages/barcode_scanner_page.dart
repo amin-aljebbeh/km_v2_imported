@@ -1,7 +1,7 @@
 import 'package:qr_mobile_vision/qr_camera.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../inventory_feature/presentation/redux/inventory_action.dart';
+import '../../../inventory/presentation/redux/inventory_action.dart';
 import '../../../products/domain/entities/product_entity.dart';
 import '../../../products/presentation/pages/products_page.dart';
 import '../../../products/presentation/redux/products_action.dart';

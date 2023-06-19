@@ -1,28 +1,27 @@
-import 'package:kammun_app/features/barcode/presentation/redux/barcode_state.dart';
-import 'package:kammun_app/features/loading/presentation/redux/loading_state.dart';
-import 'package:kammun_app/features/orders/presentation/redux/orders_state.dart';
-import 'package:kammun_app/features/product_details/presentation/redux/product_details_state.dart';
-import 'package:kammun_app/features/products/presentation/redux/products_state.dart';
-import 'package:kammun_app/features/products_filter/presentation/redux/products_filter_state.dart';
-import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_state.dart';
-import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_state.dart';
-
-import '../core/core_importer.dart';
+import '../features/barcode/presentation/redux/barcode_state.dart';
+import '../features/loading/presentation/redux/loading_state.dart';
+import '../features/orders/presentation/redux/orders_state.dart';
+import '../features/product_details/presentation/redux/product_details_state.dart';
+import '../features/products/presentation/redux/products_state.dart';
+import '../features/products_filter/presentation/redux/products_filter_state.dart';
+import '../features/search_orders/presentation/redux/search_orders_state.dart';
+import '../features/shoppers/presentation/redux/shoppers_state.dart';
 import '../features/admins/presentation/redux/admins_state.dart';
 import '../features/cart/presentation/redux/cart_state.dart';
 import '../features/complaints/presentation/redux/complaints_state.dart';
 import '../features/coupons/presentation/redux/coupon_state.dart';
 import '../features/error/presentation/redux/error_state.dart';
-import '../features/excel_inventory/presentation/inventory_file_redux/inventory_file_state.dart';
-import '../features/excel_inventory/presentation/price_file_redux/price_file_state.dart';
-import '../features/excel_inventory/presentation/redux/excel_inventory_state.dart';
+import '../features/sub_warehouse_manager/presentation/inventory_file_redux/inventory_file_state.dart';
+import '../features/sub_warehouse_manager/presentation/price_file_redux/price_file_state.dart';
+import '../features/sub_warehouse_manager/presentation/redux/sub_warehouse_manager_state.dart';
 import '../features/general_information/presentation/redux/general_information_state.dart';
 import '../features/home/presentation/redux/home_state.dart';
-import '../features/inventory_feature/presentation/redux/inventory_state.dart';
+import '../features/inventory/presentation/redux/inventory_state.dart';
 import '../features/order_details/presentation/redux/order_details_state.dart';
 import '../features/supplier/presentation/redux/supplier_state.dart';
 import '../features/transactions/presentation/redux/transactions_state.dart';
 import '../features/users/presentation/redux/users_state.dart';
+import '../core/core_importer.dart';
 
 @immutable
 class AppState extends Equatable {
@@ -34,7 +33,7 @@ class AppState extends Equatable {
   final ErrorState errorState;
   final InventoryFileState inventoryFileState;
   final PriceFileState priceFileState;
-  final ExcelInventoryState excelInventoryState;
+  final SubWarehouseManagerState excelInventoryState;
   final GeneralInformationState generalInformationState;
   final HomeState homeState;
   final InventoryState inventoryState;
@@ -98,12 +97,12 @@ class AppState extends Equatable {
         cartState: CartState.initial(),
         inventoryFileState: InventoryFileState.initial(),
         priceFileState: PriceFileState.initial(),
-        excelInventoryState: ExcelInventoryState.initial(),
+        excelInventoryState: SubWarehouseManagerState.initial(),
         barcodeState: BarcodeState.initial(),
       );
 
   AppState copyWith({
-    ExcelInventoryState excelInventoryState,
+    SubWarehouseManagerState excelInventoryState,
     PriceFileState priceFileState,
     InventoryFileState inventoryFileState,
     InventoryState inventoryState,

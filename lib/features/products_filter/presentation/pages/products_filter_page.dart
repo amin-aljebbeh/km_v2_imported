@@ -125,10 +125,10 @@ class _ProductsFilterPageState extends State<ProductsFilterPage> {
                                         }
                                         return InventoryProductWidget(
                                           index: 0,
-                                          onChangeSubWarehouse: (id) => setState(() {
+                                          onChangeSubWarehouse: (id) {
                                             eachProduct.subWarehouseId = int.parse(id);
                                             products[index].subWarehouseId = int.parse(id);
-                                          }),
+                                          },
                                           id: id,
                                           attached: attached,
                                           isActive: isActive,
@@ -143,17 +143,16 @@ class _ProductsFilterPageState extends State<ProductsFilterPage> {
                                           productData: eachProduct,
                                           onChangeStatus: (result) {
                                             if (result) {
-                                              setState(() {
-                                                if (products[index].isActive == '1') {
-                                                  products[index].isActive = '0';
-                                                } else {
-                                                  products[index].isActive = '1';
-                                                }
-                                              });
+                                              if (products[index].isActive == '1') {
+                                                products[index].isActive = '0';
+                                              } else {
+                                                products[index].isActive = '1';
+                                              }
                                             }
+                                            setState(() {});
                                           },
                                           onDelete: (boolean) => setState(() {
-                                            if (boolean) setState(() => products.removeAt(index));
+                                            if (boolean) products.removeAt(index);
                                           }),
                                           deleteTimes: products[index].deleteTimes,
                                           onChangePrice: (newValue) => setState(() => products[index].price = newValue),

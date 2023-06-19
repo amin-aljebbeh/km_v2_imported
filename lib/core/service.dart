@@ -161,7 +161,6 @@ class Services {
     Share.share(infoMessage + androidUrl + iPhoneUrl);
   }
 
-  //todo ask for permission to delete this feature
   static setPreferLeftSide(bool side) async {
     StaticVariables.preferLeftSide = side;
     SharedPreferences prefs = await SharedPreferences.getInstance();

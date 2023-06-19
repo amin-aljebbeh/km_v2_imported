@@ -1,7 +1,8 @@
-export '../../features/inventory_feature/presentation/widgets/inventory_products_card.dart';
-export '../../features/inventory_feature/presentation/widgets/inventory_search_text_field.dart';
+export '../../features/inventory/presentation/widgets/inventory_products_card.dart';
+export '../../features/inventory/presentation/widgets/inventory_search_text_field.dart';
 export '../../features/order_details/presentation/widgets/order_product_widget.dart';
 export '../../features/order_details/presentation/widgets/product_check_widget.dart';
+export '../../features/product_details/presentation/widgets/update_product_info_widget.dart';
 export '../../features/products/presentation/widgets/facebook_loader.dart';
 export '../../features/search_orders/presentation/widgets/phone_number_widget.dart';
 export '../../features/search_orders/presentation/widgets/search_order_by_phone_number_widget.dart';
@@ -34,4 +35,3 @@ export 'side_bar_row.dart';
 export 'store_search_text_field.dart';
 export 'switch_product_status_widget.dart';
 export 'text_field_row.dart';
-export 'update_product_info_widget.dart';

@@ -1,7 +1,7 @@
 import 'package:kammun_app/features/admins/presentation/redux/admins_reducer.dart';
 import 'package:kammun_app/features/cart/presentation/redux/cart_reducer.dart';
 import 'package:kammun_app/features/error/presentation/redux/error_reducer.dart';
-import 'package:kammun_app/features/inventory_feature/presentation/redux/inventory_reducer.dart';
+import 'package:kammun_app/features/inventory/presentation/redux/inventory_reducer.dart';
 import 'package:kammun_app/features/loading/presentation/redux/loading_reducer.dart';
 import 'package:kammun_app/features/order_details/presentation/redux/order_details_reducer.dart';
 import 'package:kammun_app/features/orders/presentation/redux/orders_reducer.dart';
@@ -14,9 +14,9 @@ import '../core/core_importer.dart';
 import '../features/barcode/presentation/redux/barcode_reducer.dart';
 import '../features/complaints/presentation/redux/complaints_reducer.dart';
 import '../features/coupons/presentation/redux/coupon_reducer.dart';
-import '../features/excel_inventory/presentation/inventory_file_redux/inventory_file_reducer.dart';
-import '../features/excel_inventory/presentation/price_file_redux/price_file_reducer.dart';
-import '../features/excel_inventory/presentation/redux/excel_inventory_reducer.dart';
+import '../features/sub_warehouse_manager/presentation/inventory_file_redux/inventory_file_reducer.dart';
+import '../features/sub_warehouse_manager/presentation/price_file_redux/price_file_reducer.dart';
+import '../features/sub_warehouse_manager/presentation/redux/sub_warehouse_manager_reducer.dart';
 import '../features/general_information/presentation/redux/general_information_reducer.dart';
 import '../features/home/presentation/redux/home_reducer.dart';
 import '../features/product_details/presentation/redux/product_details_reducer.dart';
@@ -44,7 +44,7 @@ AppState appReducer(AppState state, dynamic action) {
     productDetailsState: productDetailsReducer(state.productDetailsState, action),
     productsState: productsReducer(state.productsState, action),
     homeState: homeReducer(state.homeState, action),
-    excelInventoryState: excelInventoryReducer(state.excelInventoryState, action),
+    excelInventoryState: subWarehouseManagerReducer(state.excelInventoryState, action),
     productsFilterState: productsFilterReducer(state.productsFilterState, action),
     generalInformationState: generalInformationReducer(state.generalInformationState, action),
     barcodeState: barcodeReducer(state.barcodeState, action),

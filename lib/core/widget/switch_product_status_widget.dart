@@ -54,8 +54,8 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
                     setState(() => loading = true);
                     bool result;
                     result = await ProductsServices.updateProductsDetails(
-                      bodyKey: "is_active",
-                      value: value ? "1" : "0",
+                      bodyKey: 'is_active',
+                      value: value ? '1' : '0',
                       subWarehouseId: widget.subWarehouseId.toString(),
                       isForSubWarehouse: widget.isForSubWarehouse,
                       productId: widget.productId,

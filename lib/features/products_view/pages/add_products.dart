@@ -52,14 +52,6 @@ class _AddProductsViewState extends State<AddProductsView> {
     setState(() => {if (pickedFile != null) _image = File(pickedFile.path)});
   }
 
-  Widget imagesBody() {
-    return Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.only(top: 10),
-      child: SelectedFileToUpload(image: _image, name: '', close: () => setState(() => _image = null)),
-    );
-  }
-
   bool isLoading = false;
   bool isError = false;
 
@@ -271,7 +263,8 @@ class _AddProductsViewState extends State<AddProductsView> {
                             ),
                           ),
                         ]),
-                        if (_image != null) imagesBody(),
+                        if (_image != null)
+                          SelectedFileToUpload(image: _image, name: '', close: () => setState(() => _image = null)),
                         KammunButton(
                           height: 50,
                           text: save,
