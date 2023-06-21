@@ -8,6 +8,7 @@ import 'package:kammun_app/features/products_view/services/products_services.dar
 import 'package:kammun_app/features/store/widgets/store_view_category_grid.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../products_attached_to_warehouse/pages/add_products_to_sub_warehouse.dart';
 
 class InventoryProductWidget extends StatelessWidget {
   final Function(bool) onChangeStatus;

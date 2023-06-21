@@ -5,7 +5,6 @@ export '../features/coupons/presentation/pages/user_coupons_page.dart';
 export 'complaints/presentation/pages/complaints_page.dart';
 export 'home/presentation/pages/home_page.dart';
 export 'login/pages/login_view.dart';
-export 'products_attached_to_warehouse/pages/products_attached_to_warehouse_importer.dart';
 export 'profile/pages/profile_screen.dart';
 export 'reports/pages/reports_importer.dart';
 export 'store/pages/store_view.dart';

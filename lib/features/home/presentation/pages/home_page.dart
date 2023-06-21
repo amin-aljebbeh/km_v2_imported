@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  List<Widget> tabs = [];
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -34,19 +35,17 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    tabs.add(StoreView());
+    tabs.add(const CartPage());
+    if (Services.hasRole(context, operationManagerRole) ||
+        Services.hasRole(context, shopperRole) ||
+        Services.hasRole(context, supplierRole)) tabs.add(const OrdersPage());
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
         return Scaffold(
-            body: [
-              StoreView(),
-              const CartPage(),
-              if (Services.hasRole(context, operationManagerRole) ||
-                  Services.hasRole(context, shopperRole) ||
-                  Services.hasRole(context, supplierRole))
-                const OrdersPage()
-            ][state.homeState.pageIndex],
+            body: tabs[state.homeState.pageIndex],
             bottomNavigationBar: BottomNavigationBar(
               selectedFontSize: 0,
               unselectedFontSize: 0,

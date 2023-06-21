@@ -8,6 +8,7 @@ import '../../firebase_options.dart';
 
 class FirebaseInitPage extends StatefulWidget {
   final Widget child;
+
   const FirebaseInitPage({Key key, this.child}) : super(key: key);
 
   @override
@@ -19,6 +20,7 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
   bool initialized1 = false;
   AudioPlayer player;
   OverlaySupportEntry entry;
+
   @override
   void dispose() {
     player.dispose();
@@ -31,7 +33,7 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) async {
-        setState(() => initialized = true);
+        if (mounted) setState(() => initialized = true);
         String firebaseToken = prefs.getString('FCM_token_v3');
         FirebaseMessaging messaging = FirebaseMessaging.instance;
         if (Platform.isIOS) {
@@ -120,8 +122,10 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
               showMyDialog(title: message.notification.title, text: message.notification.body, context: context));
         }
       });
-    } catch (e) {/**/}
-    setState(() => initialized1 = true);
+    } catch (e) {
+      /**/
+    }
+    if (mounted) setState(() => initialized1 = true);
   }
 
   @override

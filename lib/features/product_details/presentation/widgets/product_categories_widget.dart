@@ -26,6 +26,7 @@ class ProductCategoriesWidget extends StatelessWidget {
                       text: yes,
                       onTap: () async {
                         Navigator.of(context).pop();
+                        //todo change
                         bool result = await ProductsServices.removeProductFromCategoryService(
                             productId: product.id.toString(), categoryId: product.categories[index].id.toString());
                         if (result) {

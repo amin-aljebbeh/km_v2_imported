@@ -57,6 +57,7 @@ class _ChangeProductCategoryAndSubWarehouseWidgetState extends State<ChangeProdu
                         .where((subWarehouse) => subWarehouse.id == product.subWarehouseId)
                         .toList()
                         .isNotEmpty;
+                    //todo change
                     bool result = await AddedProductsServices.changeProductSubWarehouse(product, value, remove);
 
                     if (result) {

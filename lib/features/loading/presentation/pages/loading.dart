@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../error/presentation/pages/internet_error.dart';
+import '../../../login/Services/login_services.dart';
 import '../../../update_screen/pages/update_required_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   _getClientInfo() async {
     try {
       await Firebase.initializeApp();
-      bool userLoggedIn = await Services.checkIfUserLoggedIn();
+      bool userLoggedIn = await LoginServices.checkIfUserLoggedIn();
       if (userLoggedIn) {
         bool x = await GeneralApis.fetchStartInformation(context: context);
         return x;
@@ -39,28 +40,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     } catch (e) {
       /**/
     }
-  }
-
-  loadingProgress() {
-    return Scaffold(
-      backgroundColor: kmColors,
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-            image: DecorationImage(image: AssetImage('assets/welcome_screen.png'), fit: BoxFit.contain)),
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-                left: MediaQuery.of(context).size.width - 80,
-                bottom: MediaQuery.of(context).size.height / 2 - 37,
-                height: 100,
-                width: 100,
-                child: Image.asset('assets/Loading.gif')),
-          ],
-        ),
-      ),
-    );
   }
 
   @override
@@ -80,25 +59,28 @@ class _LoadingScreenState extends State<LoadingScreen> {
               } else if (state.generalInformationState.companyInformation.updateRequired) {
                 return const UpdateScreen();
               } else {
-                final child = HomePage(notificationValue: notificationValue);
-                return AnimatedSwitcher(
-                  transitionBuilder: (Widget child, Animation<double> animation) {
-                    var begin = const Offset(0.0, 1.0);
-                    var end = Offset.zero;
-                    var curve = Curves.ease;
-
-                    var tween = Tween(begin: begin, end: end);
-                    var curvedAnimation = CurvedAnimation(parent: animation, curve: curve);
-
-                    final slide = HomePage(notificationValue: notificationValue);
-                    return SlideTransition(position: tween.animate(curvedAnimation), child: slide);
-                  },
-                  duration: const Duration(milliseconds: 250),
-                  child: child,
-                );
+                return HomePage(notificationValue: notificationValue);
               }
             } else {
-              return loadingProgress();
+              return Scaffold(
+                backgroundColor: kmColors,
+                body: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(image: AssetImage('assets/welcome_screen.png'), fit: BoxFit.contain)),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned(
+                          left: MediaQuery.of(context).size.width - 80,
+                          bottom: MediaQuery.of(context).size.height / 2 - 37,
+                          height: 100,
+                          width: 100,
+                          child: Image.asset('assets/Loading.gif')),
+                    ],
+                  ),
+                ),
+              );
             }
           },
         );

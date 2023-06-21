@@ -27,10 +27,23 @@ class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeep
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
-        productsAry = orderProducts(
-            deleted: widget.deleted,
-            products: state.ordersState.orders.firstWhere((element) => element.id == widget.order.id).products,
-            context: context);
+        switch (state.searchOrdersState.searchOrdersType) {
+          case SearchOrdersTypes.phoneNumber:
+
+          case SearchOrdersTypes.id:
+            productsAry = orderProducts(
+                deleted: widget.deleted,
+                products:
+                    state.searchOrdersState.orders.firstWhere((element) => element.id == widget.order.id).products,
+                context: context);
+            break;
+          case SearchOrdersTypes.none:
+            productsAry = orderProducts(
+                deleted: widget.deleted,
+                products: state.ordersState.orders.firstWhere((element) => element.id == widget.order.id).products,
+                context: context);
+            break;
+        }
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColorLight,
           body: Column(

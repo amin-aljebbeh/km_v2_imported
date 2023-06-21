@@ -173,7 +173,7 @@ class GeneralApis {
   static Future<bool> fetchStartInformation({BuildContext context}) async {
     try {
       var store = StoreProvider.of<AppState>(context);
-      bool userLoggedIn = await Services.checkIfUserLoggedIn();
+      bool userLoggedIn = await LoginServices.checkIfUserLoggedIn();
       if (userLoggedIn) {
         List responses;
         responses = await Future.wait([

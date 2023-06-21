@@ -51,6 +51,7 @@ class ProductOptionsWidget extends StatelessWidget {
                                     DialogButton(
                                       text: yes,
                                       onTap: () async {
+                                        //todo change
                                         bool result = await ProductsServices.deleteBarcode(
                                           bareCodeId: product.barcodes
                                               .firstWhere(

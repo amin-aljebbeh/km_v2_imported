@@ -35,6 +35,7 @@ class BarcodeIcon extends StatelessWidget {
         if (onPressed != null) onPressed();
         StoreProvider.of<AppState>(context).dispatch(SetBarcodeType(barcodeRequestType: requestType));
         StoreProvider.of<AppState>(context).dispatch(SetonIgnore(onIgnore: (barcode) async {
+          //todo change
           resultBarcode =
               await ProductsServices.setBarcodeToProduct(bareCode: int.parse(barcode), productId: productId);
           result = (resultBarcode != 'error');

@@ -57,21 +57,4 @@ class ReportsServices {
     if (response.statusCode == successCode) return shopperMonthlyReportFromJson(jsonEncode(response.data));
     return null;
   }
-
-  static Future<List<SupplierAccountModel>> getSupplierAccounts({String fromDate, String toDate}) async {
-    try {
-      Response response;
-      response = await ApiProvider.sendRequest(
-          url: remainingMoneyForSupplierApi,
-          queryParameters: {'from_date': fromDate, 'to_date': toDate},
-          method: HttpMethods.get);
-
-      if (response.statusCode == successCode) {
-        return supplierAccountModelResponseFromJson(jsonEncode(response.data)).data;
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
 }

@@ -1,13 +1,12 @@
 import 'dart:convert';
 
 import 'package:kammun_app/features/general_information/data/models/category_model.dart';
-
-import 'start_model_importer.dart';
+import 'package:kammun_app/features/general_information/data/models/warehouse_model.dart';
 
 CategoryOriginal categoryOriginalFromJson(String str) => CategoryOriginal.fromJson(json.decode(str));
 
 class Category {
-  Category({ this.original, this.exception});
+  Category({this.original, this.exception});
 
   CategoryOriginal original;
   dynamic exception;
@@ -17,7 +16,7 @@ class Category {
         exception: json["exception"],
       );
 
-  Map<String, dynamic> toJson() => { "original": original.toJson(), "exception": exception};
+  Map<String, dynamic> toJson() => {"original": original.toJson(), "exception": exception};
 }
 
 class CategoryOriginal {
@@ -43,7 +42,7 @@ class CategoryOriginalData {
   String imageFileName;
   String parentCategoryId;
   String isCompany;
-  List<Warehouse> warehouses;
+  List<WarehouseModel> warehouses;
 
   factory CategoryOriginalData.fromJson(Map<String, dynamic> json) => CategoryOriginalData(
         id: json["id"],
@@ -53,7 +52,7 @@ class CategoryOriginalData {
         isCompany: json["is_company"].toString(),
         warehouses: json["warehouses"] == null
             ? null
-            : List<Warehouse>.from(json["warehouses"].map((x) => Warehouse.fromJson(x))),
+            : List<WarehouseModel>.from(json["warehouses"].map((x) => WarehouseModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
