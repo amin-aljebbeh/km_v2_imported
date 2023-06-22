@@ -1,3 +1,4 @@
+import 'package:kammun_app/features/barcode/presentation/redux/barcode_action.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 
 import '../../../../core/core_importer.dart';
@@ -7,6 +8,7 @@ class ProductOptionsWidget extends StatelessWidget {
   final ProductEntity product;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final Function(String) onAddBarcode;
+
   const ProductOptionsWidget({Key key, this.product, this.scaffoldKey, this.onAddBarcode}) : super(key: key);
 
   @override
@@ -50,26 +52,15 @@ class ProductOptionsWidget extends StatelessWidget {
                                   dialogButtons: [
                                     DialogButton(
                                       text: yes,
-                                      onTap: () async {
-                                        //todo change
-                                        bool result = await ProductsServices.deleteBarcode(
-                                          bareCodeId: product.barcodes
-                                              .firstWhere(
-                                                  (barcodeToDelete) => barcodeToDelete.barcode == barcode.barcode)
-                                              .id,
-                                        );
-                                        Navigator.of(context).pop();
-
-                                        if (result) {
-                                          product.barcodes.removeWhere(
-                                              (barcodeToDelete) => barcodeToDelete.barcode == barcode.barcode);
-                                          snackBar(success: result, message: 'تم حذف الرمز بنجاح', context: context);
-                                        } else {
-                                          snackBar(
-                                              success: result,
-                                              message: 'فشلت عملية حذف الرمز يرجى المحاولة مجدداً',
-                                              context: context);
-                                        }
+                                      onTap: () {
+                                        StoreProvider.of<AppState>(context).dispatch(DeleteBarcodeAction(
+                                            context: context,
+                                            onDelete: () => product.barcodes.removeWhere(
+                                                (barcodeToDelete) => barcodeToDelete.barcode == barcode.barcode),
+                                            barcodeId: product.barcodes
+                                                .firstWhere(
+                                                    (barcodeToDelete) => barcodeToDelete.barcode == barcode.barcode)
+                                                .id));
                                       },
                                     ),
                                     DialogButton(text: no, onTap: () => Navigator.of(context).pop()),

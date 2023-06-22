@@ -5,4 +5,6 @@ abstract class ProductDetailsRepository {
   Future<Either<Failure, Unit>> deleteProduct({int productId});
 
   Future<Either<Failure, Unit>> deleteImage({int imageId});
+
+  Future<Either<Failure, Unit>> removeProductFromCategory({String productId, String categoryId});
 }

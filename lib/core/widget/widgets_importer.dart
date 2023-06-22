@@ -1,3 +1,4 @@
+export '../../features/barcode/presentation/widgets/barcode_icon.dart';
 export '../../features/inventory/presentation/widgets/inventory_products_card.dart';
 export '../../features/inventory/presentation/widgets/inventory_search_text_field.dart';
 export '../../features/order_details/presentation/widgets/order_product_widget.dart';
@@ -11,7 +12,6 @@ export '../../features/store/widgets/k_drawer.dart';
 export 'add_image_widget.dart';
 export 'alert_messages.dart';
 export 'app_bar_kammun_image.dart';
-export 'barcode_icon.dart';
 export 'close_widget.dart';
 export 'dialog_button.dart';
 export 'entry_field.dart';

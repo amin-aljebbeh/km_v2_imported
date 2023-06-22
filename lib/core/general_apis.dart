@@ -87,7 +87,7 @@ class GeneralApis {
 
   static Future<bool> getSubWarehouse({BuildContext context}) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+      SharedPreferences prefs = sl<SharedPreferences>();
 
       List<SubWarehouseEntity> response =
           await LoginServices.getAdmin(adminId: prefs.getString('adminId'), context: context);
@@ -173,35 +173,31 @@ class GeneralApis {
   static Future<bool> fetchStartInformation({BuildContext context}) async {
     try {
       var store = StoreProvider.of<AppState>(context);
-      bool userLoggedIn = await LoginServices.checkIfUserLoggedIn();
-      if (userLoggedIn) {
-        List responses;
-        responses = await Future.wait([
-          getSupportedCity(context),
-          getSubWarehouse(context: context),
-          getCategoryService(context),
-          GeneralApis.getWarehousesService(context: context),
-          Services.initializeVariables(context)
-        ]);
-        if (Services.hasRole(context, operationManagerRole) ||
-            Services.hasRole(context, adminRole) ||
-            Services.hasRole(context, accountingRole)) {
-          await GeneralApis.getShoppers(context: context);
-          final List<ShopperLevelEntity> levels = await GeneralApis.getLevels();
-          StoreProvider.of<AppState>(context).dispatch(SetLevels(levels: levels));
-        }
-        if (Services.hasPermission(context, transactionPermission)) {
-          store.dispatch(GetTransactionCategoriesAction());
-        }
-
-        if (responses[1] == null) {
-          Services.initializeVariables(context);
-        } else {
-          return responses[0] && responses[1];
-        }
-        return true;
+      List responses;
+      responses = await Future.wait([
+        getSupportedCity(context),
+        getSubWarehouse(context: context),
+        getCategoryService(context),
+        GeneralApis.getWarehousesService(context: context),
+        Services.initializeVariables(context)
+      ]);
+      if (Services.hasRole(context, operationManagerRole) ||
+          Services.hasRole(context, adminRole) ||
+          Services.hasRole(context, accountingRole)) {
+        await GeneralApis.getShoppers(context: context);
+        final List<ShopperLevelEntity> levels = await GeneralApis.getLevels();
+        StoreProvider.of<AppState>(context).dispatch(SetLevels(levels: levels));
       }
-      return false;
+      if (Services.hasPermission(context, transactionPermission)) {
+        store.dispatch(GetTransactionCategoriesAction());
+      }
+
+      if (responses[1] == null) {
+        Services.initializeVariables(context);
+      } else {
+        return responses[0] && responses[1];
+      }
+      return true;
     } catch (e) {
       return false;
     }

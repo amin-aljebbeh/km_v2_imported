@@ -3,7 +3,7 @@ import 'package:search_choices/search_choices.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../products/domain/entities/product_entity.dart';
-import '../../../products_attached_to_warehouse/services/added_products_services.dart';
+import '../../../products_view/services/products_services.dart';
 
 class ChangeProductCategoryAndSubWarehouseWidget extends StatefulWidget {
   final ProductEntity product;
@@ -19,7 +19,7 @@ class ChangeProductCategoryAndSubWarehouseWidget extends StatefulWidget {
 
 class _ChangeProductCategoryAndSubWarehouseWidgetState extends State<ChangeProductCategoryAndSubWarehouseWidget> {
   String productSubWarehouseId;
-  String selectedValueCategoryValue;
+  String selectedCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +57,7 @@ class _ChangeProductCategoryAndSubWarehouseWidgetState extends State<ChangeProdu
                         .where((subWarehouse) => subWarehouse.id == product.subWarehouseId)
                         .toList()
                         .isNotEmpty;
-                    //todo change
-                    bool result = await AddedProductsServices.changeProductSubWarehouse(product, value, remove);
+                    bool result = await ProductsServices.changeProductSubWarehouse(product, value, remove);
 
                     if (result) {
                       snackBar(success: result, message: 'تم تغيير مستودع المنتج بنجاح', context: context);
@@ -104,13 +103,13 @@ class _ChangeProductCategoryAndSubWarehouseWidgetState extends State<ChangeProdu
                   isExpanded: false,
                   items: state.generalInformationState.categoriesMenu,
                   iconEnabledColor: primaryColor,
-                  value: selectedValueCategoryValue,
+                  value: selectedCategory,
                   hint: Text('اختيار الصنف التابع له المنتج', style: decisionButtonStyle.copyWith(color: primaryColor)),
                   searchHint: Text('إختيار الصنف', style: decisionButtonStyle.copyWith(color: primaryColor)),
                   onChanged: (value) => setState(() {
                     if (value != null) {
-                      selectedValueCategoryValue = value.toString().split(';')[1];
-                      widget.onChangeCategory(selectedValueCategoryValue);
+                      selectedCategory = value.toString().split(';')[1];
+                      widget.onChangeCategory(selectedCategory);
                     }
                   }),
                 ),

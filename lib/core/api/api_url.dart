@@ -35,9 +35,9 @@ const String reAssignOrderToShopper = orderApi + 're_assign_order_to_shopper/';
 const String updateOrderRatingApi = orderApi + 'update_order_rating/';
 const String getSupplierOrderApi = orderApi + 'get_supplier_order';
 // BareCode
-const String productBarcode = 'product_barcode/';
-const String searchProductByBarcodeApi = productBarcode + searchApi;
-const String checkProductBarcodeApi = productBarcode + 'search_in_products/';
+const String productBarcodeApi = 'product_barcode/';
+const String searchProductByBarcodeApi = productBarcodeApi + searchApi;
+const String checkProductBarcodeApi = productBarcodeApi + 'search_in_products/';
 // Products:
 const String searchProductsApi = productApi + searchApi;
 //// admin
@@ -64,7 +64,7 @@ const String filterByNumberOfSalesApi = productApi + 'filter_by_number_of_sale';
 const String getPriceChangedApi = productApi + 'products_price_change';
 const String productImageApi = 'product_image/';
 const String addProductToCategory = productApi + 'add_product_to_category/';
-const String removeProductFromCategory = productApi + 'delete_product_to_category/';
+const String removeProductFromCategoryApi = productApi + 'delete_product_to_category/';
 const String getDailyStatistics = 'get_daily_statistics';
 const String importProductActivationInWarehouseApi = 'import_product_activation_in_warehouse';
 const String importProductPricesInWareHouseApi = 'import_product_prices_in_warehouse';

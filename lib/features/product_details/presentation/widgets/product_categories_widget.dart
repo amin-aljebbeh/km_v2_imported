@@ -1,10 +1,11 @@
 import '../../../../core/core_importer.dart';
 import '../../../products/domain/entities/product_entity.dart';
-import '../../../products_view/services/products_services.dart';
+import '../redux/product_details_action.dart';
 
 class ProductCategoriesWidget extends StatelessWidget {
   final ProductEntity product;
   final Function(int) onRemove;
+
   const ProductCategoriesWidget({Key key, this.product, this.onRemove}) : super(key: key);
 
   @override
@@ -25,19 +26,11 @@ class ProductCategoriesWidget extends StatelessWidget {
                     DialogButton(
                       text: yes,
                       onTap: () async {
-                        Navigator.of(context).pop();
-                        //todo change
-                        bool result = await ProductsServices.removeProductFromCategoryService(
-                            productId: product.id.toString(), categoryId: product.categories[index].id.toString());
-                        if (result) {
-                          snackBar(success: result, message: 'تم إزالة المنتج من الصنف بنجاح', context: context);
-                        } else {
-                          snackBar(
-                              success: result,
-                              message: 'فشلت عملية إزالة المنتج من الصنف يرجى المحاولة مجدداً',
-                              context: context);
-                        }
-                        if (result) onRemove(index);
+                        StoreProvider.of<AppState>(context).dispatch(RemoveProductFromCategoryAction(
+                            categoryId: product.categories[index].id.toString(),
+                            context: context,
+                            productId: product.id.toString(),
+                            onRemove: () => onRemove(index)));
                       },
                     ),
                     DialogButton(text: no, onTap: () => Navigator.of(context).pop()),

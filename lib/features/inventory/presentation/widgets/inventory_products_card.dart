@@ -3,12 +3,11 @@ import 'package:kammun_app/features/barcode/presentation/redux/barcode_action.da
 import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
 import 'package:kammun_app/features/product_details/presentation/pages/product_detail_view.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
-import 'package:kammun_app/features/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 import 'package:kammun_app/features/store/widgets/store_view_category_grid.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../products_attached_to_warehouse/pages/add_products_to_sub_warehouse.dart';
+import '../../../products_view/pages/add_products_to_sub_warehouse.dart';
 
 class InventoryProductWidget extends StatelessWidget {
   final Function(bool) onChangeStatus;
@@ -53,7 +52,7 @@ class InventoryProductWidget extends StatelessWidget {
   }) : super(key: key);
 
   _unAttachProduct() async {
-    bool result = await AddedProductsServices.unAttachProductsToSubWarehouseService(
+    bool result = await ProductsServices.unAttachProductsToSubWarehouseService(
         productsId: productData.id.toString(), subWarehouse: id);
     if (result) onDelete(true);
     return result;

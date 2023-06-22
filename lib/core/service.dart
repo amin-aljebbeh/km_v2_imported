@@ -163,7 +163,7 @@ class Services {
 
   static setPreferLeftSide(bool side) async {
     StaticVariables.preferLeftSide = side;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = sl<SharedPreferences>();
     prefs.setBool('preferLeftSide', side);
   }
 

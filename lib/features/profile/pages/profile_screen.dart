@@ -88,14 +88,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               IconButton(
                                 icon: Icon(Icons.library_add_check_outlined,
                                     color: StaticVariables.preferLeftSide ? searchGreyColor : kmColors2),
-                                onPressed: () => setState(
-                                    () => StaticVariables.preferLeftSide ? Services.setPreferLeftSide(false) : {}),
+                                onPressed: () {
+                                  StaticVariables.preferLeftSide ? Services.setPreferLeftSide(false) : {};
+                                  setState(() {});
+                                },
                               ), //right side
                               IconButton(
                                   icon: Icon(Icons.library_add_check_outlined,
                                       color: StaticVariables.preferLeftSide ? kmColors2 : searchGreyColor),
-                                  onPressed: () => setState(
-                                      () => StaticVariables.preferLeftSide ? {} : Services.setPreferLeftSide(true)))
+                                  onPressed: () {
+                                    StaticVariables.preferLeftSide ? {} : Services.setPreferLeftSide(true);
+                                    setState(() {});
+                                  })
                             ],
                           ),
                         ),

@@ -5,12 +5,14 @@ import '../features/product_details/domain/repositories/product_details_reposito
 import '../features/product_details/domain/use_cases/delete_image_use_case.dart';
 import '../features/product_details/domain/use_cases/delete_product_use_case.dart';
 import '../features/product_details/domain/use_cases/product_details_use_cases.dart';
+import '../features/product_details/domain/use_cases/remove_product_from_category_use_case.dart';
 
 Future<void> injectProductDetails() async {
   sl.registerLazySingleton(() => DeleteProductUseCase(productDetailsRepository: sl()));
   sl.registerLazySingleton(() => DeleteImageUseCase(productDetailsRepository: sl()));
-  sl.registerLazySingleton<ProductDetailsUSeCases>(
-      () => ProductDetailsUSeCases(deleteProductUseCase: sl(), deleteImageUseCase: sl()));
+  sl.registerLazySingleton(() => RemoveProductFromCategoryUseCase(productDetailsRepository: sl()));
+  sl.registerLazySingleton<ProductDetailsUSeCases>(() => ProductDetailsUSeCases(
+      deleteProductUseCase: sl(), deleteImageUseCase: sl(), removeProductFromCategoryUseCase: sl()));
   sl.registerLazySingleton<ProductDetailsRepository>(
       () => ProductDetailsRepositoryImplement(productDetailsRemoteDataSource: sl(), repositoryFactory: sl()));
   sl.registerLazySingleton<ProductDetailsRemoteDataSource>(() => ProductDetailsRemoteDataSourceImplement());

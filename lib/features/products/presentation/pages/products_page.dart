@@ -1,5 +1,5 @@
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/features/products/data/models/barcode_model.dart';
+import 'package:kammun_app/features/barcode/data/models/barcode_model.dart';
 import 'package:kammun_app/features/products/presentation/widgets/add_product_widget.dart';
 import 'package:kammun_app/features/products/presentation/widgets/product_widget.dart';
 import 'package:kammun_app/features/products/presentation/widgets/products_view_app_bar.dart';

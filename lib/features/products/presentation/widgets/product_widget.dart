@@ -5,7 +5,7 @@ import 'package:kammun_app/features/product_details/presentation/pages/product_d
 import '../../../../core/core_importer.dart';
 import '../../../barcode/presentation/redux/barcode_action.dart';
 import '../../../general_information/data/models/warehouse_pivot_model.dart';
-import '../../../products_attached_to_warehouse/pages/add_products_to_sub_warehouse.dart';
+import '../../../products_view/pages/add_products_to_sub_warehouse.dart';
 import '../../domain/entities/product_entity.dart';
 
 class ProductWidget extends StatefulWidget {

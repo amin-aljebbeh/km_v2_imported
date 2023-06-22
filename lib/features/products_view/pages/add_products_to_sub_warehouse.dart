@@ -1,8 +1,7 @@
-import 'package:kammun_app/features/products_attached_to_warehouse/services/added_products_services.dart';
-
 import '../../../core/core_importer.dart';
 import '../../home/presentation/redux/home_action.dart';
 import '../../products/domain/entities/product_entity.dart';
+import '../services/products_services.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
   final ProductEntity product;
@@ -40,7 +39,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       'barcode': barcode,
     };
 
-    bool response = await AddedProductsServices.attachProductsToSubWarehouseService(fullRequestBody: body);
+    bool response = await ProductsServices.attachProductsToSubWarehouseService(fullRequestBody: body);
     if (response) {
       setState(() {
         isLoading = false;

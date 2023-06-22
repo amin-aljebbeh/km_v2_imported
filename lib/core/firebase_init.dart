@@ -30,7 +30,7 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
   void initializeFlutterFire() async {
     await player.setAsset('assets/cool.mp3');
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = sl<SharedPreferences>();
     try {
       Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) async {
         if (mounted) setState(() => initialized = true);

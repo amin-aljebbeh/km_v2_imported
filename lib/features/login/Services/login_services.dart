@@ -66,7 +66,7 @@ class LoginServices {
       var theResponse = response.data;
       if (response.statusCode == successCode && (theResponse['success'].toString() == 'true')) {
         final newResponse = adminLoginResponseFromJson(jsonEncode(response.data));
-        SharedPreferences prefs = await SharedPreferences.getInstance();
+        SharedPreferences prefs = sl<SharedPreferences>();
         prefs.setString('userToken', newResponse.data.apiToken);
         prefs.setString('adminId', newResponse.data.id.toString());
         prefs.setBool('preferLeftSide', true);
@@ -80,7 +80,7 @@ class LoginServices {
   }
 
   static Future<void> logOutAdmin(BuildContext context) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+    SharedPreferences preferences = sl<SharedPreferences>();
     baseUrl = appUrl;
     await preferences.clear();
     StoreProvider.of<AppState>(context).dispatch(RestartApp());
@@ -112,7 +112,7 @@ class LoginServices {
 
   static Future<bool> checkIfUserLoggedIn() async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+      SharedPreferences prefs = sl<SharedPreferences>();
       // prefs.clear();
       StaticVariables.preferLeftSide = prefs.getBool('preferLeftSide');
       String userToken = prefs.getString('userToken');

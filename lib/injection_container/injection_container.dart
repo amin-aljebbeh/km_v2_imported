@@ -1,5 +1,6 @@
 import '../core/core_importer.dart';
 import 'admins_injection.dart';
+import 'barcode_injection.dart';
 import 'cart_injection.dart';
 import 'complaints_inject.dart';
 import 'coupons_injection.dart';
@@ -31,6 +32,7 @@ Future<void> inject() async {
   await injectTransactions();
   await injectShoppers();
   await injectOrderDetails();
+  await injectBarcode();
   await injectCart();
   await injectProductDetails();
   await injectProducts();
@@ -43,8 +45,9 @@ Future<void> inject() async {
 
 //! External
 
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => sharedPreferences);
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  sl.registerSingleton<SharedPreferences>(sharedPreferences);
+
   sl.registerLazySingleton(() => InternetConnectionChecker());
   sl.registerLazySingleton(() => RepositoryFactory(internetConnectionChecker: sl()));
 }

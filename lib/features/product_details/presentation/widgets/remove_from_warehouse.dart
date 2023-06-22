@@ -1,6 +1,6 @@
 import '../../../../core/core_importer.dart';
 import '../../../products/domain/entities/product_entity.dart';
-import '../../../products_attached_to_warehouse/services/added_products_services.dart';
+import '../../../products_view/services/products_services.dart';
 
 class RemoveFromWarehouse extends StatelessWidget {
   final ProductEntity product;
@@ -20,7 +20,7 @@ class RemoveFromWarehouse extends StatelessWidget {
               text: yes,
               onTap: () async {
                 Navigator.of(context).pop();
-                bool result = await AddedProductsServices.unAttachProductsToSubWarehouseService(
+                bool result = await ProductsServices.unAttachProductsToSubWarehouseService(
                     productsId: product.id.toString(), subWarehouse: product.subWarehouseId.toString());
                 if (result) {
                   int count = 0;

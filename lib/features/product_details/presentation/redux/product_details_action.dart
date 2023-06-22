@@ -10,6 +10,7 @@ class DeleteProductAction extends ProductDetailsAction {
   final BuildContext context;
 
   DeleteProductAction({this.productId, this.context});
+
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
@@ -23,6 +24,27 @@ class DeleteProductAction extends ProductDetailsAction {
       snackBar(success: true, message: 'تم حذف المنتج بنجاح', context: context);
     });
     store.dispatch(StopLoading());
+  }
+}
+
+class RemoveProductFromCategoryAction extends ProductDetailsAction {
+  final String productId, categoryId;
+  final BuildContext context;
+  final Function onRemove;
+
+  RemoveProductFromCategoryAction({this.productId, this.context, this.categoryId, this.onRemove});
+
+  @override
+  handle({Store<AppState> store}) async {
+    Navigator.of(context).pop();
+    Either either = await store.state.productDetailsState.productDetailsUSeCases
+        .removeProductFromCategoryUseCase(productId: productId, categoryId: categoryId);
+    either.fold(
+        (failure) => snackBar(
+            success: false, message: 'فشلت عملية إزالة المنتج من الصنف يرجى المحاولة مجدداً', context: context), (_) {
+      snackBar(success: true, message: 'تم إزالة المنتج من الصنف بنجاح', context: context);
+      onRemove();
+    });
   }
 }
 

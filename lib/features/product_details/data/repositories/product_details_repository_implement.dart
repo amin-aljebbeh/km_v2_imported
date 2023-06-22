@@ -21,4 +21,11 @@ class ProductDetailsRepositoryImplement implements ProductDetailsRepository {
     return await repositoryFactory.failureUnitRepo(
         function: () => productDetailsRemoteDataSource.deleteImage(imageId: imageId));
   }
+
+  @override
+  Future<Either<Failure, Unit>> removeProductFromCategory({String productId, String categoryId}) async {
+    return await repositoryFactory.failureUnitRepo(
+        function: () =>
+            productDetailsRemoteDataSource.removeProductFromCategory(productId: productId, categoryId: categoryId));
+  }
 }

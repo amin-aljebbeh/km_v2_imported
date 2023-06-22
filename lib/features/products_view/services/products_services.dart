@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/features/products_attached_to_warehouse/services/added_products_services.dart';
+
+import '../../products/domain/entities/product_entity.dart';
 
 class ProductsServices {
   static Future<bool> updateProductsDetails({
@@ -28,19 +29,6 @@ class ProductsServices {
             method: HttpMethods.put,
             body: jsonEncode({'sub_warehouse_id': subWarehouseId, bodyKey: value}));
       }
-      return response.statusCode == successCode;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  static Future<bool> removeProductFromCategoryService(
-      {@required String productId, @required String categoryId}) async {
-    try {
-      var response = await ApiProvider.sendRequest(
-          queryParameters: {'category_id': categoryId},
-          url: removeProductFromCategory + productId,
-          method: HttpMethods.delete);
       return response.statusCode == successCode;
     } catch (e) {
       return false;
@@ -89,8 +77,7 @@ class ProductsServices {
           'price_factor': priceFactor,
           'automatic_activation': autoActivation
         };
-        bool result =
-            await AddedProductsServices.attachProductsToSubWarehouseService(fullRequestBody: subWarehouseBody);
+        bool result = await ProductsServices.attachProductsToSubWarehouseService(fullRequestBody: subWarehouseBody);
         if (result) {
           return int.parse(response.data['data']['id'].toString());
         }
@@ -116,25 +103,76 @@ class ProductsServices {
     }
   }
 
-  static Future<String> setBarcodeToProduct({@required int bareCode, @required int productId}) async {
-    var requestBody = {'product_id': productId, 'barcode': bareCode};
+  static Future<bool> unAttachProductsToSubWarehouseService({String productsId, String subWarehouse}) async {
     try {
-      var response =
-          await ApiProvider.sendRequest(url: productBarcode, method: HttpMethods.post, body: jsonEncode(requestBody));
-      if (response.statusCode == successCode) {
-        Barcode barcode = barcodeFromJson(jsonEncode(response.data['data']));
-        return barcode.barcode;
-      }
-      return 'error';
+      Map<String, int> body = {'sub_warehouse_id': int.parse(subWarehouse)};
+      var response = await ApiProvider.sendRequest(
+          queryParameters: body,
+          responseType: ResponseType.json,
+          url: unAttachProductsToSubWarehouse + productsId,
+          method: HttpMethods.delete);
+
+      return response.statusCode == successCode && response.data['success'];
     } catch (e) {
-      return 'error';
+      return false;
     }
   }
 
-  static Future<bool> deleteBarcode({@required String bareCodeId}) async {
+  static Future<bool> attachProductsToSubWarehouseService({dynamic fullRequestBody}) async {
     try {
-      var response = await ApiProvider.sendRequest(url: productBarcode + bareCodeId, method: HttpMethods.delete);
-      return response.statusCode == successCode;
+      var response = await ApiProvider.sendRequest(
+          url: attachProductsToSubWarehouse, method: HttpMethods.post, body: jsonEncode(fullRequestBody));
+
+      return response.statusCode == successCode && response.data['success'];
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<bool> changeProductSubWarehouse(
+      ProductEntity product, String productSubWarehouseId, bool remove) async {
+    var subWarehouseBody = {
+      'product_id': product.id,
+      'sub_warehouse_id': productSubWarehouseId,
+      'price': product.price,
+      'is_featured': product.isFeatured,
+      'is_active': product.isActive,
+      'priority': product.priority,
+      'supplier_code': product.supplierCode,
+      'min_threshold': product.minThreshold,
+      'increase_percentage': product.increasePercentage,
+      'price_factor': product.priceFactor,
+      'automatic_activation': product.automaticActivation,
+    };
+    try {
+      bool removed;
+      if (remove) {
+        removed = await ProductsServices.unAttachProductsToSubWarehouseService(
+            productsId: product.id.toString(), subWarehouse: product.subWarehouseId.toString());
+      } else {
+        removed = true;
+      }
+      bool add = false;
+      if (removed) {
+        add = await ProductsServices.attachProductsToSubWarehouseService(fullRequestBody: subWarehouseBody);
+      }
+      if (!add && removed) {
+        var subWarehouseBody = {
+          'product_id': product.id,
+          'sub_warehouse_id': product.subWarehouseId,
+          'price': product.price,
+          'is_featured': product.isFeatured,
+          'is_active': product.isActive,
+          'priority': product.priority,
+          'supplier_code': product.supplierCode,
+          'min_threshold': product.minThreshold,
+          'increase_percentage': product.increasePercentage,
+          'price_factor': product.priceFactor,
+          'automatic_activation': product.automaticActivation,
+        };
+        await ProductsServices.attachProductsToSubWarehouseService(fullRequestBody: subWarehouseBody);
+      }
+      return removed && add;
     } catch (e) {
       return false;
     }

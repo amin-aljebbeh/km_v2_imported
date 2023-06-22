@@ -1,4 +1,23 @@
-import 'package:kammun_app/features/products/domain/entities/barcode_entity.dart';
+import 'package:kammun_app/features/barcode/domain/entities/barcode_entity.dart';
+
+import '../../../../core/core_importer.dart';
+
+CreateBarcodeResponseModel createBarcodeResponseModelFromJson(String str) =>
+    CreateBarcodeResponseModel.fromJson(json.decode(str));
+
+String createBarcodeResponseModelToJson(CreateBarcodeResponseModel data) => json.encode(data.toJson());
+
+class CreateBarcodeResponseModel {
+  bool success;
+  BarcodeModel data;
+
+  CreateBarcodeResponseModel({this.success, this.data});
+
+  factory CreateBarcodeResponseModel.fromJson(Map<String, dynamic> json) =>
+      CreateBarcodeResponseModel(success: json['success'], data: BarcodeModel.fromJson(json['data']));
+
+  Map<String, dynamic> toJson() => {'success': success, 'data': data.toJson()};
+}
 
 class BarcodeModel extends BarcodeEntity {
   BarcodeModel(
