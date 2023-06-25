@@ -1,14 +1,12 @@
-import 'package:kammun_app/features/general_information/presentation/redux/general_information_action.dart';
-import 'package:kammun_app/features/shoppers/data/models/shopper_level_model.dart';
-import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_action.dart';
-
+import '../features/admins/presentation/redux/admins_action.dart';
 import '../features/general_information/data/models/supported_city_model.dart';
 import '../features/general_information/data/models/warehouse_model.dart';
-import '../features/general_information/domain/entities/sub_warehouse_entity.dart';
 import '../features/general_information/domain/entities/warehouse_entity.dart';
-import '../features/login/Services/login_services.dart';
+import '../features/general_information/presentation/redux/general_information_action.dart';
 import '../features/shoppers/data/models/get_shoppers_model.dart';
+import '../features/shoppers/data/models/shopper_level_model.dart';
 import '../features/shoppers/domain/entities/shopper_level_entity.dart';
+import '../features/shoppers/presentation/redux/shoppers_action.dart';
 import '../features/transactions/presentation/redux/transactions_action.dart';
 import 'core_importer.dart';
 
@@ -85,23 +83,6 @@ class GeneralApis {
     }
   }
 
-  static Future<bool> getSubWarehouse({BuildContext context}) async {
-    try {
-      SharedPreferences prefs = sl<SharedPreferences>();
-
-      List<SubWarehouseEntity> response =
-          await LoginServices.getAdmin(adminId: prefs.getString('adminId'), context: context);
-
-      if (response != null) {
-        StoreProvider.of<AppState>(context).dispatch(SetSubWarehouses(subWarehouses: response));
-        return true;
-      }
-      return false;
-    } catch (e) {
-      return null;
-    }
-  }
-
   static Future<bool> getSupportedCity(BuildContext context) async {
     try {
       var response = await ApiProvider.sendRequest(url: supportedCityApi, method: HttpMethods.get);
@@ -172,11 +153,12 @@ class GeneralApis {
 
   static Future<bool> fetchStartInformation({BuildContext context}) async {
     try {
+      SharedPreferences prefs = sl<SharedPreferences>();
       var store = StoreProvider.of<AppState>(context);
       List responses;
       responses = await Future.wait([
         getSupportedCity(context),
-        getSubWarehouse(context: context),
+        store.dispatch(GetAdminAction(adminId: int.parse(prefs.getString('adminId')))),
         getCategoryService(context),
         GeneralApis.getWarehousesService(context: context),
         Services.initializeVariables(context)

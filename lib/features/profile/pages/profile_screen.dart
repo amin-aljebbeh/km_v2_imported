@@ -1,4 +1,4 @@
-import 'package:kammun_app/features/login/Services/login_services.dart';
+import 'package:kammun_app/features/authentication/presentation/redux/authentication_action.dart';
 
 import '../../../core/core_importer.dart';
 import '../widgets/profile_container.dart';
@@ -109,7 +109,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             leading: Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: IconButton(
-                                    onPressed: () => LoginServices.logOutAdmin(context),
+                                    onPressed: () =>
+                                        StoreProvider.of<AppState>(context).dispatch(LogoutAction(context: context)),
                                     icon: Icon(Icons.logout, color: kmColors, size: 30))),
                             title: Padding(
                               padding: const EdgeInsets.only(top: 5.0),

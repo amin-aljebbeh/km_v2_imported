@@ -5,7 +5,7 @@ import 'package:kammun_app/features/sub_warehouse_manager/presentation/redux/sub
 import '../../../core/core_importer.dart';
 import '../../../core/widget/management_view.dart';
 import '../../admins/presentation/redux/admins_action.dart';
-import '../../login/Services/login_services.dart';
+import '../../authentication/presentation/redux/authentication_action.dart';
 import '../../products_filter/presentation/pages/products_filter_page.dart';
 import '../../sub_warehouse_manager/presentation/pages/sub_warehouse_manager_page.dart';
 import '../../supplier/presentation/pages/supplier_remaining_statment.dart';
@@ -224,6 +224,9 @@ List<Widget> getDrawerChildren(BuildContext context) {
           Navigator.push(context, MaterialPageRoute(builder: (_) => const ComplaintsPage()));
         },
       ),
-    SideBarRow(icon: Icons.logout, text: 'تسجيل الخروج', onTap: () async => await LoginServices.logOutAdmin(context)),
+    SideBarRow(
+        icon: Icons.logout,
+        text: 'تسجيل الخروج',
+        onTap: () => StoreProvider.of<AppState>(context).dispatch(LogoutAction(context: context))),
   ];
 }

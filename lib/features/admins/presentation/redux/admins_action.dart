@@ -3,6 +3,10 @@ import 'package:kammun_app/features/admins/domain/entities/admins_entity.dart';
 import 'package:kammun_app/features/admins/domain/entities/role_entity.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../authentication/domain/entities/login_admin_entity.dart';
+import '../../../general_information/presentation/redux/general_information_action.dart';
+import '../../../shoppers/domain/entities/shopper_entity.dart';
+import '../../../shoppers/presentation/redux/shoppers_action.dart';
 
 abstract class AdminsAction {
   handle({@required Store<AppState> store});
@@ -31,6 +35,31 @@ class GetRolesAction implements AdminsAction {
   handle({Store<AppState> store}) async {
     Either either = await store.state.adminsState.adminsUseCases.getRolesUseCase();
     either.fold((failure) => store.dispatch(SetRoles(roles: [])), (roles) => store.dispatch(SetRoles(roles: roles)));
+  }
+}
+
+class GetAdminAction implements AdminsAction {
+  final int adminId;
+
+  GetAdminAction({this.adminId});
+
+  @override
+  handle({Store<AppState> store}) async {
+    store.dispatch(StartLoading());
+    Either either = await store.state.adminsState.adminsUseCases.getAdminUseCase(adminId: adminId);
+    either.fold((failure) {}, (response) async {
+      AdminLoginResponseEntity result = response;
+      store.dispatch(SetAdmin(admin: result.admin));
+      if (result.admin.roles.isNotEmpty) {
+        if (result.admin.shopper != null) {
+          ShopperEntity shopper = result.admin.shopper;
+          shopper.level = await GeneralApis.getLevelService(result.admin.shopper.levelId.toString());
+          store.dispatch(SetShopper(shopper: shopper));
+        }
+      }
+      store.dispatch(SetSubWarehouses(subWarehouses: result.admin.subWarehouses));
+    });
+    store.dispatch(StopLoading());
   }
 }
 

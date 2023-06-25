@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_middleware.dart';
 
 import '../features/admins/presentation/redux/admins_middleware.dart';
+import '../features/authentication/presentation/redux/authentication_middleware.dart';
 import '../features/barcode/presentation/redux/barcode_middleware.dart';
 import '../features/cart/presentation/redux/cart_middleware.dart';
 import '../features/complaints/presentation/redux/complaints_middleware.dart';
@@ -48,6 +49,7 @@ List<Middleware<AppState>> appMiddleware() {
     subWarehouseManagerMiddleware,
     productsFilterMiddleware,
     priceFileMiddleware,
+    authenticationMiddleware,
     inventoryFileMiddleware,
   ];
 }

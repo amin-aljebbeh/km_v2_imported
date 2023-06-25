@@ -1,5 +1,6 @@
 import '../core/core_importer.dart';
 import 'admins_injection.dart';
+import 'authentication_injection.dart';
 import 'barcode_injection.dart';
 import 'cart_injection.dart';
 import 'complaints_inject.dart';
@@ -38,6 +39,7 @@ Future<void> inject() async {
   await injectProducts();
   await injectHome();
   await injectProductsFilter();
+  await injectAuth();
 
 //! Core
 

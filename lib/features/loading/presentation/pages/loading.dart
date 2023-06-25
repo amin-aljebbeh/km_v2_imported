@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../authentication/login_services.dart';
 import '../../../error/presentation/pages/internet_error.dart';
-import '../../../login/Services/login_services.dart';
 import '../../../update_screen/pages/update_required_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -51,7 +51,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         return FutureBuilder(
           future: fetchInformation,
           builder: (context, snapShot) {
-            if (snapShot.data == 'userNotLoggedIn') return const LoginScreen();
+            if (snapShot.data == 'userNotLoggedIn') return const LoginPage();
 
             if (snapShot.connectionState == ConnectionState.done) {
               if (snapShot.hasError || snapShot.data == false) {
