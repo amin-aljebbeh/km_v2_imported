@@ -11,7 +11,7 @@ class SupplierRemoteDataSourceImplement implements SupplierRemoteDataSource {
   @override
   Future<AccountStatementModel> getSupplierAccountStatement({String from, String to}) async {
     Response response = await ApiProvider.sendRequest(
-        url: supplierAccountStatement, method: HttpMethods.get, queryParameters: {'from_date': from, 'to_date': to});
+        url: supplierAccountStatementApi, method: HttpMethods.get, queryParameters: {'from_date': from, 'to_date': to});
     try {
       if (response != null) {
         if (response.statusCode == successCode) return supplierAccountStatementFromJson(jsonEncode(response.data)).data;

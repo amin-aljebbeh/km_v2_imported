@@ -12,6 +12,7 @@ import 'orders_injection.dart';
 import 'product_details_injection.dart';
 import 'products_filter_injection.dart';
 import 'products_injection.dart';
+import 'report_injection.dart';
 import 'search_orders_injection.dart';
 import 'shoppers_injection.dart';
 import 'sub_warehouse_manager_injection.dart';
@@ -40,6 +41,7 @@ Future<void> inject() async {
   await injectHome();
   await injectProductsFilter();
   await injectAuth();
+  await injectReports();
 
 //! Core
 

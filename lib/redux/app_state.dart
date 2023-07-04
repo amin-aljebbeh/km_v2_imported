@@ -16,6 +16,7 @@ import '../features/orders/presentation/redux/orders_state.dart';
 import '../features/product_details/presentation/redux/product_details_state.dart';
 import '../features/products/presentation/redux/products_state.dart';
 import '../features/products_filter/presentation/redux/products_filter_state.dart';
+import '../features/report/presentation/redux/reports_state.dart';
 import '../features/search_orders/presentation/redux/search_orders_state.dart';
 import '../features/shoppers/presentation/redux/shoppers_state.dart';
 import '../features/sub_warehouse_manager/presentation/inventory_file_redux/inventory_file_state.dart';
@@ -46,6 +47,7 @@ class AppState extends Equatable {
   final ProductDetailsState productDetailsState;
   final ProductsState productsState;
   final ProductsFilterState productsFilterState;
+  final ReportsState reportState;
   final SearchOrdersState searchOrdersState;
   final ShoppersState shoppersState;
   final SupplierState supplierState;
@@ -54,6 +56,7 @@ class AppState extends Equatable {
 
   const AppState({
     this.excelInventoryState,
+    this.reportState,
     this.authenticationState,
     this.inventoryFileState,
     this.priceFileState,
@@ -81,6 +84,7 @@ class AppState extends Equatable {
 
   factory AppState.initial() => AppState(
         inventoryState: InventoryState.initial(),
+        reportState: ReportsState.initial(),
         authenticationState: AuthenticationState.initial(),
         errorState: ErrorState.initial(),
         productsFilterState: ProductsFilterState.initial(),
@@ -113,6 +117,7 @@ class AppState extends Equatable {
     InventoryFileState inventoryFileState,
     InventoryState inventoryState,
     ErrorState errorState,
+    ReportsState reportState,
     LoadingState loadingState,
     ProductDetailsState productDetailsState,
     SupplierState supplierState,
@@ -140,6 +145,7 @@ class AppState extends Equatable {
       productsFilterState: productsFilterState ?? this.productsFilterState,
       generalInformationState: generalInformationState ?? this.generalInformationState,
       errorState: errorState ?? this.errorState,
+      reportState: reportState ?? this.reportState,
       loadingState: loadingState ?? this.loadingState,
       inventoryFileState: inventoryFileState ?? this.inventoryFileState,
       supplierState: supplierState ?? this.supplierState,
@@ -166,6 +172,7 @@ class AppState extends Equatable {
         errorState,
         loadingState,
         authenticationState,
+        reportState,
         homeState,
         supplierState,
         transactionsState,

@@ -89,6 +89,7 @@ class ProductsServices {
     }
   }
 
+//todo clean
   static Future<bool> setImageToProducts({File image, int productId}) async {
     try {
       var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ''};
@@ -102,6 +103,7 @@ class ProductsServices {
       return false;
     }
   }
+//todo clean
 
   static Future<bool> unAttachProductsToSubWarehouseService({String productsId, String subWarehouse}) async {
     try {

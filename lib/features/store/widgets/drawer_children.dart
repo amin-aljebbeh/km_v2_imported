@@ -1,5 +1,6 @@
 import 'package:kammun_app/features/complaints/presentation/redux/complaints_action.dart';
 import 'package:kammun_app/features/inventory/presentation/redux/inventory_action.dart';
+import 'package:kammun_app/features/report/presentation/redux/reports_action.dart';
 import 'package:kammun_app/features/sub_warehouse_manager/presentation/redux/sub_warehouse_manager_action.dart';
 
 import '../../../core/core_importer.dart';
@@ -7,6 +8,11 @@ import '../../../core/widget/management_view.dart';
 import '../../admins/presentation/redux/admins_action.dart';
 import '../../authentication/presentation/redux/authentication_action.dart';
 import '../../products_filter/presentation/pages/products_filter_page.dart';
+import '../../report/presentation/pages/financial_report_page.dart';
+import '../../report/presentation/pages/sales_charts.dart';
+import '../../report/presentation/pages/sales_report.dart';
+import '../../shoppers/presentation/pages/shoppers_management_page.dart';
+import '../../shoppers_reports/presentation/pages/shopper_information_view.dart';
 import '../../sub_warehouse_manager/presentation/pages/sub_warehouse_manager_page.dart';
 import '../../supplier/presentation/pages/supplier_remaining_statment.dart';
 import '../../supplier/presentation/redux/supplier_action.dart';
@@ -21,7 +27,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
     SideBarRow(pushedRoute: const ProfileScreen(), icon: Icons.person, text: profile),
     if (Services.hasRole(context, operationManagerRole))
       const SideBarRow(
-          pushedRoute: ShopperManagementView(), icon: Icons.supervisor_account_sharp, text: 'فريق التوصيل'),
+          pushedRoute: ShopperManagementPage(), icon: Icons.supervisor_account_sharp, text: 'فريق التوصيل'),
     if (Services.hasPermission(context, transactionPermission))
       SideBarRow(
         text: financial,
@@ -189,17 +195,29 @@ List<Widget> getDrawerChildren(BuildContext context) {
               builder: (context) => ManagementView(
                     title: adminPanel,
                     children: [
-                      const SideBarRow(
-                          pushedRoute: SalesReport(), icon: Icons.table_view_rounded, text: 'تقرير المبيعات'),
+                      SideBarRow(
+                          onTap: () {
+                            store.dispatch(InitReport());
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SalesReport()));
+                          },
+                          icon: Icons.table_view_rounded,
+                          text: 'تقرير المبيعات'),
                       if (Services.hasPermission(context, advancedAdminPanelPermission))
                         Column(
                           children: [
-                            const SideBarRow(
-                                pushedRoute: SalesCharts(),
+                            SideBarRow(
+                                onTap: () {
+                                  store.dispatch(InitReport());
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SalesCharts()));
+                                },
                                 icon: Icons.insert_chart_outlined_rounded,
                                 text: 'إحصائيات المبيعات'),
-                            const SideBarRow(
-                                pushedRoute: FinancialReportView(),
+                            SideBarRow(
+                                onTap: () {
+                                  store.dispatch(InitReport());
+                                  Navigator.push(
+                                      context, MaterialPageRoute(builder: (context) => const FinancialReportPage()));
+                                },
                                 icon: Icons.payment,
                                 text: 'الأرباح والمستحقات المالية'),
                             SideBarRow(

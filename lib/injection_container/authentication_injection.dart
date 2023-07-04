@@ -1,4 +1,5 @@
 import '../core/core_importer.dart';
+import '../features/authentication/data/data_sources/authentication_local_data_source.dart';
 import '../features/authentication/data/data_sources/authentication_remote_data_source.dart';
 import '../features/authentication/data/repositories/authentication_repository_implement.dart';
 import '../features/authentication/domain/repositories/authentication_repository.dart';
@@ -11,7 +12,8 @@ Future<void> injectAuth() async {
   sl.registerLazySingleton(() => LogoutUseCase(authenticationRepository: sl()));
   sl.registerLazySingleton<AuthenticationUseCases>(
       () => AuthenticationUseCases(loginUseCase: sl(), logoutUseCase: sl()));
-  sl.registerLazySingleton<AuthenticationRepository>(
-      () => AuthenticationRepositoryImplement(authenticationRemoteDataSource: sl(), repositoryFactory: sl()));
+  sl.registerLazySingleton<AuthenticationRepository>(() => AuthenticationRepositoryImplement(
+      authenticationRemoteDataSource: sl(), repositoryFactory: sl(), authenticationLocalDataSource: sl()));
   sl.registerLazySingleton<AuthenticationRemoteDataSource>(() => AuthenticationRemoteDataSourceImplement());
+  sl.registerLazySingleton<AuthenticationLocalDataSource>(() => AuthenticationLocalDataSourceImplement());
 }
