@@ -16,9 +16,10 @@ import '../features/orders/presentation/redux/orders_state.dart';
 import '../features/product_details/presentation/redux/product_details_state.dart';
 import '../features/products/presentation/redux/products_state.dart';
 import '../features/products_filter/presentation/redux/products_filter_state.dart';
-import '../features/report/presentation/redux/reports_state.dart';
+import '../features/reports/presentation/redux/reports_state.dart';
 import '../features/search_orders/presentation/redux/search_orders_state.dart';
 import '../features/shoppers/presentation/redux/shoppers_state.dart';
+import '../features/shoppers_reports/presentation/redux/shoppers_reports_state.dart';
 import '../features/sub_warehouse_manager/presentation/inventory_file_redux/inventory_file_state.dart';
 import '../features/sub_warehouse_manager/presentation/price_file_redux/price_file_state.dart';
 import '../features/sub_warehouse_manager/presentation/redux/sub_warehouse_manager_state.dart';
@@ -50,6 +51,7 @@ class AppState extends Equatable {
   final ReportsState reportState;
   final SearchOrdersState searchOrdersState;
   final ShoppersState shoppersState;
+  final ShoppersReportsState shoppersReportsState;
   final SupplierState supplierState;
   final TransactionsState transactionsState;
   final UsersState usersState;
@@ -57,6 +59,7 @@ class AppState extends Equatable {
   const AppState({
     this.excelInventoryState,
     this.reportState,
+    this.shoppersReportsState,
     this.authenticationState,
     this.inventoryFileState,
     this.priceFileState,
@@ -87,6 +90,7 @@ class AppState extends Equatable {
         reportState: ReportsState.initial(),
         authenticationState: AuthenticationState.initial(),
         errorState: ErrorState.initial(),
+        shoppersReportsState: ShoppersReportsState.initial(),
         productsFilterState: ProductsFilterState.initial(),
         loadingState: LoadingState.initial(),
         supplierState: SupplierState.initial(),
@@ -135,6 +139,7 @@ class AppState extends Equatable {
     ShoppersState shoppersState,
     OrderDetailsState orderDetailsState,
     CartState cartState,
+    ShoppersReportsState shoppersReportsState,
     BarcodeState barcodeState,
   }) {
     return AppState(
@@ -163,6 +168,7 @@ class AppState extends Equatable {
       orderDetailsState: orderDetailsState ?? this.orderDetailsState,
       cartState: cartState ?? this.cartState,
       productDetailsState: productDetailsState ?? this.productDetailsState,
+      shoppersReportsState: shoppersReportsState ?? this.shoppersReportsState,
     );
   }
 
@@ -174,6 +180,7 @@ class AppState extends Equatable {
         authenticationState,
         reportState,
         homeState,
+        shoppersReportsState,
         supplierState,
         transactionsState,
         complaintsState,

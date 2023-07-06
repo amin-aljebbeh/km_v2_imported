@@ -2,13 +2,13 @@ import '../../../../core/core_importer.dart';
 import '../models/financial_report_model.dart';
 import '../models/sales_reports_model.dart';
 
-abstract class ReportsRemoteDateSource {
+abstract class ReportsRemoteDataSource {
   Future<DailyStatisticsModel> getSalesReports({String fromDate, String toDate});
 
   Future<FinancialReportModel> getFinancialReport({String fromDate, String toDate});
 }
 
-class ReportsRemoteDateSourceImplement implements ReportsRemoteDateSource {
+class ReportsRemoteDataSourceImplement implements ReportsRemoteDataSource {
   @override
   Future<FinancialReportModel> getFinancialReport({String fromDate, String toDate}) async {
     Response response = await ApiProvider.sendRequest(

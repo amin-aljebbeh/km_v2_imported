@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:kammun_app/features/report/domain/repositories/reports_repository.dart';
+import 'package:kammun_app/features/reports/domain/repositories/reports_repository.dart';
 
 import '../../../../core/core_importer.dart';
 import '../entities/financial_report_entity.dart';

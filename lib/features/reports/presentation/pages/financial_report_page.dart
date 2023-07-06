@@ -1,5 +1,5 @@
 import 'package:expandable/expandable.dart';
-import 'package:kammun_app/features/report/presentation/redux/reports_action.dart';
+import 'package:kammun_app/features/reports/presentation/redux/reports_action.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../core/core_importer.dart';

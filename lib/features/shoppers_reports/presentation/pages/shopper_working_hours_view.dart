@@ -1,6 +1,5 @@
 import '../../../../core/core_importer.dart';
-import '../../../reports/services/reports_services.dart';
-import '../../data/models/shopper_working_hours_model.dart';
+import '../redux/shoppers_reports_action.dart';
 import '../widgets/work_hour_widget.dart';
 
 class ShopperWorkingHoursView extends StatefulWidget {
@@ -13,22 +12,14 @@ class ShopperWorkingHoursView extends StatefulWidget {
 class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
   DateFilter groupValue;
   bool selected = false;
-  bool error;
-  bool empty;
-  bool loading;
   String shopperName;
-  List<ShopperWorkingHoursModel> report;
 
   @override
   void initState() {
-    error = false;
-    empty = true;
-    loading = false;
     groupValue = DateFilter.day;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       selected = Services.hasRole(context, shopperRole);
       if (Services.hasRole(context, shopperRole)) {
-        loading = true;
         getWorkingHours(
             shopperId: StoreProvider.of<AppState>(context).state.shoppersState.shopper.id.toString(),
             filter: DateFilter.day);
@@ -39,24 +30,8 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
   }
 
   getWorkingHours({String shopperId, DateFilter filter}) async {
-    setState(() {
-      if (report != null) {
-        error = false;
-        report.clear();
-      }
-    });
-    var tempReport = await ReportsServices.getShopperWorkingHours(shopperId: shopperId, filterBy: filter.toString());
-    setState(() {
-      loading = false;
-      if (tempReport != null) {
-        error = false;
-        empty = false;
-        report = tempReport;
-        if (report.isEmpty) empty = true;
-      } else {
-        error = true;
-      }
-    });
+    StoreProvider.of<AppState>(context)
+        .dispatch(GetWorkingHoursAction(shopperId: shopperId, filterBy: filter.toString()));
   }
 
   @override
@@ -84,7 +59,6 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                           setState(() {
                             shopperName = value;
                             selected = true;
-                            loading = true;
                           });
                           getWorkingHours(
                               shopperId: Services.selectedShopperId(shopperName, context), filter: groupValue);
@@ -103,7 +77,6 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                         setState(() {
                           groupValue = value;
                           if (shopperName != null || Services.hasRole(context, shopperRole)) {
-                            loading = true;
                             getWorkingHours(
                                 shopperId: Services.hasRole(context, shopperRole)
                                     ? state.shoppersState.shopper.id.toString()
@@ -122,7 +95,6 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                         setState(() {
                           groupValue = value;
                           if (shopperName != null || Services.hasRole(context, shopperRole)) {
-                            loading = true;
                             getWorkingHours(
                                 shopperId: Services.hasRole(context, shopperRole)
                                     ? state.shoppersState.shopper.id.toString()
@@ -141,7 +113,6 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                         setState(() {
                           groupValue = value;
                           if (shopperName != null || Services.hasRole(context, shopperRole)) {
-                            loading = true;
                             getWorkingHours(
                                 shopperId: Services.hasRole(context, shopperRole)
                                     ? state.shoppersState.shopper.id.toString()
@@ -155,11 +126,11 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                 ),
                 Expanded(
                   child: selected
-                      ? error
+                      ? state.errorState.isError
                           ? Center(
                               child: AlertMessages(
                                   text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
-                          : loading
+                          : state.loadingState.loading.isNotEmpty
                               ? const Loader()
                               : SizedBox(
                                   height: MediaQuery.of(context).size.height * 0.56,
@@ -168,7 +139,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                                     child: ListView.builder(
                                       physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                                       scrollDirection: Axis.vertical,
-                                      itemCount: report.length,
+                                      itemCount: state.shoppersReportsState.workingHours.length,
                                       itemBuilder: (BuildContext context, int index) {
                                         return Column(
                                           children: [
@@ -181,7 +152,8 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                                                   KTableElement(text: 'مسافة التوصيل'),
                                                 ],
                                               ),
-                                            WorkHourWidget(workingHoursData: report[index]),
+                                            WorkHourWidget(
+                                                workingHoursData: state.shoppersReportsState.workingHours[index]),
                                           ],
                                         );
                                       },

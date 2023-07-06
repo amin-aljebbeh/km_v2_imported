@@ -1,4 +1,5 @@
 import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_middleware.dart';
+import 'package:kammun_app/features/shoppers_reports/presentation/redux/shoppers_reports_middleware.dart';
 
 import '../features/admins/presentation/redux/admins_middleware.dart';
 import '../features/authentication/presentation/redux/authentication_middleware.dart';
@@ -16,7 +17,7 @@ import '../features/orders/presentation/redux/orders_middleware.dart';
 import '../features/product_details/presentation/redux/product_details_middleware.dart';
 import '../features/products/presentation/redux/products_middleware.dart';
 import '../features/products_filter/presentation/redux/products_filter_middleware.dart';
-import '../features/report/presentation/redux/reports_middleware.dart';
+import '../features/reports/presentation/redux/reports_middleware.dart';
 import '../features/search_orders/presentation/redux/search_orders_middleware.dart';
 import '../features/sub_warehouse_manager/presentation/inventory_file_redux/inventory_file_middleware.dart';
 import '../features/sub_warehouse_manager/presentation/price_file_redux/price_file_middleware.dart';
@@ -53,5 +54,6 @@ List<Middleware<AppState>> appMiddleware() {
     authenticationMiddleware,
     inventoryFileMiddleware,
     reportsMiddleware,
+    shopperReportsMiddleware,
   ];
 }

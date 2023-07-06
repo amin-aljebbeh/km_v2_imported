@@ -1,6 +1,6 @@
+import 'package:kammun_app/features/shoppers_reports/presentation/redux/shoppers_reports_action.dart';
+
 import '../../../../core/core_importer.dart';
-import '../../../reports/services/reports_services.dart';
-import '../../data/models/activity_hours_model.dart';
 import '../widgets/active_hours_widget.dart';
 
 class ActivityHoursView extends StatefulWidget {
@@ -13,37 +13,15 @@ class ActivityHoursView extends StatefulWidget {
 class _ActivityHoursViewState extends State<ActivityHoursView> {
   String fromDateTimeValue;
   String toDateTimeValue;
-  List<ActivityHoursModel> activityHours = [];
   String shopperName;
 
   bool newDay(int index) {
+    var activityHours = StoreProvider.of<AppState>(context).state.shoppersReportsState.activityHours;
     if (index == 0) return true;
     return activityHours[index].startWorkAt.toString().split(' ')[0] !=
         activityHours[index - 1].startWorkAt.toString().split(' ')[0];
   }
 
-  getHours({String shopperId}) async {
-    setState(() {
-      isError = false;
-      isLoading = true;
-    });
-
-    var response = await ReportsServices.getShopperActivityHours(
-        shopperId: shopperId, fromDate: fromDateTimeValue, toDate: toDateTimeValue);
-    if (response != null) {
-      activityHours = response.data;
-
-      setState(() => isLoading = false);
-    } else {
-      setState(() {
-        isLoading = false;
-        isError = true;
-      });
-    }
-  }
-
-  bool isLoading = false;
-  bool isError = false;
   @override
   void initState() {
     fromDateTimeValue = 'يرجى أختيار تاريخ البداية';
@@ -75,8 +53,10 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                           onChanged: (value) => setState(() {
                             shopperName = value;
                             if (validDates()) {
-                              getHours(shopperId: Services.selectedShopperId(shopperName, context));
-                              isLoading = true;
+                              StoreProvider.of<AppState>(context).dispatch(GetActivityHoursAction(
+                                  shopperId: Services.selectedShopperId(shopperName, context),
+                                  fromDate: fromDateTimeValue,
+                                  toDate: toDateTimeValue));
                             }
                           }),
                         ),
@@ -92,10 +72,12 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                         color: validDates() ? Theme.of(context).primaryColor : searchGreyColor,
                         onTap: () {
                           if (validDates() && (Services.hasRole(context, shopperRole) || shopperName != null)) {
-                            getHours(
+                            StoreProvider.of<AppState>(context).dispatch(GetActivityHoursAction(
                                 shopperId: Services.hasRole(context, shopperRole)
                                     ? state.shoppersState.shopper.id.toString()
-                                    : Services.selectedShopperId(shopperName, context));
+                                    : Services.selectedShopperId(shopperName, context),
+                                fromDate: fromDateTimeValue,
+                                toDate: toDateTimeValue));
                           } else {
                             Toast.show('الرجاء إدخال كافة البيانات', context,
                                 duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
@@ -104,18 +86,20 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                         height: 50,
                       ),
                     ),
-                    if (isError) AlertMessages(text: errorMessage, messageType: 'internetError'),
-                    isLoading
+                    if (state.errorState.isError) AlertMessages(text: errorMessage, messageType: 'internetError'),
+                    state.loadingState.loading.isNotEmpty
                         ? const Loader()
-                        : activityHours.isEmpty
+                        : state.shoppersReportsState.activityHours.isEmpty
                             ? const Padding(padding: EdgeInsets.all(75), child: ScreenMessage(message: 'لا يوجد حركة'))
                             : Expanded(
                                 child: ListView.builder(
                                 scrollDirection: Axis.vertical,
-                                itemCount: activityHours.length,
+                                itemCount: state.shoppersReportsState.activityHours.length,
                                 physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                                 itemBuilder: (BuildContext context, int index) {
-                                  return ActiveHoursWidget(activityHour: activityHours[index], newDay: newDay(index));
+                                  return ActiveHoursWidget(
+                                      activityHour: state.shoppersReportsState.activityHours[index],
+                                      newDay: newDay(index));
                                 },
                               ))
                   ],

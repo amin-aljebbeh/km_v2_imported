@@ -1,6 +1,6 @@
 import 'package:kammun_app/features/complaints/presentation/redux/complaints_action.dart';
 import 'package:kammun_app/features/inventory/presentation/redux/inventory_action.dart';
-import 'package:kammun_app/features/report/presentation/redux/reports_action.dart';
+import 'package:kammun_app/features/reports/presentation/redux/reports_action.dart';
 import 'package:kammun_app/features/sub_warehouse_manager/presentation/redux/sub_warehouse_manager_action.dart';
 
 import '../../../core/core_importer.dart';
@@ -8,9 +8,9 @@ import '../../../core/widget/management_view.dart';
 import '../../admins/presentation/redux/admins_action.dart';
 import '../../authentication/presentation/redux/authentication_action.dart';
 import '../../products_filter/presentation/pages/products_filter_page.dart';
-import '../../report/presentation/pages/financial_report_page.dart';
-import '../../report/presentation/pages/sales_charts.dart';
-import '../../report/presentation/pages/sales_report.dart';
+import '../../reports/presentation/pages/financial_report_page.dart';
+import '../../reports/presentation/pages/sales_charts.dart';
+import '../../reports/presentation/pages/sales_report.dart';
 import '../../shoppers/presentation/pages/shoppers_management_page.dart';
 import '../../shoppers_reports/presentation/pages/shopper_information_view.dart';
 import '../../sub_warehouse_manager/presentation/pages/sub_warehouse_manager_page.dart';

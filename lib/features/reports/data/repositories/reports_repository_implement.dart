@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
-import 'package:kammun_app/features/report/data/data_sources/reports_remote_data_source.dart';
-import 'package:kammun_app/features/report/domain/entities/financial_report_entity.dart';
-import 'package:kammun_app/features/report/domain/entities/get_daily_statistics_entity.dart';
+import 'package:kammun_app/features/reports/data/data_sources/reports_remote_data_source.dart';
+import 'package:kammun_app/features/reports/domain/entities/financial_report_entity.dart';
+import 'package:kammun_app/features/reports/domain/entities/get_daily_statistics_entity.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../domain/repositories/reports_repository.dart';
 
 class ReportsRepositoryImplement implements ReportsRepository {
-  final ReportsRemoteDateSource reportsRemoteDateSource;
+  final ReportsRemoteDataSource reportsRemoteDateSource;
 
   ReportsRepositoryImplement({this.reportsRemoteDateSource});
 

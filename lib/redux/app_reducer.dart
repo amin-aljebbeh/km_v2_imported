@@ -1,30 +1,30 @@
+import '../core/core_importer.dart';
 import '../features/admins/presentation/redux/admins_reducer.dart';
+import '../features/authentication/presentation/redux/authentication_reducer.dart';
+import '../features/barcode/presentation/redux/barcode_reducer.dart';
 import '../features/cart/presentation/redux/cart_reducer.dart';
+import '../features/complaints/presentation/redux/complaints_reducer.dart';
+import '../features/coupons/presentation/redux/coupon_reducer.dart';
 import '../features/error/presentation/redux/error_reducer.dart';
+import '../features/general_information/presentation/redux/general_information_reducer.dart';
+import '../features/home/presentation/redux/home_reducer.dart';
 import '../features/inventory/presentation/redux/inventory_reducer.dart';
 import '../features/loading/presentation/redux/loading_reducer.dart';
 import '../features/order_details/presentation/redux/order_details_reducer.dart';
 import '../features/orders/presentation/redux/orders_reducer.dart';
-import '../features/products/presentation/redux/products_reducer.dart';
-import '../features/supplier/presentation/redux/supplier_reducer.dart';
-import '../features/transactions/presentation/redux/transactions_reducer.dart';
-import '../features/users/presentation/redux/users_reducer.dart';
-
-import '../core/core_importer.dart';
-import '../features/authentication/presentation/redux/authentication_reducer.dart';
-import '../features/barcode/presentation/redux/barcode_reducer.dart';
-import '../features/complaints/presentation/redux/complaints_reducer.dart';
-import '../features/coupons/presentation/redux/coupon_reducer.dart';
-import '../features/general_information/presentation/redux/general_information_reducer.dart';
-import '../features/home/presentation/redux/home_reducer.dart';
 import '../features/product_details/presentation/redux/product_details_reducer.dart';
+import '../features/products/presentation/redux/products_reducer.dart';
 import '../features/products_filter/presentation/redux/products_filter_reducer.dart';
-import '../features/report/presentation/redux/reports_reducer.dart';
+import '../features/reports/presentation/redux/reports_reducer.dart';
 import '../features/search_orders/presentation/redux/search_orders_reducer.dart';
 import '../features/shoppers/presentation/redux/shoppers_reducer.dart';
+import '../features/shoppers_reports/presentation/redux/shoppers_reports_reducer.dart';
 import '../features/sub_warehouse_manager/presentation/inventory_file_redux/inventory_file_reducer.dart';
 import '../features/sub_warehouse_manager/presentation/price_file_redux/price_file_reducer.dart';
 import '../features/sub_warehouse_manager/presentation/redux/sub_warehouse_manager_reducer.dart';
+import '../features/supplier/presentation/redux/supplier_reducer.dart';
+import '../features/transactions/presentation/redux/transactions_reducer.dart';
+import '../features/users/presentation/redux/users_reducer.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   if (action is RestartApp) return AppState.initial();
@@ -54,5 +54,6 @@ AppState appReducer(AppState state, dynamic action) {
     priceFileState: priceFileReducer(state.priceFileState, action),
     authenticationState: authenticationReducer(state.authenticationState, action),
     reportState: reportsReducer(state.reportState, action),
+    shoppersReportsState: shopperReportsReducer(state.shoppersReportsState, action),
   );
 }

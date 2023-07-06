@@ -34,12 +34,10 @@ class _OrderAccountingState extends State<OrderAccounting> {
           images: widget.order.images,
           context: context,
           onDelete: (i) {
-            setState(() {
-              widget.order.images.removeWhere((image) => image.id == widget.order.images[i].id);
-              images.clear();
-              images.addAll(widget.order.images);
-              widget.onDelete();
-            });
+            widget.order.images.removeWhere((image) => image.id == widget.order.images[i].id);
+            images.clear();
+            images.addAll(widget.order.images);
+            widget.onDelete();
           },
         );
       }

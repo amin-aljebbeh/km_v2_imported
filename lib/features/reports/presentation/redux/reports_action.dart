@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/features/report/domain/entities/financial_report_entity.dart';
-import 'package:kammun_app/features/report/presentation/redux/reports_state.dart';
+import 'package:kammun_app/features/reports/domain/entities/financial_report_entity.dart';
+import 'package:kammun_app/features/reports/presentation/redux/reports_state.dart';
 
 import '../../domain/entities/get_daily_statistics_entity.dart';
 

@@ -15,6 +15,7 @@ import 'products_injection.dart';
 import 'report_injection.dart';
 import 'search_orders_injection.dart';
 import 'shoppers_injection.dart';
+import 'shoppers_report_injection.dart';
 import 'sub_warehouse_manager_injection.dart';
 import 'supplier_injection.dart';
 import 'transactions_injection.dart';
@@ -42,6 +43,7 @@ Future<void> inject() async {
   await injectProductsFilter();
   await injectAuth();
   await injectReports();
+  await injectShoppersReports();
 
 //! Core
 
