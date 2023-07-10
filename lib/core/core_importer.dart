@@ -11,7 +11,6 @@ export 'package:flutter/gestures.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter/services.dart';
 export 'package:get_it/get_it.dart';
-export 'package:internet_connection_checker/internet_connection_checker.dart';
 //
 export 'package:kammun_app/core/general_apis.dart';
 export 'package:kammun_app/core/service.dart';
@@ -30,7 +29,6 @@ export 'api/api_provider.dart';
 export 'api/api_url.dart';
 export 'error/error_importer.dart';
 export 'models/models_importer.dart';
-export 'network/network_info.dart';
 export 'static_variables.dart';
 export 'utils/utils_importer.dart';
 export 'widget/widgets_importer.dart';

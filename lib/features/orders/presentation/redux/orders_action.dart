@@ -91,6 +91,7 @@ class ChangeOrderStatusAction implements OrdersAction {
 
   @override
   handle({Store<AppState> store}) async {
+    Navigator.of(context).pop();
     store.dispatch(StartLoading());
     Either either =
         await store.state.ordersState.ordersUSeCases.changeOrderStatusUseCase(orderId: orderId, statusId: statusId);
