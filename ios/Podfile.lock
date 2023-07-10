@@ -200,7 +200,7 @@ DEPENDENCIES:
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - DKImagePickerController
     - DKPhotoGallery
     - Firebase
@@ -312,6 +312,6 @@ SPEC CHECKSUMS:
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
-PODFILE CHECKSUM: 65e009d5a6b5de883276f6303360b1ad92e94901
+PODFILE CHECKSUM: 51af4df90ac480f771e3d65673c524eeed23e82f
 
 COCOAPODS: 1.11.3
