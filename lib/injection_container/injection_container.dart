@@ -47,13 +47,10 @@ Future<void> inject() async {
 
 //! Core
 
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImplementation(connectionChecker: sl()));
-
 //! External
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   sl.registerSingleton<SharedPreferences>(sharedPreferences);
 
-  sl.registerLazySingleton(() => InternetConnectionChecker());
-  sl.registerLazySingleton(() => RepositoryFactory(internetConnectionChecker: sl()));
+  sl.registerLazySingleton(() => RepositoryFactory());
 }

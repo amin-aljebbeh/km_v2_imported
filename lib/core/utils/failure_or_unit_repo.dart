@@ -3,12 +3,9 @@ import 'package:dartz/dartz.dart';
 import '../core_importer.dart';
 
 class RepositoryFactory {
-  final InternetConnectionChecker internetConnectionChecker;
-
-  RepositoryFactory({this.internetConnectionChecker});
+  RepositoryFactory();
 
   Future<Either<Failure, Unit>> failureUnitRepo({Future<Unit> Function() function}) async {
-    if (!await internetConnectionChecker.hasConnection) return Left(OfflineFailure());
     try {
       await function();
       return const Right(unit);
