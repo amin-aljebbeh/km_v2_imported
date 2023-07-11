@@ -1,4 +1,4 @@
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/features/products_view/widgets/select_file.dart';
 
 import '../../core/core_importer.dart';
@@ -13,7 +13,7 @@ class AddImageWidget extends StatefulWidget {
 }
 
 class _AddImageWidgetState extends State<AddImageWidget> {
-  final picker = ImagePicker();
+  // final picker = ImagePicker();
   File image;
 
   @override
@@ -27,12 +27,12 @@ class _AddImageWidgetState extends State<AddImageWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                TextButton(
-                    child: Icon(Icons.camera, color: kmColors, size: 40),
-                    onPressed: () => getImage(ImageSource.camera)),
-                TextButton(
-                    child: Icon(Icons.image, color: kmColors, size: 40),
-                    onPressed: () => getImage(ImageSource.gallery)),
+                // TextButton(
+                //     child: Icon(Icons.camera, color: kmColors, size: 40),
+                //     onPressed: () => getImage(ImageSource.camera)),
+                // TextButton(
+                //     child: Icon(Icons.image, color: kmColors, size: 40),
+                //     onPressed: () => getImage(ImageSource.gallery)),
               ],
             ),
             state.loadingState.loading.isNotEmpty
@@ -65,13 +65,13 @@ class _AddImageWidgetState extends State<AddImageWidget> {
     );
   }
 
-  Future getImage(ImageSource imageSource) async {
-    final pickedFile = await picker.pickImage(source: imageSource, imageQuality: 25, maxHeight: 1500, maxWidth: 1500);
+  // Future getImage(ImageSource imageSource) async {
+  //   final pickedFile = await picker.pickImage(source: imageSource, imageQuality: 25, maxHeight: 1500, maxWidth: 1500);
 
-    setState(() {
-      if (pickedFile != null) {
-        image = File(pickedFile.path);
-      }
-    });
-  }
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       image = File(pickedFile.path);
+  //     }
+  //   });
+  // }
 }

@@ -1,4 +1,4 @@
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 import 'package:kammun_app/features/products_view/widgets/select_file.dart';
 
@@ -23,7 +23,7 @@ class _AddProductsViewState extends State<AddProductsView> {
   File _image;
 
   int _selectedSubWarehouseValue = -1;
-  final picker = ImagePicker();
+  // final picker = ImagePicker();
   List<String> productData = [
     'المستودع',
     'اسم المنتج',
@@ -36,21 +36,21 @@ class _AddProductsViewState extends State<AddProductsView> {
     'الصورة'
   ];
 
-  Future getImageCamera() async {
-    final pickedFile =
-        await picker.pickImage(source: ImageSource.camera, imageQuality: 100, maxHeight: 600, maxWidth: 500);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      }
-    });
-  }
+  // Future getImageCamera() async {
+  //   final pickedFile =
+  //       await picker.pickImage(source: ImageSource.camera, imageQuality: 100, maxHeight: 600, maxWidth: 500);
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //     }
+  //   });
+  // }
 
-  Future getImageGallery() async {
-    final pickedFile =
-        await picker.pickImage(source: ImageSource.gallery, imageQuality: 100, maxHeight: 600, maxWidth: 500);
-    setState(() => {if (pickedFile != null) _image = File(pickedFile.path)});
-  }
+  // Future getImageGallery() async {
+  //   final pickedFile =
+  //       await picker.pickImage(source: ImageSource.gallery, imageQuality: 100, maxHeight: 600, maxWidth: 500);
+  //   setState(() => {if (pickedFile != null) _image = File(pickedFile.path)});
+  // }
 
   bool isLoading = false;
   bool isError = false;
@@ -227,8 +227,8 @@ class _AddProductsViewState extends State<AddProductsView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            TextButton(child: Icon(Icons.camera, color: kmColors), onPressed: () => getImageCamera()),
-                            TextButton(child: Icon(Icons.image, color: kmColors), onPressed: () => getImageGallery()),
+                            // TextButton(child: Icon(Icons.camera, color: kmColors), onPressed: () => getImageCamera()),
+                            // TextButton(child: Icon(Icons.image, color: kmColors), onPressed: () => getImageGallery()),
                             Container(
                               width: 80,
                               margin: const EdgeInsets.all(15.0),
