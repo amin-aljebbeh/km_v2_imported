@@ -51,7 +51,7 @@ class _EntryFieldState extends State<EntryField> {
           contentPadding: widget.edgeInsetsGeometry,
           border: const OutlineInputBorder(),
           hintText: widget.hint,
-          hintStyle: mainStyle,
+          hintStyle: mainStyle.copyWith(color: Colors.grey),
           fillColor: Colors.white,
           filled: true,
           enabledBorder: OutlineInputBorder(
