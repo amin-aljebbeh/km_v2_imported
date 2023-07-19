@@ -27,12 +27,10 @@ class _AddImageWidgetState extends State<AddImageWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                TextButton(
-                    child: Icon(Icons.camera, color: kmColors, size: 40),
-                    onPressed: () => getImage(ImageSource.camera)),
-                TextButton(
-                    child: Icon(Icons.image, color: kmColors, size: 40),
-                    onPressed: () => getImage(ImageSource.gallery)),
+                IconButton(
+                    icon: Icon(Icons.camera, color: kmColors, size: 40), onPressed: () => getImage(ImageSource.camera)),
+                IconButton(
+                    icon: Icon(Icons.image, color: kmColors, size: 40), onPressed: () => getImage(ImageSource.gallery)),
               ],
             ),
             state.loadingState.loading.isNotEmpty

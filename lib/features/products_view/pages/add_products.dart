@@ -185,30 +185,32 @@ class _AddProductsViewState extends State<AddProductsView> {
                           ),
                         ),
                         ProductEntryField(controller: nameController, title: 'اسم المنتج', hint: 'زيت سولينا'),
+                        ProductEntryField(
+                            controller: descriptionController,
+                            title: descriptionString,
+                            hint: 'زيت دوار الشمس الصافي @كلمات مفتاحية'),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            ProductEntryField(
-                                controller: quantityController,
-                                title: quantityString,
-                                hint: '100',
-                                width: MediaQuery.of(context).size.width / 4),
                             ProductEntryField(
                                 controller: unitController,
                                 title: unitString,
                                 hint: 'لتر',
                                 width: MediaQuery.of(context).size.width / 4),
                             ProductEntryField(
+                                controller: quantityController,
+                                title: quantityString,
+                                hint: '100',
+                                textInputType: TextInputType.number,
+                                width: MediaQuery.of(context).size.width / 4),
+                            ProductEntryField(
                                 controller: priceFactorController,
                                 title: priceFactor,
                                 hint: '1',
+                                textInputType: const TextInputType.numberWithOptions(decimal: true),
                                 width: MediaQuery.of(context).size.width / 4),
                           ],
                         ),
-                        ProductEntryField(
-                            controller: descriptionController,
-                            title: descriptionString,
-                            hint: 'زيت دوار الشمس الصافي @كلمات مفتاحية'),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -221,14 +223,15 @@ class _AddProductsViewState extends State<AddProductsView> {
                                 controller: priceController,
                                 title: priceString,
                                 hint: '5000',
+                                textInputType: const TextInputType.numberWithOptions(decimal: true),
                                 width: MediaQuery.of(context).size.width / 3),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            TextButton(child: Icon(Icons.camera, color: kmColors), onPressed: () => getImageCamera()),
-                            TextButton(child: Icon(Icons.image, color: kmColors), onPressed: () => getImageGallery()),
+                            IconButton(icon: Icon(Icons.camera, color: kmColors), onPressed: () => getImageCamera()),
+                            IconButton(icon: Icon(Icons.image, color: kmColors), onPressed: () => getImageGallery()),
                             Container(
                               width: 80,
                               margin: const EdgeInsets.all(15.0),
