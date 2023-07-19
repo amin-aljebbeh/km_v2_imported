@@ -1,4 +1,4 @@
-//// import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/features/products_view/widgets/select_file.dart';
 
 import '../../core/core_importer.dart';
@@ -65,13 +65,13 @@ class _AddImageWidgetState extends State<AddImageWidget> {
     );
   }
 
-  // Future getImage(ImageSource imageSource) async {
-  //   final pickedFile = await picker.pickImage(source: imageSource, imageQuality: 25, maxHeight: 1500, maxWidth: 1500);
+// Future getImage(ImageSource imageSource) async {
+//   final pickedFile = await picker.pickImage(source: imageSource, imageQuality: 25, maxHeight: 1500, maxWidth: 1500);
 
-  //   setState(() {
-  //     if (pickedFile != null) {
-  //       image = File(pickedFile.path);
-  //     }
-  //   });
-  // }
+//   setState(() {
+//     if (pickedFile != null) {
+//       image = File(pickedFile.path);
+//     }
+//   });
+// }
 }
