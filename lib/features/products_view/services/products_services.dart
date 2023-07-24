@@ -103,6 +103,7 @@ class ProductsServices {
       return false;
     }
   }
+
 //todo clean
 
   static Future<bool> unAttachProductsToSubWarehouseService({String productsId, String subWarehouse}) async {

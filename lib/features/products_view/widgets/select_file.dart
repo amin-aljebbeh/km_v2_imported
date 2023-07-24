@@ -10,6 +10,7 @@ class SelectedFileToUpload extends StatelessWidget {
 
   const SelectedFileToUpload({Key key, this.image, this.name, this.close, this.closeFromRight = true})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(

@@ -24,17 +24,6 @@ class _AddImageWidgetState extends State<AddImageWidget> {
       builder: (context, state) {
         return Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // TextButton(
-                //     child: Icon(Icons.camera, color: kmColors, size: 40),
-                //     onPressed: () => getImage(ImageSource.camera)),
-                // TextButton(
-                //     child: Icon(Icons.image, color: kmColors, size: 40),
-                //     onPressed: () => getImage(ImageSource.gallery)),
-              ],
-            ),
             state.loadingState.loading.isNotEmpty
                 ? const Loader()
                 : image != null

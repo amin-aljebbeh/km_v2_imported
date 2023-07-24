@@ -36,11 +36,7 @@ class LogoutAction extends AuthenticationAction {
   @override
   handle({Store<AppState> store, AuthenticationState state}) async {
     Either either = await state.authenticationUSeCases.logoutUseCase();
-    either.fold((failure) {
-      Tools.logToConsole('frffff');
-      Tools.logToConsole(failure);
-      Tools.logToConsole(failure.message);
-    }, (response) {
+    either.fold((failure) {}, (response) {
       store.dispatch(RestartApp());
       KammunRestart.restartApp(context);
     });

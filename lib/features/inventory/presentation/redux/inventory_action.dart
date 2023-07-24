@@ -350,7 +350,7 @@ class TargetInventoryAction implements InventoryAction {
     store.dispatch(StartLoading());
     Either either = await store.state.inventoryState.inventoryUseCase.targetInventoryUseCase();
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')),
-        (_) => snackBar(context: context, message: 'حدث خطأ', success: false));
+        (_) => snackBar(context: context, message: 'تم البدء برفع الجرد', success: true));
     store.dispatch(StopLoading());
   }
 }

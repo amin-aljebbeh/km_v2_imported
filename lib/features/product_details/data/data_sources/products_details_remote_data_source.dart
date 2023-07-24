@@ -28,7 +28,11 @@ class ProductDetailsRemoteDataSourceImplement implements ProductDetailsRemoteDat
     Response response =
         await ApiProvider.sendRequest(url: productImageApi + imageId.toString(), method: HttpMethods.delete);
     try {
-      if (response != null) if (response.statusCode == successCode) return Future.value(unit);
+      if (response != null) {
+        if (response.statusCode == successCode) {
+          if (response.data['success']) return Future.value(unit);
+        }
+      }
     } catch (e) {
       throw (InternalException(message: e.toString()));
     }

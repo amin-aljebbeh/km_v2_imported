@@ -6,6 +6,7 @@ class DeleteProductImageWidget extends StatelessWidget {
   final ProductEntity product;
   final Future<bool> Function() onAdd;
   final Function onDone;
+
   const DeleteProductImageWidget({Key key, this.product, this.onAdd, this.onDone}) : super(key: key);
 
   @override
@@ -24,21 +25,24 @@ class DeleteProductImageWidget extends StatelessWidget {
               ],
             ),
             onTap: () async {
-              showMyDialog(
-                  context: context,
-                  title: 'حذف صورة',
-                  text: 'هل أنت متأكد من رغبتك في حذف صورة المنتج ؟',
-                  dialogButtons: [
-                    const CloseWidget(),
-                    DialogButton(
-                      text: yes,
-                      onTap: () async {
-                        Navigator.of(context).pop();
-                        StoreProvider.of<AppState>(context)
-                            .dispatch(DeleteImageAction(context: context, imageId: product.images[0].id));
-                      },
-                    )
-                  ]);
+              if (product.images.isNotEmpty) {
+                showMyDialog(
+                    context: context,
+                    title: 'حذف صورة',
+                    text: 'هل أنت متأكد من رغبتك في حذف صورة المنتج ؟',
+                    dialogButtons: [
+                      const CloseWidget(),
+                      DialogButton(
+                        text: yes,
+                        onTap: () async {
+                          Navigator.of(context).pop();
+                          StoreProvider.of<AppState>(context)
+                              .dispatch(DeleteImageAction(context: context, imageId: product.images[0].id));
+                          product.images.removeAt(0);
+                        },
+                      )
+                    ]);
+              }
             },
           ),
         KammunButton(
