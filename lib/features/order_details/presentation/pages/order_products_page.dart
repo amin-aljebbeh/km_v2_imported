@@ -43,6 +43,12 @@ class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeep
                 products: state.ordersState.orders.firstWhere((element) => element.id == widget.order.id).products,
                 context: context);
             break;
+          default:
+            productsAry = orderProducts(
+                deleted: widget.deleted,
+                products: state.ordersState.orders.firstWhere((element) => element.id == widget.order.id).products,
+                context: context);
+
         }
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColorLight,

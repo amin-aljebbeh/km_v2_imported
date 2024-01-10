@@ -1,4 +1,3 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 
 class KCacheImage extends StatelessWidget {
@@ -20,7 +19,7 @@ class KCacheImage extends StatelessWidget {
           child: Image(
             fit: BoxFit.contain,
             image: image.isNotEmpty
-                ? AdvImageCache(image, useMemCache: true, diskCacheExpire: const Duration(days: 400))
+                ? NetworkImage(image)
                 : const AssetImage('assets/kmIcon.png'),
             width: MediaQuery.of(context).size.width,
             height: 120,

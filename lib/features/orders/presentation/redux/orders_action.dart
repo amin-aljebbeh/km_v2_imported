@@ -105,7 +105,7 @@ class ChangeOrderStatusAction implements OrdersAction {
         orders.firstWhere((order) => order.id == orderId).orderStatusId = statusId.toString();
         store.dispatch(SetSearchOrders(orders: orders));
       }
-      snackBar(context: context, success: true, message: 'تم تغيير حالة الطلب بنجاح');
+      //snackBar(context: context, success: true, message: 'تم تغيير حالة الطلب بنجاح');
     });
     store.dispatch(StopLoading());
   }

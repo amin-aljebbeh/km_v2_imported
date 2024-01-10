@@ -129,7 +129,7 @@ class OrdersFilterWidget extends StatelessWidget {
                                 }
                               }
                             },
-                            width: 51,
+                            width:40 ,
                           ),
                         ),
                       ],

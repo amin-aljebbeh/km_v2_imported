@@ -1,6 +1,6 @@
 import '../core_importer.dart';
 
-snackBar({String message, bool success, BuildContext context}) {
+snackBar({String message, bool success,  BuildContext context}) {
   ScaffoldMessenger.of(context)
     ..removeCurrentSnackBar()
     ..showSnackBar(SnackBar(

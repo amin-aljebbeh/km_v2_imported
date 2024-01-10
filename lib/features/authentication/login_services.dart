@@ -10,9 +10,10 @@ class LoginServices {
       if (userToken != null) {
         LoadingScreen.userToken = 'Bearer ' + userToken;
         if (userToken == 'APPLE_VERIFICATION') {
-          baseUrl = appleBaseUrl;
+          print('bassam1');
+          baseUrl = testUrl;
         } else {
-          baseUrl = productionBaseUrl;
+          baseUrl = testUrl;
         }
         if (['shopper', 'supplier', 'rabia', 'agent', 'collector'].contains(userToken)) baseUrl = testUrl;
         return true;

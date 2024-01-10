@@ -90,7 +90,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: SizedBox(
-                                    width: MediaQuery.of(context).size.width,
+                                   // width: MediaQuery.of(context).size.width,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -124,9 +124,9 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   controller: moneyController,
                                   onChange: () => setState(() {}),
-                                  text: 'المبلغ :         ',
+                                  text: 'المبلغ :',
                                   inputType: TextInputType.number,
-                                  width: 150,
+                                    width: MediaQuery.of(context).size.width * 0.65,
                                 ),
                               ),
                               Padding(

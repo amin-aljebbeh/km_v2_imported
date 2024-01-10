@@ -80,6 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             style: mainStyle.copyWith(fontSize: 25, color: Colors.black))))
                                     .toList()),
                           ),
+
                         ProfileContainer(
                           title: 'الجهة المفضلة لاستخدام الهاتف',
                           child: Row(
@@ -89,6 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 icon: Icon(Icons.library_add_check_outlined,
                                     color: StaticVariables.preferLeftSide ? searchGreyColor : kmColors2),
                                 onPressed: () {
+                                  print('bassssssam${state.generalInformationState.subWarehouses}');
                                   StaticVariables.preferLeftSide ? Services.setPreferLeftSide(false) : {};
                                   setState(() {});
                                 },

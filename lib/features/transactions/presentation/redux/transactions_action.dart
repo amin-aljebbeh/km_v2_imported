@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../../core/utils/toasta.dart';
 import '../../domain/entities/admin_balance_entity.dart';
 import '../../domain/entities/admin_transaction_entity.dart';
 import '../../domain/entities/shopper_report_entity.dart';
@@ -269,7 +270,7 @@ class ChangeTransactionRequestStatusAction implements TransactionsAction {
         .changeTransactionRequestStatusUseCase(statusId: statusId, requestId: requestId, rejectReason: rejectReason);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
       store.dispatch(TransactionRequestChanged(rejectReason: rejectReason, requestId: requestId, statusId: statusId));
-      snackBar(message: 'تمت العملية بنجاح', success: true, context: context);
+     // snackBar(message: 'تمت العملية بنجاح', success: true, context: context);
     });
     store.dispatch(StopLoading());
   }
