@@ -33,8 +33,8 @@ class SearchOrderAction implements SearchOrdersAction {
         break;
       case SearchOrdersTypes.none:
         break;
-      default:
-        return store.dispatch(GetOrderAction(orderId: store.state.searchOrdersState.id));
+      /*default:
+        return store.dispatch(GetOrderAction(orderId: store.state.searchOrdersState.id));*/
     }
     Navigator.push(context, MaterialPageRoute(builder: (screenContext) => const SearchOrdersPage()));
   }

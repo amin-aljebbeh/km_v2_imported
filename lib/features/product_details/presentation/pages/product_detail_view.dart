@@ -19,6 +19,7 @@ class ProductDetailView extends StatefulWidget {
   final ProductEntity product;
   final Function(String) onAddBarcode;
   final Function(String) onChangePrice;
+  final Function(String) onChangePriceFactor;
   final Function(String) onChangeUnit;
   final Function(String) onChangeQuantity;
   final Function(String) onChangeSubWarehouse;
@@ -30,7 +31,7 @@ class ProductDetailView extends StatefulWidget {
     this.onChangePrice,
     this.onChangeUnit,
     this.onChangeQuantity,
-    this.onChangeSubWarehouse,
+    this.onChangeSubWarehouse, this.onChangePriceFactor,
   }) : super(key: key);
 
   @override
@@ -158,7 +159,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           Column(
                             children: [
                               ProductSubWarehouseInfoWidget(
-                                  product: product, onChangePrice: (price) => widget.onChangePrice(price)),
+                                  product: product, onChangePrice: (price) { setState(() {
+                                product.price = price;
+                              });
+                                    widget.onChangePrice(price);} ,onChangePriceFactor: (priceFactor) { widget.onChangePriceFactor(priceFactor);}),
                               Services.hasRole(context, productsControllerRole) || Services.hasRole(context, adminRole)
                                   ? Padding(
                                       padding: const EdgeInsets.only(bottom: 30),

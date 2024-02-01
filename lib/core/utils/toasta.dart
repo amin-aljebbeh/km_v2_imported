@@ -15,7 +15,7 @@ class Utility {
         timeInSecForIosWeb: 3,
         backgroundColor : Colors.green,
         textColor: Colors.white,
-        fontSize: 15.0);
+        fontSize: 16.0);
   }
 
 }

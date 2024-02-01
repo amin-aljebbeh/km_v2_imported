@@ -150,7 +150,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                           children: [
                             ProductEntryField(
                                 controller: priceFactorController,
-                                title: priceFactor,
+                                title: priceFactorString,
                                 hint: '1',
                                 width: MediaQuery.of(context).size.width / 4),
                             Container(

@@ -1,6 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_searchable_dropdown/flutter_searchable_dropdown.dart';
 import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
+import 'package:search_choices/search_choices.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../products/domain/entities/product_entity.dart';
@@ -88,7 +88,7 @@ class _ChangeProductCategoryAndSubWarehouseWidgetState extends State<ChangeProdu
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6), border: Border.all(width: 5, color: primaryColor)),
               child: Center(
-                child: SearchableDropdown.single(
+                child: SearchChoices.single(
                   iconDisabledColor: Colors.black,
                   displayClearIcon: false,
                   style: dropdownItemStyle,

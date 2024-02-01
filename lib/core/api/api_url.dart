@@ -11,6 +11,7 @@ const String syncCartApi = 'cart/sync_cart';
 
 const String couponApi = 'coupon/';
 const String userCouponsApi = user + 'coupons/';
+const String userChangePhoneApi = user + 'change-phone-number/';
 const String attachUserToCouponApi = couponApi + 'attach_user_to_coupon/';
 const String userTransactionApi = 'user_transaction/';
 const String transactionApi = 'transaction/';

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
 
 import '../../../../core/core_importer.dart';
@@ -268,9 +269,15 @@ class ChangeTransactionRequestStatusAction implements TransactionsAction {
     store.dispatch(StartLoading());
     Either either = await store.state.transactionsState.transactionsUseCase
         .changeTransactionRequestStatusUseCase(statusId: statusId, requestId: requestId, rejectReason: rejectReason);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) async {
       store.dispatch(TransactionRequestChanged(rejectReason: rejectReason, requestId: requestId, statusId: statusId));
-     // snackBar(message: 'تمت العملية بنجاح', success: true, context: context);
+      Fluttertoast.showToast(
+        msg: 'تمت العملية بنجاح',
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     });
     store.dispatch(StopLoading());
   }

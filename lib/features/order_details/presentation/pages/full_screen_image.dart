@@ -1,4 +1,5 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class FullScreenImage extends StatelessWidget {
@@ -15,8 +16,7 @@ class FullScreenImage extends StatelessWidget {
         child: Center(
             child: Hero(
                 tag: tag,
-                child: Image(
-                    image: AdvImageCache(imageUrl, useMemCache: true, diskCacheExpire: const Duration(days: 400))))),
+                child: CachedNetworkImage( imageUrl:imageUrl))),
         onTap: () => Navigator.pop(context),
       ),
     );
