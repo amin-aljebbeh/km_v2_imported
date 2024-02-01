@@ -74,7 +74,7 @@ class OperationButtonsWidget extends StatelessWidget {
                                   List<DialogButton> decisionButton = [
                                     DialogButton(
                                       text: 'نعم',
-                                      onTap: () { print('object');Navigator.of(context).pop(); StoreProvider.of<AppState>(context).dispatch(
+                                      onTap: () { Navigator.of(context).pop(); StoreProvider.of<AppState>(context).dispatch(
                                           ChangeOrderStatusAction(orderId: order.id, statusId: 6, context: context));}
                                     ),
                                     DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
