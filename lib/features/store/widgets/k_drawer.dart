@@ -1,3 +1,5 @@
+// import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
 import '../../../core/core_importer.dart';
 import 'drawer_children.dart';
 
@@ -63,11 +65,11 @@ class KDrawer extends StatelessWidget {
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: const <Widget>[
-                          MediaIcon(icon: FontAwesomeIcons.facebookF, url: 'facebook'),
-                          MediaIcon(icon: FontAwesomeIcons.instagram, url: 'instagram'),
-                          MediaIcon(icon: FontAwesomeIcons.facebookMessenger, url: 'messenger'),
-                          MediaIcon(icon: FontAwesomeIcons.whatsapp, url: 'whatsapp'),
+                        children:  const <Widget>[
+                          MediaIcon(icon: Icons.facebook, url: 'facebook'),
+                          MediaIcon(icon: Icons.facebook, url: 'instagram'),
+                          MediaIcon(icon: Icons.messenger, url: 'messenger'),
+                          MediaIcon(icon: Icons.whatsapp, url: 'whatsapp'),
                         ],
                       ),
                     ),

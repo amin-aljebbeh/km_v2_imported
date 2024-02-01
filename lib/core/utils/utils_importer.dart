@@ -1,4 +1,4 @@
-export 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 export 'package:toast/toast.dart';
 
 export 'colors_utils.dart';

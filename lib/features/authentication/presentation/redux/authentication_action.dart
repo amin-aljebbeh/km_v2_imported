@@ -16,7 +16,7 @@ class LoginAction extends AuthenticationAction {
 
   @override
   handle({Store<AppState> store, AuthenticationState state}) async {
-    if (['shopper', 'supplier', 'rabia', 'agent', 'collector'].contains(name)) baseUrl = testUrl;
+    if (['shopper', 'supplier', 'rabia', 'agent', 'collector'].contains(name)) baseUrl = baseUrl;
     store.dispatch(StartLoading());
 
     Either either = await state.authenticationUSeCases.loginUseCase(username: name, password: password);

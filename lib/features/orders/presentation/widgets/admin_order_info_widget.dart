@@ -1,4 +1,5 @@
 import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_action.dart';
+// import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../coupons/presentation/redux/coupon_action.dart';
@@ -57,7 +58,7 @@ class AdminOrderInfoWidget extends StatelessWidget {
                     ),
                   if (Services.hasRole(context, operationManagerRole))
                     MediaIcon(
-                        icon: FontAwesomeIcons.whatsapp, url: 'customer_whatsapp', mobileNumber: order.user.phone),
+                        icon: Icons.whatsapp, url: 'customer_whatsapp', mobileNumber: order.user.phone),
                   if (Services.hasRole(context, operationManagerRole))
                     InkWell(
                       child: Icon(Icons.search_rounded, color: kmColors, size: 30),

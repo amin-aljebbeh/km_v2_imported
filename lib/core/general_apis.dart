@@ -101,7 +101,7 @@ class GeneralApis {
 
   static Future<bool> getCategoryService(BuildContext context) async {
     try {
-      var response = await ApiProvider.sendRequest(url: getCategoryApi, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: getCategoryApi, method: HttpMethods.get );
 
       if (response.statusCode == successCode) {
         final categories = categoryOriginalFromJson(jsonEncode(response.data)).data;

@@ -98,7 +98,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                         Expanded(
                                           child: KSearchableDropdown(
                                             hint: 'اختر أدمن',
-                                            // padding: 0,
+                                            padding: 0,
                                             disableHint: 'اختر نوع مناقلة أولاً',
                                             search: adminId,
                                             items: state.adminsState.transactionsActors
@@ -107,13 +107,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                                     value: actor.name))
                                                 .toList(),
                                             onChanged: (value)  {
-                                              setState(() {
+
                                                 adminId = state.adminsState.transactionsActors
                                                     .firstWhere((admin) => admin.name == value)
                                                     .id
                                                     .toString();
-                                                adminId = value;
-                                              });
+
+
                                             },
                                           ),
                                         ),
@@ -197,6 +197,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 Toast.show('يرجى إدخال كافة البيانات', context,
                                     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                               } else {
+                                print(adminId);
                                 List<DialogButton> decisionButton = [
                                   DialogButton(
                                     text: 'نعم',
