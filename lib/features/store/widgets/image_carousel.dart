@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 
 import '../../../core/core_importer.dart';
@@ -25,11 +24,16 @@ class ImageCarousel extends StatelessWidget {
               borderRadius: true,
               boxFit: BoxFit.fill,
               images: [
-                CachedNetworkImage(
-                  imageUrl: state.generalInformationState.companyInformation.imagePrefixUrl + 'slide3.png',
-                  placeholder: (context, url) => const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Image.asset('assets/kmlogoo.png'),
-                ),
+                FadeInImage(
+                  image: AdvImageCache(state.generalInformationState.companyInformation.imagePrefixUrl + 'slide3.png',
+                      useMemCache: true, diskCacheExpire: const Duration(days: 400)),
+                  fadeInDuration: const Duration(seconds: 1),
+                  fadeInCurve: Curves.fastOutSlowIn,
+                  placeholderErrorBuilder: (ctx, err, trace) => Image.asset('assets/kmlogoo.png'),
+                  imageErrorBuilder: (ctx, err, trace) => Image.asset('assets/kmlogoo.png'),
+                  placeholder: const AssetImage('assets/kmlogoo.png'),
+                  fit: BoxFit.cover,
+                )
               ],
               autoplay: true,
               animationCurve: Curves.fastLinearToSlowEaseIn,
