@@ -24,7 +24,7 @@ class StoreSearchTextField extends StatelessWidget {
           cursorColor: primaryColor,
           decoration: InputDecoration(
             prefixIcon: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.30,
+              width: MediaQuery.of(context).size.width * 0.25,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

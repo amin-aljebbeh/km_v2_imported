@@ -89,7 +89,7 @@ class ProductOptionsWidget extends StatelessWidget {
               snackBar(success: result, message: 'فشلت عملية حفظ صورة المنتج يرجى المحاولة مجدداً', context: context);
             }
           },
-        )
+        ),
       ],
     );
   }

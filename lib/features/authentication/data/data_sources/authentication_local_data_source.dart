@@ -10,7 +10,7 @@ class AuthenticationLocalDataSourceImplement implements AuthenticationLocalDataS
   @override
   Future<Unit> logout() async {
     SharedPreferences preferences = sl<SharedPreferences>();
-    baseUrl = testUrl;
+    baseUrl = appUrl;
     await preferences.clear();
     return Future.value(unit);
   }

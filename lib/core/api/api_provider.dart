@@ -1,13 +1,7 @@
 import '../../features/orders/orders_services.dart';
 import '../core_importer.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class ApiProvider {
-  final Dio dio;
-  ApiProvider(
-      this.dio,
-
-      );
   static Future<Response> sendRequest({
     @required String url,
     dynamic body,
@@ -16,23 +10,11 @@ class ApiProvider {
     ResponseType responseType,
     CancelToken cancelToken,
   }) async {
-
-    //
     var options = BaseOptions(
-        baseUrl: baseUrl + '/api/', /*connectTimeout: 30000, receiveTimeout: 30000,*/ contentType: Headers.jsonContentType);
+        baseUrl: baseUrl + '/api/', connectTimeout: 30000, receiveTimeout: 30000, contentType: Headers.jsonContentType);
 
     var dio = Dio(options);
     String token = LoadingScreen.userToken;
-    dio.interceptors.add(PrettyDioLogger());
-// customization
-    dio.interceptors.add(PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        error: true,
-        compact: true,
-        maxWidth: 90));
     Map<String, String> header = {'Authorization': token ?? ''};
 
     Response response;

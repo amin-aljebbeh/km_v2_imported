@@ -18,7 +18,7 @@ class ProductSubWarehouseInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 30),
           child: UpdateProductInfoWidget(
-            title:priceString + ' :',
+            title: edit + ' ' + priceString + ' :',
             inputType: TextInputType.text,
             bodyKey: 'price',
             productId: product.id,
@@ -37,7 +37,7 @@ class ProductSubWarehouseInfoWidget extends StatelessWidget {
           ),
         ),
         UpdateProductInfoWidget(
-          title:supplierCodeString + ':',
+          title: edit + ' ' + supplierCodeString + ':',
           inputType: TextInputType.text,
           textHint: product.supplierCode,
           initialText: product.supplierCode,

@@ -1,4 +1,3 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 
@@ -53,7 +52,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(bottom: 30.w),
+      padding: const EdgeInsets.only(bottom: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +66,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
               controller: textController,
               text: widget.title,
               inputType: widget.inputType,
-              width: 150.w,
+              width: 150,
             ),
           ),
           IconButton(

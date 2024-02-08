@@ -121,7 +121,7 @@ class SearchOrderByPhoneNumber extends StatelessWidget {
           ],
         );
       },
-      icon: Icon(Icons.search_rounded, size: 30, color: kmColors),
+      icon: Icon(Icons.search_rounded, size: 40, color: kmColors),
     );
   }
 }

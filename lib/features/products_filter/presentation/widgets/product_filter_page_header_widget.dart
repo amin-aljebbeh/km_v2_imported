@@ -2,11 +2,8 @@ import '../../../../core/core_importer.dart';
 import '../redux/products_filter_action.dart';
 
 class ProductFilterPageHeaderWidget extends StatelessWidget {
-   ProductFilterPageHeaderWidget({Key key, this.controller})
-      : super(key: key);
+  const ProductFilterPageHeaderWidget({Key key, this.controller}) : super(key: key);
   final TextEditingController controller;
-  final TextEditingController pageController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +14,7 @@ class ProductFilterPageHeaderWidget extends StatelessWidget {
       builder: (context, state) {
         var productsFilterState = state.productsFilterState;
         return Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery
-              .of(context)
-              .size
-              .height * 0.02),
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.02),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,12 +25,9 @@ class ProductFilterPageHeaderWidget extends StatelessWidget {
                   if (productsFilterState.filteredProducts.isNotEmpty &&
                       productsFilterState.hasNextFilteredProducts &&
                       (controller.text.isNotEmpty ||
-                          productsFilterState.filteredProductsTypes ==
-                              FilteredProductsTypes.deleted)) {
+                          productsFilterState.filteredProductsTypes == FilteredProductsTypes.deleted)) {
                     store.dispatch(
-                        InitProductsFilter(context: context,
-                            page: productsFilterState.filteredProductsPage +
-                                1));
+                        InitProductsFilter(context: context, page: productsFilterState.filteredProductsPage + 1));
                   }
                 },
               ),
@@ -48,8 +39,7 @@ class ProductFilterPageHeaderWidget extends StatelessWidget {
                     : productsFilterState.filteredProductsTypes.index,
                 items: Services.dropdownStringList(productFilter),
                 onChanged: (value) {
-                  store.dispatch(SetFilteredProductsViewTypes(
-                      type: FilteredProductsTypes.values[value]));
+                  store.dispatch(SetFilteredProductsViewTypes(type: FilteredProductsTypes.values[value]));
                   if (value == 3) {
                     showMyDialog(
                       context: context,
@@ -61,21 +51,17 @@ class ProductFilterPageHeaderWidget extends StatelessWidget {
                           onTap: () {
                             if (validDates(context)) {
                               Navigator.of(context).pop();
-                              store.dispatch(
-                                  InitProductsFilter(context: context));
+                              store.dispatch(InitProductsFilter(context: context));
                             } else {
                               Toast.show('الرجاء إدخال كافة البيانات', context,
-                                  duration: Toast.LENGTH_LONG,
-                                  gravity: Toast.CENTER);
+                                  duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                             }
                           },
                         )
                       ],
                       content: KDatePicker(
-                        onConfirmStart: (date) =>
-                            store.dispatch(SetFromDate(fromDate: date)),
-                        onConfirmEnd: (date) =>
-                            store.dispatch(SetToDate(toDate: date)),
+                        onConfirmStart: (date) => store.dispatch(SetFromDate(fromDate: date)),
+                        onConfirmEnd: (date) => store.dispatch(SetToDate(toDate: date)),
                       ),
                     );
                   } else {
@@ -87,18 +73,14 @@ class ProductFilterPageHeaderWidget extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(
-                  productsFilterState.biggerThan
-                      ? Icons.keyboard_arrow_up
-                      : Icons.keyboard_arrow_down,
+                  productsFilterState.biggerThan ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                   size: 40,
                   color: primaryColor,
                 ),
                 onPressed: () {
                   if (controller.text.isNotEmpty &&
-                      productsFilterState.filteredProductsTypes !=
-                          FilteredProductsTypes.deleted) {
-                    store.dispatch(SetBiggerThan(
-                        biggerThan: !productsFilterState.biggerThan));
+                      productsFilterState.filteredProductsTypes != FilteredProductsTypes.deleted) {
+                    store.dispatch(SetBiggerThan(biggerThan: !productsFilterState.biggerThan));
                     store.dispatch(InitProductsFilter(context: context));
                   }
                 },
@@ -109,28 +91,20 @@ class ProductFilterPageHeaderWidget extends StatelessWidget {
                   onSubmit: (value) => store.dispatch(InitProductsFilter(context: context)),
                   controller: controller,
                   textInputType: TextInputType.number,
-                  onChange: () => store.dispatch(
-                      SetFilterValue(value: int.parse(controller.text))),
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.1,
+                  onChange: () => store.dispatch(SetFilterValue(value: int.parse(controller.text))),
+                  width: MediaQuery.of(context).size.width * 0.2,
                 ),
               ),
               IconButton(
                 icon: Icon(Icons.arrow_forward, size: 40, color: primaryColor),
                 onPressed: () {
                   if ((controller.text.isNotEmpty ||
-                      productsFilterState.filteredProductsTypes ==
-                          FilteredProductsTypes.deleted)) {
+                      productsFilterState.filteredProductsTypes == FilteredProductsTypes.deleted)) {
                     if (productsFilterState.filteredProductsPage > 1) {
                       store.dispatch(
-                          InitProductsFilter(context: context,
-                              page: productsFilterState.filteredProductsPage -
-                                  1));
+                          InitProductsFilter(context: context, page: productsFilterState.filteredProductsPage - 1));
                     } else {
-                      store.dispatch(
-                          GetFilteredProductsAction(context: context));
+                      store.dispatch(GetFilteredProductsAction(context: context));
                     }
                   }
                 },

@@ -24,7 +24,7 @@ class ProductGeneralInfoWidget extends StatelessWidget {
             onSavePressed: (newValue, result) => product.increasePercentage = int.parse(newValue),
           ),
         UpdateProductInfoWidget(
-          title:priority + ' :',
+          title: edit + ' ' + priority + ' :',
           textHint: product.priority.toString(),
           inputType: TextInputType.text,
           bodyKey: 'priority',
@@ -34,7 +34,7 @@ class ProductGeneralInfoWidget extends StatelessWidget {
           onSavePressed: (newValue, result) => product.priority = int.parse(newValue),
         ),
         UpdateProductInfoWidget(
-          title:  nameString,
+          title: edit + ' ' + nameString,
           textHint: product.name,
           inputType: TextInputType.multiline,
           bodyKey: 'name',
@@ -45,7 +45,7 @@ class ProductGeneralInfoWidget extends StatelessWidget {
           onSavePressed: (newValue, result) => product.name = newValue,
         ),
         UpdateProductInfoWidget(
-          title:unitString + ' :',
+          title: edit + ' ' + unitString + ' :',
           inputType: TextInputType.multiline,
           bodyKey: 'unit',
           productId: product.id,
@@ -56,7 +56,7 @@ class ProductGeneralInfoWidget extends StatelessWidget {
           onSavePressed: (newValue, result) => {product.unit = newValue, onChangeUnit(newValue)},
         ),
         UpdateProductInfoWidget(
-          title:quantityString + ' :',
+          title: edit + ' ' + quantityString + ' :',
           isForSubWarehouse: false,
           inputType: TextInputType.text,
           productData: product,
@@ -67,7 +67,7 @@ class ProductGeneralInfoWidget extends StatelessWidget {
           onSavePressed: (newValue, result) => {product.quantity = newValue, onChangeQuantity(newValue)},
         ),
         UpdateProductInfoWidget(
-          title:  descriptionString + ' :',
+          title: edit + ' ' + descriptionString + ' :',
           textHint: 'الوصف الجديد',
           inputType: TextInputType.multiline,
           bodyKey: 'description',

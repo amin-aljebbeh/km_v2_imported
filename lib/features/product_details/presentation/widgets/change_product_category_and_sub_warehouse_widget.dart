@@ -1,6 +1,5 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_searchable_dropdown/flutter_searchable_dropdown.dart';
 import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
+import 'package:search_choices/search_choices.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../products/domain/entities/product_entity.dart';
@@ -32,11 +31,11 @@ class _ChangeProductCategoryAndSubWarehouseWidgetState extends State<ChangeProdu
         return Column(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width.w,
-              padding:  EdgeInsets.only(left: 5.w, right: 5.w),
-              margin:  EdgeInsets.only(bottom: 15.h),
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.only(left: 5, right: 5),
+              margin: const EdgeInsets.only(bottom: 15),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6.r), border: Border.all(width: 5.w, color: primaryColor)),
+                  borderRadius: BorderRadius.circular(6), border: Border.all(width: 5, color: primaryColor)),
               child: Center(
                 child: DropdownButton(
                   style: decisionButtonStyle,
@@ -55,8 +54,7 @@ class _ChangeProductCategoryAndSubWarehouseWidgetState extends State<ChangeProdu
                   onChanged: (value) async {
                     product.warehouses.removeWhere((warehouse) => warehouse.id == 0);
                     bool remove = state.generalInformationState.subWarehouses
-                        .where((subWarehouse) => subWarehouse.id == product.subWarehouseId
-                    )
+                        .where((subWarehouse) => subWarehouse.id == product.subWarehouseId)
                         .toList()
                         .isNotEmpty;
                     bool result = await ProductsServices.changeProductSubWarehouse(product, value, remove);
@@ -83,22 +81,26 @@ class _ChangeProductCategoryAndSubWarehouseWidgetState extends State<ChangeProdu
               ),
             ),
             Container(
-              width: 350,
-              padding:  EdgeInsets.only(left: 5.w, right: 5.w),
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.only(left: 5, right: 5),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6), border: Border.all(width: 5, color: primaryColor)),
               child: Center(
-                child: SearchableDropdown.single(
+                child: SearchChoices.single(
+                  rightToLeft: true,
+                  searchInputDecoration: InputDecoration(
+                      suffixIcon: Icon(Icons.search, size: 24, color: primaryColor),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 12)),
                   iconDisabledColor: Colors.black,
                   displayClearIcon: false,
                   style: dropdownItemStyle,
                   closeButton: TextButton(
-                    child: Text(closeString, style: decisionButtonStyle.copyWith(color: primaryColor),maxLines: 2,),
+                    child: Text(closeString, style: decisionButtonStyle.copyWith(color: primaryColor)),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   isCaseSensitiveSearch: false,
                   underline: Container(),
-                  // isExpanded: false, // remove this line
+                  isExpanded: false,
                   items: state.generalInformationState.categoriesMenu,
                   iconEnabledColor: primaryColor,
                   value: selectedCategory,

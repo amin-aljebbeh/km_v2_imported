@@ -1,8 +1,6 @@
 import 'package:kammun_app/features/inventory/presentation/redux/inventory_action.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../general_information/domain/entities/sub_warehouse_entity.dart';
-import '../../../general_information/domain/entities/warehouse_entity.dart';
 import '../redux/sub_warehouse_manager_action.dart';
 
 class SubWarehouseManagerPage extends StatelessWidget {
@@ -11,14 +9,9 @@ class SubWarehouseManagerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AppState>(
-
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
-        List<SubWarehouseEntity> warehouses = [
-          // WarehouseEntity(name: 'جميع المستودعات', id: 0)
-        ];
-        warehouses.addAll(state.generalInformationState.subWarehouses);
         return TemporaryLoading(
           child: Scaffold(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -61,9 +54,7 @@ class SubWarehouseManagerPage extends StatelessWidget {
                                 ? Theme.of(context).primaryColor
                                 : searchGreyColor,
                             onTap: () {
-                              print('bassssssssam:${state.generalInformationState.subWarehouses}');
                               if (state.excelInventoryState.subWarehouseId != null) {
-
                                 StoreProvider.of<AppState>(context).dispatch(GoToInventoryPage(
                                     context: context,
                                     inventoryType: InventoryTypes.subWarehouse,

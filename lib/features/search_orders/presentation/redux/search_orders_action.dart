@@ -33,8 +33,6 @@ class SearchOrderAction implements SearchOrdersAction {
         break;
       case SearchOrdersTypes.none:
         break;
-      default:
-        return store.dispatch(GetOrderAction(orderId: store.state.searchOrdersState.id));
     }
     Navigator.push(context, MaterialPageRoute(builder: (screenContext) => const SearchOrdersPage()));
   }
@@ -49,10 +47,9 @@ class GetOrderAction implements SearchOrdersAction {
   handle({Store<AppState> store}) async {
     Either either = await store.state.searchOrdersState.searchOrdersUSeCases
         .getOrderUseCase(cancelToken: OrdersServices.cancelRequest, orderId: orderId);
-    either.fold((failure) {}, (response) {
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (response) {
       GetOrderResponseEntity order = response;
       store.dispatch(SetSearchOrders(orders: [order.order]));
-
     });
     store.dispatch(StopLoading());
   }
