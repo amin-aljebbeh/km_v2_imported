@@ -37,7 +37,7 @@ class _AddProductsViewState extends State<AddProductsView> {
     'اسم المنتج',
     quantityString,
     unitString,
-    priceFactorString,
+    priceFactor,
     descriptionString,
     supplierCodeString,
     priceString,
@@ -85,14 +85,17 @@ class _AddProductsViewState extends State<AddProductsView> {
         autoActivation: autoActivationController,
         isActive: switchController ? 1 : 0,
         barcode: barcode);
-    if (productIds != null && productIds != 0) {
-      snackBar(success: true, message: 'تم إضافة المنتج بنجاح', context: context);
+    if (productIds == null && productIds != 0) {
+      snackBar(
+          success: true, message: 'تم إضافة المنتج بنجاح', context: context);
     } else {
-      snackBar(success: false, message: 'فشلت عملية إضافة المنتج', context: context);
+      snackBar(
+          success: false, message: 'فشلت عملية إضافة المنتج', context: context);
     }
 
-    if (productIds != null && productIds != 0) {
-      bool result = await ProductsServices.setImageToProducts(productId: productIds, image: _image);
+    if (productIds == null && productIds != 0) {
+      bool result = await ProductsServices.setImageToProducts(
+          productId: productIds, image: _image);
       if (result) {
         setState(() => {isLoading = false, isError = false});
 
@@ -106,7 +109,11 @@ class _AddProductsViewState extends State<AddProductsView> {
         Navigator.of(context).pop();
       }
     } else if (productIds == null) {
-      snackBar(success: false, message: '!!!!! فشل في ربط المنتج ولكن تمت إضافته !!!', context: context);
+      snackBar(
+          success: false,
+          message: '!!!!! فشل في ربط المنتج ولكن تمت إضافته !!!',
+          context: context);
+      Navigator.of(context).pop();
     }
   }
 
@@ -251,7 +258,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                                 width: MediaQuery.of(context).size.width / 4),
                             ProductEntryField(
                                 controller: priceFactorController,
-                                title: priceFactorString,
+                                title: priceFactor,
                                 hint: '1',
                                 textInputType:
                                     const TextInputType.numberWithOptions(
@@ -394,9 +401,9 @@ class _AddProductsViewState extends State<AddProductsView> {
       if (!productData.contains(unitString)) productData.add(unitString);
     }
     if (priceFactorController.text.isNotEmpty) {
-      if (productData.contains(priceFactorString)) productData.remove(priceFactorString);
+      if (productData.contains(priceFactor)) productData.remove(priceFactor);
     } else {
-      if (!productData.contains(priceFactorString)) productData.add(priceFactorString);
+      if (!productData.contains(priceFactor)) productData.add(priceFactor);
     }
     if (descriptionController.text.isNotEmpty) {
       if (productData.contains(descriptionString))

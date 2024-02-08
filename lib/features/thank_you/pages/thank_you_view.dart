@@ -1,7 +1,6 @@
 import 'package:kammun_app/features/home/presentation/redux/home_action.dart';
 
 import '../../../core/core_importer.dart';
-import '../../orders/presentation/redux/orders_action.dart';
 
 class ThankYouView extends StatefulWidget {
   final String orderMessage;
@@ -66,7 +65,6 @@ class ThankYouViewState extends State<ThankYouView> {
                     height: 50,
                     onTap: () {
                       StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 2));
-                      StoreProvider.of<AppState>(context).dispatch(GetOrdersAction());
                       Navigator.of(context)
                           .pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
                     },

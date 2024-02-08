@@ -2,22 +2,16 @@ import 'package:kammun_app/features/products/domain/entities/product_entity.dart
 
 import '../../../../core/core_importer.dart';
 
-class ProductSubWarehouseInfoWidget extends StatefulWidget {
+class ProductSubWarehouseInfoWidget extends StatelessWidget {
   final ProductEntity product;
   final Function(String) onChangePrice;
-  final Function(String) onChangePriceFactor;
-  const ProductSubWarehouseInfoWidget({Key key, this.product, this.onChangePrice, this.onChangePriceFactor}) : super(key: key);
+  const ProductSubWarehouseInfoWidget({Key key, this.product, this.onChangePrice}) : super(key: key);
 
-  @override
-  State<ProductSubWarehouseInfoWidget> createState() => _ProductSubWarehouseInfoWidgetState();
-}
-
-class _ProductSubWarehouseInfoWidgetState extends State<ProductSubWarehouseInfoWidget> {
   @override
   Widget build(BuildContext context) {
-    String price = widget.product.price;
+    String price = product.price;
     if (Services.hasRole(context, supplierRole)) {
-      price = (int.parse(widget.product.price.split('.')[0]) - widget.product.increasePercentage).toString();
+      price = (int.parse(product.price.split('.')[0]) - product.increasePercentage).toString();
     }
     return Column(
       children: [
@@ -27,17 +21,17 @@ class _ProductSubWarehouseInfoWidgetState extends State<ProductSubWarehouseInfoW
             title:priceString + ' :',
             inputType: TextInputType.text,
             bodyKey: 'price',
-            productId: widget.product.id,
-            productData: widget.product,
+            productId: product.id,
+            productData: product,
             textHint: price,
-            increasePercentage: widget.product.increasePercentage,
-            priceFactor: widget.product.priceFactor != null ? double.parse(widget.product.priceFactor) : 1,
+            increasePercentage: product.increasePercentage,
+            priceFactor: product.priceFactor != null ? double.parse(product.priceFactor) : 1,
             initialText: price,
             onSavePressed: (newValue, result) {
               if (result) {
-                widget.product.price = newValue;
+                product.price = newValue;
                 price = newValue;
-                widget.onChangePrice(newValue);
+                onChangePrice(newValue);
               }
             },
           ),
@@ -45,28 +39,22 @@ class _ProductSubWarehouseInfoWidgetState extends State<ProductSubWarehouseInfoW
         UpdateProductInfoWidget(
           title:supplierCodeString + ':',
           inputType: TextInputType.text,
-          textHint: widget.product.supplierCode,
-          initialText: widget.product.supplierCode,
+          textHint: product.supplierCode,
+          initialText: product.supplierCode,
           bodyKey: 'supplier_code',
-          productId: widget.product.id,
-          productData: widget.product,
-          onSavePressed: (newValue, result) => widget.product.supplierCode = newValue,
+          productId: product.id,
+          productData: product,
+          onSavePressed: (newValue, result) => product.supplierCode = newValue,
         ),
         UpdateProductInfoWidget(
-          title: priceFactorString + ' :',
+          title: priceFactor + ' :',
           inputType: TextInputType.text,
           bodyKey: 'price_factor',
-          productId: widget.product.id,
-          productData: widget.product,
-          textHint: widget.product.priceFactor,
-          initialText: widget.product.priceFactor,
-          onSavePressed: (newValue, result){
-            if (result) {
-              widget.product.priceFactor = newValue;
-              price = newValue;
-              widget.onChangePriceFactor(newValue);
-            }
-          },
+          productId: product.id,
+          productData: product,
+          textHint: product.priceFactor,
+          initialText: product.priceFactor,
+          onSavePressed: (newValue, result) => product.priceFactor = newValue,
         ),
       ],
     );

@@ -15,11 +15,4 @@ class UsersRepositoryImplement extends UsersRepository {
         function: () =>
             usersRemoteDataSource.attachUserToCoupon(userId: userId, couponId: couponId, availability: availability));
   }
-
-  @override
-  Future<Either<Failure, Unit>> changeNumberPhoneUser({int userId, String phoneNumber})async {
-    return await repositoryFactory.failureUnitRepo(
-        function: () =>
-            usersRemoteDataSource.changeNumberPhoneUser(userId: userId,  phoneNumber: phoneNumber));
-  }
 }

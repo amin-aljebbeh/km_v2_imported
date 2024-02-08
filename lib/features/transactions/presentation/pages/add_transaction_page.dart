@@ -98,7 +98,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                         Expanded(
                                           child: KSearchableDropdown(
                                             hint: 'اختر أدمن',
-                                            // padding: 0,
+                                            padding: 0,
                                             disableHint: 'اختر نوع مناقلة أولاً',
                                             search: adminId,
                                             items: state.adminsState.transactionsActors
@@ -106,14 +106,11 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                                     child: AutoSizeText(actor.name, style: mainStyle, maxFontSize: 15),
                                                     value: actor.name))
                                                 .toList(),
-                                            onChanged: (value)  {
-                                              setState(() {
-                                                adminId = state.adminsState.transactionsActors
-                                                    .firstWhere((admin) => admin.name == value)
-                                                    .id
-                                                    .toString();
-                                                adminId = value;
-                                              });
+                                            onChanged: (value) {
+                                              adminId = state.adminsState.transactionsActors
+                                                  .firstWhere((admin) => admin.name == value)
+                                                  .id
+                                                  .toString();
                                             },
                                           ),
                                         ),

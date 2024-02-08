@@ -144,7 +144,7 @@ class FinalCartPage extends StatelessWidget {
                                 ? const Loader()
                                 : Column(
                                     children: <Widget>[
-                                       if (state.cartState.orderUnderUpdateStatus == 5)
+                                      if (state.cartState.orderUnderUpdateStatus == 5)
                                         Row(
                                           children: [
                                             Checkbox(

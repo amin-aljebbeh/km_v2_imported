@@ -59,7 +59,7 @@ class SearchProductsAction extends ProductsAction {
           query: store.state.productsState.searchString, pageNumber: store.state.productsState.productsPage);
       either.fold(
           (failure) => store.dispatch(
-              CatchError(errorMessage: 'عذراً المنتح الذي تبحث عنه غير موجود \n نأمل أن يتوفر بأقرب وقت')),
+              CatchError(errorMessage: 'حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت')),
           (response) {
         CategoryProductsEntity categoryProducts = response;
         List<ProductEntity> products = [];

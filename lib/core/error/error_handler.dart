@@ -5,9 +5,9 @@ class ErrorHandler {
     if (error.response == null) {
       return Response(statusCode: serviceUnavailableError, requestOptions: options);
     } else {
-      if (error.type == DioErrorType.other || error.type == DioErrorType.response) {
+      if (error.type == DioErrorType.unknown || error.type == DioErrorType.badResponse) {
         if (error is SocketException) return error.response;
-        if (error.type == DioErrorType.response) {
+        if (error.type == DioErrorType.badResponse) {
           switch (error.response.statusCode) {
             case badRequestError:
               return error.response;
@@ -24,7 +24,7 @@ class ErrorHandler {
             default:
               return error.response;
           }
-        } else if (error.type == DioErrorType.connectTimeout ||
+        } else if (error.type == DioErrorType.connectionTimeout ||
             error.type == DioErrorType.sendTimeout ||
             error.type == DioErrorType.receiveTimeout) {
           return error.response;

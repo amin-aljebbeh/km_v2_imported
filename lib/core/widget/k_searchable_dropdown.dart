@@ -1,4 +1,4 @@
-import 'package:search_choices/search_choices.dart';
+import 'package:flutter_searchable_dropdown/flutter_searchable_dropdown.dart';
 
 import '../core_importer.dart';
 
@@ -37,9 +37,9 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: widget.padding == 0 ? 10 : 0),
-      child: SearchChoices.single(
+      child: SearchableDropdown.single(
         displayClearIcon: false,
-        rightToLeft: true,
+
         iconEnabledColor: primaryColor,
         closeButton: TextButton(
             child: Text(closeString, style: dropdownItemStyle.copyWith(color: primaryColor)),

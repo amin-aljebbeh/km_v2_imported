@@ -40,7 +40,7 @@ class OperationButtonsWidget extends StatelessWidget {
                             child: KammunButton(
                               text: changeStatusButtonText(order.orderStatusId),
                               color: changeStatusButtonColor(order.orderStatusId),
-                              onTap: () => StoreProvider.of<AppState>(context).dispatch(ChangeOrderStatusAction(
+                              onTap: () => store.dispatch(ChangeOrderStatusAction(
                                   statusId: newStatus(order.orderStatusId), orderId: order.id, context: context)),
                             ),
                           ),
@@ -55,7 +55,7 @@ class OperationButtonsWidget extends StatelessWidget {
                                     List<DialogButton> decisionButton = [
                                       DialogButton(
                                         text: 'نعم',
-                                        onTap: () => StoreProvider.of<AppState>(context).dispatch(
+                                        onTap: () => store.dispatch(
                                             ChangeOrderStatusAction(orderId: order.id, statusId: 7, context: context)),
                                       ),
                                       DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
@@ -74,8 +74,8 @@ class OperationButtonsWidget extends StatelessWidget {
                                   List<DialogButton> decisionButton = [
                                     DialogButton(
                                       text: 'نعم',
-                                      onTap: () { Navigator.of(context).pop(); StoreProvider.of<AppState>(context).dispatch(
-                                          ChangeOrderStatusAction(orderId: order.id, statusId: 6, context: context));}
+                                      onTap: () => store.dispatch(
+                                          ChangeOrderStatusAction(orderId: order.id, statusId: 6, context: context)),
                                     ),
                                     DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
                                   ];
@@ -101,7 +101,7 @@ class OperationButtonsWidget extends StatelessWidget {
                             text: 'نعم',
                             onTap: () {
                               Navigator.of(context).pop();
-                              StoreProvider.of<AppState>(context).dispatch(ChangeOrderStatusAction(orderId: order.id, statusId: 1, context: context));
+                              store.dispatch(ChangeOrderStatusAction(orderId: order.id, statusId: 1, context: context));
                             },
                           ),
                           DialogButton(text: 'لا', onTap: () => Navigator.of(context).pop()),
@@ -124,7 +124,7 @@ class OperationButtonsWidget extends StatelessWidget {
                             userNote: order.userNotes,
                             supportedCityCost: order.supportedCityCost,
                             deliveryMethodCost: order.deliveryCost);
-                        StoreProvider.of<AppState>(context).dispatch(LockOrderAction(orderId: order.id, context: context));
+                        store.dispatch(LockOrderAction(orderId: order.id, context: context));
                       },
                       color: Colors.green,
                     ),
@@ -147,7 +147,7 @@ class OperationButtonsWidget extends StatelessWidget {
                             text: 'نعم',
                             onTap: () {
                               Navigator.of(context).pop();
-                              StoreProvider.of<AppState>(context).dispatch(UnLockOrderAction(orderId: order.id, context: context));
+                              store.dispatch(UnLockOrderAction(orderId: order.id, context: context));
                             },
                           ),
                           const CloseWidget()

@@ -19,7 +19,7 @@ class ApiProvider {
 
     //
     var options = BaseOptions(
-        baseUrl: baseUrl + '/api/', connectTimeout: 30000, receiveTimeout: 30000, contentType: Headers.jsonContentType);
+        baseUrl: baseUrl + '/api/', /*connectTimeout: 30000, receiveTimeout: 30000,*/ contentType: Headers.jsonContentType);
 
     var dio = Dio(options);
     String token = LoadingScreen.userToken;

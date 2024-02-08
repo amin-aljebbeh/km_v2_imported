@@ -18,7 +18,6 @@ class ProductCheckWidget extends StatelessWidget {
               RotatedBox(
                 quarterTurns: 1,
                 child: SwitchProductStatusWidget(
-                  product: product,
                   isForSubWarehouse: true,
                   height: 20,
                   width: 65,

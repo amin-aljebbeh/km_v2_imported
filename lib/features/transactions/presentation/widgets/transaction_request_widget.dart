@@ -177,8 +177,8 @@ class TransactionRequestWidget extends StatelessWidget {
                                           statusId: 2,
                                           requestId: transactionRequestEntity
                                               .id));
-                                      // snackBar(success: true,
-                                      // message: 'تمت العملية بنجاح');
+                                      snackBar(success: true,
+                                      message: 'تمت العملية بنجاح');
                                 }
                             ),
 
@@ -215,8 +215,8 @@ class TransactionRequestWidget extends StatelessWidget {
                                                             .id,
                                                         rejectReason: reasonController
                                                             .text));
-                                                // snackBar(success: true,
-                                                //     message: 'تمت العملية بنجاح');
+                                                snackBar(success: true,
+                                                    message: 'تمت العملية بنجاح');
                                               }
                                             })
                                       ],

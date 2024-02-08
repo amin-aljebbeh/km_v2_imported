@@ -30,7 +30,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   _getClientInfo() async {
     try {
+      print('bassam');
       await Firebase.initializeApp();
+      print('bassam');
       bool userLoggedIn = await LoginServices.checkIfUserLoggedIn();
       if (userLoggedIn) {
         bool x = await GeneralApis.fetchStartInformation(context: context);
@@ -38,7 +40,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         return x;
       }
       return 'userNotLoggedIn';
-    } catch (e) {
+    } catch (e) { print(e.toString());
       /**/
     }
   }

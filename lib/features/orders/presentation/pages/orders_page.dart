@@ -18,45 +18,62 @@ class OrdersPage extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             body: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
+                padding: const EdgeInsets.only(
+                    left: 10, top: 0, right: 10, bottom: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     if (state.errorState.isError)
                       AlertMessages(
-                          text: state.errorState.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
+                          text: state.errorState.errorMessage,
+                          messageType: 'internetError',
+                          headerText: 'حدث خطأ'),
                     OrdersFilterWidget(),
                     state.loadingState.loading.isNotEmpty
                         ? const Center(child: Loader())
-                        : state.ordersState.orders.isEmpty
-                        ? Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.4),
-                      child: Center(
-                        child: Text('لا يوجد أي طلبات سابقة',
-                            style: mainStyle.copyWith(
-                                fontWeight: FontWeight.w700, color: primaryColor, fontSize: 20.0)),
-                      ),
-                    )
-                        : const SizedBox(),
-                    Expanded(
+                        : state.ordersState.orders.isNotEmpty
+                            ?  Expanded(
                       child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                        physics: const AlwaysScrollableScrollPhysics(
+                            parent: BouncingScrollPhysics()),
                         primary: false,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount: state.ordersState.orders == null ? 0 : state.ordersState.orders.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          if (Services.hasRole(context, shopperRole) ||
-                              state.ordersState.orders[index].shopper != null) {
-                            state.ordersState.orders[index].orderArithmeticOperations(context);
-                            if (!Services.hasRole(context, supplierRole)) {
-                              state.ordersState.orders[index].orderProfits(context: context);
+                        itemCount: state.ordersState.orders == null
+                            ? 0
+                            : state.ordersState.orders.length,
+                        itemBuilder:
+                            (BuildContext context, int index) {
+                          if (Services.hasRole(
+                              context, shopperRole) ||
+                              state.ordersState.orders[index]
+                                  .shopper !=
+                                  null) {
+                            state.ordersState.orders[index]
+                                .orderArithmeticOperations(context);
+                            if (!Services.hasRole(
+                                context, supplierRole)) {
+                              state.ordersState.orders[index]
+                                  .orderProfits(context: context);
                             }
                           }
-                          return OrderWidget(order: state.ordersState.orders[index]);
+                          return OrderWidget(
+                              order: state.ordersState.orders[index]);
                         },
                       ),
-                    ),
+                    )
+                            :Padding(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height *
+                              0.4),
+                      child: Center(
+                        child: Text('لا يوجد أي طلبات سابقة',
+                            style: mainStyle.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: primaryColor,
+                                fontSize: 20.0)),
+                      ),
+                    )
                   ],
                 ),
               ),
