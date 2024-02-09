@@ -155,6 +155,7 @@ class FinalCartPage extends StatelessWidget {
                                                 style: decisionButtonStyle.copyWith(color: Colors.black)),
                                           ],
                                         ),
+                                      if(Services.hasRole(context, agentRole)&&Services.hasRole(context, superAdminRole) )
                                       KammunButton(
                                         color: primaryColor,
                                         child: Row(

@@ -20,6 +20,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   TransactionCategoryEntity category;
   int categoryId;
   String adminId;
+  String shupperName;
   final moneyController = TextEditingController();
   final descriptionController = TextEditingController();
 
@@ -112,6 +113,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                                     .firstWhere((admin) => admin.name == value)
                                                     .id
                                                     .toString();
+                                                shupperName =  value;
 
 
                                             },
@@ -157,8 +159,10 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                             color: primaryColor,
                             onTap: () {
                               int id;
+
                               if (!Services.hasPermission(context, advancedTransactionPermission)) {
                                 id = state.adminsState.admin.id;
+
                                 if (Services.hasRole(context, shopperRole)) {
                                   store.dispatch(GetShopperReportAction(shopperId: state.adminsState.admin.shopper.id));
                                 }
@@ -183,7 +187,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 }
                               }
                               Navigator.push(
-                                  context, MaterialPageRoute(builder: (context) => TransactionsPage(adminId: id)));
+                                  context, MaterialPageRoute(builder: (context) => TransactionsPage(adminId: id , shupperName: shupperName,)));
                             },
                             height: 50,
                             text: 'كشف حساب',
@@ -213,6 +217,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                               value: int.parse(moneyController.text).abs(),
                                               description: descriptionController.text,
                                               orderId: widget.orderId)));
+                                      moneyController.clear() ;
+                                      descriptionController.clear();
                                     },
                                   ),
                                   DialogButton(text: 'لا', onTap: () => Navigator.of(context).pop()),

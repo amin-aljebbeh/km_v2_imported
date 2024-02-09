@@ -31,7 +31,7 @@ class CreateTransactionAction implements TransactionsAction {
         .createTransactionUseCase(transactionEntity: transactionEntity);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
       snackBar(success: true, context: context, message: 'تمت العملية بنجاح');
-      if (pop) Navigator.pop(context);
+      // if (pop) Navigator.pop(context);
     });
     store.dispatch(StopLoading());
   }

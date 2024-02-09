@@ -10,8 +10,8 @@ import 'add_transaction_page.dart';
 class TransactionsPage extends StatefulWidget {
   final int adminId;
   final bool isShopper;
-
-  const TransactionsPage({Key key, this.adminId, this.isShopper = false}) : super(key: key);
+  final String shupperName;
+  const TransactionsPage({Key key, this.adminId, this.isShopper = false, this.shupperName}) : super(key: key);
 
   @override
   _TransactionsPageState createState() => _TransactionsPageState();
@@ -19,6 +19,7 @@ class TransactionsPage extends StatefulWidget {
 
 class _TransactionsPageState extends State<TransactionsPage> {
   String adminId;
+  String shupperName;
   String tempAdminId;
   int roleId;
   int warehouseId;
@@ -27,6 +28,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
   @override
   void initState() {
+ shupperName = widget.shupperName;
     adminId = widget.adminId.toString();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!Services.hasRole(context, mainCollectorRole)) roleId = 3;
@@ -187,13 +189,13 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                   ),
                                   Expanded(
                                     child: KSearchableDropdown(
-                                      hint: 'اختر أدمن',
+                                      hint:  shupperName ?? 'اختر أدمن',
                                       padding: 0,
-                                      search: adminId,
+                                      search: shupperName,
                                       items: state.adminsState.admins
                                           .map((admin) => DropdownMenuItem<String>(
                                               child: Center(child: Text(admin.name, style: dropdownItemStyle)),
-                                              value: admin.name))
+                                              value: admin.name ?? shupperName ))
                                           .toList(),
                                       onChanged: (value) {
                                         myTransactions = false;

@@ -2,12 +2,13 @@ import 'package:kammun_app/features/transactions/presentation/redux/transactions
 
 import '../../../../core/core_importer.dart';
 import '../../../orders/domain/entities/order_entity.dart';
+import '../../../search_orders/presentation/redux/search_orders_action.dart';
 import '../../../transactions/domain/entities/admin_transaction_entity.dart';
 
 class UserWalletPage extends StatefulWidget {
   final OrderEntity order;
-
-  const UserWalletPage({Key key, this.order}) : super(key: key);
+  final AdminTransactionEntity adminTransactionEntity ;
+  const UserWalletPage({Key key, this.order, this.adminTransactionEntity}) : super(key: key);
 
   @override
   _UserWalletPageState createState() => _UserWalletPageState();
@@ -172,7 +173,9 @@ class _UserWalletPageState extends State<UserWalletPage> {
                                   KammunButton(
                                     color: kmColors,
                                     onTap: () {
+
                                       Navigator.pop(context);
+                                      StoreProvider.of<AppState>(context).dispatch(SearchOrderAction(searchOrdersType: SearchOrdersTypes.id, context: context));
                                       StoreProvider.of<AppState>(context).dispatch(CreateTransactionAction(
                                           context: context,
                                           transactionEntity: AdminTransactionEntity(
@@ -182,6 +185,7 @@ class _UserWalletPageState extends State<UserWalletPage> {
                                             value: int.parse(valueController.text).abs(),
                                             orderId: widget.order.id,
                                           )));
+
                                     },
                                     width: 100,
                                     text: 'شحن',

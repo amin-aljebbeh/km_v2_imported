@@ -163,7 +163,9 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 product.price = price;
                               });
                                     widget.onChangePrice(price);} ,onChangePriceFactor: (priceFactor) { widget.onChangePriceFactor(priceFactor);}),
-                              Services.hasRole(context, productsControllerRole) || Services.hasRole(context, adminRole)
+                              Services.hasRole(context, supplierRole) &&
+                                  (state.generalInformationState.subWarehouses
+                                      .any((element) => element.id == product.subWarehouseId))
                                   ? Padding(
                                       padding: const EdgeInsets.only(bottom: 30),
                                       child: Column(

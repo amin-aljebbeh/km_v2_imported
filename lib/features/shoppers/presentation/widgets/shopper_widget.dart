@@ -60,7 +60,7 @@ class ShopperWidgetState extends State<ShopperWidget> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                TransactionsPage(adminId: widget.shopper.adminId, isShopper: true)));
+                                                TransactionsPage(adminId: widget.shopper.adminId, isShopper: true, shupperName: widget.shopper.name,)));
                                   },
                                   child: Icon(Icons.featured_play_list, color: primaryColor),
                                 )

@@ -84,6 +84,7 @@ class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeep
                       },
                       productData: productsAry[index],
                       newSubWarehouse: newSubWarehouse(index),
+
                     );
                   },
                 ),
