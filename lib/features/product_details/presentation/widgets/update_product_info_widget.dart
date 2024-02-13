@@ -70,6 +70,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
               width: 150.w,
             ),
           ),
+          if(Services.hasPermission(context, upDateProductPermission))
           IconButton(
             icon: Icon(Icons.save, color: kmColors, size: 30),
             onPressed: () async {

@@ -3,9 +3,9 @@ const String appUrl = 'https://kammun.app';
 const String user = 'user/';
 const String searchApi = 'search/';
 const String supportedCityApi = 'supported_city/';
-String baseUrl = appUrl;
+String baseUrl = testUrl;
 const String appleBaseUrl = 'http://apptest.kammun.com';
-const String productionBaseUrl = appUrl;
+const String productionBaseUrl = testUrl;
 const String getCategoryApi = 'category/';
 const String syncCartApi = 'cart/sync_cart';
 

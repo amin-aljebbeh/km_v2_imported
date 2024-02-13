@@ -15,6 +15,7 @@ class AssignmentManagementWidget extends StatelessWidget {
       children: [
         if (order.shopper != null)
           if (int.parse(order.orderStatusId) < 5)
+            if(Services.hasPermission(context, assignOrderPermission))
             Padding(
                 padding: const EdgeInsets.all(8),
                 child: KammunButton(
