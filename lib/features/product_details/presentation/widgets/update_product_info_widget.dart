@@ -70,47 +70,61 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
               width: 150.w,
             ),
           ),
-          if(Services.hasPermission(context, upDateProductPermission))
-          IconButton(
-            icon: Icon(Icons.save, color: kmColors, size: 30),
-            onPressed: () async {
-              if (textController.text.isNotEmpty) {
-                if (widget.isForPriceRate) {
-                  StoreProvider.of<AppState>(context)
-                      .dispatch(UpdatePriceRateThresholdAction(threshold: textController.text, context: widget.ctx));
-                } else {
-                  String newValue = textController.text;
-                  if (widget.bodyKey == 'price') {
-                    double tempValue = double.parse(newValue.split('.')[0]);
-                    tempValue *= widget.priceFactor;
-                    tempValue += widget.increasePercentage;
-                    newValue = tempValue.toString();
-                  }
-                  bool result = await ProductsServices.updateProductsDetails(
-                      bodyKey: widget.bodyKey,
-                      value: newValue,
-                      isForSubWarehouse: widget.isForSubWarehouse,
-                      subWarehouseId: widget.productData.subWarehouseId.toString(),
-                      productId: widget.productId.toString());
-                  if (result) {
-                    widget.onSavePressed(newValue, result);
-                    if (Services.hasRole(context, supplierRole) && widget.bodyKey == 'price') {
-                      newValue = (int.parse(newValue.split('.')[0]) - widget.increasePercentage ?? 0).toString();
-                    }
-
-                    setState(() => textController.text = newValue);
-                  }
-                  if (result) {
-                    snackBar(success: result, message: 'تم التعديل بنجاح', context: context);
+          if (Services.hasPermission(context, upDateProductPermission))
+            IconButton(
+              icon: Icon(Icons.save, color: kmColors, size: 30),
+              onPressed: () async {
+                if (textController.text.isNotEmpty) {
+                  if (widget.isForPriceRate) {
+                    StoreProvider.of<AppState>(context).dispatch(
+                        UpdatePriceRateThresholdAction(
+                            threshold: textController.text,
+                            context: widget.ctx));
                   } else {
-                    snackBar(success: result, message: 'فشلت عملية التعديل يرجى المحاولة مجدداً', context: context);
+                    String newValue = textController.text;
+                    if (widget.bodyKey == 'price') {
+                      double tempValue = double.parse(newValue.split('.')[0]);
+                      tempValue *= widget.priceFactor;
+                      tempValue += widget.increasePercentage;
+                      newValue = tempValue.toString();
+                    }
+                    bool result = await ProductsServices.updateProductsDetails(
+                        bodyKey: widget.bodyKey,
+                        value: newValue,
+                        isForSubWarehouse: widget.isForSubWarehouse,
+                        subWarehouseId:
+                            widget.productData.subWarehouseId.toString(),
+                        productId: widget.productId.toString());
+                    if (result) {
+                      widget.onSavePressed(newValue, result);
+                      if (Services.hasRole(context, supplierRole) &&
+                          widget.bodyKey == 'price') {
+                        newValue = (int.parse(newValue.split('.')[0]) -
+                                    widget.increasePercentage ??
+                                0)
+                            .toString();
+                      }
+
+                      setState(() => textController.text = newValue);
+                    }
+                    if (result) {
+                      snackBar(
+                          success: result,
+                          message: 'تم التعديل بنجاح',
+                          context: context);
+                    } else {
+                      snackBar(
+                          success: result,
+                          message: 'فشلت عملية التعديل يرجى المحاولة مجدداً',
+                          context: context);
+                    }
                   }
+                } else {
+                  Toast.show('الحقل فارغ !', context,
+                      duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                 }
-              } else {
-                Toast.show('الحقل فارغ !', context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-              }
-            },
-          ),
+              },
+            ),
         ],
       ),
     );

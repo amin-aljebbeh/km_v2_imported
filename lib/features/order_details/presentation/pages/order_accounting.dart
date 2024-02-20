@@ -76,7 +76,8 @@ class _OrderAccountingState extends State<OrderAccounting> {
                             .dispatch(AddImageToOrderAction(context: context, orderId: widget.order.id, image: image)),
                       ),
                       if (Services.hasPermission(context, transactionPermission))
-                        KammunButton(
+                        if(!Services.hasRole(context,productsControllerRole ) && !Services.hasRole(context,operationManagerRole ) &&!Services.hasRole(context,superAdminRole )  )
+                          KammunButton(
                           color: kmColors,
                           onTap: () {
                             if (widget.order.shopper == null) {

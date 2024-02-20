@@ -3,19 +3,24 @@ import 'package:kammun_app/features/search_orders/presentation/redux/search_orde
 import 'package:kammun_app/features/search_orders/presentation/widgets/search_orders_filter_widget.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../orders/presentation/pages/orders_page.dart';
 
 class SearchOrdersPage extends StatelessWidget {
   const SearchOrdersPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var store = StoreProvider.of<AppState>(context);
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
         return TemporaryLoading(
-          onPop: () => StoreProvider.of<AppState>(context)
-              .dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.none)),
+          onPop: () {
+            store.dispatch(SetSearchStatusFilter(filter: 0));
+            store.dispatch(SetSearchPage(page: 1));
+            Navigator.push(context, MaterialPageRoute(builder: (screenContext) =>  const OrdersPage()));
+            },
           child: Scaffold(
             backgroundColor: Theme.of(context).primaryColorLight,
             resizeToAvoidBottomInset: false,

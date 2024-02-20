@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/orders/presentation/pages/orders_page.dart';
+
 import '../../../../core/core_importer.dart';
 import '../redux/search_orders_action.dart';
 
@@ -19,8 +21,9 @@ class SearchOrdersFilterWidget extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.arrow_back_ios_rounded, color: kmColors, size: 45),
                 onPressed: () {
-                  store.dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.none));
-                  Navigator.of(context).pop();
+
+                  Navigator.push(context, MaterialPageRoute(builder: (screenContext) => const OrdersPage()));
+                  store.dispatch(SetSearchPage(page: 1));
                 },
               ),
             ),
@@ -73,7 +76,6 @@ class SearchOrdersFilterWidget extends StatelessWidget {
                   icon: Icon(Icons.arrow_forward, size: 40, color: kmColors),
                 ),
               ),
-            if (state.searchOrdersState.searchOrdersType == SearchOrdersTypes.id) const SizedBox(),
           ],
         );
       },

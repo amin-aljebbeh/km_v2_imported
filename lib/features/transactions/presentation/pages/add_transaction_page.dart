@@ -192,7 +192,9 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                             height: 50,
                             text: 'كشف حساب',
                           ),
-                          KammunButton(
+                          if(!Services.hasRole(context,productsControllerRole ) && !Services.hasRole(context,operationManagerRole ) &&!Services.hasRole(context,superAdminRole )  )
+
+                            KammunButton(
                             height: 50,
                             text: addTransaction,
                             color: !completeData() ? searchGreyColor : primaryColor,

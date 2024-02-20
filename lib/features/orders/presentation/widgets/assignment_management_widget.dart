@@ -62,7 +62,9 @@ class AssignmentManagementWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-        Expanded(
+        if( Services.hasPermission(context, assignOrderPermission))
+
+          Expanded(
           child: KSearchableDropdown(
             hint: order.shopper != null ? order.shopper.name : chooseShopper,
             search: shopper,

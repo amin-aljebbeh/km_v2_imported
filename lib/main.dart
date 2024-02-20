@@ -17,9 +17,9 @@ Future<void> main() async {
   await inject();
   final Store<AppState> store = AppRedux.init();
   await ScreenUtil.ensureScreenSize();
-  await Firebase.initializeApp(
+  /*await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );
+  );*/
   //FirebaseAnalytics.instance.logEvent(name: 'Kammun');
 
 

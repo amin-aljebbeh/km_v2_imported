@@ -20,9 +20,6 @@ class SearchOrderAction implements SearchOrdersAction {
   handle({Store<AppState> store}) {
     ApiProvider.cancelOrdersRequests();
     store.dispatch(StartLoading());
-    store.dispatch(SetSearchOrders(orders: []));
-    store.dispatch(SetSearchStatusFilter(filter: 0));
-    store.dispatch(SetSearchPage(page: 1));
     store.dispatch(SetSearchOrdersType(searchOrdersType: searchOrdersType));
     switch (searchOrdersType) {
       case SearchOrdersTypes.phoneNumber:
