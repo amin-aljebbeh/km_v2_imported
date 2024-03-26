@@ -17,6 +17,7 @@ import '../widgets/remove_product_widget.dart';
 
 class ProductDetailView extends StatefulWidget {
   final ProductEntity product;
+  final int productId;
   final Function(String) onAddBarcode;
   final Function(String) onChangePrice;
   final Function(String) onChangePriceFactor;
@@ -31,7 +32,7 @@ class ProductDetailView extends StatefulWidget {
     this.onChangePrice,
     this.onChangeUnit,
     this.onChangeQuantity,
-    this.onChangeSubWarehouse, this.onChangePriceFactor,
+    this.onChangeSubWarehouse, this.onChangePriceFactor, this.productId,
   }) : super(key: key);
 
   @override
@@ -139,7 +140,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           child: Center(
                             child: LabelRow(
                                 rightSideText: 'ProductId : ',
-                                leftSideText: product.id.toString(),
+                                leftSideText: widget.productId.toString(),
                                 leftSideStyle: informationStyle),
                           ),
                         ),
@@ -163,7 +164,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 product.price = price;
                               });
                                     widget.onChangePrice(price);} ,onChangePriceFactor: (priceFactor) { widget.onChangePriceFactor(priceFactor);}),
-                              Services.hasRole(context, supplierRole) &&
+                              Services.hasPermission(context, upDateProductPermission)||
                                   (state.generalInformationState.subWarehouses
                                       .any((element) => element.id == product.subWarehouseId))
                                   ? Padding(

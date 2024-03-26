@@ -1,9 +1,8 @@
-import 'package:kammun_app/features/orders/presentation/widgets/order_widget.dart';
 import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_action.dart';
 import 'package:kammun_app/features/search_orders/presentation/widgets/search_orders_filter_widget.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../orders/presentation/pages/orders_page.dart';
+import '../widgets/search_order_widget.dart';
 
 class SearchOrdersPage extends StatelessWidget {
   const SearchOrdersPage({Key key}) : super(key: key);
@@ -19,7 +18,7 @@ class SearchOrdersPage extends StatelessWidget {
           onPop: () {
             store.dispatch(SetSearchStatusFilter(filter: 0));
             store.dispatch(SetSearchPage(page: 1));
-            Navigator.push(context, MaterialPageRoute(builder: (screenContext) =>  const OrdersPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (screenContext) =>  const HomePage()));
             },
           child: Scaffold(
             backgroundColor: Theme.of(context).primaryColorLight,
@@ -60,7 +59,7 @@ class SearchOrdersPage extends StatelessWidget {
                             state.searchOrdersState.orders[index].orderArithmeticOperations(context);
                             state.searchOrdersState.orders[index].orderProfits(context: context);
                           }
-                          return OrderWidget(order: state.searchOrdersState.orders[index]);
+                          return SearchOrderWidget(order: state.searchOrdersState.orders[index]);
                         },
                       ),
                     ),

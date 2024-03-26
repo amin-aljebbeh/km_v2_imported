@@ -9,6 +9,7 @@ class SubWarehouseEntity {
   final SubWarehouseLevelPivotEntity levelPivot;
   final double discountPercentage;
   final String allowShopperAssign;
+    int requireAuthCodes;
   final List<ProductEntity> products;
 
   SubWarehouseEntity({
@@ -19,5 +20,6 @@ class SubWarehouseEntity {
     this.discountPercentage,
     this.allowShopperAssign,
     this.products,
+    this.requireAuthCodes
   });
 }

@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/core_importer.dart';
 import '../../../coupons/presentation/redux/coupon_action.dart';
 import '../../../orders/presentation/redux/orders_action.dart';
+import '../../data/models/palance_model.dart';
 import '../../domain/entities/user_entity.dart';
 
 abstract class UsersAction {
@@ -52,4 +53,10 @@ class SetUser {
   final UserEntity userEntity;
 
   SetUser({this.userEntity});
+}
+
+class SetBalance {
+  final BalanceModel balance;
+
+  SetBalance({this.balance});
 }

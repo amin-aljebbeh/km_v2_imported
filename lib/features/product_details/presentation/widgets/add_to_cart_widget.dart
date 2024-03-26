@@ -68,6 +68,7 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
             ProductEntity productData = product;
             productData.pivot = OrderProductPivotEntity(increaseValue: product.increasePercentage);
             productData.price = price;
+            print( productData.price);
             StoreProvider.of<AppState>(context).dispatch(UpdateCartProducts(
                 productId: productData.id, quantity: numberOfOrders, product: productData, context: context));
           },

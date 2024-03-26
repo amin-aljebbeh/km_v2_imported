@@ -1,22 +1,23 @@
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/orders/domain/entities/order_entity.dart';
 
+import '../../../order_details/order_details_services.dart';
+import '../../../order_details/presentation/redux/order_details_action.dart';
 import '../../../orders/domain/entities/order_image_entity.dart';
 import '../../../transactions/presentation/pages/add_transaction_page.dart';
-import '../../order_details_services.dart';
-import '../redux/order_details_action.dart';
 
-class OrderAccounting extends StatefulWidget {
+
+class SearchOrderAccounting extends StatefulWidget {
   final OrderEntity order;
   final Function onDelete;
 
-  const OrderAccounting({Key key, @required this.order, this.onDelete}) : super(key: key);
+  const SearchOrderAccounting({Key key, @required this.order, this.onDelete}) : super(key: key);
 
   @override
   _OrderAccountingState createState() => _OrderAccountingState();
 }
 
-class _OrderAccountingState extends State<OrderAccounting> {
+class _OrderAccountingState extends State<SearchOrderAccounting> {
   List<InkWell> imageWidgets = [];
   List<OrderImageEntity> images = [];
 

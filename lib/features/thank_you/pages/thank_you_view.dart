@@ -66,7 +66,7 @@ class ThankYouViewState extends State<ThankYouView> {
                     height: 50,
                     onTap: () {
                       StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 2));
-                      StoreProvider.of<AppState>(context).dispatch(GetOrdersAction());
+                      StoreProvider.of<AppState>(context).dispatch(GetOrdersAction( context: context));
                       Navigator.of(context)
                           .pushNamedAndRemoveUntil(HomePage.routeName, (Route<dynamic> route) => false);
                     },

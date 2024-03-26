@@ -71,7 +71,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                     },
                     icon: Icons.list_rounded,
                     text: 'طلبات مالية'),
-                if(!Services.hasRole(context,productsControllerRole ) && !Services.hasRole(context,operationManagerRole ) && !Services.hasRole(context,superAdminRole )  )
+                if(!Services.hasRole(context,productsControllerRole ) || !Services.hasRole(context,operationManagerRole )|| !Services.hasRole(context,superAdminRole)  )
 
                     SideBarRow(
                       onTap: () => Navigator.push(

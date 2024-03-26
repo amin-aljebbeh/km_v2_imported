@@ -27,6 +27,7 @@ class ProductModel extends ProductEntity {
     int warehouseId,
     int isFeatured,
     int priority,
+    purchasePrice,
     int numberOfVisits,
     double minThreshold,
     int increasePercentage,
@@ -38,8 +39,10 @@ class ProductModel extends ProductEntity {
     int numberOfSales,
     List<BarcodeModel> barcodes,
     int deleteTimes,
+    int productId ,
     String alertProductsCount,
   }) : super(
+    productId: productId,
           id: id,
           name: name,
           description: description,
@@ -60,6 +63,7 @@ class ProductModel extends ProductEntity {
           warehouseId: warehouseId,
           isFeatured: isFeatured,
           priority: priority,
+    purchasePrice: purchasePrice,
           numberOfVisits: numberOfVisits,
           minThreshold: minThreshold,
           increasePercentage: increasePercentage,
@@ -76,7 +80,9 @@ class ProductModel extends ProductEntity {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'] ?? json['product_id'] ?? 0,
+      id: json['id'] ?? 0,
+      purchasePrice: json['purchase_price'].toString(),
+      productId: json['product_id'] ?? 0,
       name: json['name'] ?? json['nameProduct'],
       description: json['description'],
       unit: json['unit'].toString(),
@@ -115,6 +121,7 @@ class ProductModel extends ProductEntity {
           : List<BarcodeModel>.from(json['barcodes'].map((x) => BarcodeModel.fromJson(x))),
       deleteTimes: json['count_deleted'] ?? -1,
       availableQuantity: json['available_quantity'] == null ? 'null' : json['available_quantity'].toString(),
+
       pivot: json['pivot'] == null ? null : OrderProductPivotModel.fromJson(json['pivot']),
     );
   }

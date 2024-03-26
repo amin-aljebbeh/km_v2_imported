@@ -269,7 +269,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          if(!Services.hasRole(context,productsControllerRole ) && !Services.hasRole(context,operationManagerRole ) && !Services.hasRole(context,superAdminRole )  )
+                          if(!Services.hasRole(context,productsControllerRole ) || !Services.hasRole(context,operationManagerRole )|| !Services.hasRole(context,superAdminRole)  )
                           KammunButton(
                             width: MediaQuery.of(context).size.width / 3,
                             height: 50,

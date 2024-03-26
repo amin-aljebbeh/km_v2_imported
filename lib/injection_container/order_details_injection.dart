@@ -1,3 +1,4 @@
+import 'package:kammun_app/features/order_details/domain/use_cases/auth_code_order_use_case.dart';
 import 'package:kammun_app/features/order_details/domain/use_cases/order_details_use_cases.dart';
 
 import '../core/core_importer.dart';
@@ -12,8 +13,10 @@ Future<void> injectOrderDetails() async {
   sl.registerLazySingleton(() => AddImageToOrderUseCase(orderDetailsRepository: sl()));
   sl.registerLazySingleton(() => DeleteImageFromOrderUseCase(orderDetailsRepository: sl()));
   sl.registerLazySingleton(() => UpdateOrderProductUseCase(orderDetailsRepository: sl()));
+  sl.registerLazySingleton(() => AuthCodeOrderUserUseCase(orderDetailsRepository: sl()));
+
   sl.registerLazySingleton<OrderDetailsUseCases>(() => OrderDetailsUseCases(
-      addImageToOrderUseCase: sl(), deleteImageFromOrderUseCase: sl(), updateOrderProductUseCase: sl()));
+      addImageToOrderUseCase: sl(), deleteImageFromOrderUseCase: sl(), updateOrderProductUseCase: sl(), authCodeOrderUserUseCase: sl()));
   sl.registerLazySingleton<OrderDetailsRepository>(
       () => OrderDetailsRepositoryImplement(orderDetailsRemoteDataSource: sl(), repositoryFactory: sl()));
   sl.registerLazySingleton<OrderDetailsRemoteDataSource>(() => OrderDetailsRemoteDataSourceImplement());

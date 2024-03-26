@@ -1,5 +1,5 @@
 import 'dart:ui' as ui;
-
+import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,11 +17,7 @@ Future<void> main() async {
   await inject();
   final Store<AppState> store = AppRedux.init();
   await ScreenUtil.ensureScreenSize();
-  /*await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );*/
-  //FirebaseAnalytics.instance.logEvent(name: 'Kammun');
-
+  HttpOverrides.global = MyHttpOverrides();
 
   RenderErrorBox.backgroundColor = Colors.transparent;
   RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
@@ -74,5 +70,12 @@ class _MyAppState extends State<MyApp> {
         );
       },
     );
+  }
+}
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }

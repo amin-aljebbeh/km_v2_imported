@@ -43,6 +43,7 @@ class OrderEntity {
   String walletValue;
   String couponValue;
   int tips;
+  List<OrderCodeEntity> subWarehouseAuthCodes;
 
   OrderEntity({
     this.id,
@@ -76,6 +77,7 @@ class OrderEntity {
     this.tips,
     this.userPriceRating,
     this.user,
+    this.subWarehouseAuthCodes
   });
 
   orderArithmeticOperations(BuildContext context) {
@@ -195,4 +197,10 @@ class OrderAccountingRow {
     this.increaseValuesSum,
     this.directDiscount,
   });
+}
+class OrderCodeEntity {
+  OrderCodeEntity({this.id,});
+
+  int id;
+
 }

@@ -8,4 +8,6 @@ abstract class OrderDetailsRepository {
   Future<Either<Failure, Unit>> addImageToOrder({int orderId, File image});
 
   Future<Either<Failure, Unit>> deleteImageFromOrder({int imageId});
+  Future<Either<Failure, Unit>> authCodeOrder({ int orderId, String code , int subWareHouseId});
+
 }

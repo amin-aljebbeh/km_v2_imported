@@ -1,6 +1,7 @@
 import '../../../../core/core_importer.dart';
 import '../../../products/domain/entities/product_entity.dart';
 import '../price_file_redux/price_file_action.dart';
+import '../widget/inventory_products_widget.dart';
 
 class PriceFileProduct extends StatefulWidget {
   const PriceFileProduct({Key key}) : super(key: key);
@@ -135,7 +136,7 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                                             }
                                           }
                                           if (state.priceFileState.priceSelected == 1) attached = false;
-                                          return InventoryProductWidget(
+                                          return InventoryProductCard(
                                             index: index,
                                             onChangeSubWarehouse: (id) =>
                                                 showList[index].subWarehouseId = int.parse(id),

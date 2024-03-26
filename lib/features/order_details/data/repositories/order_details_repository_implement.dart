@@ -29,4 +29,11 @@ class OrderDetailsRepositoryImplement implements OrderDetailsRepository {
         function: () => orderDetailsRemoteDataSource.updateOrderProduct(
             orderId: orderId, productId: productId, updateKey: updateKey, updateValue: updateValue));
   }
+
+  @override
+  Future<Either<Failure, Unit>> authCodeOrder({int orderId, String code, int subWareHouseId}) async {
+    return await repositoryFactory.failureUnitRepo(
+        function: () =>
+            orderDetailsRemoteDataSource.authCodeOrder(orderId: orderId,  code: code , subWareHouseId: subWareHouseId));
+  }
 }

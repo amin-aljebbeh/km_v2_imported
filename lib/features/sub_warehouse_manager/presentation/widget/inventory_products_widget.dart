@@ -9,7 +9,7 @@ import 'package:kammun_app/features/store/widgets/store_view_category_grid.dart'
 import '../../../../core/core_importer.dart';
 import '../../../products_view/pages/add_products_to_sub_warehouse.dart';
 
-class InventoryProductWidget extends StatefulWidget {
+class InventoryProductCard extends StatefulWidget {
   final Function(bool) onChangeStatus;
   final int oldPrice;
   final ProductEntity productData;
@@ -29,7 +29,7 @@ class InventoryProductWidget extends StatefulWidget {
   final Function(String) onChangeQuantity;
   final Function(String) onChangeSubWarehouse;
 
-  const InventoryProductWidget({
+  const InventoryProductCard({
     Key key,
     this.onChangeStatus,
     this.oldPrice,
@@ -52,10 +52,10 @@ class InventoryProductWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<InventoryProductWidget> createState() => _InventoryProductWidgetState();
+  State<InventoryProductCard> createState() => _InventoryProductCardState();
 }
 
-class _InventoryProductWidgetState extends State<InventoryProductWidget> {
+class _InventoryProductCardState extends State<InventoryProductCard> {
   _unAttachProduct() async {
     bool result = await ProductsServices.unAttachProductsToSubWarehouseService(
         productsId: widget.productData.productId.toString(), subWarehouse: widget.id);
@@ -85,7 +85,7 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProductDetailView(
-                      productId: int.parse(product.images[0].productId),
+                      productId:product.productId ,
                       product: product,
                       onChangeSubWarehouse: (id) => {product.subWarehouseId = int.parse(id), widget.onChangeSubWarehouse(id)},
                       onChangePrice: (newValue) => {product.price = newValue, widget.onChangePrice(newValue)},
@@ -124,7 +124,7 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                                 padding: const EdgeInsets.only(top: 6, bottom: 8),
                                 child: Text(
                                   product.quantity + ' ' + (product.unit != 'null' ? product.unit : ''),
-                                  style: mainStyle.copyWith(
+                                  style: mainStyle.copyWith( 
                                       fontWeight: FontWeight.w400, color: primaryColor, fontSize: 17),
                                 ),
                               ),
@@ -187,10 +187,10 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                                 isForSubWarehouse: true,
                                 preState: active,
                                 subWarehouseId: int.parse(widget.id),
-                                productId: product.images[0].productId.toString(),
+                                productId: product.productId.toString(),
                                 onChange: (int isActive, bool result) {
                                   if (result) active = isActive;
-                                  widget.onChangeStatus(result);
+                                  // widget.onChangeStatus(result);
                                 },
                                 height: 58,
                                 width: 69,

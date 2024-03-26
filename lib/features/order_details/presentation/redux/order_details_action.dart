@@ -1,11 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
+import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 import 'package:kammun_app/features/search_orders/domain/entities/get_order_response_entity.dart';
 
 import '../../../order_details/presentation/pages/invoice_view.dart';
 import '../../../orders/domain/entities/show_data_entity.dart';
-import '../../../orders/orders_services.dart';
 
+import '../../../orders/orders_services.dart';
+import '../../../orders/presentation/redux/orders_action.dart';
 abstract class OrderDetailsAction {
   handle({@required Store<AppState> store});
 }
@@ -89,6 +91,30 @@ class UpdateOrderProductAction extends OrderDetailsAction {
     either.fold(
         (failure) => snackBar(success: false, message: 'فشلت عملية تعديل الطلب يرجى المحاولة مجدداً', context: context),
         (_) => snackBar(success: true, message: 'نجحت عملية تعديل الطلب', context: context));
+    store.dispatch(StopLoading());
+  }
+}
+
+class AuthCodeOrderAction implements OrderDetailsAction {
+  final BuildContext context;
+  final int orderId;
+  final int subWareHouseId;
+  final String code;
+  final ProductEntity product;
+
+
+  AuthCodeOrderAction({this.subWareHouseId, this.code,this.orderId, this.context,  this.product});
+
+  @override
+  handle({Store<AppState> store}) async {
+    store.dispatch(StartLoading());
+    Either either = await store.state.orderDetailsState.orderDetailsUseCases.authCodeOrderUserUseCase(
+        code: code, orderId: orderId , subWareHouseId: subWareHouseId);
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'فشلت عملية التحقق الرجاء إعادة الإرسال مجدداً')),
+            (res) {
+              StoreProvider.of<AppState>(context).dispatch(GetOrdersAction(context: context));
+              snackBar(message: 'تم التحقق بنجاح', success: true, context: context);
+        } );
     store.dispatch(StopLoading());
   }
 }

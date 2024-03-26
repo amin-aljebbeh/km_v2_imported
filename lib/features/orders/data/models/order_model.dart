@@ -39,6 +39,7 @@ class OrderModel extends OrderEntity {
     tips,
     userPriceRating,
     user,
+    subWarehouseAuthCodes
   }) : super(
           id: id,
           deliveryCost: deliveryCost,
@@ -71,6 +72,7 @@ class OrderModel extends OrderEntity {
           tips: tips,
           userPriceRating: userPriceRating,
           user: user,
+          subWarehouseAuthCodes: subWarehouseAuthCodes
         );
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
@@ -108,6 +110,7 @@ class OrderModel extends OrderEntity {
         collectingCost: json['collecting_cost'].toString(),
         walletValue: json['wallet_v'].toString(),
         couponValue: json['coupon_v'].toString(),
+        subWarehouseAuthCodes: json['sub_warehouse_auth_codes'] == null ? null: List<OrderCodeModel>.from(json['sub_warehouse_auth_codes'].map((x) => OrderCodeModel.fromJson(x)))
       );
 
   Map<String, dynamic> toJson() => {
@@ -125,4 +128,17 @@ class OrderModel extends OrderEntity {
         'supported_city_id': supportedCityId,
         'under_update': underUpdate,
       };
+}
+class OrderCodeModel extends OrderCodeEntity {
+  OrderCodeModel({id}) : super(id: id,);
+
+  factory OrderCodeModel.fromJson(Map<String, dynamic> json) => OrderCodeModel(
+    id: json['sub_warehouse_id'],
+
+  );
+
+  Map<String, dynamic> toJson() => {
+    'sub_warehouse_id': id,
+
+  };
 }

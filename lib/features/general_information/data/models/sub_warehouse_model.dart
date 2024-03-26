@@ -19,7 +19,7 @@ class SubWarehouseResponse {
 }
 
 class SubWarehouseModel extends SubWarehouseEntity {
-  SubWarehouseModel({id, name, directDiscount, levelPivot, discountPercentage, allowShopperAssign, products})
+  SubWarehouseModel({id, name, directDiscount, levelPivot, discountPercentage, allowShopperAssign, products , requireAuthCodes})
       : super(
           id: id,
           name: name,
@@ -28,10 +28,12 @@ class SubWarehouseModel extends SubWarehouseEntity {
           discountPercentage: discountPercentage,
           allowShopperAssign: allowShopperAssign,
           products: products,
+          requireAuthCodes: requireAuthCodes
         );
 
   factory SubWarehouseModel.fromJson(Map<String, dynamic> json) => SubWarehouseModel(
         id: json['id'],
+        requireAuthCodes: json['require_auth_codes']  ,
         name: json['name'],
         levelPivot: json['pivot'] == null
             ? null

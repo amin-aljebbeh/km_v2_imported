@@ -1,15 +1,17 @@
 import 'package:intl/intl.dart';
 import 'package:kammun_app/core/core_importer.dart';
+import 'package:kammun_app/features/users/data/models/palance_model.dart';
+import 'package:kammun_app/features/users/domain/entities/balance_entity.dart';
 
 import '../../domain/entities/admin_transaction_entity.dart';
 
-specificDayProfitWidget({BuildContext context, DateTime date, List<AdminTransactionEntity> transactions}) {
-  int kammunProfit = transactions.fold(0, (value, transaction) => value + int.parse(transaction.companyValue));
+specificDayProfitWidget({BuildContext context, String date, int company,int shoppers }) {
+  int kammunProfit = company;
 
-  int shopperProfit = transactions.fold(0, (value, transaction) => value + int.parse(transaction.shopperValue));
+  int shopperProfit = shoppers;
   showMyDialog(
     context: context,
-    title: 'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',
+    title: 'مرابح ${date+ ' ' }',
     content: Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [

@@ -67,6 +67,7 @@ class ProductWidgetState extends State<ProductWidget> {
               context,
               MaterialPageRoute(
                 builder: (context) => ProductDetailView(
+                  productId: int.parse(product.images[0].productId),
                   product: product,
                   onChangeSubWarehouse: (id) {
                     product.subWarehouseId = int.parse(id);
@@ -123,8 +124,10 @@ class ProductWidgetState extends State<ProductWidget> {
                                         fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                               ],
                             ),
-                            if (Services.hasRole(context, productsControllerRole))
-                              Row(
+                            Services.hasPermission(context, upDateProductPermission)||
+                                (state.generalInformationState.subWarehouses
+                                    .any((element) => element.id == product.subWarehouseId))
+                             ? Row(
                                 children: [
                                   if (product.barcodes.isEmpty) const Icon(KIcons.exclamation),
                                   BarcodeIcon(
@@ -135,7 +138,7 @@ class ProductWidgetState extends State<ProductWidget> {
                                     onAddBarcode: (result) => widget.onAddBarcode(result),
                                   ),
                                 ],
-                              ),
+                              ) : Container(),
                           ],
                         ),
                       ],

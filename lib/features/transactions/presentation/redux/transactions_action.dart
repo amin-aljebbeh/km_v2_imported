@@ -180,7 +180,7 @@ class ParticularDayProfits implements TransactionsAction {
     if (error) {
       store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));
     } else {
-      specificDayProfitWidget(context: context, date: date, transactions: transactions);
+      // specificDayProfitWidget(context: context, /*date: date*/ transactions: transactions);
     }
   }
 }

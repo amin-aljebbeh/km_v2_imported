@@ -38,6 +38,7 @@ class _InventoryFilterWidgetState extends State<InventoryFilterWidget> {
                 items: Services.inventorySubWarehouseNames(context),
                 onChanged: (value) {
                   subWarehouseFilter = value;
+
                   store.dispatch(SetInventorySubWarehouseId(
                       subWarehouseId: value != state.generalInformationState.subWarehouses.length
                           ? state.generalInformationState.subWarehouses[value].id

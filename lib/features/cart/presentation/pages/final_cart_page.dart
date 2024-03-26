@@ -155,7 +155,7 @@ class FinalCartPage extends StatelessWidget {
                                                 style: decisionButtonStyle.copyWith(color: Colors.black)),
                                           ],
                                         ),
-                                      if(Services.hasRole(context, agentRole)&&Services.hasRole(context, superAdminRole) )
+                                      if(Services.hasRole(context, agentRole)||Services.hasRole(context, superAdminRole) )
                                       KammunButton(
                                         color: primaryColor,
                                         child: Row(
@@ -247,17 +247,18 @@ class FinalCartPage extends StatelessWidget {
                                           List<InvoiceProductEntity> products = state.cartState.cartProducts
                                               .map((product) => InvoiceProductEntity(
                                                   quantity: product.productCount,
-                                                  price: int.parse(product.price.split('.')[0]) +
-                                                      (product.pivot == null ? 0 : product.pivot.increaseValue),
+                                                  price: int.parse(product.price.split('.')[0]) /*+
+                                                      (product.pivot == null ? 0 : product.pivot.increaseValue)*/,
                                                   productId: product.id))
                                               .toList();
+                                          print(products.toString());
                                           int purchasePrices = state.cartState.cartProducts.fold(
                                               0,
                                               (value, product) =>
                                                   value +
                                                   (product.productCount *
-                                                      (int.parse(product.price.split('.')[0]) +
-                                                          (product.pivot == null ? 0 : product.pivot.increaseValue))));
+                                                      (int.parse(product.price.split('.')[0]) /*+
+                                                          (product.pivot == null ? 0 : product.pivot.increaseValue)*/)));
                                           SubmitOrderEntity submitOrderEntity = SubmitOrderEntity(
                                               products: products,
                                               purchasePrices: purchasePrices,

@@ -6,6 +6,7 @@ import 'package:kammun_app/features/products/domain/entities/product_image_entit
 
 class ProductEntity {
   final int id;
+  final int productId;
   String name;
   String description;
   String unit;
@@ -36,9 +37,13 @@ class ProductEntity {
   final int numberOfSales;
   final List<BarcodeEntity> barcodes;
   final int deleteTimes;
+
   final String alertProductsCount;
 
+  final String purchasePrice;
+
   ProductEntity({
+    this.productId,
     this.id,
     this.name,
     this.description,
@@ -70,6 +75,6 @@ class ProductEntity {
     this.numberOfSales,
     this.barcodes,
     this.deleteTimes,
-    this.alertProductsCount,
+    this.alertProductsCount, this.purchasePrice,
   });
 }

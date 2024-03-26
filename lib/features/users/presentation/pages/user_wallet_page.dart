@@ -2,6 +2,7 @@ import 'package:kammun_app/features/transactions/presentation/redux/transactions
 
 import '../../../../core/core_importer.dart';
 import '../../../orders/domain/entities/order_entity.dart';
+import '../../../orders/presentation/redux/orders_action.dart';
 import '../../../search_orders/presentation/redux/search_orders_action.dart';
 import '../../../transactions/domain/entities/admin_transaction_entity.dart';
 
@@ -175,7 +176,6 @@ class _UserWalletPageState extends State<UserWalletPage> {
                                     onTap: () {
 
                                       Navigator.pop(context);
-                                      StoreProvider.of<AppState>(context).dispatch(SearchOrderAction(searchOrdersType: SearchOrdersTypes.id, context: context));
                                       StoreProvider.of<AppState>(context).dispatch(CreateTransactionAction(
                                           context: context,
                                           transactionEntity: AdminTransactionEntity(
@@ -185,6 +185,9 @@ class _UserWalletPageState extends State<UserWalletPage> {
                                             value: int.parse(valueController.text).abs(),
                                             orderId: widget.order.id,
                                           )));
+                                      StoreProvider.of<AppState>(context).dispatch(GetOrdersAction( context: context));
+                                      Navigator.push(context, MaterialPageRoute(builder: (screenContext) =>  const HomePage()));
+
 
                                     },
                                     width: 100,

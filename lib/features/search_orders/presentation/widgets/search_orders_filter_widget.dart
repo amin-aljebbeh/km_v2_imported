@@ -22,7 +22,7 @@ class SearchOrdersFilterWidget extends StatelessWidget {
                 icon: Icon(Icons.arrow_back_ios_rounded, color: kmColors, size: 45),
                 onPressed: () {
 
-                  Navigator.push(context, MaterialPageRoute(builder: (screenContext) => const OrdersPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (screenContext) => const HomePage()));
                   store.dispatch(SetSearchPage(page: 1));
                 },
               ),

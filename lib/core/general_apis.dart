@@ -8,17 +8,57 @@ import '../features/shoppers/data/models/shopper_level_model.dart';
 import '../features/shoppers/domain/entities/shopper_level_entity.dart';
 import '../features/shoppers/presentation/redux/shoppers_action.dart';
 import '../features/transactions/presentation/redux/transactions_action.dart';
+import '../features/transactions/presentation/widgets/specific_day_profit_widget.dart';
+import '../features/users/data/models/palance_model.dart';
+import '../features/users/presentation/redux/users_action.dart';
 import 'core_importer.dart';
 
 class GeneralApis {
   static getShoppers({BuildContext context}) async {
     try {
+
       var response = await ApiProvider.sendRequest(url: shopperApi, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
         StoreProvider.of<AppState>(context)
             .dispatch(SetShoppers(shoppers: shoppersFromJson(jsonEncode(response.data)).data));
       }
+    } catch (e) {
+      return null;
+    }
+  }
+  static Future<BalanceModel> getBalanceRefrech({BuildContext context}) async {
+    try {
+      SharedPreferences prefs = sl<SharedPreferences>();
+
+      var response = await ApiProvider.sendRequest(url: getBalanceApi, method: HttpMethods.get,queryParameters: { 'admin_id': int.parse(prefs.getString('adminId'))});
+
+      if (response.statusCode == successCode){
+        snackBar(message: 'تمّ تحديث الرصيد', success: true, context: context);
+
+        return Balance.fromJson(response.data).data;
+      }else{
+        snackBar(message: 'حدث خطأ اثناء التحديث ' , success: true, context: context);
+      }
+
+      return null ;
+    } catch (e) {
+      return null;
+    }
+  }
+  static Future<BalanceModel> getBalanceCalculate({BuildContext context , String date , int adminId}) async {
+    try {
+      var response = await ApiProvider.sendRequest(url: getBalanceApi, method: HttpMethods.get , queryParameters: {'date': date, 'admin_id': adminId});
+
+      if (response.statusCode == successCode){
+        specificDayProfitWidget(context: context, date: date, company:Balance.fromJson(response.data).data.companySum , shoppers:Balance.fromJson(response.data).data.shopperSum  );
+
+        return Balance.fromJson(response.data).data;
+      }else{
+        snackBar(message: 'حدث خطأ اثناء التحديث ' , success: true, context: context);
+      }
+
+      return null ;
     } catch (e) {
       return null;
     }
@@ -41,6 +81,20 @@ class GeneralApis {
 
       if (response.statusCode == successCode) return levelsFromJson(jsonEncode(response.data)).levels;
       return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<BalanceModel> getBalance() async {
+    try {
+      SharedPreferences prefs = sl<SharedPreferences>();
+
+      var response = await ApiProvider.sendRequest(url: getBalanceApi, method: HttpMethods.get , queryParameters: {'admin_id':int.parse(prefs.getString('adminId'))});
+
+      if (response.statusCode == successCode) return Balance.fromJson(response.data).data; // Assuming JSON parsing
+
+      return null ;
     } catch (e) {
       return null;
     }
@@ -168,12 +222,17 @@ class GeneralApis {
           Services.hasRole(context, accountingRole)) {
         await GeneralApis.getShoppers(context: context);
         final List<ShopperLevelEntity> levels = await GeneralApis.getLevels();
+
         StoreProvider.of<AppState>(context).dispatch(SetLevels(levels: levels));
+
       }
+      final BalanceModel balance = await GeneralApis.getBalance();
+      StoreProvider.of<AppState>(context).dispatch(SetBalance(balance: balance));
+
       if (Services.hasPermission(context, transactionPermission)) {
         store.dispatch(GetTransactionCategoriesAction());
       }
-
+      print(int.parse(prefs.getString('adminId')));
       if (responses[1] == null) {
         Services.initializeVariables(context);
       } else {

@@ -2,29 +2,29 @@ import 'package:kammun_app/features/order_details/presentation/pages/order_accou
 
 import '../../../../core/core_importer.dart';
 import '../../../orders/domain/entities/order_entity.dart';
-import 'order_products_page.dart';
+import 'search_order_products_page.dart';
 
-class OrderTabsPage extends StatefulWidget {
+class SearchOrderTabsPage extends StatefulWidget {
   final OrderEntity order;
   final bool deleted;
 
-  const OrderTabsPage({Key key, this.order, this.deleted = false}) : super(key: key);
+  const SearchOrderTabsPage({Key key, this.order, this.deleted = false}) : super(key: key);
 
   @override
   _OrderTabsPageState createState() => _OrderTabsPageState();
 }
 
-class _OrderTabsPageState extends State<OrderTabsPage> with SingleTickerProviderStateMixin {
+class _OrderTabsPageState extends State<SearchOrderTabsPage> with SingleTickerProviderStateMixin {
   List<Widget> tabList = [];
   List<Widget> screenList = [];
   TabController controller;
 
   tabBarList() {
     tabList.add(Tab(child: Center(child: Text('المنتجات', style: tabStyle))));
-    screenList.add(OrderProductsPage(order: widget.order, deleted: false));
+    screenList.add(SearchOrderProductsPage(order: widget.order, deleted: false));
     if (widget.deleted) {
       tabList.add(Center(child: Tab(child: Center(child: Text(' المحذوفة', style: tabStyle)))));
-      screenList.add(OrderProductsPage(order: widget.order, deleted: true));
+      screenList.add(SearchOrderProductsPage(order: widget.order, deleted: true));
     }
     tabList.add(Tab(child: Center(child: Text('الحسابات', style: tabStyle))));
     screenList.add(OrderAccounting(order: widget.order, onDelete: () => controller.animateTo(0)));

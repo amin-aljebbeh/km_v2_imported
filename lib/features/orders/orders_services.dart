@@ -96,7 +96,7 @@ moveOrderProductsToCart({BuildContext context, List<ProductEntity> orderProducts
   orderProducts.removeWhere((element) => element.pivot.deletedAt != 'null');
   for (int i = 0; i < orderProducts.length; i++) {
     orderProducts[i].price =
-        (int.parse(orderProducts[i].pivot.purchasePrice.split('.')[0]) - orderProducts[i].pivot.increaseValue)
+        (int.parse(orderProducts[i].purchasePrice.split('.')[0])/* - orderProducts[i].pivot.increaseValue*/)
             .toString();
 
     orderProducts[i].productCount = int.parse(orderProducts[i].pivot.quantity);

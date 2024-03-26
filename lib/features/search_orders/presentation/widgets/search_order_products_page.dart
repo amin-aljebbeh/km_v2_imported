@@ -2,23 +2,24 @@ import 'package:kammun_app/features/search_orders/presentation/redux/search_orde
 
 import '../../../../core/core_importer.dart';
 import '../../../general_information/data/models/sub_warehouse_model.dart';
+import '../../../order_details/order_details_services.dart';
+import '../../../order_details/presentation/widgets/supplier_order_details_widget.dart';
 import '../../../orders/domain/entities/order_entity.dart';
 import '../../../orders/presentation/redux/orders_action.dart';
 import '../../../products/domain/entities/product_entity.dart';
-import '../../order_details_services.dart';
-import '../widgets/supplier_order_details_widget.dart';
 
-class OrderProductsPage extends StatefulWidget {
+
+class SearchOrderProductsPage extends StatefulWidget {
   final OrderEntity order;
   final bool deleted;
   final Map<int, bool> authorizedWarehouses;
-  const OrderProductsPage({Key key, this.order, this.deleted,    this.authorizedWarehouses = const {}}) : super(key: key);
+  const SearchOrderProductsPage({Key key, this.order, this.deleted,    this.authorizedWarehouses = const {}}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => OrderProductsPageState();
 }
 
-class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeepAliveClientMixin<OrderProductsPage> {
+class OrderProductsPageState extends State<SearchOrderProductsPage> with AutomaticKeepAliveClientMixin<SearchOrderProductsPage> {
   List<ProductEntity> productsAry;
 
   @override
@@ -28,11 +29,11 @@ class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeep
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
-
-            productsAry = orderProducts(
-                deleted: widget.deleted,
-                products: state.ordersState.orders.firstWhere((element) => element.id == widget.order.id).products,
-                context: context);
+        productsAry = orderProducts(
+            deleted: widget.deleted,
+            products:
+            state.searchOrdersState.orders.firstWhere((element) => element.id == widget.order.id).products,
+            context: context);
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColorLight,
           body: Column(
@@ -71,12 +72,11 @@ class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeep
                           }
                         }
                       },
-                      // orderId: widget.order.id,
-                      // reqAuthCode: state.adminsState.admin.subWarehouses
-                      //     .firstWhere((subWarehouse) => subWarehouse.id == productsAry[index].pivot.subWarehouseId,
-                      //     )
-                      //     .requireAuthCodes,
-                      // order: widget.order,
+                      /*orderId: widget.order.id,
+                      reqAuthCode: state.adminsState.admin.subWarehouses
+                          .firstWhere((subWarehouse) => subWarehouse.id == productsAry[index].pivot.subWarehouseId,
+                          )
+                          .requireAuthCodes,*/
                       productData: productsAry[index],
                       newSubWarehouse: newSubWarehouse(index),
 
