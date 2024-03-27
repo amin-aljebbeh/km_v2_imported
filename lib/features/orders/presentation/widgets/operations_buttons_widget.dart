@@ -12,7 +12,6 @@ class OperationButtonsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var store = StoreProvider.of<AppState>(context);
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,

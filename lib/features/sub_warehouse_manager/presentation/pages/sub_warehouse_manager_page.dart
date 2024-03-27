@@ -2,7 +2,6 @@ import 'package:kammun_app/features/inventory/presentation/redux/inventory_actio
 
 import '../../../../core/core_importer.dart';
 import '../../../general_information/domain/entities/sub_warehouse_entity.dart';
-import '../../../general_information/domain/entities/warehouse_entity.dart';
 import '../redux/sub_warehouse_manager_action.dart';
 
 class SubWarehouseManagerPage extends StatelessWidget {
@@ -61,7 +60,6 @@ class SubWarehouseManagerPage extends StatelessWidget {
                                 ? Theme.of(context).primaryColor
                                 : searchGreyColor,
                             onTap: () {
-                              print('bassssssssam:${state.generalInformationState.subWarehouses}');
                               if (state.excelInventoryState.subWarehouseId != null) {
 
                                 StoreProvider.of<AppState>(context).dispatch(GoToInventoryPage(

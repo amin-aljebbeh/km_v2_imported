@@ -1,4 +1,3 @@
-// import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/features/general_information/domain/entities/warehouse_entity.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 import 'package:kammun_app/features/products_view/widgets/select_file.dart';
@@ -6,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../core/core_importer.dart';
 import '../../home/presentation/redux/home_action.dart';
-import '../../orders/presentation/redux/orders_action.dart';
 
 class AddProductsView extends StatefulWidget {
   final int categoryId;
@@ -124,16 +122,15 @@ class _AddProductsViewState extends State<AddProductsView> {
 
   @override
   void initState() {
-    if (widget.supplierCode != null)
+    if (widget.supplierCode != null) {
       supplierCodeController.text = widget.supplierCode;
+    }
     if (widget.productName != 'null') nameController.text = widget.productName;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var store = StoreProvider.of<AppState>(context);
-
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,
@@ -382,11 +379,13 @@ class _AddProductsViewState extends State<AddProductsView> {
       if (!productData.contains('اسم المنتج')) productData.add('اسم المنتج');
     }
     if (quantityController.text.isNotEmpty) {
-      if (productData.contains(quantityString))
+      if (productData.contains(quantityString)) {
         productData.remove(quantityString);
+      }
     } else {
-      if (!productData.contains(quantityString))
+      if (!productData.contains(quantityString)) {
         productData.add(quantityString);
+      }
     }
     if (unitController.text.isNotEmpty) {
       if (productData.contains(unitString)) productData.remove(unitString);
@@ -399,18 +398,22 @@ class _AddProductsViewState extends State<AddProductsView> {
       if (!productData.contains(priceFactorString)) productData.add(priceFactorString);
     }
     if (descriptionController.text.isNotEmpty) {
-      if (productData.contains(descriptionString))
+      if (productData.contains(descriptionString)) {
         productData.remove(descriptionString);
+      }
     } else {
-      if (!productData.contains(descriptionString))
+      if (!productData.contains(descriptionString)) {
         productData.add(descriptionString);
+      }
     }
     if (supplierCodeController.text.isNotEmpty) {
-      if (productData.contains(supplierCodeString))
+      if (productData.contains(supplierCodeString)) {
         productData.remove(supplierCodeString);
+      }
     } else {
-      if (!productData.contains(supplierCodeString))
+      if (!productData.contains(supplierCodeString)) {
         productData.add(supplierCodeString);
+      }
     }
     if (priceController.text.isNotEmpty) {
       if (productData.contains(priceString)) productData.remove(priceString);

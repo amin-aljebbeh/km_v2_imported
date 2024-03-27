@@ -1,21 +1,19 @@
-import 'package:kammun_app/features/transactions/presentation/redux/transactions_action.dart';
 import 'package:kammun_app/features/users/presentation/redux/users_action.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../orders/domain/entities/order_entity.dart';
 import '../../../profile/widgets/profile_container.dart';
-import '../../../transactions/domain/entities/admin_transaction_entity.dart';
 
-class ChangeNamberPhoneUser extends StatefulWidget {
+class ChangeNumberPhoneUser extends StatefulWidget {
   final OrderEntity order;
 
-  const ChangeNamberPhoneUser({Key key, this.order}) : super(key: key);
+  const ChangeNumberPhoneUser({Key key, this.order}) : super(key: key);
 
   @override
-  _ChangeNamberPhoneUserState createState() => _ChangeNamberPhoneUserState();
+  _ChangeNumberPhoneUserState createState() => _ChangeNumberPhoneUserState();
 }
 
-class _ChangeNamberPhoneUserState extends State<ChangeNamberPhoneUser> {
+class _ChangeNumberPhoneUserState extends State<ChangeNumberPhoneUser> {
   final formkey = GlobalKey<FormState>();
   bool allow = false;
 
@@ -108,8 +106,8 @@ class _ChangeNamberPhoneUserState extends State<ChangeNamberPhoneUser> {
                               if (phoneController.text.startsWith("09")) {
                                 setState(() {
                                   // Update the phone number directly in the state
-                                  widget.order.user.phone =
-                                      phoneController.text;
+                                  // widget.order.user.phone =
+                                  //     phoneController.text;
                                 });
                                 StoreProvider.of<AppState>(context).dispatch(
                                     ChangeNumberPhoneUserAction(

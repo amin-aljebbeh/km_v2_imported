@@ -203,7 +203,6 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 Toast.show('يرجى إدخال كافة البيانات', context,
                                     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                               } else {
-                                print(adminId);
                                 List<DialogButton> decisionButton = [
                                   DialogButton(
                                     text: 'نعم',

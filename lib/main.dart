@@ -1,14 +1,10 @@
 import 'dart:ui' as ui;
-import 'dart:io';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'core/core_importer.dart';
-import 'firebase_options.dart';
 import 'routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

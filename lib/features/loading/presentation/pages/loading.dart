@@ -34,7 +34,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
       bool userLoggedIn = await LoginServices.checkIfUserLoggedIn();
       if (userLoggedIn) {
         bool x = await GeneralApis.fetchStartInformation(context: context);
-        print('bassam');
         return x;
       }
       return 'userNotLoggedIn';

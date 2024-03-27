@@ -1,9 +1,6 @@
 import 'package:intl/intl.dart' as intl;
-import 'package:kammun_app/features/transactions/presentation/redux/transactions_action.dart';
-import 'package:kammun_app/features/transactions/presentation/widgets/specific_day_profit_widget.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../users/data/models/palance_model.dart';
 import '../../domain/entities/admin_transaction_entity.dart';
 
 class TransactionWidget extends StatelessWidget {
@@ -40,7 +37,6 @@ class TransactionWidget extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         onTap: () async {/*StoreProvider.of<AppState>(context).dispatch(
                             ParticularDayProfits(context: ctx, date: transaction.createdAt, adminId: adminId));*/
-                        final BalanceModel balance = await GeneralApis.getBalanceCalculate(adminId:adminId ,context: ctx,date: intl.DateFormat('yyyy-MM-dd', 'en').format(transaction.createdAt).toString());
                         // specificDayProfitWidget(context: context, date: intl.DateFormat('dd-MM-yyyy', 'en').format(transaction.createdAt), transactions:balance);
 
                         },

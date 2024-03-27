@@ -125,7 +125,7 @@ class GetAllOrdersAction implements OrdersAction {
         cancelToken: OrdersServices.cancelRequest,
         filterEvaluatedOrders: store.state.ordersState.rateFilter,
         pageNumber: store.state.ordersState.ordersPage);
-    either.fold((failure) { print('basssam :' ); store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));},
+    either.fold((failure) { store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));},
         (orders) => store.dispatch(FilterOrders(orders: orders)));
     store.dispatch(StopLoading());
   }

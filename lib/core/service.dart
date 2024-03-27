@@ -71,29 +71,6 @@ class Services {
     return list;
   }
 
-  static  List<DropdownMenuItem<String>> AdminNameList(BuildContext context) {
-    List<DropdownMenuItem<String>> list = [];
-
-    list.addAll(StoreProvider.of<AppState>(context)
-        .state
-        .adminsState
-        .transactionsActors
-        .map((admin) => DropdownMenuItem<String>(
-        child: Center(child: Text(admin.name , style: dropdownItemStyle)), value: admin.id.toString())));
-    return list;
-  }
-
-  static List<DropdownMenuItem<String>> AdminNameListTansiction(BuildContext context) {
-    List<DropdownMenuItem<String>> list = [];
-
-    list.addAll(StoreProvider.of<AppState>(context)
-        .state.adminsState.admins
-        .map((admin) => DropdownMenuItem<String>(
-        child: Center(child: Text(admin.name, style: dropdownItemStyle)),
-        value: admin.id.toString()))
-        .toList(),);
-    return list;
-  }
   static bool hasRole(BuildContext context, String slug) => StoreProvider.of<AppState>(context)
       .state
       .adminsState

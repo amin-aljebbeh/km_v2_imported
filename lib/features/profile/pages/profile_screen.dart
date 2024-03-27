@@ -112,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.only(top: 8),
                             child: Center(
                               child: LabelRow(
-                                  // rightSideText: 'الرصيد: ',
+                                  rightSideText: ' ',
                                   leftSideText: StringUtils()
                                       .oCcy
                                       .format(state.adminsState.admin.balance)
@@ -152,8 +152,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ? searchGreyColor
                                         : kmColors2),
                                 onPressed: () {
-                                  print(
-                                      'bassssssam${state.generalInformationState.subWarehouses}');
                                   StaticVariables.preferLeftSide
                                       ? Services.setPreferLeftSide(false)
                                       : {};

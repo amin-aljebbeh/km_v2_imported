@@ -67,7 +67,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       store.dispatch(NoError());
                       store.dispatch(FirstRequestsPage());
                       store.dispatch(GetTransactionRequestsAction());
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => TransactionRequestsPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const TransactionRequestsPage()));
                     },
                     icon: Icons.list_rounded,
                     text: 'طلبات مالية'),

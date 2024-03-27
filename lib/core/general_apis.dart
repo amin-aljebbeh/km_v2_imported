@@ -232,7 +232,6 @@ class GeneralApis {
       if (Services.hasPermission(context, transactionPermission)) {
         store.dispatch(GetTransactionCategoriesAction());
       }
-      print(int.parse(prefs.getString('adminId')));
       if (responses[1] == null) {
         Services.initializeVariables(context);
       } else {

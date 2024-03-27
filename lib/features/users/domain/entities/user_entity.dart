@@ -2,11 +2,11 @@ import 'package:kammun_app/core/core_importer.dart';
 
 class UserEntity extends Equatable {
   final int id;
-   String phone;
+  final String phone;
   final String balance;
   final int orderCount;
 
-   UserEntity({this.id, this.phone, this.balance, this.orderCount});
+   const UserEntity({this.id, this.phone, this.balance, this.orderCount});
 
   UserEntity copyWith({int id, String phone, String balance, int orderCount}) => UserEntity(
       id: id ?? this.id,

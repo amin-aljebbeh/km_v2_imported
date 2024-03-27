@@ -251,7 +251,6 @@ class FinalCartPage extends StatelessWidget {
                                                       (product.pivot == null ? 0 : product.pivot.increaseValue)*/,
                                                   productId: product.id))
                                               .toList();
-                                          print(products.toString());
                                           int purchasePrices = state.cartState.cartProducts.fold(
                                               0,
                                               (value, product) =>

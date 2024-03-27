@@ -6,7 +6,7 @@ import '../../core/core_importer.dart';
 class SwitchProductStatusWidget extends StatefulWidget {
   final double height;
   final double width;
-  int preState;
+  final int preState;
   final int subWarehouseId;
   final String productId;
   final Function(int newStat, bool result) onChange;
@@ -14,7 +14,7 @@ class SwitchProductStatusWidget extends StatefulWidget {
 
   final ProductEntity product;
 
-  SwitchProductStatusWidget({
+  const SwitchProductStatusWidget({
     Key key,
     @required this.preState,
     @required this.subWarehouseId,
@@ -34,10 +34,12 @@ class SwitchProductStatusWidget extends StatefulWidget {
 class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
   bool loading;
   bool isActive;
+  int preState;
 
   @override
   void initState() {
     loading = false;
+    preState = widget.preState;
     isActive = widget.preState == 1 ? true : false;
     super.initState();
   }
@@ -53,11 +55,11 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                 border: Border.all(
-                    color: widget.preState == 1 ? kmColors : searchGreyColor,
+                    color: preState == 1 ? kmColors : searchGreyColor,
                     width: 2)),
             child: Center(
               child: Switch(
-                value: widget.preState == 1,
+                value: preState == 1,
                 onChanged: (value) async {
                   setState(() => loading = true);
 
@@ -75,11 +77,11 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
 
                     setState(() {
                       loading = false;
-                      widget.preState = value ? 1 : 0; // تحديث قيمة preState
+                      preState = value ? 1 : 0; // تحديث قيمة preState
                     });
 
                     widget.onChange(
-                        widget.preState, result); // إبلاغ الوالد دائماً
+                        preState, result); // إبلاغ الوالد دائماً
 
                     snackBar(
                         success: result,

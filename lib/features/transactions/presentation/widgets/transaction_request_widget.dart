@@ -3,9 +3,6 @@ import 'package:kammun_app/features/transactions/domain/entities/transaction_req
 import 'package:kammun_app/features/transactions/presentation/redux/transactions_action.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../orders/presentation/redux/orders_action.dart';
-import '../../../orders/presentation/widgets/order_widget.dart';
-import '../../../search_orders/presentation/pages/search_orders_page.dart';
 import '../../../search_orders/presentation/redux/search_orders_action.dart';
 
 class TransactionRequestWidget extends StatelessWidget {
@@ -16,23 +13,6 @@ class TransactionRequestWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    snackBar({String message, bool success}) {
-      ScaffoldMessenger.of(context)
-        ..removeCurrentSnackBar()
-        ..showSnackBar(SnackBar(
-            content: Row(
-                crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Icon(success ? Icons.check_rounded : Icons.error_rounded,
-                  color: Colors.white),
-              Expanded(child: Text(message, style: flushBarStyle))
-            ]),
-            backgroundColor: success ? Colors.green : Colors.red,
-            shape: const StadiumBorder(),
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            duration: const Duration(seconds: 2)));
-    }
     var store = StoreProvider.of<AppState>(context);
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,

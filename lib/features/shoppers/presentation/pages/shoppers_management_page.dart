@@ -30,7 +30,6 @@ class _ShopperManagementPageState extends State<ShopperManagementPage> {
     _searchController.stream.listen((term) {
       searchTerm = term;
       setState(() {
-        print(term);
       });
 
     });

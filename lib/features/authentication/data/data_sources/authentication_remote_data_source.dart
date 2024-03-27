@@ -1,9 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:package_info_plus/package_info_plus.dart' as package_info;
-
 import '../../../../core/api/device_info_api.dart';
-import '../../../../core/api/ip_info_api.dart';
 import '../../../../core/api/package_info_api.dart';
 import '../../../../core/core_importer.dart';
 import '../models/login_admin_model.dart';
@@ -16,13 +12,10 @@ class AuthenticationRemoteDataSourceImplement
     implements AuthenticationRemoteDataSource {
   @override
   Future<Unit> login({String username, String password}) async {
-    final packageName = await PackageInfoApi.getPackageName();
     final appVersion = await PackageInfoApi.getAppVersion();
-    final ipAddress = await IpInfoApi.getIPAddress();
     final phone = await DeviceInfoApi.getPhoneInfo();
     final phoneVersion = await DeviceInfoApi.getPhoneVersion();
     final operatingSystem = await DeviceInfoApi.getOperatingSystem();
-    final screenResolution = await DeviceInfoApi.getScreenResolution();
 
     Map loginBody = {
       'username': username,
