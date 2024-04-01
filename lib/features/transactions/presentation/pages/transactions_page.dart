@@ -28,7 +28,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
   @override
   void initState() {
- shupperName = widget.shupperName;
+    shupperName = widget.shupperName;
     adminId = widget.adminId.toString();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!Services.hasRole(context, mainCollectorRole)) roleId = 3;
@@ -189,13 +189,13 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                   ),
                                   Expanded(
                                     child: KSearchableDropdown(
-                                      hint:  shupperName ?? 'اختر أدمن',
+                                      hint: shupperName ?? 'اختر أدمن',
                                       padding: 0,
                                       search: shupperName,
                                       items: state.adminsState.admins
                                           .map((admin) => DropdownMenuItem<String>(
                                               child: Center(child: Text(admin.name, style: dropdownItemStyle)),
-                                              value: admin.name ?? shupperName ))
+                                              value: admin.name ?? shupperName))
                                           .toList(),
                                       onChanged: (value) {
                                         myTransactions = false;
@@ -269,16 +269,19 @@ class _TransactionsPageState extends State<TransactionsPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          if(!Services.hasRole(context,productsControllerRole ) || !Services.hasRole(context,operationManagerRole )|| !Services.hasRole(context,superAdminRole)  )
-                          KammunButton(
-                            width: MediaQuery.of(context).size.width / 3,
-                            height: 50,
-                            padding: EdgeInsets.zero,
-                            text: addTransaction,
-                            color: primaryColor,
-                            onTap: () => Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => const AddTransactionPage(orderRequired: 0))),
-                          ),
+                          if (Services.hasRole(context, accountingRole) ||
+                              Services.hasRole(context, agentRole) ||
+                              Services.hasRole(context, collectorRole) ||
+                              Services.hasRole(context, mainCollectorRole))
+                            KammunButton(
+                              width: MediaQuery.of(context).size.width / 3,
+                              height: 50,
+                              padding: EdgeInsets.zero,
+                              text: addTransaction,
+                              color: primaryColor,
+                              onTap: () => Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => const AddTransactionPage(orderRequired: 0))),
+                            ),
                           if (adminId != null && adminId != 'null')
                             KammunButton(
                               width: MediaQuery.of(context).size.width / 3,

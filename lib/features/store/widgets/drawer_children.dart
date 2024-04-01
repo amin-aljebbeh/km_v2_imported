@@ -71,9 +71,11 @@ List<Widget> getDrawerChildren(BuildContext context) {
                     },
                     icon: Icons.list_rounded,
                     text: 'طلبات مالية'),
-                if(!Services.hasRole(context,productsControllerRole ) || !Services.hasRole(context,operationManagerRole )|| !Services.hasRole(context,superAdminRole)  )
-
-                    SideBarRow(
+                if (Services.hasRole(context, accountingRole) ||
+                    Services.hasRole(context, agentRole) ||
+                    Services.hasRole(context, collectorRole) ||
+                    Services.hasRole(context, mainCollectorRole))
+                  SideBarRow(
                       onTap: () => Navigator.push(
                           context, MaterialPageRoute(builder: (context) => const AddTransactionPage(orderRequired: 0))),
                       icon: Icons.money,
