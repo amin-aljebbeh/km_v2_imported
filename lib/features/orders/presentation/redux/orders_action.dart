@@ -4,6 +4,7 @@ import 'package:kammun_app/features/search_orders/presentation/redux/search_orde
 
 import '../../../../core/utils/toasta.dart';
 import '../../../cart/presentation/redux/cart_action.dart';
+import '../../../order_details/presentation/redux/order_details_action.dart';
 import '../../domain/entities/lock_order_response_entity.dart';
 import '../../domain/entities/order_entity.dart';
 import '../../orders_services.dart';
@@ -42,7 +43,7 @@ class ReAssignOrderAction implements OrdersAction {
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases.reAssignOrderUseCase(orderId: orderId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (_) =>       Utility.showToast(message: 'تمت العملية بنجاح'));
+        (_) => Utility.showToast(message: 'تمت العملية بنجاح'));
     store.dispatch(StopLoading());
   }
 }
@@ -61,7 +62,7 @@ class UpdateOrderRatingAction implements OrdersAction {
         .updateOrderRatingUseCase(orderId: orderId, deliveryRating: deliveryRating);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
       Navigator.pop(context);
-      Utility.showToast(message:  'تم تعديل تقييم الطلب إلى $deliveryRating');
+      Utility.showToast(message: 'تم تعديل تقييم الطلب إلى $deliveryRating');
 
       // snackBar(context: context, success: true, message: 'تم تعديل تقييم الطلب إلى $deliveryRating');
     });
@@ -81,7 +82,7 @@ class AssignOrderToShopperAction implements OrdersAction {
     Either either = await store.state.ordersState.ordersUSeCases
         .assignOrderToShopperUseCase(orderId: orderId, assignedId: assignedId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (_) =>       Utility.showToast(message: 'تم إسناد الطلب بنجاح'));
+        (_) => Utility.showToast(message: 'تم إسناد الطلب بنجاح'));
     store.dispatch(StopLoading());
   }
 }
@@ -98,7 +99,7 @@ class ChangeOrderStatusAction implements OrdersAction {
     store.dispatch(StartLoading());
     Either either =
         await store.state.ordersState.ordersUSeCases.changeOrderStatusUseCase(orderId: orderId, statusId: statusId);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_)async {
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) async {
       Utility.showToast(message: 'تم تغيير حالة الطلب بنجاح');
       if (store.state.searchOrdersState.searchOrdersType == SearchOrdersTypes.none) {
         List<OrderEntity> orders = store.state.ordersState.orders;
@@ -125,8 +126,9 @@ class GetAllOrdersAction implements OrdersAction {
         cancelToken: OrdersServices.cancelRequest,
         filterEvaluatedOrders: store.state.ordersState.rateFilter,
         pageNumber: store.state.ordersState.ordersPage);
-    either.fold((failure) { store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));},
-        (orders) => store.dispatch(FilterOrders(orders: orders)));
+    either.fold((failure) {
+      store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));
+    }, (orders) => store.dispatch(FilterOrders(orders: orders)));
     store.dispatch(StopLoading());
   }
 }
@@ -139,8 +141,18 @@ class GetShopperOrdersAction implements OrdersAction {
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases.getShopperOrdersUseCase(
         cancelToken: OrdersServices.cancelRequest, pageNumber: store.state.ordersState.ordersPage);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (orders) => store.dispatch(FilterOrders(orders: orders)));
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (result) {
+      List<OrderEntity> orders = result;
+      Map<int, List<int>> subWarehouseAuthCodes = orders.fold<Map<int, List<int>>>({}, (map, order) {
+        if (!map.containsKey(order.id)) map[order.id] = [];
+        map[order.id].addAll(order.subWarehouseAuthCodes.map((code) => code.subWarehouseId).toList());
+
+        return map;
+      });
+
+      store.dispatch(SetAuthenticatedSubWarehouses(authenticatedSubWarehouses: subWarehouseAuthCodes));
+      store.dispatch(FilterOrders(orders: orders));
+    });
     store.dispatch(StopLoading());
   }
 }
@@ -212,11 +224,8 @@ class UnLockOrderAction implements OrdersAction {
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases.unlockOrderUseCase(orderId: orderId);
-    either.fold(
-        (failure) async=>
-            Utility.showToast(message: 'فشلت عملية إلغاء تعليق الطلب يرجى المحاولة مجدداً'),
-        (_)async {
-          Utility.showToast(message: 'تم إلغاء تعليق الطلب بنجاح');
+    either.fold((failure) => Utility.showToast(message: 'فشلت عملية إلغاء تعليق الطلب يرجى المحاولة مجدداً'), (_) {
+      Utility.showToast(message: 'تم إلغاء تعليق الطلب بنجاح');
       if (store.state.searchOrdersState.searchOrdersType == SearchOrdersTypes.none) {
         List<OrderEntity> orders = store.state.ordersState.orders;
         orders.firstWhere((order) => order.id == orderId).underUpdate = '0';

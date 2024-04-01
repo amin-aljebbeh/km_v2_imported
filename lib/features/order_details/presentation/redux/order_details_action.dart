@@ -1,13 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 import 'package:kammun_app/features/search_orders/domain/entities/get_order_response_entity.dart';
 
 import '../../../order_details/presentation/pages/invoice_view.dart';
 import '../../../orders/domain/entities/show_data_entity.dart';
-
 import '../../../orders/orders_services.dart';
-import '../../../orders/presentation/redux/orders_action.dart';
+
 abstract class OrderDetailsAction {
   handle({@required Store<AppState> store});
 }
@@ -36,6 +34,19 @@ class SetOrderInvoice {
   final ShowDataEntity invoice;
 
   SetOrderInvoice({this.invoice});
+}
+
+class ShowSubWarehouseProducts {
+  final int subWareHouseId;
+  final int orderId;
+
+  ShowSubWarehouseProducts({this.orderId, this.subWareHouseId});
+}
+
+class SetAuthenticatedSubWarehouses {
+  final Map<int, List<int>> authenticatedSubWarehouses;
+
+  SetAuthenticatedSubWarehouses({this.authenticatedSubWarehouses});
 }
 
 class AddImageToOrderAction extends OrderDetailsAction {
@@ -100,21 +111,20 @@ class AuthCodeOrderAction implements OrderDetailsAction {
   final int orderId;
   final int subWareHouseId;
   final String code;
-  final ProductEntity product;
 
-
-  AuthCodeOrderAction({this.subWareHouseId, this.code,this.orderId, this.context,  this.product});
+  AuthCodeOrderAction({this.subWareHouseId, this.code, this.orderId, this.context});
 
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
-    Either either = await store.state.orderDetailsState.orderDetailsUseCases.authCodeOrderUserUseCase(
-        code: code, orderId: orderId , subWareHouseId: subWareHouseId);
+    Either either = await store.state.orderDetailsState.orderDetailsUseCases
+        .authCodeOrderUserUseCase(code: code, orderId: orderId, subWareHouseId: subWareHouseId);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'فشلت عملية التحقق الرجاء إعادة الإرسال مجدداً')),
-            (res) {
-              StoreProvider.of<AppState>(context).dispatch(GetOrdersAction(context: context));
-              snackBar(message: 'تم التحقق بنجاح', success: true, context: context);
-        } );
+        (res) {
+      StoreProvider.of<AppState>(context)
+          .dispatch(ShowSubWarehouseProducts(subWareHouseId: subWareHouseId, orderId: orderId));
+      snackBar(message: 'تم التحقق بنجاح', success: true, context: context);
+    });
     store.dispatch(StopLoading());
   }
 }

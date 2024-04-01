@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
-import '../../../../core/utils/colors_utils.dart';
-import '../../../../core/utils/styles.dart';
-
+import '../../../../core/core_importer.dart';
+import '../redux/order_details_action.dart';
 
 class FilledRoundedPinPut extends StatefulWidget {
-  const FilledRoundedPinPut({Key key}) : super(key: key);
+  final int orderId;
+  final int subWareHouseId;
+  const FilledRoundedPinPut({Key key, this.orderId, this.subWareHouseId}) : super(key: key);
 
   @override
   _FilledRoundedPinPutState createState() => _FilledRoundedPinPutState();
@@ -31,7 +31,7 @@ class _FilledRoundedPinPutState extends State<FilledRoundedPinPut> {
   @override
   Widget build(BuildContext context) {
     const length = 5;
-   Color borderColor = kmColors;
+    Color borderColor = kmColors;
     const errorColor = Colors.red;
     Color fillColor = Colors.white;
 
@@ -55,21 +55,16 @@ class _FilledRoundedPinPutState extends State<FilledRoundedPinPut> {
         focusNode: focusNode,
         defaultPinTheme: defaultPinTheme,
         onCompleted: (pin) {
-          setState(() => showError = pin != '5555');
+          StoreProvider.of<AppState>(context).dispatch(AuthCodeOrderAction(
+              code: controller.text, context: context, orderId: widget.orderId, subWareHouseId: widget.subWareHouseId));
         },
         focusedPinTheme: defaultPinTheme.copyWith(
           height: 68,
           width: 60,
-          decoration: defaultPinTheme.decoration.copyWith(
-            border: Border.all(color: borderColor),
-          ),
+          decoration: defaultPinTheme.decoration.copyWith(border: Border.all(color: borderColor)),
         ),
         errorPinTheme: defaultPinTheme.copyWith(
-          decoration:  BoxDecoration(
-            color: errorColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
+            decoration: BoxDecoration(color: errorColor, borderRadius: BorderRadius.circular(10))),
       ),
     );
   }

@@ -7,75 +7,75 @@ import '../../../shoppers/data/models/shopper_model.dart';
 import '../../domain/entities/order_entity.dart';
 
 class OrderModel extends OrderEntity {
-  OrderModel({
-    id,
-    deliveryCost,
-    supportedCityCost,
-    orderStatusId,
-    deliveryMethodId,
-    warehouseId,
-    userId,
-    userDeliveryRating,
-    total,
-    userNotes,
-    supportedCityId,
-    underUpdate,
-    products,
-    address,
-    createdAt,
-    deliveredAt,
-    acceptedAt,
-    shopper,
-    images,
-    orderAccountingRows,
-    shopperProfit,
-    kammunProfit,
-    userFeedback,
-    cashValue,
-    deliveryDistance,
-    collectingCost,
-    walletValue,
-    couponValue,
-    tips,
-    userPriceRating,
-    user,
-    subWarehouseAuthCodes
-  }) : super(
-          id: id,
-          deliveryCost: deliveryCost,
-          supportedCityCost: supportedCityCost,
-          orderStatusId: orderStatusId,
-          deliveryMethodId: deliveryMethodId,
-          warehouseId: warehouseId,
-          userId: userId,
-          userDeliveryRating: userDeliveryRating,
-          total: total,
-          userNotes: userNotes,
-          supportedCityId: supportedCityId,
-          underUpdate: underUpdate,
-          products: products,
-          address: address,
-          createdAt: createdAt,
-          deliveredAt: deliveredAt,
-          acceptedAt: acceptedAt,
-          shopper: shopper,
-          images: images,
-          orderAccountingRows: [],
-          shopperProfit: shopperProfit,
-          kammunProfit: kammunProfit,
-          userFeedback: userFeedback,
-          cashValue: cashValue,
-          deliveryDistance: deliveryDistance,
-          collectingCost: collectingCost,
-          walletValue: walletValue,
-          couponValue: couponValue,
-          tips: tips,
-          userPriceRating: userPriceRating,
-          user: user,
-          subWarehouseAuthCodes: subWarehouseAuthCodes
-        );
+  OrderModel(
+      {id,
+      deliveryCost,
+      supportedCityCost,
+      orderStatusId,
+      deliveryMethodId,
+      warehouseId,
+      userId,
+      userDeliveryRating,
+      total,
+      userNotes,
+      supportedCityId,
+      underUpdate,
+      products,
+      address,
+      createdAt,
+      deliveredAt,
+      acceptedAt,
+      shopper,
+      images,
+      orderAccountingRows,
+      shopperProfit,
+      kammunProfit,
+      userFeedback,
+      cashValue,
+      deliveryDistance,
+      collectingCost,
+      walletValue,
+      couponValue,
+      tips,
+      userPriceRating,
+      user,
+      subWarehouseAuthCodes})
+      : super(
+            id: id,
+            deliveryCost: deliveryCost,
+            supportedCityCost: supportedCityCost,
+            orderStatusId: orderStatusId,
+            deliveryMethodId: deliveryMethodId,
+            warehouseId: warehouseId,
+            userId: userId,
+            userDeliveryRating: userDeliveryRating,
+            total: total,
+            userNotes: userNotes,
+            supportedCityId: supportedCityId,
+            underUpdate: underUpdate,
+            products: products,
+            address: address,
+            createdAt: createdAt,
+            deliveredAt: deliveredAt,
+            acceptedAt: acceptedAt,
+            shopper: shopper,
+            images: images,
+            orderAccountingRows: [],
+            shopperProfit: shopperProfit,
+            kammunProfit: kammunProfit,
+            userFeedback: userFeedback,
+            cashValue: cashValue,
+            deliveryDistance: deliveryDistance,
+            collectingCost: collectingCost,
+            walletValue: walletValue,
+            couponValue: couponValue,
+            tips: tips,
+            userPriceRating: userPriceRating,
+            user: user,
+            subWarehouseAuthCodes: subWarehouseAuthCodes);
 
-  factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
+  factory OrderModel.fromJson(Map<String, dynamic> json) {
+    return OrderModel(
         id: json['id'],
         deliveryCost: json['delivery_cost'].toString(),
         supportedCityCost: json['supported_city_cost'].toString(),
@@ -110,8 +110,10 @@ class OrderModel extends OrderEntity {
         collectingCost: json['collecting_cost'].toString(),
         walletValue: json['wallet_v'].toString(),
         couponValue: json['coupon_v'].toString(),
-        subWarehouseAuthCodes: json['sub_warehouse_auth_codes'] == null ? null: List<OrderCodeModel>.from(json['sub_warehouse_auth_codes'].map((x) => OrderCodeModel.fromJson(x)))
-      );
+        subWarehouseAuthCodes: json['sub_warehouse_auth_codes'] == null
+            ? null
+            : List<OrderCodeModel>.from(json['sub_warehouse_auth_codes'].map((x) => OrderCodeModel.fromJson(x))));
+  }
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -129,16 +131,35 @@ class OrderModel extends OrderEntity {
         'under_update': underUpdate,
       };
 }
+
 class OrderCodeModel extends OrderCodeEntity {
-  OrderCodeModel({id}) : super(id: id,);
-
+  OrderCodeModel({id, orderId, subWarehouseId, adminId, code, createdAt, updatedAt})
+      : super(
+          id: id,
+          orderId: orderId,
+          subWarehouseId: subWarehouseId,
+          adminId: adminId,
+          code: code,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+        );
   factory OrderCodeModel.fromJson(Map<String, dynamic> json) => OrderCodeModel(
-    id: json['sub_warehouse_id'],
-
-  );
+        id: json["id"],
+        orderId: json["order_id"],
+        subWarehouseId: json["sub_warehouse_id"],
+        adminId: json["admin_id"],
+        code: json["code"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    'sub_warehouse_id': id,
-
-  };
+        "id": id,
+        "order_id": orderId,
+        "sub_warehouse_id": subWarehouseId,
+        "admin_id": adminId,
+        "code": code,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+      };
 }

@@ -1,4 +1,3 @@
-import 'package:kammun_app/features/general_information/data/models/sub_warehouse_model.dart';
 import 'package:kammun_app/features/order_details/presentation/pages/full_screen_image.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 
@@ -9,9 +8,8 @@ import 'product_sub_warehouse_widget.dart';
 class OrderProductWidget extends StatelessWidget {
   final ProductEntity productData;
   final Function onCheckbox;
-  final bool newSubWarehouse;
 
-  const OrderProductWidget({Key key, this.productData, this.onCheckbox, this.newSubWarehouse}) : super(key: key);
+  const OrderProductWidget({Key key, this.productData, this.onCheckbox}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,22 +23,6 @@ class OrderProductWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            if (newSubWarehouse)
-              Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                color: searchGreyColor,
-                child: Center(
-                  child: Text(
-                    state.generalInformationState.subWarehouses
-                        .firstWhere((subWarehouse) => subWarehouse.id == productData.pivot.subWarehouseId,
-                            orElse: () => SubWarehouseModel(name: 'No element'))
-                        .name,
-                    style: labelStyle,
-                  ),
-                ),
-                width: MediaQuery.of(context).size.width,
-                height: 20,
-              ),
             Row(
               children: <Widget>[
                 if (!StaticVariables.preferLeftSide)

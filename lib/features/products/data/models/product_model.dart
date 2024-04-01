@@ -39,10 +39,10 @@ class ProductModel extends ProductEntity {
     int numberOfSales,
     List<BarcodeModel> barcodes,
     int deleteTimes,
-    int productId ,
+    int productId,
     String alertProductsCount,
   }) : super(
-    productId: productId,
+          productId: productId,
           id: id,
           name: name,
           description: description,
@@ -63,7 +63,7 @@ class ProductModel extends ProductEntity {
           warehouseId: warehouseId,
           isFeatured: isFeatured,
           priority: priority,
-    purchasePrice: purchasePrice,
+          purchasePrice: purchasePrice,
           numberOfVisits: numberOfVisits,
           minThreshold: minThreshold,
           increasePercentage: increasePercentage,
@@ -78,51 +78,49 @@ class ProductModel extends ProductEntity {
           alertProductsCount: alertProductsCount,
         );
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    return ProductModel(
-      id: json['id'] ?? 0,
-      purchasePrice: json['purchase_price'].toString(),
-      productId: json['product_id'] ?? 0,
-      name: json['name'] ?? json['nameProduct'],
-      description: json['description'],
-      unit: json['unit'].toString(),
-      price: json['price'] != null ? json['price'].toString() : '0',
-      priceChange: json['price_change'] == null ? '0' : json['price_change'].toString(),
-      isActive: json['is_active'] != null ? json['is_active'].toString() : '0',
-      quantity: json['quantity'] == null ? '0' : json['quantity'].toString(),
-      productCount: json['productCount'] ?? 0,
-      supplierCode: json['supplier_code'] == null ? json['supplierCode'].toString() : json['supplier_code'].toString(),
-      warehouseId: json['warehouse_id'],
-      subWarehouseId: json['sub_warehouse_id'] ?? -1,
-      isFeatured: json['is_featured'],
-      priority: json['priority'],
-      isPrimeItem: json['is_prime_item'],
-      categoryId: json['category_id'].toString(),
-      numberOfVisits: json['number_of_visits'],
-      minThreshold: json['min_threshold']?.toDouble(),
-      increasePercentage: json['increase_percentage'] ?? 0,
-      priceFactor: json['price_factor'],
-      alertProductsCount: json['alert_products_count'].toString(),
-      automaticActivation: json['automatic_activation'],
-      underCheckAvailability: json['under_check_availability'],
-      images: json['images'] == null
-          ? []
-          : List<ProductImageModel>.from(json['images'].map((x) => ProductImageModel.fromJson(x))),
-      categories: json['categories'] == null
-          ? []
-          : List<CategoryModel>.from(json['categories'].map((x) => CategoryModel.fromJson(x))),
-      warehouses: json['warehouses'] == null
-          ? []
-          : List<WarehouseModel>.from(json['warehouses'].map((x) => WarehouseModel.fromJson(x))),
-      rate: json['rate'] ?? -1,
-      numberOfSales: json['number_of_sale'],
-      barcodes: json['barcodes'] == null
-          ? []
-          : List<BarcodeModel>.from(json['barcodes'].map((x) => BarcodeModel.fromJson(x))),
-      deleteTimes: json['count_deleted'] ?? -1,
-      availableQuantity: json['available_quantity'] == null ? 'null' : json['available_quantity'].toString(),
-
-      pivot: json['pivot'] == null ? null : OrderProductPivotModel.fromJson(json['pivot']),
-    );
-  }
+  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+        id: json['id'] ?? 0,
+        purchasePrice: json['purchase_price'].toString(),
+        productId: json['product_id'] ?? 0,
+        name: json['name'] ?? json['nameProduct'],
+        description: json['description'],
+        unit: json['unit'].toString(),
+        price: json['price'] != null ? json['price'].toString() : '0',
+        priceChange: json['price_change'] == null ? '0' : json['price_change'].toString(),
+        isActive: json['is_active'] != null ? json['is_active'].toString() : '0',
+        quantity: json['quantity'] == null ? '0' : json['quantity'].toString(),
+        productCount: json['productCount'] ?? 0,
+        supplierCode:
+            json['supplier_code'] == null ? json['supplierCode'].toString() : json['supplier_code'].toString(),
+        warehouseId: json['warehouse_id'],
+        subWarehouseId: json['sub_warehouse_id'] ?? -1,
+        isFeatured: json['is_featured'],
+        priority: json['priority'],
+        isPrimeItem: json['is_prime_item'],
+        categoryId: json['category_id'].toString(),
+        numberOfVisits: json['number_of_visits'],
+        minThreshold: json['min_threshold']?.toDouble(),
+        increasePercentage: json['increase_percentage'] ?? 0,
+        priceFactor: json['price_factor'],
+        alertProductsCount: json['alert_products_count'].toString(),
+        automaticActivation: json['automatic_activation'],
+        underCheckAvailability: json['under_check_availability'],
+        images: json['images'] == null
+            ? []
+            : List<ProductImageModel>.from(json['images'].map((x) => ProductImageModel.fromJson(x))),
+        categories: json['categories'] == null
+            ? []
+            : List<CategoryModel>.from(json['categories'].map((x) => CategoryModel.fromJson(x))),
+        warehouses: json['warehouses'] == null
+            ? []
+            : List<WarehouseModel>.from(json['warehouses'].map((x) => WarehouseModel.fromJson(x))),
+        rate: json['rate'] ?? -1,
+        numberOfSales: json['number_of_sale'],
+        barcodes: json['barcodes'] == null
+            ? []
+            : List<BarcodeModel>.from(json['barcodes'].map((x) => BarcodeModel.fromJson(x))),
+        deleteTimes: json['count_deleted'] ?? -1,
+        availableQuantity: json['available_quantity'] == null ? 'null' : json['available_quantity'].toString(),
+        pivot: json['pivot'] == null ? null : OrderProductPivotModel.fromJson(json['pivot']),
+      );
 }

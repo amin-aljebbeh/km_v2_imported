@@ -7,18 +7,19 @@ import '../../../orders/domain/entities/order_entity.dart';
 import '../../../orders/presentation/redux/orders_action.dart';
 import '../../../products/domain/entities/product_entity.dart';
 
-
 class SearchOrderProductsPage extends StatefulWidget {
   final OrderEntity order;
   final bool deleted;
   final Map<int, bool> authorizedWarehouses;
-  const SearchOrderProductsPage({Key key, this.order, this.deleted,    this.authorizedWarehouses = const {}}) : super(key: key);
+  const SearchOrderProductsPage({Key key, this.order, this.deleted, this.authorizedWarehouses = const {}})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => OrderProductsPageState();
 }
 
-class OrderProductsPageState extends State<SearchOrderProductsPage> with AutomaticKeepAliveClientMixin<SearchOrderProductsPage> {
+class OrderProductsPageState extends State<SearchOrderProductsPage>
+    with AutomaticKeepAliveClientMixin<SearchOrderProductsPage> {
   List<ProductEntity> productsAry;
 
   @override
@@ -30,8 +31,7 @@ class OrderProductsPageState extends State<SearchOrderProductsPage> with Automat
       builder: (context, state) {
         productsAry = orderProducts(
             deleted: widget.deleted,
-            products:
-            state.searchOrdersState.orders.firstWhere((element) => element.id == widget.order.id).products,
+            products: state.searchOrdersState.orders.firstWhere((element) => element.id == widget.order.id).products,
             context: context);
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColorLight,
@@ -71,14 +71,8 @@ class OrderProductsPageState extends State<SearchOrderProductsPage> with Automat
                           }
                         }
                       },
-                      /*orderId: widget.order.id,
-                      reqAuthCode: state.adminsState.admin.subWarehouses
-                          .firstWhere((subWarehouse) => subWarehouse.id == productsAry[index].pivot.subWarehouseId,
-                          )
-                          .requireAuthCodes,*/
                       productData: productsAry[index],
-                      newSubWarehouse: newSubWarehouse(index),
-
+                      // newSubWarehouse: newSubWarehouse(index),
                     );
                   },
                 ),

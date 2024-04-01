@@ -1,24 +1,21 @@
-import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_action.dart';
-
 import '../../../../core/core_importer.dart';
 import '../../../orders/domain/entities/order_entity.dart';
-import '../../../orders/presentation/redux/orders_action.dart';
 import '../../../products/domain/entities/product_entity.dart';
 import '../../order_details_services.dart';
+import '../widgets/order_sub_warehouse_products_widget.dart';
 import '../widgets/supplier_order_details_widget.dart';
 
 class OrderProductsPage extends StatefulWidget {
   final OrderEntity order;
   final bool deleted;
-  final Map<int, bool> authorizedWarehouses;
-  const OrderProductsPage({Key key, this.order, this.deleted,    this.authorizedWarehouses = const {}}) : super(key: key);
+  const OrderProductsPage({Key key, this.order, this.deleted}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => OrderProductsPageState();
 }
 
 class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeepAliveClientMixin<OrderProductsPage> {
-  List<ProductEntity> productsAry;
+  Map<int, List<ProductEntity>> subWarehousesProducts;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +24,11 @@ class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeep
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
-
-            productsAry = orderProducts(
-                deleted: widget.deleted,
-                products: state.ordersState.orders.firstWhere((element) => element.id == widget.order.id).products,
-                context: context);
+        subWarehousesProducts = getSubWarehousesProducts(
+            deleted: widget.deleted,
+            subWarehouses: widget.order.subWarehouseAuthCodes.map((code) => code.subWarehouseId).toList(),
+            products: state.ordersState.orders.firstWhere((element) => element.id == widget.order.id).products,
+            context: context);
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColorLight,
           body: Column(
@@ -43,43 +40,9 @@ class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeep
                   primary: false,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: productsAry == null ? 1 : productsAry.length,
+                  itemCount: subWarehousesProducts == null ? 1 : subWarehousesProducts.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return OrderProductWidget(
-                      onCheckbox: () {
-                        if (!widget.deleted) {
-                          setState(() {});
-                          switch (state.searchOrdersState.searchOrdersType) {
-                            case SearchOrdersTypes.phoneNumber:
-                            case SearchOrdersTypes.id:
-                              state.searchOrdersState.orders
-                                  .firstWhere((order) => order.id == widget.order.id)
-                                  .products
-                                  .removeWhere((product) => product.id == productsAry[index].id);
-                              StoreProvider.of<AppState>(context)
-                                  .dispatch(SetSearchOrders(orders: state.searchOrdersState.orders));
-                              break;
-                            case SearchOrdersTypes.none:
-                              state.ordersState.orders
-                                  .firstWhere((order) => order.id == widget.order.id)
-                                  .products
-                                  .removeWhere((product) => product.id == productsAry[index].id);
-                              StoreProvider.of<AppState>(context)
-                                  .dispatch(SetViewOrders(orders: state.ordersState.orders));
-                              break;
-                          }
-                        }
-                      },
-                      // orderId: widget.order.id,
-                      // reqAuthCode: state.adminsState.admin.subWarehouses
-                      //     .firstWhere((subWarehouse) => subWarehouse.id == productsAry[index].pivot.subWarehouseId,
-                      //     )
-                      //     .requireAuthCodes,
-                      // order: widget.order,
-                      productData: productsAry[index],
-                      newSubWarehouse: newSubWarehouse(index),
-
-                    );
+                    return OrderSubWarehouseProductsWidget(productsAry: subWarehousesProducts.values.elementAt(index));
                   },
                 ),
               ),
@@ -89,11 +52,6 @@ class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeep
         );
       },
     );
-  }
-
-  bool newSubWarehouse(int index) {
-    if (index == 0) return true;
-    return productsAry[index].pivot.subWarehouseId != productsAry[index - 1].pivot.subWarehouseId;
   }
 
   @override

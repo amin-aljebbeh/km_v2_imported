@@ -45,40 +45,39 @@ class OrderEntity {
   int tips;
   List<OrderCodeEntity> subWarehouseAuthCodes;
 
-  OrderEntity({
-    this.id,
-    this.deliveryCost,
-    this.supportedCityCost,
-    this.orderStatusId,
-    this.deliveryMethodId,
-    this.warehouseId,
-    this.userId,
-    this.userDeliveryRating,
-    this.total,
-    this.userNotes,
-    this.supportedCityId,
-    this.underUpdate,
-    this.products,
-    this.address,
-    this.createdAt,
-    this.deliveredAt,
-    this.acceptedAt,
-    this.shopper,
-    this.images,
-    this.orderAccountingRows,
-    this.shopperProfit,
-    this.kammunProfit,
-    this.userFeedback,
-    this.cashValue,
-    this.deliveryDistance,
-    this.collectingCost,
-    this.walletValue,
-    this.couponValue,
-    this.tips,
-    this.userPriceRating,
-    this.user,
-    this.subWarehouseAuthCodes
-  });
+  OrderEntity(
+      {this.id,
+      this.deliveryCost,
+      this.supportedCityCost,
+      this.orderStatusId,
+      this.deliveryMethodId,
+      this.warehouseId,
+      this.userId,
+      this.userDeliveryRating,
+      this.total,
+      this.userNotes,
+      this.supportedCityId,
+      this.underUpdate,
+      this.products,
+      this.address,
+      this.createdAt,
+      this.deliveredAt,
+      this.acceptedAt,
+      this.shopper,
+      this.images,
+      this.orderAccountingRows,
+      this.shopperProfit,
+      this.kammunProfit,
+      this.userFeedback,
+      this.cashValue,
+      this.deliveryDistance,
+      this.collectingCost,
+      this.walletValue,
+      this.couponValue,
+      this.tips,
+      this.userPriceRating,
+      this.user,
+      this.subWarehouseAuthCodes});
 
   orderArithmeticOperations(BuildContext context) {
     OrderAccountingRow row = OrderAccountingRow(
@@ -198,9 +197,23 @@ class OrderAccountingRow {
     this.directDiscount,
   });
 }
+
 class OrderCodeEntity {
-  OrderCodeEntity({this.id,});
+  final int id;
+  final int orderId;
+  final int subWarehouseId;
+  final int adminId;
+  final String code;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
-  int id;
-
+  OrderCodeEntity({
+    this.id,
+    this.orderId,
+    this.subWarehouseId,
+    this.adminId,
+    this.code,
+    this.createdAt,
+    this.updatedAt,
+  });
 }

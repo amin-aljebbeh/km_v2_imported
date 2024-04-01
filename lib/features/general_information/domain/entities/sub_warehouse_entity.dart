@@ -9,7 +9,7 @@ class SubWarehouseEntity {
   final SubWarehouseLevelPivotEntity levelPivot;
   final double discountPercentage;
   final String allowShopperAssign;
-    int requireAuthCodes;
+  final int requireAuthCodes;
   final List<ProductEntity> products;
 
   SubWarehouseEntity({

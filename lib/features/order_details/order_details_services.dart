@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:kammun_app/features/order_details/presentation/pages/full_screen_image.dart';
 import 'package:kammun_app/features/order_details/presentation/redux/order_details_action.dart';
 
@@ -21,6 +23,29 @@ List<DropdownMenuItem<dynamic>> subWarehousesItems({BuildContext context, int su
               maxLines: 2, overflow: TextOverflow.fade, maxFontSize: 12, style: mainStyle),
           value: subWarehouse.id))
       .toList();
+}
+
+Map<int, List<ProductEntity>> getSubWarehousesProducts(
+    {List<ProductEntity> products, bool deleted, BuildContext context, List<int> subWarehouses}) {
+  List<ProductEntity> productsAry = [];
+  if (deleted) {
+    productsAry.removeWhere((product) => product.pivot.deletedAt == 'null');
+  } else {
+    productsAry.removeWhere((product) => product.pivot.deletedAt != 'null');
+  }
+  Map<int, List<ProductEntity>> subWarehousesProducts =
+      products.fold<Map<int, List<ProductEntity>>>({}, (map, product) {
+    final subWarehouseId = product.pivot.subWarehouseId;
+
+    if (!map.containsKey(subWarehouseId)) map[subWarehouseId] = [];
+    map[subWarehouseId].add(product);
+
+    return map;
+  });
+
+  var sortedMap = SplayTreeMap<int, List<ProductEntity>>.from(subWarehousesProducts, (a, b) => a.compareTo(b));
+
+  return sortedMap;
 }
 
 List<ProductEntity> orderProducts({List<ProductEntity> products, bool deleted, BuildContext context}) {
@@ -191,11 +216,13 @@ List<InkWell> getImages({List<OrderImageEntity> images, BuildContext context, Fu
   return imageWidgets;
 }
 
- double getDiscountPercentage(int subWarehouseId, BuildContext context) => (StoreProvider.of<AppState>(context)
-.state
-    .generalInformationState
-    .subWarehouses
-    .firstWhere((subWarehouse) => subWarehouse.id == subWarehouseId,
-orElse: () => SubWarehouseModel(discountPercentage: 1.0))
-.discountPercentage /
-100);
+double getDiscountPercentage(int subWarehouseId, BuildContext context) => (StoreProvider.of<AppState>(context)
+        .state
+        .generalInformationState
+        .subWarehouses
+        .firstWhere((subWarehouse) => subWarehouse.id == subWarehouseId,
+            orElse: () => SubWarehouseModel(discountPercentage: 1.0))
+        .discountPercentage /
+    100);
+
+class OrderSubWarehouseProducts {}

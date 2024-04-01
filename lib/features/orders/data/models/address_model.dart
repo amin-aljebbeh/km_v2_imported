@@ -1,3 +1,5 @@
+import 'package:kammun_app/core/core_importer.dart';
+
 import '../../domain/entities/address_entity.dart';
 
 class AddressModel extends AddressEntity {
@@ -32,7 +34,7 @@ class AddressModel extends AddressEntity {
         building: json['building'].toString(),
         floor: json['floor'].toString(),
         description: json['description'].toString(),
-        deliveryPrice: json['deliveryPrice'],
+        deliveryPrice: json['deliveryPrice'] ?? 0,
         lat: json['lat'] ?? -1.0,
         lon: json['lon'] ?? -1.0,
         entrance: json['entrance'].toString(),

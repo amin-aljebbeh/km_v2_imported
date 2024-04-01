@@ -8,8 +8,8 @@ import 'package:kammun_app/features/orders/presentation/widgets/admin_order_info
 import 'package:kammun_app/features/orders/presentation/widgets/supplier_order_foot.dart';
 
 import '../../../../core/core_importer.dart';
-import 'supplier_order_head.dart';
 import 'operations_buttons_widget.dart';
+import 'supplier_order_head.dart';
 
 class OrderWidget extends StatelessWidget {
   final OrderEntity order;
@@ -49,7 +49,7 @@ class OrderWidget extends StatelessWidget {
                   Services.hasRole(context, supplierRole)
                       ? SupplierOrderFoot(order: order)
                       : AdminOrderFoot(order: order),
-                  if (Services.hasRole(context,supplierRole)&& Services.hasPermission(context, 'show-order-address'))
+                  if (Services.hasRole(context, supplierRole) && Services.hasPermission(context, 'show-order-address'))
                     LabelRow(
                         rightSideText: address + ' : ',
                         leftSideText: order.address.street +
