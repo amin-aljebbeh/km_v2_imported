@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../features/orders/orders_services.dart';
@@ -19,16 +20,17 @@ class ApiProvider {
 
     var dio = Dio(options);
     String token = LoadingScreen.userToken;
-// customization
-    dio.interceptors.add(PrettyDioLogger(
-        requestHeader: false,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        request: false,
-        error: false,
-        compact: false,
-        maxWidth: 90));
+    if (kDebugMode) {
+      dio.interceptors.add(PrettyDioLogger(
+          requestHeader: false,
+          requestBody: true,
+          responseBody: true,
+          responseHeader: false,
+          request: false,
+          error: false,
+          compact: false,
+          maxWidth: 90));
+    }
     Map<String, String> header = {'Authorization': token ?? ''};
 
     Response response;

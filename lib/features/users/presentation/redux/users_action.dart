@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../orders/presentation/redux/orders_action.dart';
-import '../../data/models/palance_model.dart';
+import '../../data/models/balance_model.dart';
 import '../../domain/entities/user_entity.dart';
 
 abstract class UsersAction {
@@ -37,13 +37,12 @@ class ChangeNumberPhoneUserAction implements UsersAction {
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
-    Either either = await store.state.usersState.usersUseCases.changeNumberPhoneUserUseCase(
-        phoneNumber: phoneNumber, userId: store.state.usersState.userEntity.id);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'الرقم مستخدم مسبقاً')),
-            (_) {
-              store.dispatch(GetAllOrdersAction());
-              snackBar(message: 'تمت تغيير رقم الزبون بنجاح', success: true, context: context);
-            } );
+    Either either = await store.state.usersState.usersUseCases
+        .changeNumberPhoneUserUseCase(phoneNumber: phoneNumber, userId: store.state.usersState.userEntity.id);
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'الرقم مستخدم مسبقاً')), (_) {
+      store.dispatch(GetAllOrdersAction());
+      snackBar(message: 'تمت تغيير رقم الزبون بنجاح', success: true, context: context);
+    });
     store.dispatch(StopLoading());
   }
 }

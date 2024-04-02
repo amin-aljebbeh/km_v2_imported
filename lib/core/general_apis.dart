@@ -8,15 +8,13 @@ import '../features/shoppers/data/models/shopper_level_model.dart';
 import '../features/shoppers/domain/entities/shopper_level_entity.dart';
 import '../features/shoppers/presentation/redux/shoppers_action.dart';
 import '../features/transactions/presentation/redux/transactions_action.dart';
-import '../features/transactions/presentation/widgets/specific_day_profit_widget.dart';
-import '../features/users/data/models/palance_model.dart';
+import '../features/users/data/models/balance_model.dart';
 import '../features/users/presentation/redux/users_action.dart';
 import 'core_importer.dart';
 
 class GeneralApis {
   static getShoppers({BuildContext context}) async {
     try {
-
       var response = await ApiProvider.sendRequest(url: shopperApi, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
@@ -27,38 +25,25 @@ class GeneralApis {
       return null;
     }
   }
-  static Future<BalanceModel> getBalanceRefrech({BuildContext context}) async {
+
+  static Future<BalanceModel> getBalanceRefresh({BuildContext context}) async {
     try {
       SharedPreferences prefs = sl<SharedPreferences>();
 
-      var response = await ApiProvider.sendRequest(url: getBalanceApi, method: HttpMethods.get,queryParameters: { 'admin_id': int.parse(prefs.getString('adminId'))});
+      var response = await ApiProvider.sendRequest(
+          url: getBalanceApi,
+          method: HttpMethods.get,
+          queryParameters: {'admin_id': int.parse(prefs.getString('adminId'))});
 
-      if (response.statusCode == successCode){
+      if (response.statusCode == successCode) {
         snackBar(message: 'تمّ تحديث الرصيد', success: true, context: context);
 
         return Balance.fromJson(response.data).data;
-      }else{
-        snackBar(message: 'حدث خطأ اثناء التحديث ' , success: true, context: context);
+      } else {
+        snackBar(message: 'حدث خطأ اثناء التحديث ', success: true, context: context);
       }
 
-      return null ;
-    } catch (e) {
       return null;
-    }
-  }
-  static Future<BalanceModel> getBalanceCalculate({BuildContext context , String date , int adminId}) async {
-    try {
-      var response = await ApiProvider.sendRequest(url: getBalanceApi, method: HttpMethods.get , queryParameters: {'date': date, 'admin_id': adminId});
-
-      if (response.statusCode == successCode){
-        specificDayProfitWidget(context: context, date: date, company:Balance.fromJson(response.data).data.companySum , shoppers:Balance.fromJson(response.data).data.shopperSum  );
-
-        return Balance.fromJson(response.data).data;
-      }else{
-        snackBar(message: 'حدث خطأ اثناء التحديث ' , success: true, context: context);
-      }
-
-      return null ;
     } catch (e) {
       return null;
     }
@@ -90,11 +75,14 @@ class GeneralApis {
     try {
       SharedPreferences prefs = sl<SharedPreferences>();
 
-      var response = await ApiProvider.sendRequest(url: getBalanceApi, method: HttpMethods.get , queryParameters: {'admin_id':int.parse(prefs.getString('adminId'))});
+      var response = await ApiProvider.sendRequest(
+          url: getBalanceApi,
+          method: HttpMethods.get,
+          queryParameters: {'admin_id': int.parse(prefs.getString('adminId'))});
 
       if (response.statusCode == successCode) return Balance.fromJson(response.data).data; // Assuming JSON parsing
 
-      return null ;
+      return null;
     } catch (e) {
       return null;
     }
@@ -155,7 +143,7 @@ class GeneralApis {
 
   static Future<bool> getCategoryService(BuildContext context) async {
     try {
-      var response = await ApiProvider.sendRequest(url: getCategoryApi, method: HttpMethods.get );
+      var response = await ApiProvider.sendRequest(url: getCategoryApi, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
         final categories = categoryOriginalFromJson(jsonEncode(response.data)).data;
@@ -224,7 +212,6 @@ class GeneralApis {
         final List<ShopperLevelEntity> levels = await GeneralApis.getLevels();
 
         StoreProvider.of<AppState>(context).dispatch(SetLevels(levels: levels));
-
       }
       final BalanceModel balance = await GeneralApis.getBalance();
       StoreProvider.of<AppState>(context).dispatch(SetBalance(balance: balance));

@@ -1,7 +1,7 @@
 import 'package:kammun_app/features/users/domain/use_cases/users_use_cases.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../data/models/palance_model.dart';
+import '../../data/models/balance_model.dart';
 import '../../domain/entities/user_entity.dart';
 
 @immutable

@@ -5,7 +5,7 @@
 import 'package:kammun_app/features/users/presentation/redux/users_action.dart';
 
 import '../../../core/core_importer.dart';
-import '../../users/data/models/palance_model.dart';
+import '../../users/data/models/balance_model.dart';
 import 'drawer_children.dart';
 
 class KDrawer extends StatelessWidget {
@@ -52,27 +52,34 @@ class KDrawer extends StatelessWidget {
                     ),
                   ),
                   Container(child: Image.asset('assets/kmlogoo.png', width: 250, height: 150), color: Colors.white),
-                  if (state.usersState.balance.shopperSum != null && !Services.hasRole(context, shopperRole))
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8 , right: 8),
-                      child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          LabelRow(
-                              rightSideText: 'الرصيد: ',
-                              leftSideText: StringUtils().oCcy.format(state.usersState.balance.shopperSum).replaceAll('-', '') +
-                                  ' ' +
-                                  state.generalInformationState.companyInformation.currency,
-                              leftSideStyle: state.adminsState.admin.balance.isNegative ? warningStyle : informationStyle),
-                          IconButton(onPressed: () async {
-                            final BalanceModel balance = await GeneralApis.getBalanceRefrech(context: context);
-                            StoreProvider.of<AppState>(context).dispatch(SetBalance(balance: balance));
-
-
-                          }, icon: const Icon(Icons.refresh ,) , color:kmColors ,)
-                        ],
+                  if (state.usersState.balance != null)
+                    if (state.usersState.balance.shopperSum != null && !Services.hasRole(context, shopperRole))
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8, right: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            LabelRow(
+                                rightSideText: 'الرصيد: ',
+                                leftSideText:
+                                    StringUtils().oCcy.format(state.usersState.balance.shopperSum).replaceAll('-', '') +
+                                        ' ' +
+                                        state.generalInformationState.companyInformation.currency,
+                                leftSideStyle:
+                                    state.adminsState.admin.balance.isNegative ? warningStyle : informationStyle),
+                            IconButton(
+                              onPressed: () async {
+                                final BalanceModel balance = await GeneralApis.getBalanceRefresh(context: context);
+                                StoreProvider.of<AppState>(context).dispatch(SetBalance(balance: balance));
+                              },
+                              icon: const Icon(
+                                Icons.refresh,
+                              ),
+                              color: kmColors,
+                            )
+                          ],
+                        ),
                       ),
-                    ),
                   Divider(color: kmColors),
                   Expanded(child: ListView(primary: false, children: getDrawerChildren(context))),
                   Divider(color: kmColors, height: 20),
@@ -81,7 +88,7 @@ class KDrawer extends StatelessWidget {
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children:  const <Widget>[
+                        children: const <Widget>[
                           MediaIcon(icon: Icons.facebook, url: 'facebook'),
                           MediaIcon(icon: Icons.facebook, url: 'instagram'),
                           MediaIcon(icon: Icons.messenger, url: 'messenger'),
