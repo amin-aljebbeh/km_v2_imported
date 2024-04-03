@@ -20,7 +20,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   TransactionCategoryEntity category;
   int categoryId;
   String adminId;
-  String shupperName;
+  String shopperName;
   final moneyController = TextEditingController();
   final descriptionController = TextEditingController();
 
@@ -91,7 +91,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: SizedBox(
-                                   // width: MediaQuery.of(context).size.width,
+                                    // width: MediaQuery.of(context).size.width,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -107,15 +107,12 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                                     child: AutoSizeText(actor.name, style: mainStyle, maxFontSize: 15),
                                                     value: actor.name))
                                                 .toList(),
-                                            onChanged: (value)  {
-
-                                                adminId = state.adminsState.transactionsActors
-                                                    .firstWhere((admin) => admin.name == value)
-                                                    .id
-                                                    .toString();
-                                                shupperName =  value;
-
-
+                                            onChanged: (value) {
+                                              adminId = state.adminsState.transactionsActors
+                                                  .firstWhere((admin) => admin.name == value)
+                                                  .id
+                                                  .toString();
+                                              shopperName = value;
                                             },
                                           ),
                                         ),
@@ -131,7 +128,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                   onChange: () => setState(() {}),
                                   text: 'المبلغ :',
                                   inputType: TextInputType.number,
-                                    width: MediaQuery.of(context).size.width * 0.65,
+                                  width: MediaQuery.of(context).size.width * 0.65,
                                 ),
                               ),
                               Padding(
@@ -187,14 +184,14 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                 }
                               }
                               Navigator.push(
-                                  context, MaterialPageRoute(builder: (context) => TransactionsPage(adminId: id , shupperName: shupperName,)));
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TransactionsPage(adminId: id, shupperName: shopperName)));
                             },
                             height: 50,
                             text: 'كشف حساب',
                           ),
-                          if(!Services.hasRole(context,productsControllerRole ) || !Services.hasRole(context,operationManagerRole )|| !Services.hasRole(context,superAdminRole)  )
-
-                            KammunButton(
+                          KammunButton(
                             height: 50,
                             text: addTransaction,
                             color: !completeData() ? searchGreyColor : primaryColor,
@@ -218,7 +215,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                                               value: int.parse(moneyController.text).abs(),
                                               description: descriptionController.text,
                                               orderId: widget.orderId)));
-                                      moneyController.clear() ;
+                                      moneyController.clear();
                                       descriptionController.clear();
                                     },
                                   ),

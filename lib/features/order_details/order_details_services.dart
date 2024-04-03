@@ -28,13 +28,16 @@ List<DropdownMenuItem<dynamic>> subWarehousesItems({BuildContext context, int su
 Map<int, List<ProductEntity>> getSubWarehousesProducts(
     {List<ProductEntity> products, bool deleted, BuildContext context, List<int> subWarehouses}) {
   List<ProductEntity> productsAry = [];
+  productsAry.addAll(products);
   if (deleted) {
     productsAry.removeWhere((product) => product.pivot.deletedAt == 'null');
+    // remove remaining products and keep deleted
   } else {
     productsAry.removeWhere((product) => product.pivot.deletedAt != 'null');
+    // remove deleted products and keep remaining
   }
   Map<int, List<ProductEntity>> subWarehousesProducts =
-      products.fold<Map<int, List<ProductEntity>>>({}, (map, product) {
+      productsAry.fold<Map<int, List<ProductEntity>>>({}, (map, product) {
     final subWarehouseId = product.pivot.subWarehouseId;
 
     if (!map.containsKey(subWarehouseId)) map[subWarehouseId] = [];

@@ -22,9 +22,16 @@ class _OrderSubWarehouseProductsWidgetState extends State<OrderSubWarehouseProdu
       distinct: true,
       builder: (context, state) {
         if (widget.productsAry.isEmpty) return const SizedBox();
-        SubWarehouseEntity subWarehouse = state.shoppersState.shopper.level.subWarehouses.firstWhere(
-            (subWarehouse) => subWarehouse.id == widget.productsAry[0].pivot.subWarehouseId,
-            orElse: () => SubWarehouseModel(name: 'No element', requireAuthCodes: 0));
+        SubWarehouseEntity subWarehouse;
+        if (Services.hasRole(context, shopperRole)) {
+          subWarehouse = state.shoppersState.shopper.level.subWarehouses.firstWhere(
+              (subWarehouse) => subWarehouse.id == widget.productsAry[0].pivot.subWarehouseId,
+              orElse: () => SubWarehouseModel(name: 'No element', requireAuthCodes: 0));
+        } else {
+          subWarehouse = state.generalInformationState.subWarehouses.firstWhere(
+              (subWarehouse) => subWarehouse.id == widget.productsAry[0].pivot.subWarehouseId,
+              orElse: () => SubWarehouseModel(name: 'No element', requireAuthCodes: 0));
+        }
         return Column(
           children: [
             Container(
