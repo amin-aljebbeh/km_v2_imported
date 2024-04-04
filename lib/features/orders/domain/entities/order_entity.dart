@@ -93,7 +93,10 @@ class OrderEntity {
         .state
         .generalInformationState
         .subWarehouses
-        .where((subWarehouse) => products.map((product) => product.subWarehouseId).contains(subWarehouse.id))
+        .where((subWarehouse) => products
+            .where((product) => product.pivot.deletedAt == 'null')
+            .map((product) => product.subWarehouseId)
+            .contains(subWarehouse.id))
         .map((subWarehouse) => OrderAccountingRow(
             subWarehouseId: subWarehouse.id,
             subWarehouseName: subWarehouse.name,

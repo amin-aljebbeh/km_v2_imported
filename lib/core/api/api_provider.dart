@@ -23,8 +23,8 @@ class ApiProvider {
     if (kDebugMode) {
       dio.interceptors.add(PrettyDioLogger(
           requestHeader: false,
-          requestBody: true,
-          responseBody: true,
+          requestBody: false,
+          responseBody: false,
           responseHeader: false,
           request: false,
           error: false,

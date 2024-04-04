@@ -26,7 +26,6 @@ class OrderProductsPageState extends State<OrderProductsPage> with AutomaticKeep
       builder: (context, state) {
         subWarehousesProducts = getSubWarehousesProducts(
             deleted: widget.deleted,
-            subWarehouses: widget.order.subWarehouseAuthCodes.map((code) => code.subWarehouseId).toList(),
             products: state.ordersState.orders.firstWhere((element) => element.id == widget.order.id).products,
             context: context);
         return Scaffold(

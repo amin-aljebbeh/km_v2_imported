@@ -35,10 +35,14 @@ class TransactionWidget extends StatelessWidget {
                       KammunButton(
                         color: primaryColor,
                         padding: const EdgeInsets.symmetric(vertical: 5),
-                        onTap: () async {/*StoreProvider.of<AppState>(context).dispatch(
+                        onTap: () async {
+                          /*StoreProvider.of<AppState>(context).dispatch(
                             ParticularDayProfits(context: ctx, date: transaction.createdAt, adminId: adminId));*/
-                        // specificDayProfitWidget(context: context, date: intl.DateFormat('dd-MM-yyyy', 'en').format(transaction.createdAt), transactions:balance);
-
+                          // specificDayProfitWidget(context: context, date: intl.DateFormat('dd-MM-yyyy', 'en').format(transaction.createdAt), transactions:balance);
+                          await GeneralApis.getBalanceCalculate(
+                              adminId: adminId,
+                              context: ctx,
+                              date: intl.DateFormat('yyyy-MM-dd', 'en').format(transaction.createdAt).toString());
                         },
                         text: 'المجموع',
                         width: MediaQuery.of(context).size.width * 0.25,

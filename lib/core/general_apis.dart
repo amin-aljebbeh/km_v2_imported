@@ -8,6 +8,7 @@ import '../features/shoppers/data/models/shopper_level_model.dart';
 import '../features/shoppers/domain/entities/shopper_level_entity.dart';
 import '../features/shoppers/presentation/redux/shoppers_action.dart';
 import '../features/transactions/presentation/redux/transactions_action.dart';
+import '../features/transactions/presentation/widgets/specific_day_profit_widget.dart';
 import '../features/users/data/models/balance_model.dart';
 import '../features/users/presentation/redux/users_action.dart';
 import 'core_importer.dart';
@@ -37,6 +38,29 @@ class GeneralApis {
 
       if (response.statusCode == successCode) {
         snackBar(message: 'تمّ تحديث الرصيد', success: true, context: context);
+
+        return Balance.fromJson(response.data).data;
+      } else {
+        snackBar(message: 'حدث خطأ اثناء التحديث ', success: true, context: context);
+      }
+
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<BalanceModel> getBalanceCalculate({BuildContext context, String date, int adminId}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+          url: getBalanceApi, method: HttpMethods.get, queryParameters: {'date': date, 'admin_id': adminId});
+
+      if (response.statusCode == successCode) {
+        specificDayProfitWidget(
+            context: context,
+            date: date,
+            company: Balance.fromJson(response.data).data.companySum,
+            shoppers: Balance.fromJson(response.data).data.shopperSum);
 
         return Balance.fromJson(response.data).data;
       } else {

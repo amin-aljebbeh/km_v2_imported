@@ -26,7 +26,7 @@ List<DropdownMenuItem<dynamic>> subWarehousesItems({BuildContext context, int su
 }
 
 Map<int, List<ProductEntity>> getSubWarehousesProducts(
-    {List<ProductEntity> products, bool deleted, BuildContext context, List<int> subWarehouses}) {
+    {List<ProductEntity> products, bool deleted, BuildContext context}) {
   List<ProductEntity> productsAry = [];
   productsAry.addAll(products);
   if (deleted) {
