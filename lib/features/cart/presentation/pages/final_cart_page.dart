@@ -144,7 +144,7 @@ class FinalCartPage extends StatelessWidget {
                                 ? const Loader()
                                 : Column(
                                     children: <Widget>[
-                                       if (state.cartState.orderUnderUpdateStatus == 5)
+                                      if (state.cartState.orderUnderUpdateStatus == 5)
                                         Row(
                                           children: [
                                             Checkbox(
@@ -155,88 +155,90 @@ class FinalCartPage extends StatelessWidget {
                                                 style: decisionButtonStyle.copyWith(color: Colors.black)),
                                           ],
                                         ),
-                                      if(Services.hasRole(context, agentRole)||Services.hasRole(context, superAdminRole) )
-                                      KammunButton(
-                                        color: primaryColor,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.center,
-                                              padding: const EdgeInsets.only(top: 0, bottom: 0, right: 15),
-                                              child: const Icon(Icons.add_box_outlined, color: Colors.white, size: 32),
-                                            ),
-                                            Expanded(
-                                              child: Align(
+                                      if (Services.hasRole(context, agentRole) ||
+                                          Services.hasRole(context, superAdminRole))
+                                        KammunButton(
+                                          color: primaryColor,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Container(
                                                 alignment: Alignment.center,
-                                                child: Text(
-                                                  'إضافة ملاحظة',
-                                                  textAlign: TextAlign.start,
-                                                  style: mainStyle.copyWith(
-                                                      color: Colors.white, fontWeight: FontWeight.bold),
+                                                padding: const EdgeInsets.only(top: 0, bottom: 0, right: 15),
+                                                child:
+                                                    const Icon(Icons.add_box_outlined, color: Colors.white, size: 32),
+                                              ),
+                                              Expanded(
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    'إضافة ملاحظة',
+                                                    textAlign: TextAlign.start,
+                                                    style: mainStyle.copyWith(
+                                                        color: Colors.white, fontWeight: FontWeight.bold),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const Icon(Icons.add, color: Colors.transparent, size: 32),
-                                          ],
-                                        ),
-                                        onTap: () {
-                                          showMyDialog(
-                                            context: context,
-                                            title: 'إضافة ملاحظة',
-                                            dialogButtons: [],
-                                            content: Stack(
-                                              clipBehavior: Clip.none,
-                                              children: <Widget>[
-                                                Positioned(
-                                                  right: -40.0,
-                                                  top: -40.0,
-                                                  child: InkResponse(
-                                                      onTap: () => Navigator.of(context).pop(),
-                                                      child: const CircleAvatar(
-                                                          child: Icon(Icons.close), backgroundColor: Colors.red)),
-                                                ),
-                                                Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Text('ملاحظات على الطلب',
-                                                          style: mainStyle.copyWith(
-                                                              fontWeight: FontWeight.w700, fontSize: 18)),
-                                                    ),
-                                                    Container(
-                                                      padding: const EdgeInsets.only(left: 8, right: 8),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                                                          border: Border.all(width: 2, color: kmColors)),
-                                                      child: TextField(
-                                                        controller: userNotes,
-                                                        textAlign: TextAlign.right,
-                                                        keyboardType: TextInputType.multiline,
-                                                        maxLines: 5,
-                                                        style: mainStyle,
+                                              const Icon(Icons.add, color: Colors.transparent, size: 32),
+                                            ],
+                                          ),
+                                          onTap: () {
+                                            showMyDialog(
+                                              context: context,
+                                              title: 'إضافة ملاحظة',
+                                              dialogButtons: [],
+                                              content: Stack(
+                                                clipBehavior: Clip.none,
+                                                children: <Widget>[
+                                                  Positioned(
+                                                    right: -40.0,
+                                                    top: -40.0,
+                                                    child: InkResponse(
+                                                        onTap: () => Navigator.of(context).pop(),
+                                                        child: const CircleAvatar(
+                                                            child: Icon(Icons.close), backgroundColor: Colors.red)),
+                                                  ),
+                                                  Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text('ملاحظات على الطلب',
+                                                            style: mainStyle.copyWith(
+                                                                fontWeight: FontWeight.w700, fontSize: 18)),
                                                       ),
-                                                    ),
-                                                    KammunButton(
-                                                      text: save + ' ' + note,
-                                                      width: MediaQuery.of(context).size.width / 2.5,
-                                                      height: 40,
-                                                      color: primaryColor,
-                                                      onTap: () {
-                                                        store.dispatch(SetUserNote(note: userNotes.text));
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      ),
+                                                      Container(
+                                                        padding: const EdgeInsets.only(left: 8, right: 8),
+                                                        decoration: BoxDecoration(
+                                                            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                            border: Border.all(width: 2, color: kmColors)),
+                                                        child: TextField(
+                                                          controller: userNotes,
+                                                          textAlign: TextAlign.right,
+                                                          keyboardType: TextInputType.multiline,
+                                                          maxLines: 5,
+                                                          style: mainStyle,
+                                                        ),
+                                                      ),
+                                                      KammunButton(
+                                                        text: save + ' ' + note,
+                                                        width: MediaQuery.of(context).size.width / 2.5,
+                                                        height: 40,
+                                                        color: primaryColor,
+                                                        onTap: () {
+                                                          store.dispatch(SetUserNote(note: userNotes.text));
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       KammunButton(
                                         width: MediaQuery.of(context).size.width,
                                         color:
@@ -247,8 +249,8 @@ class FinalCartPage extends StatelessWidget {
                                           List<InvoiceProductEntity> products = state.cartState.cartProducts
                                               .map((product) => InvoiceProductEntity(
                                                   quantity: product.productCount,
-                                                  price: int.parse(product.price.split('.')[0]) /*+
-                                                      (product.pivot == null ? 0 : product.pivot.increaseValue)*/,
+                                                  price: int.parse(product.price.split('.')[0]) +
+                                                      (product.pivot == null ? 0 : product.pivot.increaseValue),
                                                   productId: product.id))
                                               .toList();
                                           int purchasePrices = state.cartState.cartProducts.fold(
@@ -256,8 +258,8 @@ class FinalCartPage extends StatelessWidget {
                                               (value, product) =>
                                                   value +
                                                   (product.productCount *
-                                                      (int.parse(product.price.split('.')[0]) /*+
-                                                          (product.pivot == null ? 0 : product.pivot.increaseValue)*/)));
+                                                      (int.parse(product.price.split('.')[0]) +
+                                                          (product.pivot == null ? 0 : product.pivot.increaseValue))));
                                           SubmitOrderEntity submitOrderEntity = SubmitOrderEntity(
                                               products: products,
                                               purchasePrices: purchasePrices,
