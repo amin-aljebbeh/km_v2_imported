@@ -99,9 +99,6 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 7.8)
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - Flutter (1.0.0)
-  - fluttertoast (0.0.2):
-    - Flutter
-    - Toast
   - GoogleAppMeasurement (10.6.0):
     - GoogleAppMeasurement/AdIdSupport (= 10.6.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
@@ -122,9 +119,9 @@ PODS:
     - GoogleUtilities/Network (~> 7.8)
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - GoogleDataTransport (9.3.0):
+  - GoogleDataTransport (9.4.1):
     - GoogleUtilities/Environment (~> 7.7)
-    - nanopb (< 2.30910.0, >= 2.30908.0)
+    - nanopb (< 2.30911.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleMLKit/BarcodeScanning (4.0.0):
     - GoogleMLKit/MLKitCore
@@ -216,7 +213,6 @@ PODS:
   - smart_auth (0.0.1):
     - Flutter
   - SwiftyGif (5.4.4)
-  - Toast (4.1.0)
   - url_launcher_ios (0.0.1):
     - Flutter
 
@@ -229,7 +225,6 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
-  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - just_audio (from `.symlinks/plugins/just_audio/ios`)
   - map_launcher (from `.symlinks/plugins/map_launcher/ios`)
@@ -268,7 +263,6 @@ SPEC REPOS:
     - PromisesObjC
     - SDWebImage
     - SwiftyGif
-    - Toast
 
 EXTERNAL SOURCES:
   adv_image_cache:
@@ -287,8 +281,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
     :path: Flutter
-  fluttertoast:
-    :path: ".symlinks/plugins/fluttertoast/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   just_audio:
@@ -331,9 +323,8 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 558b1da7d65afeb996fd5c814332f013234ece4e
   FirebaseMessaging: fd93783258c53ae5cdb9b41bf0c51606a677f2d5
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   GoogleAppMeasurement: 686b48c3c895f3c55c70719041913d5d150b74f6
-  GoogleDataTransport: 57c22343ab29bc686febbf7cbb13bad167c2d8fe
+  GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleMLKit: 2bd0dc6253c4d4f227aad460f69215a504b2980e
   GoogleToolboxForMac: 8bef7c7c5cf7291c687cf5354f39f9db6399ad34
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
@@ -358,7 +349,6 @@ SPEC CHECKSUMS:
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   smart_auth: 4bedbc118723912d0e45a07e8ab34039c19e04f2
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
-  Toast: ec33c32b8688982cecc6348adeae667c1b9938da
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
 PODFILE CHECKSUM: 18c69129522d2302c8c9e5c65e4ab9281271c281
