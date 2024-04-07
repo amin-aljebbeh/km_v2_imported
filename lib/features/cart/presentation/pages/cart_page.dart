@@ -70,8 +70,8 @@ class CartPage extends StatelessWidget {
                                   builder: (context) =>
                                       FinalCartPage(userNotes: TextEditingController(text: state.cartState.userNote))));
                         } else {
-                          Toast.show('يرجى إضافة منتج واحد على الأقل', context,
-                              duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                          Toast.show('يرجى إضافة منتج واحد على الأقل',
+                              duration: Toast.lengthLong, gravity: Toast.center);
                         }
                       },
                       height: 50,

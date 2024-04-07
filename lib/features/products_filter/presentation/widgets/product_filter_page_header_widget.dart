@@ -64,9 +64,9 @@ class ProductFilterPageHeaderWidget extends StatelessWidget {
                               store.dispatch(
                                   InitProductsFilter(context: context));
                             } else {
-                              Toast.show('الرجاء إدخال كافة البيانات', context,
-                                  duration: Toast.LENGTH_LONG,
-                                  gravity: Toast.CENTER);
+                              Toast.show('الرجاء إدخال كافة البيانات', 
+                                  duration: Toast.lengthLong,
+                                  gravity: Toast.center);
                             }
                           },
                         )

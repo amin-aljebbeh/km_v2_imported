@@ -50,7 +50,7 @@ class AssignmentManagementWidget extends StatelessWidget {
                       child: Icon(Icons.contact_phone_rounded, color: kmColors),
                       onTap: () {
                         Clipboard.setData(ClipboardData(text: order.shopper.admin.phone));
-                        Toast.show('تم نسخ رقم الكابتن', context, duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
+                        Toast.show('تم نسخ رقم الكابتن', duration: Toast.lengthShort, gravity: Toast.center);
                       },
                     ),
                     Padding(

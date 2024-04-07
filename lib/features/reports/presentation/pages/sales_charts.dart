@@ -176,8 +176,8 @@ class _SalesChartsState extends State<SalesCharts> {
                             StoreProvider.of<AppState>(context)
                                 .dispatch(GetSalesReportsAction(fromDate: fromDateTimeValue, toDate: toDateTimeValue));
                           } else {
-                            Toast.show('الرجاء إدخال كافة البيانات', context,
-                                duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                            Toast.show('الرجاء إدخال كافة البيانات', 
+                                duration: Toast.lengthLong, gravity: Toast.center);
                           }
                         },
                         height: 50,

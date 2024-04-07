@@ -81,8 +81,8 @@ class _OrderAccountingState extends State<OrderAccounting> {
                           color: kmColors,
                           onTap: () {
                             if (widget.order.shopper == null) {
-                              Toast.show('هذا الطلب غير مسند لمتسوق', context,
-                                  duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                              Toast.show('هذا الطلب غير مسند لمتسوق',
+                                  duration: Toast.lengthLong, gravity: Toast.center);
                             } else {
                               Navigator.push(
                                   context,

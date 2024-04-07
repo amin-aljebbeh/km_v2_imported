@@ -69,8 +69,8 @@ class SubWarehouseManagerPage extends StatelessWidget {
                                     inventoryType: InventoryTypes.subWarehouse,
                                     subWarehouseId: state.excelInventoryState.subWarehouseId));
                               } else {
-                                Toast.show('يرجى اختيار المستودع', context,
-                                    duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                Toast.show('يرجى اختيار المستودع', 
+                                    duration: Toast.lengthLong, gravity: Toast.center);
                               }
                             },
                           ),
@@ -86,8 +86,8 @@ class SubWarehouseManagerPage extends StatelessWidget {
                                 if (state.excelInventoryState.subWarehouseId != null) {
                                   StoreProvider.of<AppState>(context).dispatch(PickFileAction(context: context));
                                 } else {
-                                  Toast.show('يرجى اختيار المستودع', context,
-                                      duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                  Toast.show('يرجى اختيار المستودع', 
+                                      duration: Toast.lengthLong, gravity: Toast.center);
                                 }
                               },
                             ),

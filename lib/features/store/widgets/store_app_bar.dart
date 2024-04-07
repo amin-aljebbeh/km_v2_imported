@@ -61,8 +61,8 @@ class _StoreAppBarState extends State<StoreAppBar> {
                                   setState(() => state.shoppersState.shopper.status =
                                       state.shoppersState.shopper.status == 1 ? 0 : 1);
                                 } else {
-                                  Toast.show('يرجى الاتصال بالإنترنت', context,
-                                      duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                  Toast.show('يرجى الاتصال بالإنترنت', 
+                                      duration: Toast.lengthLong, gravity: Toast.center);
                                 }
                               },
                             )

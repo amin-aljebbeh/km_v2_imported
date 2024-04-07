@@ -21,7 +21,7 @@ dependencies:
   auto_size_text: ^3.0.0
   search_choices: ^1.0.17
   #font_awesome_flutter: ^8.12.0
-  toast: ^0.1.5
+  toast: ^0.2.9
   fluttertoast: ^7.1.8
   flutter_screenutil:
   pretty_dio_logger: ^1.1.1

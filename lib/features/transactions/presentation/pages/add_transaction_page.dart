@@ -200,8 +200,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                             color: !completeData() ? searchGreyColor : primaryColor,
                             onTap: () async {
                               if (!completeData()) {
-                                Toast.show('يرجى إدخال كافة البيانات', context,
-                                    duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                Toast.show('يرجى إدخال كافة البيانات',
+                                    duration: Toast.lengthLong, gravity: Toast.center);
                               } else {
                                 print(adminId);
                                 List<DialogButton> decisionButton = [

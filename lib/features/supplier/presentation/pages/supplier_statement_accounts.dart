@@ -35,8 +35,8 @@ class SupplierAccounts extends StatelessWidget {
                           StoreProvider.of<AppState>(context)
                               .dispatch(GetAccountStatementAction(from: fromDateTimeValue, to: toDateTimeValue));
                         } else {
-                          Toast.show('الرجاء إدخال كافة البيانات', context,
-                              duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                          Toast.show('الرجاء إدخال كافة البيانات', 
+                              duration: Toast.lengthLong, gravity: Toast.center);
                         }
                       },
                       height: 50,

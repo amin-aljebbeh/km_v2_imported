@@ -120,8 +120,8 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                     }
                   }
                 } else {
-                  Toast.show('الحقل فارغ !', context,
-                      duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                  Toast.show('الحقل فارغ !',
+                      duration: Toast.lengthLong, gravity: Toast.center);
                 }
               },
             ),

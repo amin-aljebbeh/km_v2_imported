@@ -219,8 +219,8 @@ class _SalesReportState extends State<SalesReport> {
                           StoreProvider.of<AppState>(context)
                               .dispatch(GetSalesReportsAction(toDate: toDateTimeValue, fromDate: fromDateTimeValue));
                         } else {
-                          Toast.show('الرجاء إدخال كافة البيانات', context,
-                              duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                          Toast.show('الرجاء إدخال كافة البيانات', 
+                              duration: Toast.lengthLong, gravity: Toast.center);
                         }
                       },
                       height: 50,

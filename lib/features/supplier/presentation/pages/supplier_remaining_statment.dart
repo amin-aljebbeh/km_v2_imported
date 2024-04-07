@@ -35,8 +35,8 @@ class SupplierRemainingAccounts extends StatelessWidget {
                           StoreProvider.of<AppState>(context)
                               .dispatch(GetRemainingStatementAction(to: toDateTimeValue, from: fromDateTimeValue));
                         } else {
-                          Toast.show('الرجاء إدخال كافة البيانات', context,
-                              duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                          Toast.show('الرجاء إدخال كافة البيانات', 
+                              duration: Toast.lengthLong, gravity: Toast.center);
                         }
                       },
                       height: 50,

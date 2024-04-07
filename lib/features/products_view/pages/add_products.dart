@@ -355,9 +355,9 @@ class _AddProductsViewState extends State<AddProductsView> {
                                           .replaceAll(',', '\n')
                                           .replaceAll('[', '')
                                           .replaceAll(']', ''),
-                                  context,
-                                  duration: Toast.LENGTH_LONG,
-                                  gravity: Toast.CENTER);
+                               
+                                  duration: Toast.lengthLong,
+                                  gravity: Toast.center);
                             }
                           },
                         ),

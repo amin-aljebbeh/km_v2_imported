@@ -42,7 +42,7 @@ class AdminOrderInfoWidget extends StatelessWidget {
                       child: Icon(Icons.copy, color: kmColors, size: 25),
                       onTap: () {
                         Clipboard.setData(ClipboardData(text: order.user.phone));
-                        Toast.show('تم نسخ الرقم', context, duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
+                        Toast.show('تم نسخ الرقم', duration: Toast.lengthLong, gravity: Toast.center);
                       },
                     ),
                   if (Services.hasRole(context, agentRole))

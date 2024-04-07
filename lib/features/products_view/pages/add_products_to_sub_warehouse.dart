@@ -187,8 +187,8 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                     context: context);
                               }
                             } else {
-                              Toast.show('يرجى إدخال كافة البيانات', context,
-                                  duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                              Toast.show('يرجى إدخال كافة البيانات',
+                                  duration: Toast.lengthLong, gravity: Toast.center);
                             }
                           },
                         ),

@@ -35,7 +35,7 @@ class GetFilteredProductsAction extends ProductsFilterAction {
     switch (store.state.productsFilterState.filteredProductsTypes) {
       case FilteredProductsTypes.lastActivation:
         if (store.state.productsFilterState.number <= 5) {
-          Toast.show('يرجى إدخال عدد أيام أكبر من 5', context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+          Toast.show('يرجى إدخال عدد أيام أكبر من 5', duration: Toast.lengthLong, gravity: Toast.center);
           return;
         } else {
           store.dispatch(FilterByLastActivationDateAction());
