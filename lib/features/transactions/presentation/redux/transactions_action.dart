@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kammun_app/features/transactions/domain/entities/transaction_category_entity.dart';
 
 import '../../../../core/core_importer.dart';
@@ -22,14 +21,17 @@ class CreateTransactionAction implements TransactionsAction {
   final BuildContext context;
   final AdminTransactionEntity transactionEntity;
 
-  CreateTransactionAction({this.transactionEntity, this.context, this.pop = true});
+  CreateTransactionAction(
+      {this.transactionEntity, this.context, this.pop = true});
 
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     Either either = await store.state.transactionsState.transactionsUseCase
         .createTransactionUseCase(transactionEntity: transactionEntity);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
+    either.fold(
+        (failure) => store.dispatch(
+            CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
       snackBar(success: true, context: context, message: 'تمت العملية بنجاح');
       // if (pop) Navigator.pop(context);
     });
@@ -46,9 +48,11 @@ class DeleteTransactionRequestAction implements TransactionsAction {
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
-    Either either =
-        await store.state.transactionsState.transactionsUseCase.deleteTransactionRequestUseCase(requestId: requestId);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
+    Either either = await store.state.transactionsState.transactionsUseCase
+        .deleteTransactionRequestUseCase(requestId: requestId);
+    either.fold(
+        (failure) => store.dispatch(
+            CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
       store.dispatch(RequestDeleted(requestId: requestId));
       snackBar(message: 'تمت العملية بنجاح', success: true, context: context);
     });
@@ -68,20 +72,27 @@ class GetTransactionRequestsAction implements TransactionsAction {
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
-    Either either = await store.state.transactionsState.transactionsUseCase.getTransactionRequestsUseCase(
-      transactionCategoryId: store.state.transactionsState.transactionCategoryId,
+    Either either = await store.state.transactionsState.transactionsUseCase
+        .getTransactionRequestsUseCase(
+      transactionCategoryId:
+          store.state.transactionsState.transactionCategoryId,
       assignedToMe: store.state.transactionsState.assignedToMe,
       createdByMe: store.state.transactionsState.createdByMe,
       transactionStatusId: store.state.transactionsState.transactionStatusId,
       pageNumber: store.state.transactionsState.requestsPage,
     );
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (requests) {
+    either.fold(
+        (failure) => store.dispatch(
+            CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
+        (requests) {
       RequestsDataEntity req = requests;
       store.dispatch(SetFilterCategories(categories: req.categoryForFilter));
-      if (req.transactionRequest.currentPage == req.transactionRequest.lastPage) {
+      if (req.transactionRequest.currentPage ==
+          req.transactionRequest.lastPage) {
         store.dispatch(EndOfTransactionsRequests());
       }
-      store.dispatch(SetTransactionRequests(requests: req.transactionRequest.requests));
+      store.dispatch(
+          SetTransactionRequests(requests: req.transactionRequest.requests));
     });
     store.dispatch(StopLoading());
   }
@@ -119,23 +130,34 @@ class GetTransactionsAction implements TransactionsAction {
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
-    Either either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
+    Either either = await store.state.transactionsState.transactionsUseCase
+        .getTransactionsUseCase(
       pageNumber: store.state.transactionsState.transactionsPage,
-      adminId: store.state.adminsState.admin.permissions.contains(advancedTransactionPermission) ? adminId : null,
-      groupingByParent: store.state.adminsState.admin.permissions.contains(advancedTransactionPermission)
+      adminId: store.state.adminsState.admin.permissions
+              .contains(advancedTransactionPermission)
+          ? adminId
+          : null,
+      groupingByParent: store.state.adminsState.admin.permissions
+              .contains(advancedTransactionPermission)
           ? store.state.transactionsState.groupingTransactions
               ? 1
               : 0
           : 1,
-      lastWeek: store.state.adminsState.admin.permissions.contains(advancedTransactionPermission) ? 0 : 1,
+      lastWeek: store.state.adminsState.admin.permissions
+              .contains(advancedTransactionPermission)
+          ? 0
+          : 1,
     );
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
+    either.fold(
+        (failure) => store.dispatch(
+            CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
         (transactionsPage) {
       TransactionsPaginationEntity transactions = transactionsPage;
       if (transactions.currentPage == transactions.lastPage) {
         store.dispatch(EndOfTransactions());
       }
-      store.dispatch(SetTransactions(transactions: transactionsPage.transactions));
+      store.dispatch(
+          SetTransactions(transactions: transactionsPage.transactions));
     });
     store.dispatch(StopLoading());
   }
@@ -157,16 +179,20 @@ class ParticularDayProfits implements TransactionsAction {
     int pageNumber = 1;
     store.dispatch(StartLoading());
     while (dateCondition) {
-      Either either = await store.state.transactionsState.transactionsUseCase.getTransactionsUseCase(
+      Either either = await store.state.transactionsState.transactionsUseCase
+          .getTransactionsUseCase(
         pageNumber: pageNumber,
         adminId: adminId,
         groupingByParent: 0,
-        lastWeek: Services.hasPermission(context, advancedTransactionPermission) ? 0 : 1,
+        lastWeek: Services.hasPermission(context, advancedTransactionPermission)
+            ? 0
+            : 1,
       );
       either.fold((failure) => error = true, (transactionsPage) {
         TransactionsPaginationEntity tempTransactions = transactionsPage;
-        List<AdminTransactionEntity> list =
-            tempTransactions.transactions.where((transaction) => transaction.createdAt.day == date.day).toList();
+        List<AdminTransactionEntity> list = tempTransactions.transactions
+            .where((transaction) => transaction.createdAt.day == date.day)
+            .toList();
         transactions.addAll(list);
         if (list.isEmpty) {
           if (toBreak) dateCondition = false;
@@ -194,8 +220,12 @@ class GetAdminBalanceAction implements TransactionsAction {
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
-    Either either = await store.state.transactionsState.transactionsUseCase.getAdminBalanceUseCase(adminId: adminId);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (balance) {
+    Either either = await store.state.transactionsState.transactionsUseCase
+        .getAdminBalanceUseCase(adminId: adminId);
+    either.fold(
+        (failure) => store.dispatch(
+            CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
+        (balance) {
       AdminBalanceEntity adminBalance = balance;
       adminBalanceWidget(context: context, balance: adminBalance);
     });
@@ -211,8 +241,8 @@ class GetShopperReportAction implements TransactionsAction {
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
-    Either either =
-        await store.state.transactionsState.transactionsUseCase.getShopperReportUseCase(shopperId: shopperId);
+    Either either = await store.state.transactionsState.transactionsUseCase
+        .getShopperReportUseCase(shopperId: shopperId);
     either.fold((failure) {
       store.dispatch(SetShopperReport(
           shopperReport: ShopperReportEntity(
@@ -225,7 +255,9 @@ class GetShopperReportAction implements TransactionsAction {
         workingHour: 'error',
       )));
       store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));
-    }, (shopperReport) => store.dispatch(SetShopperReport(shopperReport: shopperReport)));
+    },
+        (shopperReport) =>
+            store.dispatch(SetShopperReport(shopperReport: shopperReport)));
     store.dispatch(StopLoading());
   }
 }
@@ -262,22 +294,26 @@ class ChangeTransactionRequestStatusAction implements TransactionsAction {
   final String rejectReason;
   final BuildContext context;
 
-  ChangeTransactionRequestStatusAction({this.requestId, this.statusId, this.rejectReason, this.context});
+  ChangeTransactionRequestStatusAction(
+      {this.requestId, this.statusId, this.rejectReason, this.context});
 
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     Either either = await store.state.transactionsState.transactionsUseCase
-        .changeTransactionRequestStatusUseCase(statusId: statusId, requestId: requestId, rejectReason: rejectReason);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) async {
-      store.dispatch(TransactionRequestChanged(rejectReason: rejectReason, requestId: requestId, statusId: statusId));
-      Fluttertoast.showToast(
-        msg: 'تمت العملية بنجاح',
-        gravity: ToastGravity.CENTER,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+        .changeTransactionRequestStatusUseCase(
+            statusId: statusId,
+            requestId: requestId,
+            rejectReason: rejectReason);
+    either.fold(
+        (failure) => store.dispatch(
+            CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
+        (_) async {
+      store.dispatch(TransactionRequestChanged(
+          rejectReason: rejectReason,
+          requestId: requestId,
+          statusId: statusId));
+      (_) => Utility.showToast(message: 'تم تسجيل الشكوى');
     });
     store.dispatch(StopLoading());
   }
@@ -319,9 +355,13 @@ class GetTransactionCategoriesAction implements TransactionsAction {
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
-    Either either = await store.state.transactionsState.transactionsUseCase.getTransactionCategoriesUseCase();
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (categories) => store.dispatch(SetTransactionCategories(categories: categories)));
+    Either either = await store.state.transactionsState.transactionsUseCase
+        .getTransactionCategoriesUseCase();
+    either.fold(
+        (failure) => store.dispatch(
+            CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
+        (categories) =>
+            store.dispatch(SetTransactionCategories(categories: categories)));
     store.dispatch(StopLoading());
   }
 
