@@ -59,8 +59,11 @@ class ShopperWidgetState extends State<ShopperWidget> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                TransactionsPage(adminId: widget.shopper.adminId, isShopper: true, shupperName: widget.shopper.name,)));
+                                            builder: (context) => TransactionsPage(
+                                                  adminId: widget.shopper.adminId,
+                                                  isShopper: true,
+                                                  shupperName: widget.shopper.name,
+                                                )));
                                   },
                                   child: Icon(Icons.featured_play_list, color: primaryColor),
                                 )
@@ -80,21 +83,23 @@ class ShopperWidgetState extends State<ShopperWidget> {
                               preState: widget.shopper.status,
                               onChange: (int active, bool widgetResult) async {
                                 setState(() => loading = true);
-                                bool result = await GeneralApis.changeShopperStatusService(
+                                int result = await GeneralApis.changeShopperStatusService(
                                     shopperId: widget.shopper.id.toString(),
                                     newStatus: widget.shopper.status == 1 ? '0' : '1');
                                 setState(() {
                                   loading = false;
-                                  if (result) {
+                                  if (result == successCode) {
                                     widget.shopper.status = active;
                                     StoreProvider.of<AppState>(context)
                                         .dispatch(ShopperChanged(shopper: widget.shopper));
-                                    if (result) {
+                                    if (result == successCode) {
                                       snackBar(
-                                          success: result, message: 'تم تغيير حالة الكابتن بنجاح', context: context);
+                                          success: result == successCode,
+                                          message: 'تم تغيير حالة الكابتن بنجاح',
+                                          context: context);
                                     } else {
                                       snackBar(
-                                          success: result,
+                                          success: result == successCode,
                                           message: 'فشلت عملية تغيير حالة الاتصال يرجى المحاولة مجدداً',
                                           context: context);
                                     }

@@ -112,15 +112,16 @@ class GeneralApis {
     }
   }
 
-  static Future<bool> changeShopperStatusService({@required String shopperId, @required String newStatus}) async {
-    Map changeStatus = {'status': newStatus};
+  static Future<int> changeShopperStatusService(
+      {@required String shopperId, @required String newStatus, double lon, double lat}) async {
+    Map changeStatus = {'status': newStatus, 'lon': lon, 'lat': lat};
     try {
       var response = await ApiProvider.sendRequest(
           url: changeShopperStatus + shopperId, method: HttpMethods.put, body: jsonEncode(changeStatus));
 
-      return response.statusCode == successCode;
+      return response.statusCode;
     } catch (e) {
-      return false;
+      return badRequestError;
     }
   }
 

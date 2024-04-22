@@ -57,6 +57,7 @@ dependencies:
   dartz: ^0.10.1
   flutter_redux: ^0.9.0
   get_it: ^7.2.0
+  location: ^4.4.0
 
 flutter_icons:
   image_path: 'assets/kmIcon.png'

@@ -1,5 +1,8 @@
+import 'package:location/location.dart';
+
 import '../../../core/core_importer.dart';
 import '../../home/presentation/redux/home_action.dart';
+import 'location_permission.dart';
 
 class StoreAppBar extends StatefulWidget with PreferredSizeWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -54,15 +57,33 @@ class _StoreAppBarState extends State<StoreAppBar> {
                               activeColor: Colors.white,
                               value: state.shoppersState.shopper.status == 1,
                               onChanged: (value) async {
-                                bool success = await GeneralApis.changeShopperStatusService(
-                                    shopperId: state.shoppersState.shopper.id.toString(),
-                                    newStatus: state.shoppersState.shopper.status == 1 ? '0' : '1');
-                                if (success) {
-                                  setState(() => state.shoppersState.shopper.status =
-                                      state.shoppersState.shopper.status == 1 ? 0 : 1);
+                                if (state.shoppersState.shopper.status == 0) {
+                                  await locationPermission(
+                                      context: context,
+                                      onGrant: () {
+                                        Location location = Location();
+                                        location.getLocation().then((locationValue) async {
+                                          changeStatus(
+                                                  location: locationValue,
+                                                  newStatus: state.shoppersState.shopper.status == 1 ? '0' : '1',
+                                                  shopperId: state.shoppersState.shopper.id.toString())
+                                              .then((success) {
+                                            if (success) {
+                                              setState(() => state.shoppersState.shopper.status = value ? 1 : 0);
+                                            }
+                                          });
+                                        });
+                                      });
                                 } else {
-                                  Toast.show('يرجى الاتصال بالإنترنت', context,
-                                      duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                  changeStatus(
+                                          location: LocationData.fromMap({}),
+                                          newStatus: state.shoppersState.shopper.status == 1 ? '0' : '1',
+                                          shopperId: state.shoppersState.shopper.id.toString())
+                                      .then((success) {
+                                    if (success) {
+                                      setState(() => state.shoppersState.shopper.status = value ? 1 : 0);
+                                    }
+                                  });
                                 }
                               },
                             )
@@ -89,5 +110,27 @@ class _StoreAppBarState extends State<StoreAppBar> {
         );
       },
     );
+  }
+
+  Future<bool> changeStatus({String shopperId, String newStatus, LocationData location}) async {
+    int success = await GeneralApis.changeShopperStatusService(
+        shopperId: shopperId, lat: location.latitude, lon: location.longitude, newStatus: newStatus);
+    switch (success) {
+      case successCode:
+        return true;
+        break;
+      case forbiddenError:
+        snackBar(message: 'أنت بعيد عن المركز أكثر من اللازم', context: context, success: false);
+        return false;
+        break;
+      case 422:
+        snackBar(message: 'الموقع غير صحيح يرجى المحاولة مرة أخرى', context: context, success: false);
+        return false;
+        break;
+      default:
+        Toast.show('يرجى الاتصال بالإنترنت', context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+        return false;
+        break;
+    }
   }
 }

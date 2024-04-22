@@ -1,5 +1,7 @@
 APPLE_VERIFICATION
 
+export PATH=/home/rabie/snap/flutter/kammun_flutter/flutter/bin:$PATH
+
 flutter build apk --split-per-abi
 
 0957570213
