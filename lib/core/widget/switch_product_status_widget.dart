@@ -27,8 +27,7 @@ class SwitchProductStatusWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SwitchProductStatusWidgetState createState() =>
-      _SwitchProductStatusWidgetState();
+  _SwitchProductStatusWidgetState createState() => _SwitchProductStatusWidgetState();
 }
 
 class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
@@ -54,9 +53,7 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
             padding: const EdgeInsets.all(3.0),
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                border: Border.all(
-                    color: preState == 1 ? kmColors : searchGreyColor,
-                    width: 2)),
+                border: Border.all(color: preState == 1 ? kmColors : searchGreyColor, width: 2)),
             child: Center(
               child: Switch(
                 value: preState == 1,
@@ -64,11 +61,11 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
                   setState(() => loading = true);
 
                   try {
+                    //todo: separate the concern
                     bool result = await ProductsServices.updateProductsDetails(
                       bodyKey: 'is_active',
                       value: value ? '1' : '0',
-                      subWarehouseId: widget.isForSubWarehouse &&
-                              widget.subWarehouseId != -1
+                      subWarehouseId: widget.isForSubWarehouse && widget.subWarehouseId != -1
                           ? widget.subWarehouseId.toString()
                           : null,
                       isForSubWarehouse: widget.isForSubWarehouse,
@@ -80,21 +77,15 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
                       preState = value ? 1 : 0; // تحديث قيمة preState
                     });
 
-                    widget.onChange(
-                        preState, result); // إبلاغ الوالد دائماً
+                    widget.onChange(preState, result); // إبلاغ الوالد دائماً
 
                     snackBar(
                         success: result,
-                        message: result
-                            ? 'تم تحديث المنتج بنجاح'
-                            : 'فشلت عملية تحديث المنتج يرجى المحاولة مجدداً',
+                        message: result ? 'تم تحديث المنتج بنجاح' : 'فشلت عملية تحديث المنتج يرجى المحاولة مجدداً',
                         context: context);
                   } catch (error) {
                     setState(() => loading = false);
-                    snackBar(
-                        success: false,
-                        message: 'حدث خطأ أثناء تحديث المنتج',
-                        context: context);
+                    snackBar(success: false, message: 'حدث خطأ أثناء تحديث المنتج', context: context);
                   }
                 },
                 activeTrackColor: kmColors2,

@@ -283,19 +283,21 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                   MaterialPageRoute(builder: (context) => const AddTransactionPage(orderRequired: 0))),
                             ),
                           if (adminId != null && adminId != 'null')
-                            KammunButton(
-                              width: MediaQuery.of(context).size.width / 3,
-                              height: 50,
-                              padding: EdgeInsets.zero,
-                              text: 'المستحقات المالية',
-                              color: primaryColor,
-                              onTap: () {
-                                store.dispatch(GetAdminBalanceAction(
-                                    context: context,
-                                    adminId: Services.hasPermission(context, advancedTransactionPermission)
-                                        ? int.parse(adminId)
-                                        : state.adminsState.admin.id));
-                              },
+                            Expanded(
+                              child: KammunButton(
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: 50,
+                                padding: const EdgeInsets.only(right: 5),
+                                text: 'المستحقات المالية',
+                                color: primaryColor,
+                                onTap: () {
+                                  store.dispatch(GetAdminBalanceAction(
+                                      context: context,
+                                      adminId: Services.hasPermission(context, advancedTransactionPermission)
+                                          ? int.parse(adminId)
+                                          : state.adminsState.admin.id));
+                                },
+                              ),
                             ),
                         ],
                       ),

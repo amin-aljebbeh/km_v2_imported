@@ -11,15 +11,15 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final formkey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AppState>(
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
-        final TextEditingController phoneController = TextEditingController(
-            text: state.adminsState.admin.phone ?? 'لا يوجد');
+        final TextEditingController phoneController =
+            TextEditingController(text: state.adminsState.admin.phone ?? 'لا يوجد');
 
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColorLight,
@@ -28,10 +28,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AutoSizeText(state.adminsState.admin.name ?? '',
-                      style: userNameStyle.copyWith(fontSize: 25)),
-                  AutoSizeText(state.adminsState.admin.username ?? '',
-                      style: userNameStyle),
+                  AutoSizeText(state.adminsState.admin.name ?? '', style: userNameStyle.copyWith(fontSize: 25)),
+                  AutoSizeText(state.adminsState.admin.username ?? '', style: userNameStyle),
                 ],
                 textDirection: TextDirection.ltr,
               ),
@@ -41,8 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 10, top: 10, right: 10, bottom: 10),
+              padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
               child: ListView(
                 children: [
                   SizedBox(
@@ -54,10 +51,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: Form(
-                                  key: formkey,
+                                  key: formKey,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     // mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Directionality(
@@ -65,37 +61,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: TextFormField(
-                                              enabled:
-                                                  false ,
+                                              enabled: false,
                                               controller: phoneController,
                                               autofocus: false,
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  color: Color.fromARGB(
-                                                      255, 0, 0, 0)),
+                                              style: const TextStyle(fontSize: 20, color: Color.fromARGB(255, 0, 0, 0)),
                                               decoration: InputDecoration(
                                                 filled: true,
                                                 hintText: "Phone Number",
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: const BorderSide(
-                                                      color: Colors.white),
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
+                                                focusedBorder: OutlineInputBorder(
+                                                  borderSide: const BorderSide(color: Colors.white),
+                                                  borderRadius: BorderRadius.circular(12),
                                                 ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
+                                                enabledBorder: OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: /*(state.allowUpdate ?? false)
                                             ? Colors.black
                                             :*/
                                                           kmColors,
                                                       width: 0.5),
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
+                                                  borderRadius: BorderRadius.circular(12),
                                                 ),
-                                                prefixIcon: Icon(Icons.call,
-                                                    color: kmColors),
+                                                prefixIcon: Icon(Icons.call, color: kmColors),
                                                 //prefixStyle: style14w400Black,
                                               ),
                                             ),
@@ -105,40 +91,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ))),
                         ),
                         if (state.adminsState.admin.balance != null)
-
-                        ProfileContainer(
-                          title: 'الرصيد',
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Center(
-                              child: LabelRow(
-                                  rightSideText: ' ',
-                                  leftSideText: StringUtils()
-                                      .oCcy
-                                      .format(state.adminsState.admin.balance)
-                                      .replaceAll('-', '') +
-                                      ' ' +
-                                      state.generalInformationState
-                                          .companyInformation.currency,
-                                  leftSideStyle:
-                                  state.adminsState.admin.balance.isNegative ? warningStyle : informationStyle),
+                          ProfileContainer(
+                            title: 'الرصيد',
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Center(
+                                child: LabelRow(
+                                    rightSideText: ' ',
+                                    leftSideText:
+                                        StringUtils().oCcy.format(state.adminsState.admin.balance).replaceAll('-', '') +
+                                            ' ' +
+                                            state.generalInformationState.companyInformation.currency,
+                                    leftSideStyle:
+                                        state.adminsState.admin.balance.isNegative ? warningStyle : informationStyle),
+                              ),
                             ),
                           ),
-                        ),
                         if (state.adminsState.admin.roles.isNotEmpty)
                           ProfileContainer(
                             title: 'المستودع',
                             child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: state
-                                    .generalInformationState.subWarehouses
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: state.generalInformationState.subWarehouses
                                     .map((subWarehouse) => Padding(
                                         padding: const EdgeInsets.all(5),
                                         child: Text(subWarehouse.name,
-                                            style: mainStyle.copyWith(
-                                                fontSize: 25,
-                                                color: Colors.black))))
+                                            style: mainStyle.copyWith(fontSize: 25, color: Colors.black))))
                                     .toList()),
                           ),
                         ProfileContainer(
@@ -148,25 +126,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               IconButton(
                                 icon: Icon(Icons.library_add_check_outlined,
-                                    color: StaticVariables.preferLeftSide
-                                        ? searchGreyColor
-                                        : kmColors2),
+                                    color: StaticVariables.preferLeftSide ? searchGreyColor : kmColors2),
                                 onPressed: () {
-                                  StaticVariables.preferLeftSide
-                                      ? Services.setPreferLeftSide(false)
-                                      : {};
+                                  StaticVariables.preferLeftSide ? Services.setPreferLeftSide(false) : {};
                                   setState(() {});
                                 },
                               ), //right side
                               IconButton(
                                   icon: Icon(Icons.library_add_check_outlined,
-                                      color: StaticVariables.preferLeftSide
-                                          ? kmColors2
-                                          : searchGreyColor),
+                                      color: StaticVariables.preferLeftSide ? kmColors2 : searchGreyColor),
                                   onPressed: () {
-                                    StaticVariables.preferLeftSide
-                                        ? {}
-                                        : Services.setPreferLeftSide(true);
+                                    StaticVariables.preferLeftSide ? {} : Services.setPreferLeftSide(true);
                                     setState(() {});
                                   })
                             ],
@@ -179,16 +149,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: IconButton(
                                     onPressed: () =>
-                                        StoreProvider.of<AppState>(context)
-                                            .dispatch(
-                                                LogoutAction(context: context)),
-                                    icon: Icon(Icons.logout,
-                                        color: kmColors, size: 30))),
+                                        StoreProvider.of<AppState>(context).dispatch(LogoutAction(context: context)),
+                                    icon: Icon(Icons.logout, color: kmColors, size: 30))),
                             title: Padding(
                               padding: const EdgeInsets.only(top: 5.0),
-                              child: Text(logout,
-                                  style: mainStyle.copyWith(
-                                      fontSize: 25, color: Colors.black)),
+                              child: Text(logout, style: mainStyle.copyWith(fontSize: 25, color: Colors.black)),
                             ),
                             onTap: () {},
                           ),

@@ -112,16 +112,17 @@ class GeneralApis {
     }
   }
 
-  static Future<int> changeShopperStatusService(
+  static Future<Map<int, String>> changeShopperStatusService(
       {@required String shopperId, @required String newStatus, double lon, double lat}) async {
     Map changeStatus = {'status': newStatus, 'lon': lon, 'lat': lat};
+    Response response;
     try {
-      var response = await ApiProvider.sendRequest(
+      response = await ApiProvider.sendRequest(
           url: changeShopperStatus + shopperId, method: HttpMethods.put, body: jsonEncode(changeStatus));
 
-      return response.statusCode;
+      return {response.statusCode: response.data['message']};
     } catch (e) {
-      return badRequestError;
+      return {badRequestError: response.data['message']};
     }
   }
 

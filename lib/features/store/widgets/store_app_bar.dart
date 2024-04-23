@@ -113,14 +113,14 @@ class _StoreAppBarState extends State<StoreAppBar> {
   }
 
   Future<bool> changeStatus({String shopperId, String newStatus, LocationData location}) async {
-    int success = await GeneralApis.changeShopperStatusService(
+    Map<int, String> success = await GeneralApis.changeShopperStatusService(
         shopperId: shopperId, lat: location.latitude, lon: location.longitude, newStatus: newStatus);
-    switch (success) {
+    switch (success.keys.first) {
       case successCode:
         return true;
         break;
       case forbiddenError:
-        snackBar(message: 'أنت بعيد عن المركز أكثر من اللازم', context: context, success: false);
+        snackBar(message: success.values.first, context: context, success: false);
         return false;
         break;
       case 422:
@@ -128,7 +128,7 @@ class _StoreAppBarState extends State<StoreAppBar> {
         return false;
         break;
       default:
-        Toast.show('يرجى الاتصال بالإنترنت', context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+        snackBar(message: 'يرجى الاتصال بالإنترنت والمحاولة مرة أخرى', context: context, success: false);
         return false;
         break;
     }

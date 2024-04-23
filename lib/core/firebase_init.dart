@@ -96,6 +96,11 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
             player.play();
 
             if (message.notification != null) {
+              if (message.data['type'] != null) {
+                if (message.data['type'] == 1) {
+                  KammunRestart.restartApp(context);
+                }
+              }
               entry = showOverlayNotification(
                 (context) => Card(
                   margin: const EdgeInsets.symmetric(horizontal: 4),

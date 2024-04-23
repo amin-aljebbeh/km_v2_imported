@@ -83,24 +83,24 @@ class ShopperWidgetState extends State<ShopperWidget> {
                               preState: widget.shopper.status,
                               onChange: (int active, bool widgetResult) async {
                                 setState(() => loading = true);
-                                int result = await GeneralApis.changeShopperStatusService(
+                                Map<int, String> result = await GeneralApis.changeShopperStatusService(
                                     shopperId: widget.shopper.id.toString(),
                                     newStatus: widget.shopper.status == 1 ? '0' : '1');
                                 setState(() {
                                   loading = false;
-                                  if (result == successCode) {
+                                  if (result.keys.first == successCode) {
                                     widget.shopper.status = active;
                                     StoreProvider.of<AppState>(context)
                                         .dispatch(ShopperChanged(shopper: widget.shopper));
-                                    if (result == successCode) {
+                                    if (result.keys.first == successCode) {
                                       snackBar(
-                                          success: result == successCode,
+                                          success: result.keys.first == successCode,
                                           message: 'تم تغيير حالة الكابتن بنجاح',
                                           context: context);
                                     } else {
                                       snackBar(
-                                          success: result == successCode,
-                                          message: 'فشلت عملية تغيير حالة الاتصال يرجى المحاولة مجدداً',
+                                          success: result.keys.first == successCode,
+                                          message: result.values.first,
                                           context: context);
                                     }
                                   }
