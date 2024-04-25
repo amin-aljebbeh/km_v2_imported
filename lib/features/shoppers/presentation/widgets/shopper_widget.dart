@@ -72,44 +72,40 @@ class ShopperWidgetState extends State<ShopperWidget> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: loading
-                          ? const Loader()
-                          : SwitchProductStatusWidget(
-                              productId: 'null',
-                              subWarehouseId: -1,
-                              isForSubWarehouse: false,
-                              preState: widget.shopper.status,
-                              onChange: (int active, bool widgetResult) async {
-                                setState(() => loading = true);
-                                Map<int, String> result = await GeneralApis.changeShopperStatusService(
-                                    shopperId: widget.shopper.id.toString(),
-                                    newStatus: widget.shopper.status == 1 ? '0' : '1');
-                                setState(() {
-                                  loading = false;
-                                  if (result.keys.first == successCode) {
-                                    widget.shopper.status = active;
-                                    StoreProvider.of<AppState>(context)
-                                        .dispatch(ShopperChanged(shopper: widget.shopper));
-                                    if (result.keys.first == successCode) {
-                                      snackBar(
-                                          success: result.keys.first == successCode,
-                                          message: 'تم تغيير حالة الكابتن بنجاح',
-                                          context: context);
-                                    } else {
-                                      snackBar(
-                                          success: result.keys.first == successCode,
-                                          message: result.values.first,
-                                          context: context);
-                                    }
-                                  }
-                                });
-                              },
-                              height: 58,
-                              width: 69,
-                            ),
-                    )
+                    Container(
+                      margin: const EdgeInsets.all(23),
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                          border: Border.all(color: widget.shopper.status == 1 ? kmColors : searchGreyColor, width: 2)),
+                      child: Switch(
+                          value: widget.shopper.status == 1,
+                          activeTrackColor: kmColors2,
+                          activeColor: kmColors,
+                          onChanged: (value) async {
+                            setState(() => loading = true);
+                            Map<int, String> result = await GeneralApis.changeShopperStatusService(
+                                shopperId: widget.shopper.id.toString(),
+                                newStatus: widget.shopper.status == 1 ? '0' : '1');
+                            setState(() {
+                              loading = false;
+                              if (result.keys.first == successCode) {
+                                widget.shopper.status = value ? 1 : 0;
+                                StoreProvider.of<AppState>(context).dispatch(ShopperChanged(shopper: widget.shopper));
+                                if (result.keys.first == successCode) {
+                                  snackBar(
+                                      success: result.keys.first == successCode,
+                                      message: 'تم تغيير حالة الكابتن بنجاح',
+                                      context: context);
+                                } else {
+                                  snackBar(
+                                      success: result.keys.first == successCode,
+                                      message: result.values.first,
+                                      context: context);
+                                }
+                              }
+                            });
+                          }),
+                    ),
                   ],
                 ),
               ],

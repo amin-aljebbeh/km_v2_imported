@@ -87,7 +87,8 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                     builder: (context) => ProductDetailView(
                       productId: int.parse(product.images[0].productId),
                       product: product,
-                      onChangeSubWarehouse: (id) => {product.subWarehouseId = int.parse(id), widget.onChangeSubWarehouse(id)},
+                      onChangeSubWarehouse: (id) =>
+                          {product.subWarehouseId = int.parse(id), widget.onChangeSubWarehouse(id)},
                       onChangePrice: (newValue) => {product.price = newValue, widget.onChangePrice(newValue)},
                       onChangeUnit: (newValue) => {product.unit = newValue, widget.onChangeUnit(newValue)},
                       onChangeQuantity: (newValue) => {product.price = newValue, widget.onChangeQuantity(newValue)},
@@ -139,7 +140,9 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                                           text: TextSpan(
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text: StringUtils().oCcy.format(widget.oldPrice - product.increasePercentage),
+                                              text: StringUtils()
+                                                  .oCcy
+                                                  .format(widget.oldPrice - product.increasePercentage),
                                               style: mainStyle.copyWith(
                                                   color: Colors.grey, decoration: TextDecoration.lineThrough)),
                                         ],
@@ -181,21 +184,38 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           if (widget.supplierCode != null && active != null && widget.id != null)
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15.0),
-                              child: SwitchProductStatusWidget(
-                                isForSubWarehouse: true,
-                                preState: active,
-                                subWarehouseId: int.parse(widget.id),
-                                productId: product.images[0].productId.toString(),
-                                onChange: (int isActive, bool result) {
-                                  if (result) active = isActive;
-                                  widget.onChangeStatus(result);
-                                },
-                                height: 58,
-                                width: 69,
-                              ),
-                            ),
+                            state.loadingState.loading.isEmpty
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                        border: Border.all(color: active == 1 ? kmColors : searchGreyColor, width: 2)),
+                                    margin: const EdgeInsets.only(left: 15.0),
+                                    child: Switch(
+                                      value: active == 1,
+                                      activeTrackColor: kmColors2,
+                                      activeColor: kmColors,
+                                      onChanged: (value) async {
+                                        StoreProvider.of<AppState>(context).dispatch(StartLoading());
+                                        bool result = await ProductsServices.updateProductsDetails(
+                                          bodyKey: 'is_active',
+                                          value: value ? '1' : '0',
+                                          subWarehouseId: widget.id,
+                                          isForSubWarehouse: true,
+                                          productId: product.images[0].productId.toString(),
+                                        );
+                                        snackBar(
+                                            success: result,
+                                            message: result
+                                                ? 'تم تحديث المنتج بنجاح'
+                                                : 'فشلت عملية تحديث المنتج يرجى المحاولة مجدداً',
+                                            context: context);
+                                        if (result) active = value ? 1 : 0;
+                                        widget.onChangeStatus(result);
+                                        StoreProvider.of<AppState>(context).dispatch(StopLoading());
+                                      },
+                                    ),
+                                  )
+                                : const Loader(),
                           Row(
                             children: [
                               if (widget.deleteTimes != -1)

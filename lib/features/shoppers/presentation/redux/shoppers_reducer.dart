@@ -8,6 +8,7 @@ Reducer<ShoppersState> shoppersReducer = combineReducers<ShoppersState>([
   TypedReducer<ShoppersState, ShopperChanged>(shopperChanged),
   TypedReducer<ShoppersState, SetLevels>(setLevels),
   TypedReducer<ShoppersState, SetShopper>(setShopper),
+  TypedReducer<ShoppersState, SetShoppersSearchFilter>(setSearchFilter),
 ]);
 
 ShoppersState setShoppers(ShoppersState state, SetShoppers action) => state.copyWith(shoppers: action.shoppers);
@@ -15,6 +16,9 @@ ShoppersState setShoppers(ShoppersState state, SetShoppers action) => state.copy
 ShoppersState setLevels(ShoppersState state, SetLevels action) => state.copyWith(levels: action.levels);
 
 ShoppersState setShopper(ShoppersState state, SetShopper action) => state.copyWith(shopper: action.shopper);
+
+ShoppersState setSearchFilter(ShoppersState state, SetShoppersSearchFilter action) =>
+    state.copyWith(searchFilter: action.searchFilter);
 
 ShoppersState shopperChanged(ShoppersState state, ShopperChanged action) {
   List<ShopperEntity> shoppers = [];

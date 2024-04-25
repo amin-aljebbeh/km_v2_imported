@@ -24,3 +24,9 @@ class SetShopper {
 
   SetShopper({this.shopper});
 }
+
+class SetShoppersSearchFilter {
+  final String searchFilter;
+
+  SetShoppersSearchFilter({this.searchFilter});
+}

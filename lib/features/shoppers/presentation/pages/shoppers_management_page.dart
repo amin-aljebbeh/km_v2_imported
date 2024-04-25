@@ -1,4 +1,5 @@
 import 'package:kammun_app/features/shoppers/domain/entities/shopper_entity.dart';
+import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_action.dart';
 
 import '../../../../core/core_importer.dart';
 
@@ -11,9 +12,8 @@ class ShopperManagementPage extends StatefulWidget {
 
 class _ShopperManagementPageState extends State<ShopperManagementPage> {
   bool loading;
-  String searchTerm ='' ;
 
-    StreamController<String> _searchController;
+  StreamController<String> _searchController;
 
   loadShopper() async {
     await GeneralApis.getShoppers(context: context);
@@ -25,22 +25,15 @@ class _ShopperManagementPageState extends State<ShopperManagementPage> {
     loading = true;
     loadShopper();
 
-
     _searchController = StreamController<String>();
-    _searchController.stream.listen((term) {
-      searchTerm = term;
-      setState(() {
-      });
-
-    });
+    _searchController.stream
+        .listen((term) => StoreProvider.of<AppState>(context).dispatch(SetShoppersSearchFilter(searchFilter: term)));
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
-
-    // Dispose of the stream controller
     _searchController.close();
   }
 
@@ -50,8 +43,14 @@ class _ShopperManagementPageState extends State<ShopperManagementPage> {
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
+        List<ShopperEntity> shoppers = [];
+        var shoppersState = state.shoppersState;
+        shoppers.addAll(shoppersState.shoppers);
+        shoppers.removeWhere((shopper) =>
+            (shoppersState.searchFilter != null && shoppersState.searchFilter != '') &&
+            !shopper.name.toLowerCase().contains(shoppersState.searchFilter.toLowerCase()));
         return Scaffold(
-          appBar:AppBar(
+          appBar: AppBar(
             toolbarHeight: 85,
             backgroundColor: primaryColor,
             automaticallyImplyLeading: false, // hides leading widget
@@ -62,39 +61,31 @@ class _ShopperManagementPageState extends State<ShopperManagementPage> {
               right: false,
               child: Column(
                 children: <Widget>[
-                   Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: Text('فريق التوصيل ',style: appBarStyle),
-                   ),
+                  Padding(padding: const EdgeInsets.all(8.0), child: Text('فريق التوصيل ', style: appBarStyle)),
                   Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 5,),
+                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 5),
                     child: Container(
                       height: 40.0,
-                      decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(6.0))),
+                      decoration: const BoxDecoration(
+                          color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(6.0))),
                       child: TextField(
-                        // controller: searchController,
-                        // onSubmitted: (_) => submit(context),
                         cursorColor: primaryColor,
-                        onChanged: (term) {
-                          _searchController.add(term);
-                        },
+                        onChanged: (term) => _searchController.add(term),
                         decoration: InputDecoration(
                           prefixIcon: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.30,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(icon: Icon(Icons.search, color: primaryColor), onPressed: () {}),
-                              ],
+                              children: [IconButton(icon: Icon(Icons.search, color: primaryColor), onPressed: () {})],
                             ),
                           ),
                           border: UnderlineInputBorder(borderSide: BorderSide(color: kmColors)),
-                          focusedBorder:
-                          OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: kmColors)),
-                          enabledBorder:
-                          OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: kmColors)),
-                          disabledBorder:
-                          OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: kmColors)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: kmColors)),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: kmColors)),
+                          disabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: kmColors)),
                           contentPadding: const EdgeInsets.only(bottom: 0.5),
                           hintText: 'ابحث عن عامل توصيل',
                           hintStyle: mainStyle,
@@ -111,26 +102,18 @@ class _ShopperManagementPageState extends State<ShopperManagementPage> {
             child: loading
                 ? const Loader()
                 : ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-              primary: false,
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: state.shoppersState.shoppers == null ? 0 : filterShoppers(state.shoppersState.shoppers).length,
-              itemBuilder: (BuildContext context, index) {
-                final shopper = filterShoppers(state.shoppersState.shoppers)[index];
-                return ShopperWidget(shopper: shopper);
-              },
-            ),
+                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                    primary: false,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: shoppers == null ? 0 : shoppers.length,
+                    itemBuilder: (BuildContext context, index) {
+                      return ShopperWidget(shopper: shoppers[index]);
+                    },
+                  ),
           ),
         );
       },
     );
-  }
-
-  List<ShopperEntity> filterShoppers(List<ShopperEntity> shoppers) {
-    List<ShopperEntity> filteredShoppers = shoppers
-        .where((shopper) => shopper.name.toLowerCase().contains(searchTerm.toLowerCase()))
-        .toList();
-    return filteredShoppers;
   }
 }
