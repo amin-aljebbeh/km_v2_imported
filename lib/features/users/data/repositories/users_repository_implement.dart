@@ -17,9 +17,8 @@ class UsersRepositoryImplement extends UsersRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> changeNumberPhoneUser({int userId, String phoneNumber})async {
+  Future<Either<Failure, Unit>> changeNumberPhoneUser({int userId, String phoneNumber}) async {
     return await repositoryFactory.failureUnitRepo(
-        function: () =>
-            usersRemoteDataSource.changeNumberPhoneUser(userId: userId,  phoneNumber: phoneNumber));
+        function: () => usersRemoteDataSource.changeNumberPhoneUser(userId: userId, phoneNumber: phoneNumber));
   }
 }

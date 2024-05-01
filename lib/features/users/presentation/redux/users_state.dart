@@ -10,16 +10,16 @@ class UsersState extends Equatable {
   final UserEntity userEntity;
   final BalanceModel balance;
 
-  const UsersState({this.usersUseCases, this.userEntity, this.balance, });
+  const UsersState({this.usersUseCases, this.userEntity, this.balance});
 
   factory UsersState.initial() {
     return UsersState(usersUseCases: sl<UsersUseCases>(), userEntity: null);
   }
 
-  UsersState copyWith({UserEntity userEntity , BalanceModel balance}) {
-    return UsersState(usersUseCases: usersUseCases, userEntity: userEntity , balance: balance, );
+  UsersState copyWith({UserEntity userEntity, BalanceModel balance}) {
+    return UsersState(usersUseCases: usersUseCases, userEntity: userEntity, balance: balance);
   }
 
   @override
-  List<Object> get props => [userEntity, usersUseCases ,balance, ];
+  List<Object> get props => [userEntity, usersUseCases, balance];
 }

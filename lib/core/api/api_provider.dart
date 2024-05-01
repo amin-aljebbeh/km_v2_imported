@@ -63,8 +63,13 @@ class ApiProvider {
               data: body);
           break;
       }
+      if (response.statusCode == updateRequiredCode) {
+        throw (UpdateRequiredException());
+      }
     } on DioError catch (e) {
       return ErrorHandler.handleDioError(e, RequestOptions(path: url));
+    } on UpdateRequiredException {
+      throw (UpdateRequiredException());
     } catch (e) {
       Tools.logToConsole(e.message);
     }

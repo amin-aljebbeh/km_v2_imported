@@ -1,12 +1,13 @@
 import 'dart:ui' as ui;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'core/core_importer.dart';
 import 'routes.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,9 +21,7 @@ Future<void> main() async {
   runApp(OverlaySupport(
     child: StoreProvider(
         store: store,
-        child: CustomTheme(
-            initialThemeKey: MyThemeKeys.light,
-            child: KammunRestart(child: MyApp(store: store)))),
+        child: CustomTheme(initialThemeKey: MyThemeKeys.light, child: KammunRestart(child: MyApp(store: store)))),
   ));
 }
 
@@ -68,10 +67,11 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-class MyHttpOverrides extends HttpOverrides{
+
+class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext context){
+  HttpClient createHttpClient(SecurityContext context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }

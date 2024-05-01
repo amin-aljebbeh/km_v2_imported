@@ -56,6 +56,11 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
               });
             }
             FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+              if (message.data['type'] != null) {
+                if (message.data['type'] == 1) {
+                  KammunRestart.restartApp(context);
+                }
+              }
               if (message.notification != null) {
                 entry = showOverlayNotification(
                   (context) => Card(
@@ -93,14 +98,13 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
           }
           FirebaseMessaging.instance.getToken();
           FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-            player.play();
-
             if (message.notification != null) {
               if (message.data['type'] != null) {
-                if (message.data['type'] == 1) {
+                if (message.data['type'] == '1') {
                   KammunRestart.restartApp(context);
                 }
               }
+              player.play();
               entry = showOverlayNotification(
                 (context) => Card(
                   margin: const EdgeInsets.symmetric(horizontal: 4),

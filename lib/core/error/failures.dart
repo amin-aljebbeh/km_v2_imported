@@ -40,3 +40,13 @@ class OfflineRegionFailure extends Failure {
 
   OfflineRegionFailure({this.message});
 }
+
+
+class UpdateRequiredFailure extends Failure {
+  final String message;
+
+  @override
+  List<Object> get props => [];
+
+  UpdateRequiredFailure({this.message});
+}

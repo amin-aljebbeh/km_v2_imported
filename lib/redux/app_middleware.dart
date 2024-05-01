@@ -1,5 +1,6 @@
 import 'package:kammun_app/features/shoppers/presentation/redux/shoppers_middleware.dart';
 import 'package:kammun_app/features/shoppers_reports/presentation/redux/shoppers_reports_middleware.dart';
+import 'package:kammun_app/features/version/presentation/redux/version_middleware.dart';
 
 import '../features/admins/presentation/redux/admins_middleware.dart';
 import '../features/authentication/presentation/redux/authentication_middleware.dart';
@@ -55,5 +56,6 @@ List<Middleware<AppState>> appMiddleware() {
     inventoryFileMiddleware,
     reportsMiddleware,
     shopperReportsMiddleware,
+    versionMiddleware,
   ];
 }

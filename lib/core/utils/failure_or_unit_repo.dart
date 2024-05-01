@@ -13,6 +13,8 @@ class RepositoryFactory {
       return Left(ServerFailure());
     } on OfflineException {
       return Left(OfflineFailure());
+    } on UpdateRequiredException catch (e) {
+      return Left(UpdateRequiredFailure(message: e.message));
     } catch (e) {
       return Left(InternalFailure(message: e.toString()));
     }

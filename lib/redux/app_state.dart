@@ -26,6 +26,7 @@ import '../features/sub_warehouse_manager/presentation/redux/sub_warehouse_manag
 import '../features/supplier/presentation/redux/supplier_state.dart';
 import '../features/transactions/presentation/redux/transactions_state.dart';
 import '../features/users/presentation/redux/users_state.dart';
+import '../features/version/presentation/redux/version_state.dart';
 
 @immutable
 class AppState extends Equatable {
@@ -55,6 +56,7 @@ class AppState extends Equatable {
   final SupplierState supplierState;
   final TransactionsState transactionsState;
   final UsersState usersState;
+  final VersionState versionState;
 
   const AppState({
     this.excelInventoryState,
@@ -83,6 +85,7 @@ class AppState extends Equatable {
     this.shoppersState,
     this.cartState,
     this.barcodeState,
+    this.versionState,
   });
 
   factory AppState.initial() => AppState(
@@ -112,6 +115,7 @@ class AppState extends Equatable {
         priceFileState: PriceFileState.initial(),
         excelInventoryState: SubWarehouseManagerState.initial(),
         barcodeState: BarcodeState.initial(),
+        versionState: VersionState.initial(),
       );
 
   AppState copyWith({
@@ -141,6 +145,7 @@ class AppState extends Equatable {
     CartState cartState,
     ShoppersReportsState shoppersReportsState,
     BarcodeState barcodeState,
+    VersionState versionState,
   }) {
     return AppState(
       inventoryState: inventoryState ?? this.inventoryState,
@@ -169,6 +174,7 @@ class AppState extends Equatable {
       cartState: cartState ?? this.cartState,
       productDetailsState: productDetailsState ?? this.productDetailsState,
       shoppersReportsState: shoppersReportsState ?? this.shoppersReportsState,
+      versionState: versionState ?? this.versionState,
     );
   }
 
@@ -200,5 +206,6 @@ class AppState extends Equatable {
         cartState,
         priceFileState,
         inventoryFileState,
+        versionState,
       ];
 }

@@ -15,3 +15,5 @@ const int conflictError = 409;
 const int internalServerError = 500;
 
 const int badRequestError = 400;
+
+const updateRequiredCode = 426;

@@ -20,6 +20,7 @@ import 'sub_warehouse_manager_injection.dart';
 import 'supplier_injection.dart';
 import 'transactions_injection.dart';
 import 'users_injection.dart';
+import 'version_injection.dart';
 
 final sl = GetIt.instance;
 Future<void> inject() async {
@@ -30,6 +31,7 @@ Future<void> inject() async {
   await injectAdmins();
   await injectCoupons();
   await injectUsers();
+  await versionUsers();
   await injectOrders();
   await injectSearchOrders();
   await injectTransactions();

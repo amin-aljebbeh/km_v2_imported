@@ -4,6 +4,7 @@ import '../../../../core/core_importer.dart';
 import '../../../authentication/login_services.dart';
 import '../../../error/presentation/pages/internet_error.dart';
 import '../../../update_screen/pages/update_required_screen.dart';
+import '../../../version/presentation/redux/version_action.dart';
 
 class LoadingScreen extends StatefulWidget {
   static String userToken = 'Bearer ';
@@ -23,6 +24,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   void initState() {
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => StoreProvider.of<AppState>(context).dispatch(CheckVersion(context: context)));
     fetchInformation = _getClientInfo();
 
     super.initState();

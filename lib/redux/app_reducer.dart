@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/version/presentation/redux/version_reducer.dart';
+
 import '../core/core_importer.dart';
 import '../features/admins/presentation/redux/admins_reducer.dart';
 import '../features/authentication/presentation/redux/authentication_reducer.dart';
@@ -55,5 +57,6 @@ AppState appReducer(AppState state, dynamic action) {
     authenticationState: authenticationReducer(state.authenticationState, action),
     reportState: reportsReducer(state.reportState, action),
     shoppersReportsState: shopperReportsReducer(state.shoppersReportsState, action),
+    versionState: versionReducer(state.versionState, action),
   );
 }

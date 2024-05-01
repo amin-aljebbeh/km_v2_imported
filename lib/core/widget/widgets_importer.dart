@@ -1,5 +1,5 @@
 export '../../features/barcode/presentation/widgets/barcode_icon.dart';
-export '../../features/inventory/presentation/widgets/inventory_products_card.dart';
+export '../../features/inventory/presentation/widgets/inventory_products_widget.dart';
 export '../../features/inventory/presentation/widgets/inventory_search_text_field.dart';
 export '../../features/order_details/presentation/widgets/order_product_widget.dart';
 export '../../features/order_details/presentation/widgets/product_check_widget.dart';

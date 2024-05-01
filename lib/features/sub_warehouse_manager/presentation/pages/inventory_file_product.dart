@@ -1,5 +1,4 @@
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
-import 'package:kammun_app/features/sub_warehouse_manager/presentation/widget/inventory_products_widget.dart';
 
 import '../../../../core/core_importer.dart';
 import '../inventory_file_redux/inventory_file_action.dart';
@@ -142,7 +141,7 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                                             }
                                           }
                                           if (state.inventoryFileState.productsSelected == 0) attached = false;
-                                          return InventoryProductCard(
+                                          return InventoryProductWidget(
                                             index: index,
                                             onChangeSubWarehouse: (id) =>
                                                 showList[index].subWarehouseId = int.parse(id),

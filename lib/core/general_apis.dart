@@ -11,6 +11,7 @@ import '../features/transactions/presentation/redux/transactions_action.dart';
 import '../features/transactions/presentation/widgets/specific_day_profit_widget.dart';
 import '../features/users/data/models/balance_model.dart';
 import '../features/users/presentation/redux/users_action.dart';
+import '../features/version/presentation/redux/version_action.dart';
 import 'core_importer.dart';
 
 class GeneralApis {
@@ -120,7 +121,7 @@ class GeneralApis {
       response = await ApiProvider.sendRequest(
           url: changeShopperStatus + shopperId, method: HttpMethods.put, body: jsonEncode(changeStatus));
 
-      return {response.statusCode: response.data['message']};
+      return {response.statusCode: response.data['message'] ?? response.data['reason']};
     } catch (e) {
       return {badRequestError: response.data['message']};
     }
@@ -221,6 +222,7 @@ class GeneralApis {
 
   static Future<bool> fetchStartInformation({BuildContext context}) async {
     try {
+      StoreProvider.of<AppState>(context).dispatch(CheckVersion(context: context));
       SharedPreferences prefs = sl<SharedPreferences>();
       var store = StoreProvider.of<AppState>(context);
       List responses;

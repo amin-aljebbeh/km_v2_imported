@@ -11,7 +11,8 @@ Future<void> injectUsers() async {
   sl.registerLazySingleton(() => AttachUserToCouponUseCase(usersRepository: sl()));
   sl.registerLazySingleton(() => ChangeNumberPhoneUserUseCase(usersRepository: sl()));
 
-  sl.registerLazySingleton<UsersUseCases>(() => UsersUseCases(attachUserToCouponUseCase: sl(), changeNumberPhoneUserUseCase: sl()));
+  sl.registerLazySingleton<UsersUseCases>(
+      () => UsersUseCases(attachUserToCouponUseCase: sl(), changeNumberPhoneUserUseCase: sl()));
   sl.registerLazySingleton<UsersRepository>(
       () => UsersRepositoryImplement(usersRemoteDataSource: sl(), repositoryFactory: sl()));
   sl.registerLazySingleton<UsersRemoteDataSource>(() => UsersRemoteDataSourceImplement());

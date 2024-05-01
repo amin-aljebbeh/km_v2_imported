@@ -40,8 +40,9 @@ class GetRolesAction implements AdminsAction {
 
 class GetAdminAction implements AdminsAction {
   final int adminId;
+  final BuildContext context;
 
-  GetAdminAction({this.adminId});
+  GetAdminAction({this.context, this.adminId});
 
   @override
   handle({Store<AppState> store}) async {
