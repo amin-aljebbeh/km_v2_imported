@@ -18,8 +18,8 @@ class SearchOrdersPage extends StatelessWidget {
           onPop: () {
             store.dispatch(SetSearchStatusFilter(filter: 0));
             store.dispatch(SetSearchPage(page: 1));
-            Navigator.push(context, MaterialPageRoute(builder: (screenContext) =>  const HomePage()));
-            },
+            Navigator.push(context, MaterialPageRoute(builder: (screenContext) => const HomePage()));
+          },
           child: Scaffold(
             backgroundColor: Theme.of(context).primaryColorLight,
             resizeToAvoidBottomInset: false,

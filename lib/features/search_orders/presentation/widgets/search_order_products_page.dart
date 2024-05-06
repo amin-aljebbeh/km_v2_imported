@@ -1,10 +1,8 @@
-import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_action.dart';
-
 import '../../../../core/core_importer.dart';
 import '../../../order_details/order_details_services.dart';
+import '../../../order_details/presentation/widgets/order_sub_warehouse_products_widget.dart';
 import '../../../order_details/presentation/widgets/supplier_order_details_widget.dart';
 import '../../../orders/domain/entities/order_entity.dart';
-import '../../../orders/presentation/redux/orders_action.dart';
 import '../../../products/domain/entities/product_entity.dart';
 
 class SearchOrderProductsPage extends StatefulWidget {
@@ -20,7 +18,7 @@ class SearchOrderProductsPage extends StatefulWidget {
 
 class OrderProductsPageState extends State<SearchOrderProductsPage>
     with AutomaticKeepAliveClientMixin<SearchOrderProductsPage> {
-  List<ProductEntity> productsAry;
+  Map<int, List<ProductEntity>> subWarehousesProducts;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +27,8 @@ class OrderProductsPageState extends State<SearchOrderProductsPage>
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
-        productsAry = orderProducts(
-            deleted: widget.deleted,
-            products: state.searchOrdersState.orders.firstWhere((element) => element.id == widget.order.id).products,
-            context: context);
+        subWarehousesProducts = getSubWarehousesProducts(
+            deleted: widget.deleted, products: state.searchOrdersState.orders[0].products, context: context);
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColorLight,
           body: Column(
@@ -44,36 +40,9 @@ class OrderProductsPageState extends State<SearchOrderProductsPage>
                   primary: false,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: productsAry == null ? 1 : productsAry.length,
+                  itemCount: subWarehousesProducts == null ? 1 : subWarehousesProducts.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return OrderProductWidget(
-                      onCheckbox: () {
-                        if (!widget.deleted) {
-                          setState(() {});
-                          switch (state.searchOrdersState.searchOrdersType) {
-                            case SearchOrdersTypes.phoneNumber:
-                            case SearchOrdersTypes.id:
-                              state.searchOrdersState.orders
-                                  .firstWhere((order) => order.id == widget.order.id)
-                                  .products
-                                  .removeWhere((product) => product.id == productsAry[index].id);
-                              StoreProvider.of<AppState>(context)
-                                  .dispatch(SetSearchOrders(orders: state.searchOrdersState.orders));
-                              break;
-                            case SearchOrdersTypes.none:
-                              state.ordersState.orders
-                                  .firstWhere((order) => order.id == widget.order.id)
-                                  .products
-                                  .removeWhere((product) => product.id == productsAry[index].id);
-                              StoreProvider.of<AppState>(context)
-                                  .dispatch(SetViewOrders(orders: state.ordersState.orders));
-                              break;
-                          }
-                        }
-                      },
-                      productData: productsAry[index],
-                      // newSubWarehouse: newSubWarehouse(index),
-                    );
+                    return OrderSubWarehouseProductsWidget(productsAry: subWarehousesProducts.values.elementAt(index));
                   },
                 ),
               ),
@@ -83,11 +52,6 @@ class OrderProductsPageState extends State<SearchOrderProductsPage>
         );
       },
     );
-  }
-
-  bool newSubWarehouse(int index) {
-    if (index == 0) return true;
-    return productsAry[index].pivot.subWarehouseId != productsAry[index - 1].pivot.subWarehouseId;
   }
 
   @override
