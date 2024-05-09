@@ -11,6 +11,11 @@ Reducer<OrdersState> ordersReducer = combineReducers<OrdersState>([
   TypedReducer<OrdersState, SetAssignFilter>(setAssignFilter),
   TypedReducer<OrdersState, SetWarehouseFilter>(setWarehouseFilter),
   TypedReducer<OrdersState, SetRateFilter>(setRateFilter),
+  TypedReducer<OrdersState, SetToDateFilter>(setToDate),
+  TypedReducer<OrdersState, SetFromDateFilter>(setFromDate),
+  TypedReducer<OrdersState, SetShopperFilter>(setShopperId),
+  TypedReducer<OrdersState, SetSupportedCityFilter>(setSupportedCityId),
+  TypedReducer<OrdersState, SetShopperNameFilter>(setShopperNameFilter),
 ]);
 
 OrdersState setViewOrders(OrdersState state, SetViewOrders action) {
@@ -39,4 +44,24 @@ OrdersState setWarehouseFilter(OrdersState state, SetWarehouseFilter action) {
 
 OrdersState setRateFilter(OrdersState state, SetRateFilter action) {
   return state.copyWith(rateFilter: action.filter);
+}
+
+OrdersState setToDate(OrdersState state, SetToDateFilter action) {
+  return state.copyWith(toDateFilter: action.toDateFilter);
+}
+
+OrdersState setFromDate(OrdersState state, SetFromDateFilter action) {
+  return state.copyWith(fromDateFilter: action.fromDateFilter);
+}
+
+OrdersState setShopperId(OrdersState state, SetShopperFilter action) {
+  return state.copyWith(shopperFilter: action.shopperFilter);
+}
+
+OrdersState setSupportedCityId(OrdersState state, SetSupportedCityFilter action) {
+  return state.copyWith(supportedCityFilter: action.supportedCityFilter);
+}
+
+OrdersState setShopperNameFilter(OrdersState state, SetShopperNameFilter action) {
+  return state.copyWith(shopperNameFilter: action.shopperNameFilter);
 }

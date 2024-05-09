@@ -6,8 +6,17 @@ import '../entities/lock_order_response_entity.dart';
 import '../entities/order_entity.dart';
 
 abstract class OrdersRepository {
-  Future<Either<Failure, List<OrderEntity>>> getAllOrders(
-      {int pageNumber, int filterEvaluatedOrders, CancelToken cancelToken});
+  Future<Either<Failure, List<OrderEntity>>> getAllOrders({
+    int pageNumber,
+    int filterEvaluatedOrders,
+    CancelToken cancelToken,
+    String toDate,
+    String fromDate,
+    int orderStatusId,
+    String shopperId,
+    int warehouseId,
+    String supportedCityId,
+  });
 
   Future<Either<Failure, List<OrderEntity>>> getSupplierOrders({int pageNumber, CancelToken cancelToken});
 

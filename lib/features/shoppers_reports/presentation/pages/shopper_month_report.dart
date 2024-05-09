@@ -95,7 +95,8 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
                                                   KTableElement(text: 'مسافة التوصيل')
                                                 ],
                                               ),
-                                            MonthReportWidget(monthData: state.shoppersReportsState.monthlyReport[index])
+                                            MonthReportWidget(
+                                                monthData: state.shoppersReportsState.monthlyReport[index])
                                           ],
                                         );
                                       },

@@ -71,6 +71,24 @@ class Services {
     return list;
   }
 
+  static List<DropdownMenuItem<String>> shoppersNameListForFilter(BuildContext context) {
+    List<DropdownMenuItem<String>> list = [
+      DropdownMenuItem<String>(
+          child:
+              SizedBox(width: MediaQuery.of(context).size.width / 4, child: Text('الجميع', style: dropdownItemStyle)),
+          value: 'الجميع')
+    ];
+
+    list.addAll(StoreProvider.of<AppState>(context).state.shoppersState.shoppers.map((shopper) =>
+        DropdownMenuItem<String>(
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width / 4,
+                child: Text(shopper.name.split('-')[0], style: dropdownItemStyle)),
+            value: shopper.name)));
+
+    return list;
+  }
+
   static bool hasRole(BuildContext context, String slug) => StoreProvider.of<AppState>(context)
       .state
       .adminsState
@@ -91,12 +109,16 @@ class Services {
       .toString();
 
   static String selectedAdmin(String name, BuildContext context) => StoreProvider.of<AppState>(context)
-      .state.adminsState.transactionsActors
+      .state
+      .adminsState
+      .transactionsActors
       .firstWhere((admin) => admin.name == name)
       .id
       .toString();
   static String selectedAdminTransction(String name, BuildContext context) => StoreProvider.of<AppState>(context)
-      .state.adminsState.admins
+      .state
+      .adminsState
+      .admins
       .firstWhere((admin) => admin.name == name)
       .id
       .toString();

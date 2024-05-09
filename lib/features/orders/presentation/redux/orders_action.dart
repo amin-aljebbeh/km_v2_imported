@@ -123,9 +123,17 @@ class GetAllOrdersAction implements OrdersAction {
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases.getAllOrdersUseCase(
-        cancelToken: OrdersServices.cancelRequest,
-        filterEvaluatedOrders: store.state.ordersState.rateFilter,
-        pageNumber: store.state.ordersState.ordersPage);
+      cancelToken: OrdersServices.cancelRequest,
+      filterEvaluatedOrders: store.state.ordersState.rateFilter,
+      orderStatusId: store.state.ordersState.statusFilter == 0 ? null : store.state.ordersState.statusFilter,
+      fromDate: store.state.ordersState.fromDateFilter == '' ? null : store.state.ordersState.fromDateFilter,
+      shopperId: store.state.ordersState.shopperFilter == '0' ? null : store.state.ordersState.shopperFilter,
+      supportedCityId:
+          store.state.ordersState.supportedCityFilter == '0' ? null : store.state.ordersState.supportedCityFilter,
+      toDate: store.state.ordersState.toDateFilter == '' ? null : store.state.ordersState.toDateFilter,
+      warehouseId: store.state.ordersState.warehouseFilter == 0 ? null : store.state.ordersState.warehouseFilter,
+      pageNumber: store.state.ordersState.ordersPage,
+    );
     either.fold((failure) {
       store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));
     }, (orders) => store.dispatch(FilterOrders(orders: orders)));
@@ -282,6 +290,36 @@ class SetRateFilter {
   SetRateFilter({this.filter});
 }
 
+class SetToDateFilter {
+  final String toDateFilter;
+
+  SetToDateFilter({this.toDateFilter});
+}
+
+class SetFromDateFilter {
+  final String fromDateFilter;
+
+  SetFromDateFilter({this.fromDateFilter});
+}
+
+class SetShopperFilter {
+  final String shopperFilter;
+
+  SetShopperFilter({this.shopperFilter});
+}
+
+class SetShopperNameFilter {
+  final String shopperNameFilter;
+
+  SetShopperNameFilter({this.shopperNameFilter});
+}
+
+class SetSupportedCityFilter {
+  final String supportedCityFilter;
+
+  SetSupportedCityFilter({this.supportedCityFilter});
+}
+
 class FilterOrders extends OrdersAction {
   final List<OrderEntity> orders;
 
@@ -292,8 +330,6 @@ class FilterOrders extends OrdersAction {
     if (store.state.ordersState.rateFilter == 0) {
       if (store.state.ordersState.statusFilter == 0) {
         orders.removeWhere((order) => int.parse(order.orderStatusId) > 4);
-      } else {
-        orders.removeWhere((order) => int.parse(order.orderStatusId) != store.state.ordersState.statusFilter);
       }
       switch (store.state.ordersState.assignFilter) {
         case (0):
@@ -305,9 +341,6 @@ class FilterOrders extends OrdersAction {
           orders.removeWhere((order) => order.shopper != null);
           break;
       }
-    }
-    if (store.state.ordersState.warehouseFilter != 0) {
-      orders.removeWhere((order) => int.parse(order.warehouseId) != store.state.ordersState.warehouseFilter);
     }
     orders.removeWhere((order) => order.products.isEmpty);
     store.dispatch(SetViewOrders(orders: orders));

@@ -7,7 +7,17 @@ import '../models/order_model.dart';
 import '../models/orders_model.dart';
 
 abstract class OrdersRemoteDataSource {
-  Future<List<OrderModel>> getAllOrders({int pageNumber, int filterEvaluatedOrders, CancelToken cancelToken});
+  Future<List<OrderModel>> getAllOrders({
+    int pageNumber,
+    int filterEvaluatedOrders,
+    CancelToken cancelToken,
+    String toDate,
+    String fromDate,
+    int orderStatusId,
+    String shopperId,
+    int warehouseId,
+    String supportedCityId,
+  });
 
   Future<List<OrderModel>> getSupplierOrders({int pageNumber, CancelToken cancelToken});
 
@@ -54,12 +64,30 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
   }
 
   @override
-  Future<List<OrderModel>> getAllOrders({int pageNumber, int filterEvaluatedOrders, CancelToken cancelToken}) async {
+  Future<List<OrderModel>> getAllOrders({
+    int pageNumber,
+    int filterEvaluatedOrders,
+    CancelToken cancelToken,
+    String toDate,
+    String fromDate,
+    int orderStatusId,
+    String shopperId,
+    int warehouseId,
+    String supportedCityId,
+  }) async {
+    Map<String, dynamic> params = {
+      'page': pageNumber,
+      'filter_evaluated_orders': filterEvaluatedOrders,
+      'to_date': toDate,
+      'from_date': fromDate,
+      'order_status_id': orderStatusId,
+      'shopper_id': shopperId,
+      'warehouse_id': warehouseId,
+      'supported_city_id': supportedCityId
+    };
+    params.removeWhere((key, value) => value == null);
     Response response = await ApiProvider.sendRequest(
-        cancelToken: cancelToken,
-        url: orderApi,
-        method: HttpMethods.get,
-        queryParameters: {'page': pageNumber, 'filter_evaluated_orders': filterEvaluatedOrders});
+        cancelToken: cancelToken, url: orderApi, method: HttpMethods.get, queryParameters: params);
     try {
       if (response != null) {
         if (response.statusCode == successCode) return ordersModelFromJson(jsonEncode(response.data)).data.data;

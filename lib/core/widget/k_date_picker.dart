@@ -6,8 +6,11 @@ import '../core_importer.dart';
 class KDatePicker extends StatefulWidget {
   final Function(String) onConfirmStart;
   final Function(String) onConfirmEnd;
+  final String format;
 
-  const KDatePicker({Key key, @required this.onConfirmStart, @required this.onConfirmEnd}) : super(key: key);
+  const KDatePicker(
+      {Key key, @required this.onConfirmStart, @required this.onConfirmEnd, this.format = 'yyyy-MM-dd HH:mm:ss'})
+      : super(key: key);
   @override
   _KDatePickerState createState() => _KDatePickerState();
 }
@@ -17,7 +20,13 @@ class _KDatePickerState extends State<KDatePicker> with AutomaticKeepAliveClient
   bool get wantKeepAlive => true;
   String _fromDateTimeValue = 'يرجى أختيار تاريخ البداية';
   String _toDateTimeValue = 'يرجى إختيار تاريخ النهاية';
-  final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+  DateFormat fullDateFormatter;
+  @override
+  void initState() {
+    fullDateFormatter = DateFormat(widget.format);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);

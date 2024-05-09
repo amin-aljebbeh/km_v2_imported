@@ -9,9 +9,27 @@ class GetAllOrdersUseCase {
 
   GetAllOrdersUseCase({this.ordersRepository});
 
-  Future<Either<Failure, List<OrderEntity>>> call(
-      {int pageNumber, CancelToken cancelToken, int filterEvaluatedOrders}) async {
+  Future<Either<Failure, List<OrderEntity>>> call({
+    int pageNumber,
+    CancelToken cancelToken,
+    int filterEvaluatedOrders,
+    String toDate,
+    String fromDate,
+    int orderStatusId,
+    String shopperId,
+    int warehouseId,
+    String supportedCityId,
+  }) async {
     return await ordersRepository.getAllOrders(
-        cancelToken: cancelToken, pageNumber: pageNumber, filterEvaluatedOrders: filterEvaluatedOrders);
+      cancelToken: cancelToken,
+      pageNumber: pageNumber,
+      filterEvaluatedOrders: filterEvaluatedOrders,
+      warehouseId: warehouseId,
+      toDate: toDate,
+      supportedCityId: supportedCityId,
+      orderStatusId: orderStatusId,
+      fromDate: fromDate,
+      shopperId: shopperId,
+    );
   }
 }

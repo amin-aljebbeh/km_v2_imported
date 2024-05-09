@@ -15,31 +15,31 @@ class AssignmentManagementWidget extends StatelessWidget {
       children: [
         if (order.shopper != null)
           if (int.parse(order.orderStatusId) < 5)
-            if(Services.hasPermission(context, assignOrderPermission))
-            Padding(
-                padding: const EdgeInsets.all(8),
-                child: KammunButton(
-                    color: kmColors,
-                    width: MediaQuery.of(context).size.width / 4,
-                    text: 'تحويل',
-                    onTap: () {
-                      showMyDialog(
-                          context: context,
-                          title: 'تحويل',
-                          text: 'هل أنت متأكد من رغبتك في تحويل الطلب لكابتن جديد ؟',
-                          dialogButtons: [
-                            KammunButton(
-                                color: kmColors,
-                                onTap: () {
-                                  StoreProvider.of<AppState>(context)
-                                      .dispatch(ReAssignOrderAction(orderId: order.id, context: context));
-                                  Navigator.pop(context);
-                                },
-                                width: 100,
-                                text: yes),
-                            KammunButton(color: kmColors, onTap: () => Navigator.pop(context), width: 100, text: no),
-                          ]);
-                    })),
+            if (Services.hasPermission(context, assignOrderPermission))
+              Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: KammunButton(
+                      color: kmColors,
+                      width: MediaQuery.of(context).size.width / 4,
+                      text: 'تحويل',
+                      onTap: () {
+                        showMyDialog(
+                            context: context,
+                            title: 'تحويل',
+                            text: 'هل أنت متأكد من رغبتك في تحويل الطلب لكابتن جديد ؟',
+                            dialogButtons: [
+                              KammunButton(
+                                  color: kmColors,
+                                  onTap: () {
+                                    StoreProvider.of<AppState>(context)
+                                        .dispatch(ReAssignOrderAction(orderId: order.id, context: context));
+                                    Navigator.pop(context);
+                                  },
+                                  width: 100,
+                                  text: yes),
+                              KammunButton(color: kmColors, onTap: () => Navigator.pop(context), width: 100, text: no),
+                            ]);
+                      })),
         if (Services.hasRole(context, agentRole))
           if (order.shopper != null)
             if (order.shopper.admin != null)
@@ -62,28 +62,27 @@ class AssignmentManagementWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-        if( Services.hasPermission(context, assignOrderPermission))
-
+        if (Services.hasPermission(context, assignOrderPermission))
           Expanded(
-          child: KSearchableDropdown(
-            hint: order.shopper != null ? order.shopper.name : chooseShopper,
-            search: shopper,
-            items: Services.shoppersNameList(context),
-            onChanged: (value) async {
-              if (value != null) {
-                String shopperId = Services.selectedShopperId(value, context);
-                int shopperLevelId = Services.selectedShopperLevelId(value, context);
-                shopper = value;
-                order.shopper = ShopperEntity(
-                    name: value.replaceAll(' ✅', '').replaceAll(' ❌', ''),
-                    id: int.parse(shopperId),
-                    levelId: shopperLevelId);
-                StoreProvider.of<AppState>(context).dispatch(
-                    AssignOrderToShopperAction(orderId: order.id, assignedId: int.parse(shopperId), context: context));
-              }
-            },
+            child: KSearchableDropdown(
+              hint: order.shopper != null ? order.shopper.name : chooseShopper,
+              search: shopper,
+              items: Services.shoppersNameList(context),
+              onChanged: (value) async {
+                if (value != null) {
+                  String shopperId = Services.selectedShopperId(value, context);
+                  int shopperLevelId = Services.selectedShopperLevelId(value, context);
+                  shopper = value;
+                  order.shopper = ShopperEntity(
+                      name: value.replaceAll(' ✅', '').replaceAll(' ❌', ''),
+                      id: int.parse(shopperId),
+                      levelId: shopperLevelId);
+                  StoreProvider.of<AppState>(context).dispatch(AssignOrderToShopperAction(
+                      orderId: order.id, assignedId: int.parse(shopperId), context: context));
+                }
+              },
+            ),
           ),
-        ),
       ],
     );
   }

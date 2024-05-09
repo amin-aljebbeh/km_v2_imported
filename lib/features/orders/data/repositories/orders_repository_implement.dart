@@ -49,11 +49,29 @@ class OrdersRepositoryImplement implements OrdersRepository {
   }
 
   @override
-  Future<Either<Failure, List<OrderEntity>>> getAllOrders(
-      {int pageNumber, int filterEvaluatedOrders, CancelToken cancelToken}) async {
+  Future<Either<Failure, List<OrderEntity>>> getAllOrders({
+    int pageNumber,
+    int filterEvaluatedOrders,
+    CancelToken cancelToken,
+    String toDate,
+    String fromDate,
+    int orderStatusId,
+    String shopperId,
+    int warehouseId,
+    String supportedCityId,
+  }) async {
     try {
       List<OrderEntity> orders = await ordersRemoteDataSource.getAllOrders(
-          cancelToken: cancelToken, pageNumber: pageNumber, filterEvaluatedOrders: filterEvaluatedOrders);
+        cancelToken: cancelToken,
+        pageNumber: pageNumber,
+        filterEvaluatedOrders: filterEvaluatedOrders,
+        shopperId: shopperId,
+        fromDate: fromDate,
+        orderStatusId: orderStatusId,
+        supportedCityId: supportedCityId,
+        toDate: toDate,
+        warehouseId: warehouseId,
+      );
       return Right(orders);
     } on CacheException {
       return Left(CacheFailure());

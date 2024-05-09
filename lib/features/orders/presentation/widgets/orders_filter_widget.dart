@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/general_information/domain/entities/warehouse_entity.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../general_information/domain/entities/supported_city_entity.dart';
 import '../redux/orders_action.dart';
 
 class OrdersFilterWidget extends StatelessWidget {
@@ -16,10 +17,12 @@ class OrdersFilterWidget extends StatelessWidget {
       builder: (context, state) {
         List<WarehouseEntity> warehouses = [WarehouseEntity(name: 'جميع المستودعات', id: 0)];
         warehouses.addAll(state.generalInformationState.warehouses);
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
+        List<SupportedCityEntity> supportedCities = [SupportedCityEntity(name: 'جميع المناطق', id: '0')];
+        supportedCities.addAll(state.generalInformationState.supportedCities);
+        return Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 DropdownButton(
                   value: state.ordersState.statusFilter,
@@ -32,6 +35,52 @@ class OrdersFilterWidget extends StatelessWidget {
                     store.dispatch(GetOrdersAction(context: context));
                   },
                 ),
+                if (Services.hasRole(context, agentRole))
+                  InkWell(
+                      child: Icon(Icons.star_rounded,
+                          size: 40, color: state.ordersState.rateFilter == 1 ? kmColors : searchGreyColor),
+                      onTap: () {
+                        store.dispatch(SetRateFilter(filter: state.ordersState.rateFilter == 1 ? 0 : 1));
+                        store.dispatch(GetOrdersAction(context: context));
+                      }),
+                if (Services.hasRole(context, operationManagerRole))
+                  SearchOrderByPhoneNumber(context: context, onChoose: () {}),
+                IconButton(
+                  onPressed: () {
+                    if (state.ordersState.limitedOrdersPage < 15) {
+                      store.dispatch(SetLimitedOrdersPage(page: state.ordersState.limitedOrdersPage + 1));
+                    }
+                    store.dispatch(SetOrdersPage(page: state.ordersState.ordersPage + 1));
+                    store.dispatch(GetOrdersAction(context: context));
+                  },
+                  icon: Icon(Icons.arrow_back, size: 40, color: kmColors),
+                ),
+                DropdownButton(
+                  value: state.ordersState.limitedOrdersPage,
+                  items: Services.dropdownIntList(inputList: dropdownValues),
+                  onChanged: (value) {
+                    store.dispatch(SetOrdersPage(page: value));
+                    store.dispatch(SetLimitedOrdersPage(page: value));
+                    store.dispatch(GetOrdersAction(context: context));
+                  },
+                ),
+                IconButton(
+                  onPressed: () {
+                    if (state.ordersState.ordersPage > 1) {
+                      store.dispatch(SetOrdersPage(page: state.ordersState.ordersPage - 1));
+                      if (state.ordersState.ordersPage <= 15) {
+                        store.dispatch(SetLimitedOrdersPage(page: state.ordersState.limitedOrdersPage - 1));
+                      }
+                    }
+                    store.dispatch(GetOrdersAction(context: context));
+                  },
+                  icon: Icon(Icons.arrow_forward, size: 40, color: kmColors),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
                 if (Services.hasRole(context, operationManagerRole))
                   DropdownButton(
                     value: state.ordersState.assignFilter,
@@ -43,100 +92,105 @@ class OrdersFilterWidget extends StatelessWidget {
                       store.dispatch(GetOrdersAction(context: context));
                     },
                   ),
-              ],
-            ),
-            Expanded(
-              child: Column(
-                children: [
+                if (Services.hasRole(context, agentRole))
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      if (Services.hasRole(context, agentRole))
-                        InkWell(
-                            child: Icon(Icons.star_rounded,
-                                size: 40, color: state.ordersState.rateFilter == 1 ? kmColors : searchGreyColor),
-                            onTap: () {
-                              store.dispatch(SetRateFilter(filter: state.ordersState.rateFilter == 1 ? 0 : 1));
-                              store.dispatch(GetOrdersAction(context: context));
-                            }),
-                      if (Services.hasRole(context, operationManagerRole))
-                        SearchOrderByPhoneNumber(context: context, onChoose: () {}),
-                      IconButton(
-                        onPressed: () {
-                          if (state.ordersState.limitedOrdersPage < 15) {
-                            store.dispatch(SetLimitedOrdersPage(page: state.ordersState.limitedOrdersPage + 1));
-                          }
-                          store.dispatch(SetOrdersPage(page: state.ordersState.ordersPage + 1));
-                          store.dispatch(GetOrdersAction(context: context));
-                        },
-                        icon: Icon(Icons.arrow_back, size: 40, color: kmColors),
-                      ),
                       DropdownButton(
-                        value: state.ordersState.limitedOrdersPage,
-                        items: Services.dropdownIntList(inputList: dropdownValues),
+                        value: state.ordersState.warehouseFilter,
+                        items: warehouses.map((warehouse) {
+                          return DropdownMenuItem<int>(
+                              child: Center(child: Text(warehouse.name, style: dropdownItemStyle)),
+                              value: warehouse.id);
+                        }).toList(),
                         onChanged: (value) {
-                          store.dispatch(SetOrdersPage(page: value));
-                          store.dispatch(SetLimitedOrdersPage(page: value));
+                          store.dispatch(SetWarehouseFilter(filter: value));
+                          store.dispatch(SetOrdersPage(page: 1));
+                          store.dispatch(SetLimitedOrdersPage(page: 1));
                           store.dispatch(GetOrdersAction(context: context));
                         },
                       ),
-                      IconButton(
-                        onPressed: () {
-                          if (state.ordersState.ordersPage > 1) {
-                            store.dispatch(SetOrdersPage(page: state.ordersState.ordersPage - 1));
-                            if (state.ordersState.ordersPage <= 15) {
-                              store.dispatch(SetLimitedOrdersPage(page: state.ordersState.limitedOrdersPage - 1));
+                      SizedBox(
+                        height: 30,
+                        child: EntryField(
+                          edgeInsetsGeometry: EdgeInsets.zero,
+                          controller: pageController,
+                          onChange: () {},
+                          onSubmit: (notEmpty) {
+                            if (notEmpty) {
+                              if (int.parse(pageController.text) > 0) {
+                                store.dispatch(SetOrdersPage(page: int.parse(pageController.text)));
+                                if (state.ordersState.ordersPage <= 15) {
+                                  store.dispatch(SetLimitedOrdersPage(page: int.parse(pageController.text)));
+                                }
+                                store.dispatch(GetOrdersAction(context: context));
+                              }
                             }
-                          }
-                          store.dispatch(GetOrdersAction(context: context));
-                        },
-                        icon: Icon(Icons.arrow_forward, size: 40, color: kmColors),
+                          },
+                          width: 51,
+                        ),
                       ),
                     ],
                   ),
-                  if (Services.hasRole(context, agentRole))
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        DropdownButton(
-                          value: state.ordersState.warehouseFilter,
-                          items: warehouses
-                              .map((warehouse) => DropdownMenuItem<int>(
-                                  child: Center(child: Text(warehouse.name, style: dropdownItemStyle)),
-                                  value: warehouse.id))
-                              .toList(),
-                          onChanged: (value) {
-                            store.dispatch(SetWarehouseFilter(filter: value));
-                            store.dispatch(SetOrdersPage(page: 1));
-                            store.dispatch(SetLimitedOrdersPage(page: 1));
-                            store.dispatch(GetOrdersAction(context: context));
-                          },
-                        ),
-                        SizedBox(
-                          height: 30,
-                          child: EntryField(
-                            edgeInsetsGeometry: EdgeInsets.zero,
-                            controller: pageController,
-                            onChange: () {},
-                            onSubmit: (notEmpty) {
-                              if (notEmpty) {
-                                if (int.parse(pageController.text) > 0) {
-                                  store.dispatch(SetOrdersPage(page: int.parse(pageController.text)));
-                                  if (state.ordersState.ordersPage <= 15) {
-                                    store.dispatch(SetLimitedOrdersPage(page: int.parse(pageController.text)));
-                                  }
-                                  store.dispatch(GetOrdersAction(context: context));
-                                }
-                              }
-                            },
-                            width:51 ,
-                          ),
-                        ),
-                      ],
-                    )
+              ],
+            ),
+            if (Services.hasRole(context, operationManagerRole))
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DropdownButton(
+                    value: state.ordersState.shopperNameFilter,
+                    items: Services.shoppersNameListForFilter(context),
+                    onChanged: (value) {
+                      String shopperId = '0';
+                      if (value != 'الجميع') {
+                        shopperId = Services.selectedShopperId(value, context);
+                      }
+                      store.dispatch(SetShopperFilter(shopperFilter: shopperId));
+                      store.dispatch(SetShopperNameFilter(shopperNameFilter: value));
+                      store.dispatch(SetLimitedOrdersPage(page: 1));
+                      store.dispatch(SetOrdersPage(page: 1));
+                      store.dispatch(GetOrdersAction(context: context));
+                    },
+                  ),
+                  DropdownButton(
+                    value: state.ordersState.supportedCityFilter,
+                    items: supportedCities
+                        .map((supportedCity) => DropdownMenuItem<String>(
+                            child: Center(child: Text(supportedCity.name, style: dropdownItemStyle)),
+                            value: supportedCity.id))
+                        .toList(),
+                    onChanged: (value) {
+                      store.dispatch(SetSupportedCityFilter(supportedCityFilter: value));
+                      store.dispatch(SetOrdersPage(page: 1));
+                      store.dispatch(SetLimitedOrdersPage(page: 1));
+                      store.dispatch(GetOrdersAction(context: context));
+                    },
+                  ),
+                  InkWell(
+                      onTap: () {
+                        showMyDialog(
+                            title: 'فترة الطلبات',
+                            context: context,
+                            content: KDatePicker(
+                              format: 'yyyy-MM-dd',
+                              onConfirmStart: (date) =>
+                                  store.dispatch(SetFromDateFilter(fromDateFilter: date.split(' ')[0])),
+                              onConfirmEnd: (date) => store.dispatch(SetToDateFilter(toDateFilter: date.split(' ')[0])),
+                            ),
+                            dialogButtons: [
+                              const CloseWidget(),
+                              DialogButton(
+                                  text: 'بحث',
+                                  onTap: () {
+                                    store.dispatch(GetOrdersAction(context: context));
+                                    Navigator.of(context).pop();
+                                  })
+                            ]);
+                      },
+                      child: Icon(Icons.calendar_month_rounded, color: kmColors))
                 ],
               ),
-            ),
           ],
         );
       },

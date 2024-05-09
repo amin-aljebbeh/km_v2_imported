@@ -12,13 +12,23 @@ class OrdersState extends Equatable {
   final int ordersPage;
   final int limitedOrdersPage;
   final int rateFilter;
+  final String toDateFilter;
+  final String fromDateFilter;
+  final String shopperFilter;
+  final String shopperNameFilter;
+  final String supportedCityFilter;
 
   const OrdersState({
+    this.toDateFilter,
+    this.fromDateFilter,
+    this.shopperFilter,
+    this.supportedCityFilter,
     this.statusFilter,
     this.warehouseFilter,
     this.assignFilter,
     this.ordersUSeCases,
     this.orders,
+    this.shopperNameFilter,
     this.ordersPage,
     this.limitedOrdersPage,
     this.rateFilter,
@@ -34,6 +44,11 @@ class OrdersState extends Equatable {
       ordersPage: 1,
       rateFilter: 0,
       limitedOrdersPage: 1,
+      shopperFilter: '0',
+      fromDateFilter: '',
+      supportedCityFilter: '0',
+      toDateFilter: '',
+      shopperNameFilter: 'الجميع',
     );
   }
 
@@ -45,6 +60,11 @@ class OrdersState extends Equatable {
     int ordersPage,
     int limitedOrdersPage,
     int rateFilter,
+    String toDateFilter,
+    String fromDateFilter,
+    String shopperFilter,
+    String supportedCityFilter,
+    String shopperNameFilter,
   }) {
     return OrdersState(
       ordersUSeCases: ordersUSeCases,
@@ -55,10 +75,28 @@ class OrdersState extends Equatable {
       ordersPage: ordersPage ?? this.ordersPage,
       limitedOrdersPage: limitedOrdersPage ?? this.limitedOrdersPage,
       rateFilter: rateFilter ?? this.rateFilter,
+      supportedCityFilter: supportedCityFilter ?? this.supportedCityFilter,
+      fromDateFilter: fromDateFilter ?? this.fromDateFilter,
+      shopperFilter: shopperFilter ?? this.shopperFilter,
+      toDateFilter: toDateFilter ?? this.toDateFilter,
+      shopperNameFilter: shopperNameFilter ?? this.shopperNameFilter,
     );
   }
 
   @override
-  List<Object> get props =>
-      [ordersUSeCases, orders, statusFilter, warehouseFilter, assignFilter, ordersPage, limitedOrdersPage, rateFilter];
+  List<Object> get props => [
+        ordersUSeCases,
+        orders,
+        statusFilter,
+        warehouseFilter,
+        assignFilter,
+        ordersPage,
+        limitedOrdersPage,
+        rateFilter,
+        supportedCityFilter,
+        fromDateFilter,
+        shopperFilter,
+        shopperNameFilter,
+        toDateFilter
+      ];
 }
