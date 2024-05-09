@@ -15,11 +15,7 @@ class SearchOrdersPage extends StatelessWidget {
       distinct: true,
       builder: (context, state) {
         return TemporaryLoading(
-          onPop: () {
-            store.dispatch(SetSearchStatusFilter(filter: 0));
-            store.dispatch(SetSearchPage(page: 1));
-            Navigator.push(context, MaterialPageRoute(builder: (screenContext) => const HomePage()));
-          },
+          onPop: () => store.dispatch(SetSearchOrdersType(searchOrdersType: SearchOrdersTypes.none)),
           child: Scaffold(
             backgroundColor: Theme.of(context).primaryColorLight,
             resizeToAvoidBottomInset: false,
