@@ -53,7 +53,8 @@ class KDrawer extends StatelessWidget {
                   ),
                   Container(child: Image.asset('assets/kmlogoo.png', width: 250, height: 150), color: Colors.white),
                   if (state.usersState.balance != null)
-                    if (state.usersState.balance.shopperSum != null && !Services.hasRole(context, shopperRole))
+                    if (state.usersState.balance.shopperSum != null &&
+                        Services.hasPermission(context, viewAdminBalancePermission))
                       Padding(
                         padding: const EdgeInsets.only(top: 8, right: 8),
                         child: Row(
@@ -72,9 +73,7 @@ class KDrawer extends StatelessWidget {
                                 final BalanceModel balance = await GeneralApis.getBalanceRefresh(context: context);
                                 StoreProvider.of<AppState>(context).dispatch(SetBalance(balance: balance));
                               },
-                              icon: const Icon(
-                                Icons.refresh,
-                              ),
+                              icon: const Icon(Icons.refresh),
                               color: kmColors,
                             )
                           ],

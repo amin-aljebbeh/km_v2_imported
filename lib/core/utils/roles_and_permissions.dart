@@ -19,3 +19,4 @@ String viewAdminPanelPermission = 'view-admin-panel';
 String advancedAdminPanelPermission = 'advanced-admin-panel';
 String assignOrderPermission = 'assign-order-shopper';
 String upDateProductPermission = 'update-product-warehouse';
+String viewAdminBalancePermission = 'view-admin-balance';
