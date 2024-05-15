@@ -1,3 +1,4 @@
+import 'package:kammun_app/features/todos/presentation/redux/todos_reducer.dart';
 import 'package:kammun_app/features/version/presentation/redux/version_reducer.dart';
 
 import '../core/core_importer.dart';
@@ -58,5 +59,6 @@ AppState appReducer(AppState state, dynamic action) {
     reportState: reportsReducer(state.reportState, action),
     shoppersReportsState: shopperReportsReducer(state.shoppersReportsState, action),
     versionState: versionReducer(state.versionState, action),
+    todosState: todosReducer(state.todosState, action),
   );
 }

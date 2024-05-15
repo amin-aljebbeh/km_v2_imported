@@ -2,6 +2,8 @@ import 'package:kammun_app/features/complaints/presentation/redux/complaints_act
 import 'package:kammun_app/features/inventory/presentation/redux/inventory_action.dart';
 import 'package:kammun_app/features/reports/presentation/redux/reports_action.dart';
 import 'package:kammun_app/features/sub_warehouse_manager/presentation/redux/sub_warehouse_manager_action.dart';
+import 'package:kammun_app/features/todos/presentation/pages/todos_page.dart';
+import 'package:kammun_app/features/todos/presentation/redux/todos_action.dart';
 
 import '../../../core/core_importer.dart';
 import '../../../core/widget/management_view.dart';
@@ -25,6 +27,15 @@ List<Widget> getDrawerChildren(BuildContext context) {
     SideBarRow(icon: Icons.phone, text: 'الإتصال بكمون', onTap: () => Services.openUrl('number', context)),
     SideBarRow(icon: Icons.share, text: 'إرسال التطبيق للأصدقاء', onTap: () => Services.shareApp(context)),
     SideBarRow(pushedRoute: const ProfileScreen(), icon: Icons.person, text: profile),
+    SideBarRow(
+        onTap: () {
+          store.dispatch(SetTodosPageNumber(pageNumber: 1));
+          store.dispatch(SetHasNextTodos(hasNextTodos: false));
+          store.dispatch(GetTodosAction());
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const TodosPage()));
+        },
+        icon: Icons.task_rounded,
+        text: profile),
     if (Services.hasRole(context, operationManagerRole))
       const SideBarRow(
           pushedRoute: ShopperManagementPage(), icon: Icons.supervisor_account_sharp, text: 'فريق التوصيل'),

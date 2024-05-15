@@ -3,12 +3,14 @@ const String appUrl = 'https://kammun.app';
 const String user = 'user/';
 const String searchApi = 'search/';
 const String supportedCityApi = 'supported_city/';
-String baseUrl = appUrl;
+String baseUrl = testUrl;
 const String appleBaseUrl = 'http://apptest.kammun.com';
 const String productionBaseUrl = testUrl;
 const String getCategoryApi = 'category/';
 const String syncCartApi = 'cart/sync_cart';
 
+const String todosApi = 'todos/';
+const String todosResolveApi = todosApi + 'resolve/';
 const String couponApi = 'coupon/';
 const String userCouponsApi = user + 'coupons/';
 const String userChangePhoneApi = user + 'change-phone-number/';

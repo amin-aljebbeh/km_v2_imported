@@ -18,6 +18,7 @@ import 'shoppers_injection.dart';
 import 'shoppers_report_injection.dart';
 import 'sub_warehouse_manager_injection.dart';
 import 'supplier_injection.dart';
+import 'todos_injection.dart';
 import 'transactions_injection.dart';
 import 'users_injection.dart';
 import 'version_injection.dart';
@@ -35,6 +36,7 @@ Future<void> inject() async {
   await injectOrders();
   await injectSearchOrders();
   await injectTransactions();
+  await injectTodos();
   await injectShoppers();
   await injectOrderDetails();
   await injectBarcode();

@@ -1,4 +1,5 @@
 import 'package:kammun_app/features/authentication/presentation/redux/authentication_state.dart';
+import 'package:kammun_app/features/todos/presentation/redux/todos_state.dart';
 
 import '../core/core_importer.dart';
 import '../features/admins/presentation/redux/admins_state.dart';
@@ -54,6 +55,7 @@ class AppState extends Equatable {
   final ShoppersState shoppersState;
   final ShoppersReportsState shoppersReportsState;
   final SupplierState supplierState;
+  final TodosState todosState;
   final TransactionsState transactionsState;
   final UsersState usersState;
   final VersionState versionState;
@@ -61,6 +63,7 @@ class AppState extends Equatable {
   const AppState({
     this.excelInventoryState,
     this.reportState,
+    this.todosState,
     this.shoppersReportsState,
     this.authenticationState,
     this.inventoryFileState,
@@ -116,6 +119,7 @@ class AppState extends Equatable {
         excelInventoryState: SubWarehouseManagerState.initial(),
         barcodeState: BarcodeState.initial(),
         versionState: VersionState.initial(),
+        todosState: TodosState.initial(),
       );
 
   AppState copyWith({
@@ -146,6 +150,7 @@ class AppState extends Equatable {
     ShoppersReportsState shoppersReportsState,
     BarcodeState barcodeState,
     VersionState versionState,
+    TodosState todosState,
   }) {
     return AppState(
       inventoryState: inventoryState ?? this.inventoryState,
@@ -166,6 +171,7 @@ class AppState extends Equatable {
       couponState: couponState ?? this.couponState,
       usersState: usersState ?? this.usersState,
       productsState: productsState ?? this.productsState,
+      todosState: todosState ?? this.todosState,
       searchOrdersState: searchOrdersState ?? this.searchOrdersState,
       ordersState: ordersState ?? this.ordersState,
       transactionsState: transactionsState ?? this.transactionsState,
@@ -185,6 +191,7 @@ class AppState extends Equatable {
         loadingState,
         authenticationState,
         reportState,
+        todosState,
         homeState,
         shoppersReportsState,
         supplierState,
