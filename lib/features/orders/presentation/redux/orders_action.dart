@@ -328,9 +328,6 @@ class FilterOrders extends OrdersAction {
   @override
   handle({Store<AppState> store}) {
     if (store.state.ordersState.rateFilter == 0) {
-      if (store.state.ordersState.statusFilter == 0) {
-        orders.removeWhere((order) => int.parse(order.orderStatusId) > 4);
-      }
       switch (store.state.ordersState.assignFilter) {
         case (0):
           break;
