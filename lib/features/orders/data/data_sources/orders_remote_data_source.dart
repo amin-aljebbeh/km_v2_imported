@@ -80,11 +80,18 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
       'filter_evaluated_orders': filterEvaluatedOrders,
       'to_date': toDate,
       'from_date': fromDate,
-      'order_status_id': orderStatusId,
       'shopper_id': shopperId,
       'warehouse_id': warehouseId,
       'supported_city_id': supportedCityId
     };
+    if (orderStatusId == 0) {
+      params['order_status_id[0]'] = 1;
+      params['order_status_id[1]'] = 2;
+      params['order_status_id[2]'] = 3;
+      params['order_status_id[3]'] = 4;
+    } else {
+      params['order_status_id[0]'] = orderStatusId;
+    }
     params.removeWhere((key, value) => value == null);
     Response response = await ApiProvider.sendRequest(
         cancelToken: cancelToken, url: orderApi, method: HttpMethods.get, queryParameters: params);

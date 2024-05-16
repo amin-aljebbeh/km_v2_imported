@@ -125,7 +125,7 @@ class GetAllOrdersAction implements OrdersAction {
     Either either = await store.state.ordersState.ordersUSeCases.getAllOrdersUseCase(
       cancelToken: OrdersServices.cancelRequest,
       filterEvaluatedOrders: store.state.ordersState.rateFilter,
-      orderStatusId: store.state.ordersState.statusFilter == 0 ? null : store.state.ordersState.statusFilter,
+      orderStatusId: store.state.ordersState.statusFilter,
       fromDate: store.state.ordersState.fromDateFilter == '' ? null : store.state.ordersState.fromDateFilter,
       shopperId: store.state.ordersState.shopperFilter == '0' ? null : store.state.ordersState.shopperFilter,
       supportedCityId:
