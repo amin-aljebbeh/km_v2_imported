@@ -107,12 +107,8 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: KCacheImage(
-                        tag: product.productId + widget.index,
-                        image: product.images.isNotEmpty
-                            ? state.generalInformationState.companyInformation.imagePrefixUrl +
-                                product.images[0].imageFileName
-                            : '',
-                      ),
+                          tag: product.productId + widget.index,
+                          image: product.images.isNotEmpty ? product.images[0].imageFileName : ''),
                     ),
                     Expanded(
                       child: Wrap(

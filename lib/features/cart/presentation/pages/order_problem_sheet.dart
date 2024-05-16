@@ -177,14 +177,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(left: 10),
-              child: KCacheImage(
-                  tag: index + 100,
-                  image: StoreProvider.of<AppState>(context)
-                          .state
-                          .generalInformationState
-                          .companyInformation
-                          .imagePrefixUrl +
-                      widget.cartProducts[index].images[0].imageFileName),
+              child: KCacheImage(tag: index + 100, image: widget.cartProducts[index].images[0].imageFileName),
             ),
             Expanded(
               child: Wrap(

@@ -9,16 +9,20 @@ class TodoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Row(
-        children: [
-          CircleAvatar(child: KCacheImage(image: todoEntity.todoTag.imageUrl, tag: todoEntity.todoTag.id)),
-          Column(
-            children: [
-              Text(todoEntity.title),
-              Row(children: [Text(todoEntity.todoTag.name), Text(todoEntity.todoStatus.name)])
-            ],
-          )
-        ],
+      child: KCard(
+        radius: const BorderRadius.all(Radius.circular(50)),
+        padding: const EdgeInsets.all(15),
+        child: Row(
+          children: [
+            KCacheImage(image: todoEntity.todoTag.imageUrl ?? '', tag: todoEntity.todoTag.id, radius: 50),
+            Column(
+              children: [
+                Text(todoEntity.title, style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
+                Wrap(children: [Text(todoEntity.todoTag.name + '،'), Text('حالة الطلب: ' + todoEntity.todoStatus.name)])
+              ],
+            )
+          ],
+        ),
       ),
       onTap: () {},
     );

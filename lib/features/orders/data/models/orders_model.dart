@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/orders/data/models/order_model.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../domain/entities/orders_page_data_entity.dart';
 
 Orders ordersModelFromJson(String str) => Orders.fromJson(json.decode(str));
 
@@ -8,21 +9,15 @@ class Orders {
   Orders({this.success, this.data});
 
   bool success;
-  PageData data;
+  OrdersPageDataModel data;
 
   factory Orders.fromJson(Map<String, dynamic> json) =>
-      Orders(success: json['success'], data: PageData.fromJson(json['data']));
-
-  Map<String, dynamic> toJson() => {'success': success, 'data': data.toJson()};
+      Orders(success: json['success'], data: OrdersPageDataModel.fromJson(json['data']));
 }
 
-class PageData {
-  PageData({this.data});
+class OrdersPageDataModel extends OrdersPageDataEntity {
+  OrdersPageDataModel({data, total}) : super(total: total, data: data);
 
-  List<OrderModel> data;
-
-  factory PageData.fromJson(Map<String, dynamic> json) =>
-      PageData(data: List<OrderModel>.from(json['data'].map((x) => OrderModel.fromJson(x))));
-
-  Map<String, dynamic> toJson() => {'data': List<dynamic>.from(data.map((x) => x.toJson()))};
+  factory OrdersPageDataModel.fromJson(Map<String, dynamic> json) => OrdersPageDataModel(
+      total: json['total'], data: List<OrderModel>.from(json['data'].map((x) => OrderModel.fromJson(x))));
 }

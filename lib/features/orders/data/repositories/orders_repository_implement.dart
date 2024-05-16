@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/features/orders/domain/entities/change_order_status_response_entity.dart';
 import 'package:kammun_app/features/orders/domain/entities/lock_order_response_entity.dart';
-import 'package:kammun_app/features/orders/domain/entities/order_entity.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../domain/entities/orders_page_data_entity.dart';
 import '../../domain/repositories/orders_repository.dart';
 import '../data_sources/orders_remote_data_source.dart';
 
@@ -49,7 +49,7 @@ class OrdersRepositoryImplement implements OrdersRepository {
   }
 
   @override
-  Future<Either<Failure, List<OrderEntity>>> getAllOrders({
+  Future<Either<Failure, OrdersPageDataEntity>> getAllOrders({
     int pageNumber,
     int filterEvaluatedOrders,
     CancelToken cancelToken,
@@ -61,7 +61,7 @@ class OrdersRepositoryImplement implements OrdersRepository {
     String supportedCityId,
   }) async {
     try {
-      List<OrderEntity> orders = await ordersRemoteDataSource.getAllOrders(
+      OrdersPageDataEntity orders = await ordersRemoteDataSource.getAllOrders(
         cancelToken: cancelToken,
         pageNumber: pageNumber,
         filterEvaluatedOrders: filterEvaluatedOrders,
@@ -85,9 +85,9 @@ class OrdersRepositoryImplement implements OrdersRepository {
   }
 
   @override
-  Future<Either<Failure, List<OrderEntity>>> getShopperOrders({int pageNumber, CancelToken cancelToken}) async {
+  Future<Either<Failure, OrdersPageDataEntity>> getShopperOrders({int pageNumber, CancelToken cancelToken}) async {
     try {
-      List<OrderEntity> orders =
+      OrdersPageDataEntity orders =
           await ordersRemoteDataSource.getShopperOrders(cancelToken: cancelToken, pageNumber: pageNumber);
       return Right(orders);
     } on CacheException {
@@ -102,9 +102,9 @@ class OrdersRepositoryImplement implements OrdersRepository {
   }
 
   @override
-  Future<Either<Failure, List<OrderEntity>>> getSupplierOrders({int pageNumber, CancelToken cancelToken}) async {
+  Future<Either<Failure, OrdersPageDataEntity>> getSupplierOrders({int pageNumber, CancelToken cancelToken}) async {
     try {
-      List<OrderEntity> orders =
+      OrdersPageDataEntity orders =
           await ordersRemoteDataSource.getSupplierOrders(cancelToken: cancelToken, pageNumber: pageNumber);
       return Right(orders);
     } on CacheException {

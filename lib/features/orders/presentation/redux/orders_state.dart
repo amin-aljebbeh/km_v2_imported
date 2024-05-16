@@ -17,9 +17,11 @@ class OrdersState extends Equatable {
   final String shopperFilter;
   final String shopperNameFilter;
   final String supportedCityFilter;
+  final int totalOrdersNumber;
 
   const OrdersState({
     this.toDateFilter,
+    this.totalOrdersNumber,
     this.fromDateFilter,
     this.shopperFilter,
     this.supportedCityFilter,
@@ -41,6 +43,7 @@ class OrdersState extends Equatable {
       statusFilter: 0,
       assignFilter: 0,
       warehouseFilter: 0,
+      totalOrdersNumber: 0,
       ordersPage: 1,
       rateFilter: 0,
       limitedOrdersPage: 1,
@@ -65,6 +68,7 @@ class OrdersState extends Equatable {
     String shopperFilter,
     String supportedCityFilter,
     String shopperNameFilter,
+    int totalOrdersNumber,
   }) {
     return OrdersState(
       ordersUSeCases: ordersUSeCases,
@@ -80,6 +84,7 @@ class OrdersState extends Equatable {
       shopperFilter: shopperFilter ?? this.shopperFilter,
       toDateFilter: toDateFilter ?? this.toDateFilter,
       shopperNameFilter: shopperNameFilter ?? this.shopperNameFilter,
+      totalOrdersNumber: totalOrdersNumber ?? this.totalOrdersNumber,
     );
   }
 
@@ -97,6 +102,7 @@ class OrdersState extends Equatable {
         fromDateFilter,
         shopperFilter,
         shopperNameFilter,
-        toDateFilter
+        toDateFilter,
+        totalOrdersNumber
       ];
 }

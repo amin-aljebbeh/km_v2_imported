@@ -16,6 +16,10 @@ class OrdersPage extends StatelessWidget {
           child: Scaffold(
             backgroundColor: Theme.of(context).primaryColorLight,
             resizeToAvoidBottomInset: false,
+            floatingActionButton: FloatingActionButton(
+                backgroundColor: kmColors,
+                onPressed: () {},
+                child: Text(StringUtils().oCcy.format(state.ordersState.totalOrdersNumber), style: userNameStyle)),
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
@@ -29,15 +33,15 @@ class OrdersPage extends StatelessWidget {
                     state.loadingState.loading.isNotEmpty
                         ? const Center(child: Loader())
                         : state.ordersState.orders.isEmpty
-                        ? Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.4),
-                      child: Center(
-                        child: Text('لا يوجد أي طلبات سابقة',
-                            style: mainStyle.copyWith(
-                                fontWeight: FontWeight.w700, color: primaryColor, fontSize: 20.0)),
-                      ),
-                    )
-                        : const SizedBox(),
+                            ? Padding(
+                                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.4),
+                                child: Center(
+                                  child: Text('لا يوجد أي طلبات سابقة',
+                                      style: mainStyle.copyWith(
+                                          fontWeight: FontWeight.w700, color: primaryColor, fontSize: 20.0)),
+                                ),
+                              )
+                            : const SizedBox(),
                     Expanded(
                       child: ListView.builder(
                         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),

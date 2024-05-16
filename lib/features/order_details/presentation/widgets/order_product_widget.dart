@@ -39,10 +39,7 @@ class OrderProductWidget extends StatelessWidget {
                               tag: 'generate_a_unique_tag'))),
                   child: KCacheImage(
                     tag: int.parse(productData.pivot.productId),
-                    image: productData.images.isNotEmpty
-                        ? state.generalInformationState.companyInformation.imagePrefixUrl +
-                            productData.images[0].imageFileName
-                        : '',
+                    image: productData.images.isNotEmpty ? productData.images[0].imageFileName : '',
                   ),
                 ),
                 Expanded(

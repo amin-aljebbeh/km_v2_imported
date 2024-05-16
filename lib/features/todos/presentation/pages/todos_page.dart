@@ -1,3 +1,6 @@
+import 'package:kammun_app/features/todos/domain/entities/todo_entity.dart';
+import 'package:kammun_app/features/todos/presentation/widgets/todo_widget.dart';
+
 import '../../../../core/core_importer.dart';
 
 class TodosPage extends StatelessWidget {
@@ -5,6 +8,31 @@ class TodosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) {
+        List<TodoEntity> todos = [];
+        todos.addAll(state.todosState.todos);
+        return Scaffold(
+          appBar: AppBar(backgroundColor: primaryColor, title: Text('المهام', style: appBarStyle)),
+          body: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: state.loadingState.loading.isNotEmpty
+                ? const Loader()
+                : ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                    primary: false,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: todos == null ? 0 : todos.length,
+                    itemBuilder: (BuildContext context, index) {
+                      return TodoWidget(todoEntity: todos[index]);
+                    },
+                  ),
+          ),
+        );
+      },
+    );
   }
 }

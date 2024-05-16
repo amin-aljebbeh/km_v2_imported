@@ -3,11 +3,10 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/core_importer.dart';
 import '../models/change_order_status_response_model.dart';
 import '../models/lock_order_response_model.dart';
-import '../models/order_model.dart';
 import '../models/orders_model.dart';
 
 abstract class OrdersRemoteDataSource {
-  Future<List<OrderModel>> getAllOrders({
+  Future<OrdersPageDataModel> getAllOrders({
     int pageNumber,
     int filterEvaluatedOrders,
     CancelToken cancelToken,
@@ -19,9 +18,9 @@ abstract class OrdersRemoteDataSource {
     String supportedCityId,
   });
 
-  Future<List<OrderModel>> getSupplierOrders({int pageNumber, CancelToken cancelToken});
+  Future<OrdersPageDataModel> getSupplierOrders({int pageNumber, CancelToken cancelToken});
 
-  Future<List<OrderModel>> getShopperOrders({int pageNumber, CancelToken cancelToken});
+  Future<OrdersPageDataModel> getShopperOrders({int pageNumber, CancelToken cancelToken});
 
   Future<ChangeOrderStatusResponseModel> changeOrderStatus({int orderId, int statusId});
 
@@ -64,7 +63,7 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
   }
 
   @override
-  Future<List<OrderModel>> getAllOrders({
+  Future<OrdersPageDataModel> getAllOrders({
     int pageNumber,
     int filterEvaluatedOrders,
     CancelToken cancelToken,
@@ -97,7 +96,7 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
         cancelToken: cancelToken, url: orderApi, method: HttpMethods.get, queryParameters: params);
     try {
       if (response != null) {
-        if (response.statusCode == successCode) return ordersModelFromJson(jsonEncode(response.data)).data.data;
+        if (response.statusCode == successCode) return ordersModelFromJson(jsonEncode(response.data)).data;
       }
     } catch (e) {
       throw (InternalException(message: e.toString()));
@@ -121,7 +120,7 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
   }
 
   @override
-  Future<List<OrderModel>> getSupplierOrders({int pageNumber, CancelToken cancelToken}) async {
+  Future<OrdersPageDataModel> getSupplierOrders({int pageNumber, CancelToken cancelToken}) async {
     Response response = await ApiProvider.sendRequest(
       cancelToken: cancelToken,
       url: getSupplierOrderApi,
@@ -130,7 +129,7 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
     );
     try {
       if (response != null) {
-        if (response.statusCode == successCode) return ordersModelFromJson(jsonEncode(response.data)).data.data;
+        if (response.statusCode == successCode) return ordersModelFromJson(jsonEncode(response.data)).data;
       }
     } catch (e) {
       throw (InternalException(message: e.toString()));
@@ -139,7 +138,7 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
   }
 
   @override
-  Future<List<OrderModel>> getShopperOrders({int pageNumber, CancelToken cancelToken}) async {
+  Future<OrdersPageDataModel> getShopperOrders({int pageNumber, CancelToken cancelToken}) async {
     Response response = await ApiProvider.sendRequest(
       cancelToken: cancelToken,
       url: shopperViewsHisOwnOrdersApi,
@@ -148,7 +147,7 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
     );
     try {
       if (response != null) {
-        if (response.statusCode == successCode) return ordersModelFromJson(jsonEncode(response.data)).data.data;
+        if (response.statusCode == successCode) return ordersModelFromJson(jsonEncode(response.data)).data;
       }
     } catch (e) {
       throw (InternalException(message: e.toString()));

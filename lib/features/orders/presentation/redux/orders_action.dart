@@ -7,6 +7,7 @@ import '../../../cart/presentation/redux/cart_action.dart';
 import '../../../order_details/presentation/redux/order_details_action.dart';
 import '../../domain/entities/lock_order_response_entity.dart';
 import '../../domain/entities/order_entity.dart';
+import '../../domain/entities/orders_page_data_entity.dart';
 import '../../orders_services.dart';
 
 abstract class OrdersAction {
@@ -63,8 +64,6 @@ class UpdateOrderRatingAction implements OrdersAction {
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) {
       Navigator.pop(context);
       Utility.showToast(message: 'تم تعديل تقييم الطلب إلى $deliveryRating');
-
-      // snackBar(context: context, success: true, message: 'تم تعديل تقييم الطلب إلى $deliveryRating');
     });
     store.dispatch(StopLoading());
   }
@@ -95,7 +94,6 @@ class ChangeOrderStatusAction implements OrdersAction {
 
   @override
   handle({Store<AppState> store}) async {
-    // Navigator.of(context).pop();
     store.dispatch(StartLoading());
     Either either =
         await store.state.ordersState.ordersUSeCases.changeOrderStatusUseCase(orderId: orderId, statusId: statusId);
@@ -110,7 +108,6 @@ class ChangeOrderStatusAction implements OrdersAction {
         orders.firstWhere((order) => order.id == orderId).orderStatusId = statusId.toString();
         store.dispatch(SetSearchOrders(orders: orders));
       }
-      // snackBar(context: context, success: true, message: 'تم تغيير حالة الطلب بنجاح');
     });
     store.dispatch(StopLoading());
   }
@@ -136,7 +133,11 @@ class GetAllOrdersAction implements OrdersAction {
     );
     either.fold((failure) {
       store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));
-    }, (orders) => store.dispatch(FilterOrders(orders: orders)));
+    }, (orders) {
+      OrdersPageDataEntity ordersPage = orders;
+      store.dispatch(FilterOrders(orders: ordersPage.data));
+      store.dispatch(SetTotalOrdersNumber(totalNumber: ordersPage.total));
+    });
     store.dispatch(StopLoading());
   }
 }
@@ -150,16 +151,16 @@ class GetShopperOrdersAction implements OrdersAction {
     Either either = await store.state.ordersState.ordersUSeCases.getShopperOrdersUseCase(
         cancelToken: OrdersServices.cancelRequest, pageNumber: store.state.ordersState.ordersPage);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (result) {
-      List<OrderEntity> orders = result;
-      Map<int, List<int>> subWarehouseAuthCodes = orders.fold<Map<int, List<int>>>({}, (map, order) {
+      OrdersPageDataEntity orders = result;
+      Map<int, List<int>> subWarehouseAuthCodes = orders.data.fold<Map<int, List<int>>>({}, (map, order) {
         if (!map.containsKey(order.id)) map[order.id] = [];
         map[order.id].addAll(order.subWarehouseAuthCodes.map((code) => code.subWarehouseId).toList());
 
         return map;
       });
-
+      store.dispatch(SetTotalOrdersNumber(totalNumber: orders.total));
       store.dispatch(SetAuthenticatedSubWarehouses(authenticatedSubWarehouses: subWarehouseAuthCodes));
-      store.dispatch(FilterOrders(orders: orders));
+      store.dispatch(FilterOrders(orders: orders.data));
     });
     store.dispatch(StopLoading());
   }
@@ -173,8 +174,11 @@ class GetSupplierOrdersAction implements OrdersAction {
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases.getSupplierOrdersUseCase(
         cancelToken: OrdersServices.cancelRequest, pageNumber: store.state.ordersState.ordersPage);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
-        (orders) => store.dispatch(FilterOrders(orders: orders)));
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (orders) {
+      OrdersPageDataEntity data = orders;
+      store.dispatch(SetTotalOrdersNumber(totalNumber: data.total));
+      store.dispatch(FilterOrders(orders: data.data));
+    });
     store.dispatch(StopLoading());
   }
 }
@@ -258,6 +262,12 @@ class SetOrdersStatusFilter {
   final int filter;
 
   SetOrdersStatusFilter({this.filter});
+}
+
+class SetTotalOrdersNumber {
+  final int totalNumber;
+
+  SetTotalOrdersNumber({this.totalNumber});
 }
 
 class SetOrdersPage {

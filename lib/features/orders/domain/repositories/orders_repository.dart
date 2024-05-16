@@ -3,10 +3,10 @@ import 'package:kammun_app/core/core_importer.dart';
 
 import '../entities/change_order_status_response_entity.dart';
 import '../entities/lock_order_response_entity.dart';
-import '../entities/order_entity.dart';
+import '../entities/orders_page_data_entity.dart';
 
 abstract class OrdersRepository {
-  Future<Either<Failure, List<OrderEntity>>> getAllOrders({
+  Future<Either<Failure, OrdersPageDataEntity>> getAllOrders({
     int pageNumber,
     int filterEvaluatedOrders,
     CancelToken cancelToken,
@@ -18,9 +18,9 @@ abstract class OrdersRepository {
     String supportedCityId,
   });
 
-  Future<Either<Failure, List<OrderEntity>>> getSupplierOrders({int pageNumber, CancelToken cancelToken});
+  Future<Either<Failure, OrdersPageDataEntity>> getSupplierOrders({int pageNumber, CancelToken cancelToken});
 
-  Future<Either<Failure, List<OrderEntity>>> getShopperOrders({int pageNumber, CancelToken cancelToken});
+  Future<Either<Failure, OrdersPageDataEntity>> getShopperOrders({int pageNumber, CancelToken cancelToken});
 
   Future<Either<Failure, ChangeOrderStatusResponseEntity>> changeOrderStatus({int orderId, int statusId});
 

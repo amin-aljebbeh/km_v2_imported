@@ -207,12 +207,7 @@ List<InkWell> getImages({List<OrderImageEntity> images, BuildContext context, Fu
                     tag: 'generate_a_unique_tag')));
       },
       child: images != null && images.isNotEmpty
-          ? KCacheImage(
-              tag: images[i].imageFileName,
-              image:
-                  StoreProvider.of<AppState>(context).state.generalInformationState.companyInformation.imagePrefixUrl +
-                      'orders/' +
-                      images[i].imageFileName)
+          ? KCacheImage(tag: images[i].imageFileName, image: 'orders/' + images[i].imageFileName)
           : const AssetImage('assets/kmIcon.png'),
     ));
   }

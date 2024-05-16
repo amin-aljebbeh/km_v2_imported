@@ -29,13 +29,14 @@ List<Widget> getDrawerChildren(BuildContext context) {
     SideBarRow(pushedRoute: const ProfileScreen(), icon: Icons.person, text: profile),
     SideBarRow(
         onTap: () {
+          store.dispatch(SetTodos(todos: []));
           store.dispatch(SetTodosPageNumber(pageNumber: 1));
           store.dispatch(SetHasNextTodos(hasNextTodos: false));
           store.dispatch(GetTodosAction());
           Navigator.push(context, MaterialPageRoute(builder: (context) => const TodosPage()));
         },
         icon: Icons.task_rounded,
-        text: profile),
+        text: 'المهام'),
     if (Services.hasRole(context, operationManagerRole))
       const SideBarRow(
           pushedRoute: ShopperManagementPage(), icon: Icons.supervisor_account_sharp, text: 'فريق التوصيل'),

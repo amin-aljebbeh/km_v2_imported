@@ -1,11 +1,11 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
-import 'package:flutter/material.dart';
+import '../core_importer.dart';
 
 class KCacheImage extends StatelessWidget {
   final Object tag;
   final String image;
+  final double radius;
 
-  const KCacheImage({Key key, @required this.tag, @required this.image}) : super(key: key);
+  const KCacheImage({Key key, @required this.tag, @required this.image, this.radius = 8}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +16,19 @@ class KCacheImage extends StatelessWidget {
       child: Hero(
         tag: tag,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(radius),
           child: Image(
             fit: BoxFit.contain,
             image: image.isNotEmpty
-                ? AdvImageCache(image, useMemCache: true, diskCacheExpire: const Duration(days: 400))
+                ? AdvImageCache(
+                    StoreProvider.of<AppState>(context)
+                            .state
+                            .generalInformationState
+                            .companyInformation
+                            .imagePrefixUrl +
+                        image,
+                    useMemCache: true,
+                    diskCacheExpire: const Duration(days: 400))
                 : const AssetImage('assets/kmIcon.png'),
             width: MediaQuery.of(context).size.width,
             height: 120,

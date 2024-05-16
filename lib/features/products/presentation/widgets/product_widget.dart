@@ -91,10 +91,7 @@ class ProductWidgetState extends State<ProductWidget> {
                     padding: const EdgeInsets.only(left: 10),
                     child: KCacheImage(
                       tag: widget.index + 100,
-                      image: product.images.isNotEmpty
-                          ? state.generalInformationState.companyInformation.imagePrefixUrl +
-                              product.images[0].imageFileName
-                          : '',
+                      image: product.images.isNotEmpty ? product.images[0].imageFileName : '',
                     ),
                   ),
                   Expanded(
@@ -124,21 +121,22 @@ class ProductWidgetState extends State<ProductWidget> {
                                         fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                               ],
                             ),
-                            Services.hasPermission(context, upDateProductPermission)||
-                                (state.generalInformationState.subWarehouses
-                                    .any((element) => element.id == product.subWarehouseId))
-                             ? Row(
-                                children: [
-                                  if (product.barcodes.isEmpty) const Icon(KIcons.exclamation),
-                                  BarcodeIcon(
-                                    product: product,
-                                    requestType: BarcodeRequestType.addBarcode,
-                                    productId: int.parse(product.id.toString()),
-                                    scaffoldKey: widget.scaffoldKey,
-                                    onAddBarcode: (result) => widget.onAddBarcode(result),
-                                  ),
-                                ],
-                              ) : Container(),
+                            Services.hasPermission(context, upDateProductPermission) ||
+                                    (state.generalInformationState.subWarehouses
+                                        .any((element) => element.id == product.subWarehouseId))
+                                ? Row(
+                                    children: [
+                                      if (product.barcodes.isEmpty) const Icon(KIcons.exclamation),
+                                      BarcodeIcon(
+                                        product: product,
+                                        requestType: BarcodeRequestType.addBarcode,
+                                        productId: int.parse(product.id.toString()),
+                                        scaffoldKey: widget.scaffoldKey,
+                                        onAddBarcode: (result) => widget.onAddBarcode(result),
+                                      ),
+                                    ],
+                                  )
+                                : Container(),
                           ],
                         ),
                       ],

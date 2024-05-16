@@ -30,12 +30,7 @@ class CartProductWidget extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: KCacheImage(
-                    tag: index + 100,
-                    image: product.images.isNotEmpty
-                        ? state.generalInformationState.companyInformation.imagePrefixUrl +
-                            product.images[0].imageFileName
-                        : '',
-                  ),
+                      tag: index + 100, image: product.images.isNotEmpty ? product.images[0].imageFileName : ''),
                 ),
                 Expanded(
                   child: Wrap(
