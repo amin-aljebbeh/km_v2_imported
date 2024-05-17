@@ -13,7 +13,7 @@ class TodosRemoteDataSourceImplement extends TodosRemoteDataSource {
   @override
   Future<Unit> resolveTodo({int todoId, int todoTagResolverId, String note}) async {
     Response response = await ApiProvider.sendRequest(
-        url: todosResolveApi,
+        url: todosResolveApi + todoId.toString(),
         method: HttpMethods.post,
         queryParameters: {'_method': 'PUT'},
         body: {'todo_tag_resolver_id': todoTagResolverId, 'note': note});

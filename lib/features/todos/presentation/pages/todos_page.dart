@@ -14,22 +14,22 @@ class TodosPage extends StatelessWidget {
       builder: (context, state) {
         List<TodoEntity> todos = [];
         todos.addAll(state.todosState.todos);
-        return Scaffold(
-          appBar: AppBar(backgroundColor: primaryColor, title: Text('المهام', style: appBarStyle)),
-          body: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: state.loadingState.loading.isNotEmpty
-                ? const Loader()
-                : ListView.builder(
-                    physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                    primary: false,
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: todos == null ? 0 : todos.length,
-                    itemBuilder: (BuildContext context, index) {
-                      return TodoWidget(todoEntity: todos[index]);
-                    },
-                  ),
+        return TemporaryLoading(
+          child: Scaffold(
+            appBar: AppBar(backgroundColor: primaryColor, title: Text('المهام', style: appBarStyle)),
+            body: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                primary: false,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: todos == null ? 0 : todos.length,
+                itemBuilder: (BuildContext context, index) {
+                  return TodoWidget(todo: todos[index]);
+                },
+              ),
+            ),
           ),
         );
       },

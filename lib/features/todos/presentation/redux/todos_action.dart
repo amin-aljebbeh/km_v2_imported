@@ -45,3 +45,27 @@ class SetTodosPageNumber {
 
   SetTodosPageNumber({this.pageNumber});
 }
+
+class ResolveTodoAction implements TodosAction {
+  final int todoId;
+  final int todoRagResolverId;
+  final String note;
+  final BuildContext context;
+
+  ResolveTodoAction({this.context, this.todoId, this.todoRagResolverId, this.note});
+
+  @override
+  handle({Store<AppState> store}) async {
+    store.dispatch(StartLoading());
+
+    Either either = await store.state.todosState.todosUseCase
+        .resolveTodoUseCase(note: note, todoTagResolverId: todoRagResolverId, todoId: todoId);
+    either.fold((failure) {
+      store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));
+    }, (response) {
+      Tools.logToConsole('message success');
+      snackBar(message: 'تم تحديث الحالة بنجاح', context: context, success: true);
+    });
+    store.dispatch(StopLoading());
+  }
+}
