@@ -80,22 +80,32 @@ class TodoModel extends TodoEntity {
         title: json["title"],
         description: json["description"],
         note: json["note"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        todoStatus: TodoStatusModel.fromJson(json["todo_status"]),
-        todoTag: TodoTagModel.fromJson(json["todo_tag"]),
-        todoTagResolver: json["todo_tag_resolver"],
-        warehouse: TodoWarehouseModel.fromJson(json["warehouse"]),
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        todoStatus: json["todo_status"] == null ? null : TodoStatusModel.fromJson(json["todo_status"]),
+        todoTag: json["todo_tag"] == null ? null : TodoTagModel.fromJson(json["todo_tag"]),
+        todoTagResolver: null,
+        // json["todo_tag_resolver"] == null ? null : TodoResolverModel.fromJson(json["todo_tag_resolver"]),
+        warehouse: json["warehouse"] == null ? null : TodoWarehouseModel.fromJson(json["warehouse"]),
       );
 }
 
 class TodoStatusModel extends TodoStatusEntity {
-  TodoStatusModel({id, slug, name, todoTagId}) : super(todoTagId: todoTagId, id: id, name: name, slug: slug);
+  TodoStatusModel({id, slug, name}) : super(id: id, name: name, slug: slug);
 
   factory TodoStatusModel.fromJson(Map<String, dynamic> json) =>
-      TodoStatusModel(id: json["id"], slug: json["slug"], name: json["name"], todoTagId: json["todo_tag_id"]);
+      TodoStatusModel(id: json["id"], slug: json["slug"], name: json["name"]);
 
-  Map<String, dynamic> toJson() => {"id": id, "slug": slug, "name": name, "todo_tag_id": todoTagId};
+  Map<String, dynamic> toJson() => {"id": id, "slug": slug, "name": name};
+}
+
+class TodoResolverModel extends TodoResolverEntity {
+  TodoResolverModel({id, slug, name}) : super(id: id, name: name, slug: slug);
+
+  factory TodoResolverModel.fromJson(Map<String, dynamic> json) =>
+      TodoResolverModel(id: json["id"], slug: json["slug"], name: json["name"]);
+
+  Map<String, dynamic> toJson() => {"id": id, "slug": slug, "name": name};
 }
 
 class TodoTagModel extends TodoTagEntity {
@@ -107,7 +117,7 @@ class TodoTagModel extends TodoTagEntity {
         name: json["name"],
         imageUrl: json["image_url"],
         todoTagResolvers:
-            List<TodoStatusModel>.from(json["todo_tag_resolvers"].map((x) => TodoStatusModel.fromJson(x))),
+            List<TodoResolverModel>.from(json["todo_tag_resolvers"].map((x) => TodoResolverModel.fromJson(x))),
       );
 }
 

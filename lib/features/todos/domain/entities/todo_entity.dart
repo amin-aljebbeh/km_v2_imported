@@ -31,7 +31,7 @@ class TodoEntity {
   final DateTime updatedAt;
   final TodoStatusEntity todoStatus;
   final TodoTagEntity todoTag;
-  final dynamic todoTagResolver;
+  final TodoResolverEntity todoTagResolver;
   final TodoWarehouseEntity warehouse;
 
   TodoEntity({
@@ -56,16 +56,24 @@ class TodoStatusEntity {
   final int id;
   final String slug;
   final String name;
+
+  TodoStatusEntity({this.id, this.slug, this.name});
+}
+
+class TodoResolverEntity {
+  final int id;
+  final String slug;
+  final String name;
   final int todoTagId;
 
-  TodoStatusEntity({this.id, this.slug, this.name, this.todoTagId});
+  TodoResolverEntity({this.id, this.slug, this.name, this.todoTagId});
 }
 
 class TodoTagEntity {
   final int id;
   final String name;
   final String imageUrl;
-  final List<TodoStatusEntity> todoTagResolvers;
+  final List<TodoResolverEntity> todoTagResolvers;
 
   TodoTagEntity({this.id, this.name, this.imageUrl, this.todoTagResolvers});
 }
