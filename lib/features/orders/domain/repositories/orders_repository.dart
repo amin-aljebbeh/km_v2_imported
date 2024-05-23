@@ -18,9 +18,11 @@ abstract class OrdersRepository {
     String supportedCityId,
   });
 
-  Future<Either<Failure, OrdersPageDataEntity>> getSupplierOrders({int pageNumber, CancelToken cancelToken});
+  Future<Either<Failure, OrdersPageDataEntity>> getSupplierOrders(
+      {int orderStatusId, int pageNumber, CancelToken cancelToken});
 
-  Future<Either<Failure, OrdersPageDataEntity>> getShopperOrders({int pageNumber, CancelToken cancelToken});
+  Future<Either<Failure, OrdersPageDataEntity>> getShopperOrders(
+      {int orderStatusId, int pageNumber, CancelToken cancelToken});
 
   Future<Either<Failure, ChangeOrderStatusResponseEntity>> changeOrderStatus({int orderId, int statusId});
 

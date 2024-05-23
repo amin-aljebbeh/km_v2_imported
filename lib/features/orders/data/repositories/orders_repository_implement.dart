@@ -85,10 +85,11 @@ class OrdersRepositoryImplement implements OrdersRepository {
   }
 
   @override
-  Future<Either<Failure, OrdersPageDataEntity>> getShopperOrders({int pageNumber, CancelToken cancelToken}) async {
+  Future<Either<Failure, OrdersPageDataEntity>> getShopperOrders(
+      {int orderStatusId, int pageNumber, CancelToken cancelToken}) async {
     try {
-      OrdersPageDataEntity orders =
-          await ordersRemoteDataSource.getShopperOrders(cancelToken: cancelToken, pageNumber: pageNumber);
+      OrdersPageDataEntity orders = await ordersRemoteDataSource.getShopperOrders(
+          cancelToken: cancelToken, pageNumber: pageNumber, orderStatusId: orderStatusId);
       return Right(orders);
     } on CacheException {
       return Left(CacheFailure());
@@ -102,10 +103,11 @@ class OrdersRepositoryImplement implements OrdersRepository {
   }
 
   @override
-  Future<Either<Failure, OrdersPageDataEntity>> getSupplierOrders({int pageNumber, CancelToken cancelToken}) async {
+  Future<Either<Failure, OrdersPageDataEntity>> getSupplierOrders(
+      {int orderStatusId, int pageNumber, CancelToken cancelToken}) async {
     try {
-      OrdersPageDataEntity orders =
-          await ordersRemoteDataSource.getSupplierOrders(cancelToken: cancelToken, pageNumber: pageNumber);
+      OrdersPageDataEntity orders = await ordersRemoteDataSource.getSupplierOrders(
+          cancelToken: cancelToken, pageNumber: pageNumber, orderStatusId: orderStatusId);
       return Right(orders);
     } on CacheException {
       return Left(CacheFailure());

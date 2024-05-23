@@ -18,9 +18,9 @@ abstract class OrdersRemoteDataSource {
     String supportedCityId,
   });
 
-  Future<OrdersPageDataModel> getSupplierOrders({int pageNumber, CancelToken cancelToken});
+  Future<OrdersPageDataModel> getSupplierOrders({int orderStatusId, int pageNumber, CancelToken cancelToken});
 
-  Future<OrdersPageDataModel> getShopperOrders({int pageNumber, CancelToken cancelToken});
+  Future<OrdersPageDataModel> getShopperOrders({int orderStatusId, int pageNumber, CancelToken cancelToken});
 
   Future<ChangeOrderStatusResponseModel> changeOrderStatus({int orderId, int statusId});
 
@@ -120,13 +120,19 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
   }
 
   @override
-  Future<OrdersPageDataModel> getSupplierOrders({int pageNumber, CancelToken cancelToken}) async {
+  Future<OrdersPageDataModel> getSupplierOrders({int orderStatusId, int pageNumber, CancelToken cancelToken}) async {
+    Map<String, dynamic> params = {'page': pageNumber};
+    if (orderStatusId == 0) {
+      params['order_status_id[0]'] = 1;
+      params['order_status_id[1]'] = 2;
+      params['order_status_id[2]'] = 3;
+      params['order_status_id[3]'] = 4;
+    } else {
+      params['order_status_id[0]'] = orderStatusId;
+    }
+    params.removeWhere((key, value) => value == null);
     Response response = await ApiProvider.sendRequest(
-      cancelToken: cancelToken,
-      url: getSupplierOrderApi,
-      method: HttpMethods.get,
-      queryParameters: {'page': pageNumber},
-    );
+        cancelToken: cancelToken, url: getSupplierOrderApi, method: HttpMethods.get, queryParameters: params);
     try {
       if (response != null) {
         if (response.statusCode == successCode) return ordersModelFromJson(jsonEncode(response.data)).data;
@@ -138,13 +144,18 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
   }
 
   @override
-  Future<OrdersPageDataModel> getShopperOrders({int pageNumber, CancelToken cancelToken}) async {
+  Future<OrdersPageDataModel> getShopperOrders({int orderStatusId, int pageNumber, CancelToken cancelToken}) async {
+    Map<String, dynamic> params = {'page': pageNumber};
+    if (orderStatusId == 0) {
+      params['order_status_id[0]'] = 1;
+      params['order_status_id[1]'] = 2;
+      params['order_status_id[2]'] = 3;
+      params['order_status_id[3]'] = 4;
+    } else {
+      params['order_status_id[0]'] = orderStatusId;
+    }
     Response response = await ApiProvider.sendRequest(
-      cancelToken: cancelToken,
-      url: shopperViewsHisOwnOrdersApi,
-      method: HttpMethods.get,
-      queryParameters: {'page': pageNumber},
-    );
+        cancelToken: cancelToken, url: shopperViewsHisOwnOrdersApi, method: HttpMethods.get, queryParameters: params);
     try {
       if (response != null) {
         if (response.statusCode == successCode) return ordersModelFromJson(jsonEncode(response.data)).data;

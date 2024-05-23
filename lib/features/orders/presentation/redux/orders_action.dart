@@ -149,7 +149,9 @@ class GetShopperOrdersAction implements OrdersAction {
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases.getShopperOrdersUseCase(
-        cancelToken: OrdersServices.cancelRequest, pageNumber: store.state.ordersState.ordersPage);
+        orderStatusId: store.state.ordersState.statusFilter,
+        cancelToken: OrdersServices.cancelRequest,
+        pageNumber: store.state.ordersState.ordersPage);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (result) {
       OrdersPageDataEntity orders = result;
       Map<int, List<int>> subWarehouseAuthCodes = orders.data.fold<Map<int, List<int>>>({}, (map, order) {
@@ -173,7 +175,9 @@ class GetSupplierOrdersAction implements OrdersAction {
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases.getSupplierOrdersUseCase(
-        cancelToken: OrdersServices.cancelRequest, pageNumber: store.state.ordersState.ordersPage);
+        orderStatusId: store.state.ordersState.statusFilter,
+        cancelToken: OrdersServices.cancelRequest,
+        pageNumber: store.state.ordersState.ordersPage);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (orders) {
       OrdersPageDataEntity data = orders;
       store.dispatch(SetTotalOrdersNumber(totalNumber: data.total));

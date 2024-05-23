@@ -111,7 +111,7 @@ class OrderModel extends OrderEntity {
         walletValue: json['wallet_v'].toString(),
         couponValue: json['coupon_v'].toString(),
         subWarehouseAuthCodes: json['sub_warehouse_auth_codes'] == null
-            ? null
+            ? <OrderCodeModel>[]
             : List<OrderCodeModel>.from(json['sub_warehouse_auth_codes'].map((x) => OrderCodeModel.fromJson(x))));
   }
 

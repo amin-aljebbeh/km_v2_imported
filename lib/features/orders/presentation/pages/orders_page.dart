@@ -16,10 +16,12 @@ class OrdersPage extends StatelessWidget {
           child: Scaffold(
             backgroundColor: Theme.of(context).primaryColorLight,
             resizeToAvoidBottomInset: false,
-            floatingActionButton: FloatingActionButton(
-                backgroundColor: kmColors,
-                onPressed: () {},
-                child: Text(StringUtils().oCcy.format(state.ordersState.totalOrdersNumber), style: userNameStyle)),
+            floatingActionButton: Services.hasPermission(context, operationManagerRole)
+                ? FloatingActionButton(
+                    backgroundColor: kmColors,
+                    onPressed: () {},
+                    child: Text(StringUtils().oCcy.format(state.ordersState.totalOrdersNumber), style: userNameStyle))
+                : const SizedBox(),
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),

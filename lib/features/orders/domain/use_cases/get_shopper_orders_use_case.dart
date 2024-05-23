@@ -9,7 +9,9 @@ class GetShopperOrdersUseCase {
 
   GetShopperOrdersUseCase({this.ordersRepository});
 
-  Future<Either<Failure, OrdersPageDataEntity>> call({int pageNumber, CancelToken cancelToken}) async {
-    return await ordersRepository.getShopperOrders(cancelToken: cancelToken, pageNumber: pageNumber);
+  Future<Either<Failure, OrdersPageDataEntity>> call(
+      {int orderStatusId, int pageNumber, CancelToken cancelToken}) async {
+    return await ordersRepository.getShopperOrders(
+        cancelToken: cancelToken, pageNumber: pageNumber, orderStatusId: orderStatusId);
   }
 }
