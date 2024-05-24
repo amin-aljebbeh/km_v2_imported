@@ -27,16 +27,17 @@ List<Widget> getDrawerChildren(BuildContext context) {
     SideBarRow(icon: Icons.phone, text: 'الإتصال بكمون', onTap: () => Services.openUrl('number', context)),
     SideBarRow(icon: Icons.share, text: 'إرسال التطبيق للأصدقاء', onTap: () => Services.shareApp(context)),
     SideBarRow(pushedRoute: const ProfileScreen(), icon: Icons.person, text: profile),
-    SideBarRow(
-        onTap: () {
-          store.dispatch(SetTodos(todos: []));
-          store.dispatch(SetTodosPageNumber(pageNumber: 1));
-          store.dispatch(SetHasNextTodos(hasNextTodos: false));
-          store.dispatch(GetTodosAction());
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const TodosPage()));
-        },
-        icon: Icons.task_rounded,
-        text: 'المهام'),
+    if (Services.hasRole(context, collectorRole))
+      SideBarRow(
+          onTap: () {
+            store.dispatch(SetTodos(todos: []));
+            store.dispatch(SetTodosPageNumber(pageNumber: 1));
+            store.dispatch(SetHasNextTodos(hasNextTodos: false));
+            store.dispatch(GetTodosAction());
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const TodosPage()));
+          },
+          icon: Icons.task_rounded,
+          text: 'المهام'),
     if (Services.hasRole(context, operationManagerRole))
       const SideBarRow(
           pushedRoute: ShopperManagementPage(), icon: Icons.supervisor_account_sharp, text: 'فريق التوصيل'),
