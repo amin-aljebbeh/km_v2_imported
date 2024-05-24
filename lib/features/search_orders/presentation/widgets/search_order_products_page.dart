@@ -28,7 +28,9 @@ class OrderProductsPageState extends State<SearchOrderProductsPage>
       distinct: true,
       builder: (context, state) {
         subWarehousesProducts = getSubWarehousesProducts(
-            deleted: widget.deleted, products: state.searchOrdersState.orders[0].products, context: context);
+            deleted: widget.deleted,
+            products: state.searchOrdersState.orders.firstWhere((element) => element.id == widget.order.id).products,
+            context: context);
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColorLight,
           body: Column(

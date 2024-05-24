@@ -51,9 +51,9 @@ class _OrderTabsPageState extends State<SearchOrderTabsPage> with SingleTickerPr
                 child: SafeArea(
                     child: Row(
                   children: [
-                    /*IconButton(
+                    IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white)),*/
+                        icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white)),
                     Expanded(
                       child: TabBar(
                           controller: controller,
