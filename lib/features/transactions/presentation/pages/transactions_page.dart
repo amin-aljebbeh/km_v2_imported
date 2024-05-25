@@ -138,27 +138,28 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                   ),
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 40.0),
-                                child: Container(
-                                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      DropdownButton(
-                                        items: warehouses,
-                                        hint: Text('المستودع', style: mainStyle),
-                                        value: warehouseId,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            adminId = null;
-                                            warehouseId = value;
-                                          });
-                                          store.dispatch(
-                                              GetAdminsWithoutDetailsAction(roleId: roleId, warehouseId: warehouseId));
-                                        },
-                                      ),
-                                      if (Services.hasRole(context, mainCollectorRole))
+                              if (Services.hasRole(context, mainCollectorRole) ||
+                                  Services.hasRole(context, superAdminRole))
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 40.0),
+                                  child: Container(
+                                    margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        DropdownButton(
+                                          items: warehouses,
+                                          hint: Text('المستودع', style: mainStyle),
+                                          value: warehouseId,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              adminId = null;
+                                              warehouseId = value;
+                                            });
+                                            store.dispatch(GetAdminsWithoutDetailsAction(
+                                                roleId: roleId, warehouseId: warehouseId));
+                                          },
+                                        ),
                                         DropdownButton(
                                             items: roles,
                                             hint: Text('منصب الأدمن', style: mainStyle),
@@ -171,10 +172,10 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                               store.dispatch(GetAdminsWithoutDetailsAction(
                                                   roleId: roleId, warehouseId: warehouseId));
                                             })
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
                               Row(
                                 children: [
                                   IconButton(

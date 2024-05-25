@@ -63,7 +63,7 @@ class KDrawer extends StatelessWidget {
                             LabelRow(
                                 rightSideText: 'الرصيد: ',
                                 leftSideText:
-                                    StringUtils().oCcy.format(state.usersState.balance.shopperSum).replaceAll('-', '') +
+                                    StringUtils().oCcy.format(state.usersState.balance.companySum).replaceAll('-', '') +
                                         ' ' +
                                         state.generalInformationState.companyInformation.currency,
                                 leftSideStyle:
