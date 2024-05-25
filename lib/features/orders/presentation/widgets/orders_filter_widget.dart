@@ -17,7 +17,10 @@ class OrdersFilterWidget extends StatelessWidget {
       builder: (context, state) {
         List<WarehouseEntity> warehouses = [WarehouseEntity(name: 'جميع المستودعات', id: 0)];
         warehouses.addAll(state.generalInformationState.warehouses);
-        List<SupportedCityEntity> supportedCities = [SupportedCityEntity(name: 'جميع المناطق', id: '0')];
+        List<SupportedCityEntity> supportedCities = [
+          SupportedCityEntity(
+              name: 'جميع المناطق', id: '0', warehouseId: store.state.adminsState.admin.warehouseId.toString())
+        ];
         supportedCities.addAll(state.generalInformationState.supportedCities);
         return Column(
           children: [
@@ -40,6 +43,7 @@ class OrdersFilterWidget extends StatelessWidget {
                       child: Icon(Icons.star_rounded,
                           size: 40, color: state.ordersState.rateFilter == 1 ? kmColors : searchGreyColor),
                       onTap: () {
+                        store.dispatch(SetOrdersStatusFilter(filter: state.ordersState.rateFilter == 1 ? 0 : 5));
                         store.dispatch(SetRateFilter(filter: state.ordersState.rateFilter == 1 ? 0 : 1));
                         store.dispatch(GetOrdersAction(context: context));
                       }),
@@ -156,9 +160,11 @@ class OrdersFilterWidget extends StatelessWidget {
                   DropdownButton(
                     value: state.ordersState.supportedCityFilter,
                     items: supportedCities
-                        .map((supportedCity) => DropdownMenuItem<String>(
-                            child: Center(child: Text(supportedCity.name, style: dropdownItemStyle)),
-                            value: supportedCity.id))
+                        .where((city) =>
+                            city.warehouseId == store.state.adminsState.admin.warehouseId.toString() ||
+                            Services.hasRole(context, superAdminRole))
+                        .map((city) => DropdownMenuItem<String>(
+                            child: Center(child: Text(city.name, style: dropdownItemStyle)), value: city.id))
                         .toList(),
                     onChanged: (value) {
                       store.dispatch(SetSupportedCityFilter(supportedCityFilter: value));
@@ -167,28 +173,6 @@ class OrdersFilterWidget extends StatelessWidget {
                       store.dispatch(GetOrdersAction(context: context));
                     },
                   ),
-                  InkWell(
-                      onTap: () {
-                        showMyDialog(
-                            title: 'فترة الطلبات',
-                            context: context,
-                            content: KDatePicker(
-                              format: 'yyyy-MM-dd',
-                              onConfirmStart: (date) =>
-                                  store.dispatch(SetFromDateFilter(fromDateFilter: date.split(' ')[0])),
-                              onConfirmEnd: (date) => store.dispatch(SetToDateFilter(toDateFilter: date.split(' ')[0])),
-                            ),
-                            dialogButtons: [
-                              const CloseWidget(),
-                              DialogButton(
-                                  text: 'بحث',
-                                  onTap: () {
-                                    store.dispatch(GetOrdersAction(context: context));
-                                    Navigator.of(context).pop();
-                                  })
-                            ]);
-                      },
-                      child: Icon(Icons.calendar_month_rounded, color: kmColors))
                 ],
               ),
           ],

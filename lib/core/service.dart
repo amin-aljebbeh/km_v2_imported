@@ -72,15 +72,17 @@ class Services {
   }
 
   static List<DropdownMenuItem<String>> shoppersNameListForFilter(BuildContext context) {
+    var store = StoreProvider.of<AppState>(context);
     List<DropdownMenuItem<String>> list = [
       DropdownMenuItem<String>(
           child:
               SizedBox(width: MediaQuery.of(context).size.width / 4, child: Text('الجميع', style: dropdownItemStyle)),
           value: 'الجميع')
     ];
-
-    list.addAll(StoreProvider.of<AppState>(context).state.shoppersState.shoppers.map((shopper) =>
-        DropdownMenuItem<String>(
+    list.addAll(store.state.shoppersState.shoppers
+        .where((shopper) =>
+            shopper.admin?.warehouseId == store.state.adminsState.admin.warehouseId || hasRole(context, superAdminRole))
+        .map((shopper) => DropdownMenuItem<String>(
             child: SizedBox(
                 width: MediaQuery.of(context).size.width / 4,
                 child: Text(shopper.name.split('-')[0], style: dropdownItemStyle)),

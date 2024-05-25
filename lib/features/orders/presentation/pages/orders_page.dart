@@ -16,7 +16,9 @@ class OrdersPage extends StatelessWidget {
           child: Scaffold(
             backgroundColor: Theme.of(context).primaryColorLight,
             resizeToAvoidBottomInset: false,
-            floatingActionButton: Services.hasPermission(context, operationManagerRole)
+            floatingActionButton: Services.hasRole(context, collectorRole) ||
+                    Services.hasRole(context, mainCollectorRole) ||
+                    Services.hasRole(context, agentRole)
                 ? FloatingActionButton(
                     backgroundColor: kmColors,
                     onPressed: () {},
