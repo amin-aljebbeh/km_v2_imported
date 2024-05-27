@@ -24,9 +24,9 @@ class ApiProvider {
       dio.interceptors.add(PrettyDioLogger(
           requestHeader: false,
           requestBody: false,
-          responseBody: false,
+          responseBody: true,
           responseHeader: false,
-          request: false,
+          request: true,
           error: false,
           compact: false,
           maxWidth: 90));

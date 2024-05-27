@@ -147,10 +147,7 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
   Future<OrdersPageDataModel> getShopperOrders({int orderStatusId, int pageNumber, CancelToken cancelToken}) async {
     Map<String, dynamic> params = {'page': pageNumber};
     if (orderStatusId == 0) {
-      params['order_status_id[0]'] = 1;
-      params['order_status_id[1]'] = 2;
-      params['order_status_id[2]'] = 3;
-      params['order_status_id[3]'] = 4;
+      params['order_status_id'] = [1, 2, 3, 4];
     } else {
       params['order_status_id[0]'] = orderStatusId;
     }
