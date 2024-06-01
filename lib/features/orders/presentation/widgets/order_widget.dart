@@ -49,7 +49,8 @@ class OrderWidget extends StatelessWidget {
                   Services.hasRole(context, supplierRole)
                       ? SupplierOrderFoot(order: order)
                       : AdminOrderFoot(order: order),
-                  if (Services.hasRole(context, supplierRole) && Services.hasPermission(context, 'show-order-address'))
+                  if (Services.hasRole(context, supplierRole) &&
+                      Services.hasPermission(context, showOrderAddressPermission))
                     LabelRow(
                         rightSideText: address + ' : ',
                         leftSideText: order.address.street +

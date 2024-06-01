@@ -11,7 +11,6 @@ import '../../../../core/core_importer.dart';
 import '../../../orders/presentation/widgets/operations_buttons_widget.dart';
 import '../../../orders/presentation/widgets/supplier_order_head.dart';
 
-
 class SearchOrderWidget extends StatelessWidget {
   final OrderEntity order;
 
@@ -50,7 +49,8 @@ class SearchOrderWidget extends StatelessWidget {
                   Services.hasRole(context, supplierRole)
                       ? SupplierOrderFoot(order: order)
                       : AdminOrderFoot(order: order),
-                  if (Services.hasRole(context,supplierRole)&& Services.hasPermission(context, 'show-order-address'))
+                  if (Services.hasRole(context, supplierRole) &&
+                      Services.hasPermission(context, showOrderAddressPermission))
                     LabelRow(
                         rightSideText: address + ' : ',
                         leftSideText: order.address.street +
