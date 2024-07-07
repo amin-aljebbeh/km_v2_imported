@@ -1,4 +1,4 @@
-const String testUrl = 'http://apptest.kammun.com';
+const String testUrl = 'https://kammun.app';
 const String appUrl = 'https://kammun.app';
 const String user = 'user/';
 const String searchApi = 'search/';
