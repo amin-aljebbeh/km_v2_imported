@@ -1,5 +1,5 @@
-const String testUrl = 'http://apptest.kammun.com';
-const String appUrl = 'https://kammun.app';
+const String testUrl = 'http://betaapi.kammun.com';
+const String appUrl = 'http://betaapi.kammun.com';
 const String user = 'user/';
 const String searchApi = 'search/';
 const String supportedCityApi = 'supported_city/';
