@@ -121,7 +121,7 @@ class GeneralApis {
       response = await ApiProvider.sendRequest(
           url: changeShopperStatus + shopperId, method: HttpMethods.put, body: jsonEncode(changeStatus));
 
-      return {response.statusCode: response.data['message'] ?? response.data['reason']};
+      return {response.statusCode: response.data['message'].toString() ?? response.data['reason'].toString()};
     } catch (e) {
       return {badRequestError: response.data['message']};
     }
