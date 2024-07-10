@@ -263,7 +263,7 @@ class FinalCartPage extends StatelessWidget {
                                           SubmitOrderEntity submitOrderEntity = SubmitOrderEntity(
                                               products: products,
                                               purchasePrices: purchasePrices,
-                                              userNote: userNotes.text,
+                                              userNote: state.cartState.userNote,
                                               checkChangedPriceProduct: 1,
                                               saveRefund: state.cartState.refund ? 1 : 0);
                                           store.dispatch(NoError());
