@@ -179,6 +179,13 @@ List<Widget> getDrawerChildren(BuildContext context) {
                           text: 'فلترة المنتجات',
                           pushedRoute: ProductsFilterPage(),
                         ),
+                        if (Services.hasPermission(context, productOperationsPermission))
+                          SideBarRow(
+                            icon: Icons.error_outline_rounded,
+                            text: 'أخطاء المنتجات',
+                            onTap: () =>
+                                store.dispatch(GoToInventoryPage(context: context, inventoryType: InventoryTypes.all)),
+                          ),
                       ],
                     ),
                   SideBarRow(

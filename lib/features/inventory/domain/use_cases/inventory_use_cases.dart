@@ -1,4 +1,5 @@
 import 'package:kammun_app/core/core_importer.dart';
+import 'package:kammun_app/features/inventory/domain/use_cases/get_error_orders_use_case.dart';
 import 'package:kammun_app/features/inventory/domain/use_cases/get_notification_products_use_cases.dart';
 import 'package:kammun_app/features/inventory/domain/use_cases/get_prime_products_use_case.dart';
 import 'package:kammun_app/features/inventory/domain/use_cases/get_under_check_availability_use_case.dart';
@@ -19,6 +20,7 @@ class InventoryUseCase {
   final GetAddedProductsUseCase getAddedProductsUseCase;
   final GetAllProductsUseCase getAllProductsUseCase;
   final GetPrimeProductsUseCase getPrimeProductsUseCase;
+  final GetErrorProductsUseCase getErrorProductsUseCase;
   final GetUnderCheckAvailabilityUseCase getUnderCheckAvailabilityUseCase;
   final CheckProductsBarcodeUseCase checkProductsBarcodeUseCase;
   final SearchProductByBarcodeUseCase searchProductByBarcodeUseCase;
@@ -28,6 +30,7 @@ class InventoryUseCase {
   final GetSubWarehouseProductsUseCase getSubWarehouseProductsUseCase;
 
   InventoryUseCase({
+    @required this.getErrorProductsUseCase,
     @required this.getPrimeProductsUseCase,
     @required this.getNotificationProductsUseCase,
     @required this.getUnderCheckAvailabilityUseCase,
@@ -41,7 +44,8 @@ class InventoryUseCase {
     @required this.getSubWarehouseProductsUseCase,
     @required this.getPriceChangesUseCase,
   }) : assert(
-          getNotificationProductsUseCase != null &&
+          getErrorProductsUseCase != null &&
+              getNotificationProductsUseCase != null &&
               getPrimeProductsUseCase != null &&
               targetInventoryUseCase != null &&
               checkProductsBarcodeUseCase != null &&
