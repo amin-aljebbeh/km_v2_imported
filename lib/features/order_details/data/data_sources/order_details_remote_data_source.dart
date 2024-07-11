@@ -9,7 +9,7 @@ abstract class OrderDetailsRemoteDataSource {
   Future<Unit> addImageToOrder({int orderId, File image});
 
   Future<Unit> deleteImageFromOrder({int imageId});
-  Future<Unit> authCodeOrder({ int orderId, String code , int subWareHouseId});
+  Future<Unit> authCodeOrder({int orderId, String code, int subWareHouseId});
 }
 
 class OrderDetailsRemoteDataSourceImplement implements OrderDetailsRemoteDataSource {
@@ -64,7 +64,7 @@ class OrderDetailsRemoteDataSourceImplement implements OrderDetailsRemoteDataSou
   @override
   Future<Unit> authCodeOrder({int orderId, String code, int subWareHouseId}) async {
     Response response = await ApiProvider.sendRequest(
-        url: orderApi+ orderId.toString()+ authCodeOrderApi + subWareHouseId.toString() ,
+        url: orderApi + orderId.toString() + authCodeOrderApi + subWareHouseId.toString(),
         method: HttpMethods.post,
         body: {'code': code});
     try {

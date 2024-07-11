@@ -190,4 +190,20 @@ class InventoryRepositoryImplement implements InventoryRepository {
       return Left(InternalFailure(message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<ProductEntity>>> getErrorOrders() async {
+    try {
+      List<ProductEntity> products = await remoteInventoryDataSource.getErrorOrders();
+      return Right(products);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure(message: e.toString()));
+    }
+  }
 }

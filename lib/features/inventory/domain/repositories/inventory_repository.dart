@@ -13,6 +13,8 @@ abstract class InventoryRepository {
 
   Future<Either<Failure, List<ProductEntity>>> getUnderCheckAvailability({int subWarehouseId});
 
+  Future<Either<Failure, List<ProductEntity>>> getErrorOrders();
+
   Future<Either<Failure, Unit>> targetInventory();
 
   Future<Either<Failure, Unit>> keepingAnInventoriesRecord();
