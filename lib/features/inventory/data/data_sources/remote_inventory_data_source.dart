@@ -215,7 +215,7 @@ class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
     try {
       if (response != null) {
         if (response.statusCode == successCode) {
-          return subWarehouseModelFromJson(jsonEncode(response.data)).data.products;
+          return getProductsFromJson(jsonEncode(response.data)).products;
         }
       }
     } catch (e) {

@@ -183,8 +183,8 @@ List<Widget> getDrawerChildren(BuildContext context) {
                           SideBarRow(
                             icon: Icons.error_outline_rounded,
                             text: 'أخطاء المنتجات',
-                            onTap: () =>
-                                store.dispatch(GoToInventoryPage(context: context, inventoryType: InventoryTypes.all)),
+                            onTap: () => store
+                                .dispatch(GoToInventoryPage(context: context, inventoryType: InventoryTypes.error)),
                           ),
                       ],
                     ),
