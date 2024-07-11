@@ -27,7 +27,7 @@ class ApiProvider {
           responseBody: true,
           responseHeader: false,
           request: true,
-          error: false,
+          error: true,
           compact: false,
           maxWidth: 90));
     }

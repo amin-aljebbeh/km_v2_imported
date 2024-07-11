@@ -48,8 +48,8 @@ class CartPage extends StatelessWidget {
                         Text(
                           StringUtils().oCcy.format(state.cartState.cartProducts.fold(
                                   0,
-                                  (sum, order) =>
-                                      sum + ((int.parse(order.price.split('.')[0])) * order.productCount))) +
+                                  (sum, product) =>
+                                      sum + ((int.parse(product.price.split('.')[0])) * product.productCount))) +
                               state.generalInformationState.companyInformation.currency,
                           style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 19),
                         ),

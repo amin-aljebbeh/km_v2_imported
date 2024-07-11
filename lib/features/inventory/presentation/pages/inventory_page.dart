@@ -74,6 +74,7 @@ class _InventoryPageState extends State<InventoryPage> {
                     InventoryTypes.added,
                     InventoryTypes.barcode,
                     InventoryTypes.subWarehouse,
+                    InventoryTypes.error,
                     InventoryTypes.prices
                   ].contains(inventoryState.inventoryType))
                     const InventoryFilterWidget(),

@@ -31,6 +31,7 @@ class _CartProductCounterState extends State<CartProductCounter> {
                 onTap: () {
                   product.productCount++;
                   store.dispatch(UpdateCartProducts(productId: product.id, quantity: product.productCount));
+                  //todo it not updating
                   setState(() {});
                 },
                 child: Image.asset('assets/add.png', width: 60, height: 60),

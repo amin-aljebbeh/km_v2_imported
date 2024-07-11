@@ -98,6 +98,9 @@ class GetInventory implements InventoryAction {
       case InventoryTypes.shopper:
         // TODO: Handle this case.
         break;
+      case InventoryTypes.error:
+        store.dispatch(GetErrorProductsAction());
+        break;
     }
   }
 }
@@ -265,6 +268,30 @@ class GetUnderCheckAvailabilityAction implements InventoryAction {
       if (store.state.inventoryState.isActive < 2) {
         theProducts.removeWhere((product) => product.isActive != store.state.inventoryState.isActive.toString());
       }
+      theProducts.sort((a, b) {
+        if (a.categories.isNotEmpty && b.categories.isNotEmpty) {
+          if (a.categories[0].id > b.categories[0].id) {
+            return 1;
+          } else {
+            return -1;
+          }
+        } else {
+          return -1;
+        }
+      });
+      store.dispatch(SetInventoryProducts(products: theProducts));
+      store.dispatch(EndOfInventory());
+    });
+    store.dispatch(StopLoading());
+  }
+}
+
+class GetErrorProductsAction implements InventoryAction {
+  @override
+  handle({Store<AppState> store}) async {
+    Either either = await store.state.inventoryState.inventoryUseCase.getErrorProductsUseCase();
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
+      List<ProductEntity> theProducts = products;
       theProducts.sort((a, b) {
         if (a.categories.isNotEmpty && b.categories.isNotEmpty) {
           if (a.categories[0].id > b.categories[0].id) {

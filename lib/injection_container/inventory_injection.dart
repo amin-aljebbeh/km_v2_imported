@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/inventory/domain/use_cases/get_error_orders_use_case.dart';
+
 import '../core/core_importer.dart';
 import '../features/inventory/data/data_sources/remote_inventory_data_source.dart';
 import '../features/inventory/data/repositories/inventory_repository_implement.dart';
@@ -25,6 +27,7 @@ Future<void> injectInventory() async {
   sl.registerLazySingleton(() => GetNotAddedProductsUseCase(inventoryRepository: sl()));
   sl.registerLazySingleton(() => GetAddedProductsUseCase(inventoryRepository: sl()));
   sl.registerLazySingleton(() => GetAllProductsUseCase(inventoryRepository: sl()));
+  sl.registerLazySingleton(() => GetErrorProductsUseCase(inventoryRepository: sl()));
   sl.registerLazySingleton(() => CheckProductsBarcodeUseCase(inventoryRepository: sl()));
   sl.registerLazySingleton(() => SearchProductByBarcodeUseCase(inventoryRepository: sl()));
   sl.registerLazySingleton(() => GetPriceChangesUseCase(inventoryRepository: sl()));
@@ -42,6 +45,7 @@ Future<void> injectInventory() async {
         keepingInventoriesRecordUseCase: sl(),
         getUnderCheckAvailabilityUseCase: sl(),
         targetInventoryUseCase: sl(),
+        getErrorProductsUseCase: sl(),
       ));
   sl.registerLazySingleton<InventoryRepository>(
       () => InventoryRepositoryImplement(remoteInventoryDataSource: sl(), repositoryFactory: sl()));

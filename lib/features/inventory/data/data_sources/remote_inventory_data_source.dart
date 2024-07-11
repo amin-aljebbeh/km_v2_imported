@@ -16,6 +16,8 @@ abstract class RemoteInventoryDataSource {
 
   Future<List<ProductModel>> getUnderCheckAvailability({int subWarehouseId});
 
+  Future<List<ProductModel>> getErrorOrders();
+
   Future<List<ProductModel>> getAllProducts();
 
   Future<List<ProductModel>> getNotAddedProducts();
@@ -199,6 +201,21 @@ class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
       if (response != null) {
         if (response.statusCode == successCode) {
           return subWarehouseModelFromJson(jsonEncode(response.data)).data.products;
+        }
+      }
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<List<ProductModel>> getErrorOrders() async {
+    Response response = await ApiProvider.sendRequest(url: productErrorApi, method: HttpMethods.get);
+    try {
+      if (response != null) {
+        if (response.statusCode == successCode) {
+          return getProductsFromJson(jsonEncode(response.data)).products;
         }
       }
     } catch (e) {

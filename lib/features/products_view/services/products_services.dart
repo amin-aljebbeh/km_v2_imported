@@ -25,7 +25,7 @@ class ProductsServices {
             await ApiProvider.sendRequest(url: productApi + productId, method: HttpMethods.put, body: jsonEncode(body));
       } else {
         response = await ApiProvider.sendRequest(
-            url: updateSubWarehouseProducts + productId,
+            url: updateSubWarehouseProductsApi + productId,
             method: HttpMethods.put,
             body: jsonEncode({'sub_warehouse_id': subWarehouseId, bodyKey: value}));
       }
