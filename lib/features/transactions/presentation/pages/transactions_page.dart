@@ -272,6 +272,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                         children: [
                           if (Services.hasRole(context, accountingRole) ||
                               Services.hasRole(context, agentRole) ||
+                              Services.hasRole(context, shopperRole) ||
                               Services.hasRole(context, collectorRole) ||
                               Services.hasRole(context, mainCollectorRole))
                             KammunButton(
