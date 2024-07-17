@@ -148,7 +148,7 @@ class GeneralApis {
       await ApiProvider.sendRequest(url: updateFirebaseToken, method: HttpMethods.post, body: jsonEncode(body));
       return true;
     } catch (e) {
-      return null;
+      return false;
     }
   }
 
