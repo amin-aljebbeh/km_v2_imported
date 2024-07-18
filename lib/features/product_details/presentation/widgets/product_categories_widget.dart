@@ -29,7 +29,7 @@ class ProductCategoriesWidget extends StatelessWidget {
                         StoreProvider.of<AppState>(context).dispatch(RemoveProductFromCategoryAction(
                             categoryId: product.categories[index].id.toString(),
                             context: context,
-                            productId: product.id.toString(),
+                            productId: product.productId.toString(),
                             onRemove: () => onRemove(index)));
                       },
                     ),

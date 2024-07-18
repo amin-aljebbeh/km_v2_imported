@@ -61,7 +61,7 @@ class _OrderSubWarehouseProductsWidgetState extends State<OrderSubWarehouseProdu
                                       state.searchOrdersState.orders
                                           .firstWhere((order) => order.id.toString() == product.pivot.orderId)
                                           .products
-                                          .removeWhere((product2) => product.id == product2.id);
+                                          .removeWhere((product2) => product.productId == product2.productId);
                                       StoreProvider.of<AppState>(context)
                                           .dispatch(SetSearchOrders(orders: state.searchOrdersState.orders));
                                       break;
@@ -69,7 +69,7 @@ class _OrderSubWarehouseProductsWidgetState extends State<OrderSubWarehouseProdu
                                       state.ordersState.orders
                                           .firstWhere((order) => order.id.toString() == product.pivot.orderId)
                                           .products
-                                          .removeWhere((product2) => product.id == product2.id);
+                                          .removeWhere((product2) => product.productId == product2.productId);
                                       StoreProvider.of<AppState>(context)
                                           .dispatch(SetViewOrders(orders: state.ordersState.orders));
                                       break;

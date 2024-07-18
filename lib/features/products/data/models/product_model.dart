@@ -81,7 +81,7 @@ class ProductModel extends ProductEntity {
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json['id'] ?? 0,
         purchasePrice: json['purchase_price'].toString(),
-        productId: json['product_id'] ?? 0,
+        productId: json['product_id'] ?? json['id'] ?? 0,
         name: json['name'] ?? json['nameProduct'],
         description: json['description'],
         unit: json['unit'].toString(),

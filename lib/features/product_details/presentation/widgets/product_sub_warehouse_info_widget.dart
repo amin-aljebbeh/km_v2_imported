@@ -6,7 +6,8 @@ class ProductSubWarehouseInfoWidget extends StatefulWidget {
   final ProductEntity product;
   final Function(String) onChangePrice;
   final Function(String) onChangePriceFactor;
-  const ProductSubWarehouseInfoWidget({Key key, this.product, this.onChangePrice, this.onChangePriceFactor}) : super(key: key);
+  const ProductSubWarehouseInfoWidget({Key key, this.product, this.onChangePrice, this.onChangePriceFactor})
+      : super(key: key);
 
   @override
   State<ProductSubWarehouseInfoWidget> createState() => _ProductSubWarehouseInfoWidgetState();
@@ -24,10 +25,10 @@ class _ProductSubWarehouseInfoWidgetState extends State<ProductSubWarehouseInfoW
         Padding(
           padding: const EdgeInsets.only(top: 30),
           child: UpdateProductInfoWidget(
-            title:priceString + ' :',
+            title: priceString + ' :',
             inputType: TextInputType.text,
             bodyKey: 'price',
-            productId: widget.product.id,
+            productId: widget.product.productId,
             productData: widget.product,
             textHint: price,
             increasePercentage: widget.product.increasePercentage,
@@ -43,12 +44,12 @@ class _ProductSubWarehouseInfoWidgetState extends State<ProductSubWarehouseInfoW
           ),
         ),
         UpdateProductInfoWidget(
-          title:supplierCodeString + ':',
+          title: supplierCodeString + ':',
           inputType: TextInputType.text,
           textHint: widget.product.supplierCode,
           initialText: widget.product.supplierCode,
           bodyKey: 'supplier_code',
-          productId: widget.product.id,
+          productId: widget.product.productId,
           productData: widget.product,
           onSavePressed: (newValue, result) => widget.product.supplierCode = newValue,
         ),
@@ -56,11 +57,11 @@ class _ProductSubWarehouseInfoWidgetState extends State<ProductSubWarehouseInfoW
           title: priceFactorString + ' :',
           inputType: TextInputType.text,
           bodyKey: 'price_factor',
-          productId: widget.product.id,
+          productId: widget.product.productId,
           productData: widget.product,
           textHint: widget.product.priceFactor,
           initialText: widget.product.priceFactor,
-          onSavePressed: (newValue, result){
+          onSavePressed: (newValue, result) {
             if (result) {
               widget.product.priceFactor = newValue;
               price = newValue;

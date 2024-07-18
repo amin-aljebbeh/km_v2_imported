@@ -75,6 +75,7 @@ class ProductEntity {
     this.numberOfSales,
     this.barcodes,
     this.deleteTimes,
-    this.alertProductsCount, this.purchasePrice,
+    this.alertProductsCount,
+    this.purchasePrice,
   });
 }

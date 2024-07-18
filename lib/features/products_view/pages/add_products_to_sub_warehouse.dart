@@ -25,7 +25,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       isError = false;
     });
     dynamic body = {
-      'product_id': widget.product.id.toString(),
+      'product_id': widget.product.productId.toString(),
       'sub_warehouse_id': _selectedValue.toString(),
       'price': priceController.text ?? '0',
       'is_featured': '0',

@@ -30,7 +30,7 @@ class _CartProductCounterState extends State<CartProductCounter> {
               child: InkWell(
                 onTap: () {
                   product.productCount++;
-                  store.dispatch(UpdateCartProducts(productId: product.id, quantity: product.productCount));
+                  store.dispatch(UpdateCartProducts(productId: product.productId, quantity: product.productCount));
                   //todo it not updating
                   setState(() {});
                 },
@@ -50,10 +50,10 @@ class _CartProductCounterState extends State<CartProductCounter> {
                 onTap: () {
                   if (product.productCount > 1) {
                     product.productCount--;
-                    store.dispatch(UpdateCartProducts(productId: product.id, quantity: product.productCount));
+                    store.dispatch(UpdateCartProducts(productId: product.productId, quantity: product.productCount));
                     setState(() {});
                   } else if (product.productCount == 1) {
-                    store.dispatch(UpdateCartProducts(productId: product.id, quantity: 0));
+                    store.dispatch(UpdateCartProducts(productId: product.productId, quantity: 0));
                   }
                 },
                 child: product.productCount > 1

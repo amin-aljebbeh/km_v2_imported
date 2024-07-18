@@ -32,7 +32,9 @@ class ProductDetailView extends StatefulWidget {
     this.onChangePrice,
     this.onChangeUnit,
     this.onChangeQuantity,
-    this.onChangeSubWarehouse, this.onChangePriceFactor, this.productId,
+    this.onChangeSubWarehouse,
+    this.onChangePriceFactor,
+    this.productId,
   }) : super(key: key);
 
   @override
@@ -160,13 +162,15 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           Column(
                             children: [
                               ProductSubWarehouseInfoWidget(
-                                  product: product, onChangePrice: (price) { setState(() {
-                                product.price = price;
-                              });
-                                    widget.onChangePrice(price);} ,onChangePriceFactor: (priceFactor) { widget.onChangePriceFactor(priceFactor);}),
-                              Services.hasPermission(context, upDateProductPermission)||
-                                  (state.generalInformationState.subWarehouses
-                                      .any((element) => element.id == product.subWarehouseId))
+                                  product: product,
+                                  onChangePrice: (price) {
+                                    setState(() => product.price = price);
+                                    widget.onChangePrice(price);
+                                  },
+                                  onChangePriceFactor: (priceFactor) => widget.onChangePriceFactor(priceFactor)),
+                              Services.hasPermission(context, upDateProductPermission) ||
+                                      (state.generalInformationState.subWarehouses
+                                          .any((element) => element.id == product.subWarehouseId))
                                   ? Padding(
                                       padding: const EdgeInsets.only(bottom: 30),
                                       child: Column(
@@ -185,7 +189,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                               onAdd: () async => await ProductsServices.updateProductsDetails(
                                                   bodyKey: 'category_id',
                                                   value: selectedValueCategoryValue,
-                                                  productId: product.id.toString()),
+                                                  productId: product.productId.toString()),
                                               onDone: () => setState(() => product.categories.add(
                                                   state.generalInformationState.categories.firstWhere((category) =>
                                                       category.id.toString() == selectedValueCategoryValue)))),

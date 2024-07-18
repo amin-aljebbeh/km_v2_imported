@@ -85,11 +85,13 @@ class CartProductWidget extends StatelessWidget {
                                               double priceFactor =
                                                   double.parse(product.quantity) / double.parse(product.price);
                                               state.cartState.cartProducts
-                                                      .firstWhere((editProduct) => product.id == editProduct.id)
+                                                      .firstWhere(
+                                                          (editProduct) => product.productId == editProduct.productId)
                                                       .quantity =
                                                   (priceFactor * double.parse(priceController.text)).toStringAsFixed(2);
                                               state.cartState.cartProducts
-                                                  .firstWhere((editProduct) => product.id == editProduct.id)
+                                                  .firstWhere(
+                                                      (editProduct) => product.productId == editProduct.productId)
                                                   .price = priceController.text.split('.')[0];
 
                                               store.dispatch(SetCartProducts(products: state.cartState.cartProducts));
@@ -99,7 +101,7 @@ class CartProductWidget extends StatelessWidget {
                                                   updateKey: 'product_quantity',
                                                   updateValue: (priceFactor * double.parse(priceController.text))
                                                       .toStringAsFixed(2),
-                                                  productId: product.id));
+                                                  productId: product.productId));
                                             }
                                             priceController.text = '';
                                           },

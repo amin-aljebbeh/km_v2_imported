@@ -72,7 +72,7 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
               productData.price = (int.parse(product.price.split('.')[0]) - product.increasePercentage).toString();
             }
             StoreProvider.of<AppState>(context).dispatch(UpdateCartProducts(
-                productId: productData.id, quantity: numberOfOrders, product: productData, context: context));
+                productId: productData.productId, quantity: numberOfOrders, product: productData, context: context));
           },
         ),
       ],

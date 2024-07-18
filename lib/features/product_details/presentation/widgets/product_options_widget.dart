@@ -23,7 +23,7 @@ class ProductOptionsWidget extends StatelessWidget {
                 product: product,
                 color: kmColors,
                 requestType: BarcodeRequestType.addBarcode,
-                productId: product.id,
+                productId: product.productId,
                 scaffoldKey: scaffoldKey,
                 onAddBarcode: (result) => onAddBarcode(result),
               ),
@@ -79,10 +79,10 @@ class ProductOptionsWidget extends StatelessWidget {
             ],
           ),
         if (Services.hasRole(context, productsControllerRole))
-          PrimeProductWidget(product: ProductEntity(id: product.id, isPrimeItem: product.isPrimeItem)),
+          PrimeProductWidget(product: ProductEntity(id: product.productId, isPrimeItem: product.isPrimeItem)),
         AddImageWidget(
           onSubmit: (image) async {
-            bool result = await ProductsServices.setImageToProducts(productId: product.id, image: image);
+            bool result = await ProductsServices.setImageToProducts(productId: product.productId, image: image);
             if (result) {
               snackBar(success: result, message: 'تم حفظ صورة المنتج بنجاح', context: context);
             } else {
