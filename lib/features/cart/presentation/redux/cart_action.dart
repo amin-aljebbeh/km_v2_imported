@@ -15,7 +15,8 @@ abstract class CartAction {
 }
 
 class GetCartAction extends CartAction {
-  GetCartAction();
+  final BuildContext context;
+  GetCartAction({this.context});
 
   @override
   handle({Store<AppState> store}) async {
@@ -33,6 +34,27 @@ class GetCartAction extends CartAction {
           products[i].productCount = counts[i];
           products[i].pivot = OrderProductPivotEntity(increaseValue: products[i].increasePercentage);
         }
+      }
+      if (StoreProvider.of<AppState>(context).state.generalInformationState.subWarehouses.length == 1) {
+        products.sort((a, b) {
+          if (a.subWarehouseId > b.subWarehouseId) {
+            return -1;
+          } else if (a.subWarehouseId < b.subWarehouseId) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      } else {
+        products.sort((a, b) {
+          if (a.subWarehouseId > b.subWarehouseId) {
+            return 1;
+          } else if (a.subWarehouseId < b.subWarehouseId) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
       }
       store.dispatch(SetCartProducts(products: products));
     });
@@ -136,7 +158,7 @@ class UpdateOrderAction extends CartAction {
                 store.dispatch(UpdateOrderAction(context: context, submitOrderEntity: submitOrderEntity));
               } else {
                 Navigator.of(context).pop();
-                store.dispatch(GetCartAction());
+                store.dispatch(GetCartAction(context: context));
                 Navigator.of(context).pop();
                 Navigator.push(
                     context,

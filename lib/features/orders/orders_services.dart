@@ -101,6 +101,27 @@ moveOrderProductsToCart({BuildContext context, List<ProductEntity> orderProducts
     orderProducts[i].productCount = int.parse(orderProducts[i].pivot.quantity);
     orderProducts[i].subWarehouseId = orderProducts[i].subWarehouseId ?? -1;
   }
+  if (StoreProvider.of<AppState>(context).state.generalInformationState.subWarehouses.length == 1) {
+    orderProducts.sort((a, b) {
+      if (a.subWarehouseId > b.subWarehouseId) {
+        return -1;
+      } else if (a.subWarehouseId < b.subWarehouseId) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  } else {
+    orderProducts.sort((a, b) {
+      if (a.subWarehouseId > b.subWarehouseId) {
+        return 1;
+      } else if (a.subWarehouseId < b.subWarehouseId) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  }
 
   StoreProvider.of<AppState>(context).dispatch(SetCartProducts(products: orderProducts));
   StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 1));
