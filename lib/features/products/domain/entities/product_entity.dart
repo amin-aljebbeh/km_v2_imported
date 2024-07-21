@@ -5,7 +5,6 @@ import 'package:kammun_app/features/products/domain/entities/order_product_pivot
 import 'package:kammun_app/features/products/domain/entities/product_image_entity.dart';
 
 class ProductEntity {
-  final int id;
   final int productId;
   String name;
   String description;
@@ -18,23 +17,18 @@ class ProductEntity {
   final String availableQuantity;
   int isPrimeItem;
   OrderProductPivotEntity pivot;
-  final String categoryId;
   String price;
   int productCount;
   final List<CategoryEntity> categories;
   final List<WarehouseEntity> warehouses;
-  final int warehouseId;
   final int isFeatured;
   int priority;
-  final int numberOfVisits;
   final double minThreshold;
   int increasePercentage;
   String priceFactor;
-  final int underCheckAvailability;
   final String priceChange;
   final int automaticActivation;
   final int rate;
-  final int numberOfSales;
   final List<BarcodeEntity> barcodes;
   final int deleteTimes;
 
@@ -44,7 +38,6 @@ class ProductEntity {
 
   ProductEntity({
     this.productId,
-    this.id,
     this.name,
     this.description,
     this.unit,
@@ -56,23 +49,18 @@ class ProductEntity {
     this.availableQuantity,
     this.isPrimeItem,
     this.pivot,
-    this.categoryId,
     this.price,
     this.productCount,
     this.categories,
     this.warehouses,
-    this.warehouseId,
     this.isFeatured,
     this.priority,
-    this.numberOfVisits,
     this.minThreshold,
     this.increasePercentage,
     this.priceFactor,
-    this.underCheckAvailability,
     this.priceChange,
     this.automaticActivation,
     this.rate,
-    this.numberOfSales,
     this.barcodes,
     this.deleteTimes,
     this.alertProductsCount,

@@ -79,7 +79,7 @@ class ProductOptionsWidget extends StatelessWidget {
             ],
           ),
         if (Services.hasRole(context, productsControllerRole))
-          PrimeProductWidget(product: ProductEntity(id: product.productId, isPrimeItem: product.isPrimeItem)),
+          PrimeProductWidget(product: ProductEntity(productId: product.productId, isPrimeItem: product.isPrimeItem)),
         AddImageWidget(
           onSubmit: (image) async {
             bool result = await ProductsServices.setImageToProducts(productId: product.productId, image: image);

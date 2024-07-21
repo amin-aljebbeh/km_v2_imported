@@ -67,7 +67,7 @@ class ProductWidgetState extends State<ProductWidget> {
               context,
               MaterialPageRoute(
                 builder: (context) => ProductDetailView(
-                  productId: int.parse(product.images[0].productId),
+                  productId: product.productId,
                   product: product,
                   onChangeSubWarehouse: (id) {
                     product.subWarehouseId = int.parse(id);

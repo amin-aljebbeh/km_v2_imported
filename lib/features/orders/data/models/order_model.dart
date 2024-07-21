@@ -13,7 +13,6 @@ class OrderModel extends OrderEntity {
       supportedCityCost,
       orderStatusId,
       deliveryMethodId,
-      warehouseId,
       userId,
       userDeliveryRating,
       total,
@@ -46,7 +45,6 @@ class OrderModel extends OrderEntity {
             supportedCityCost: supportedCityCost,
             orderStatusId: orderStatusId,
             deliveryMethodId: deliveryMethodId,
-            warehouseId: warehouseId,
             userId: userId,
             userDeliveryRating: userDeliveryRating,
             total: total,
@@ -81,7 +79,6 @@ class OrderModel extends OrderEntity {
         supportedCityCost: json['supported_city_cost'].toString(),
         orderStatusId: json['order_status_id'].toString(),
         deliveryMethodId: json['delivery_method_id'].toString(),
-        warehouseId: json['warehouse_id'].toString(),
         userId: json['user_id'].toString(),
         userDeliveryRating: json['user_delivery_rating'].toString(),
         total: json['total'].toString(),
@@ -121,7 +118,6 @@ class OrderModel extends OrderEntity {
         'supported_city_cost': supportedCityCost,
         'order_status_id': orderStatusId,
         'delivery_method_id': deliveryMethodId,
-        'warehouse_id': warehouseId,
         'user_id': userId,
         'user_delivery_rating': userDeliveryRating,
         'total': total,
@@ -133,33 +129,9 @@ class OrderModel extends OrderEntity {
 }
 
 class OrderCodeModel extends OrderCodeEntity {
-  OrderCodeModel({id, orderId, subWarehouseId, adminId, code, createdAt, updatedAt})
-      : super(
-          id: id,
-          orderId: orderId,
-          subWarehouseId: subWarehouseId,
-          adminId: adminId,
-          code: code,
-          createdAt: createdAt,
-          updatedAt: updatedAt,
-        );
-  factory OrderCodeModel.fromJson(Map<String, dynamic> json) => OrderCodeModel(
-        id: json["id"],
-        orderId: json["order_id"],
-        subWarehouseId: json["sub_warehouse_id"],
-        adminId: json["admin_id"],
-        code: json["code"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-      );
+  OrderCodeModel({subWarehouseId}) : super(subWarehouseId: subWarehouseId);
+  factory OrderCodeModel.fromJson(Map<String, dynamic> json) =>
+      OrderCodeModel(subWarehouseId: json["sub_warehouse_id"]);
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "order_id": orderId,
-        "sub_warehouse_id": subWarehouseId,
-        "admin_id": adminId,
-        "code": code,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-      };
+  Map<String, dynamic> toJson() => {"sub_warehouse_id": subWarehouseId};
 }
