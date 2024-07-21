@@ -6,11 +6,8 @@ class ShopperEntity {
     this.id,
     this.adminId,
     this.name,
-    this.points,
     this.status,
     this.levelId,
-    this.createdAt,
-    this.updatedAt,
     this.level,
     this.admin,
   });
@@ -18,11 +15,8 @@ class ShopperEntity {
   int id;
   int adminId;
   String name;
-  int points;
   int status;
   int levelId;
-  DateTime createdAt;
-  DateTime updatedAt;
   ShopperLevelEntity level;
   AdminEntity admin;
 }

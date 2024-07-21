@@ -148,12 +148,7 @@ class OrderEntity {
             .firstWhere((subWarehouse) => subWarehouse.id == orderAccountingRows[i].subWarehouseId,
                 orElse: () => SubWarehouseModel(
                     levelPivot: SubWarehouseLevelPivotModel(
-                        subWarehouseId: 0,
-                        levelId: 0,
-                        valueAddedPercentage: 0,
-                        shoppingProfitPercentage: 0,
-                        minProfit: -1,
-                        maxProfit: 10000000000)))
+                        valueAddedPercentage: 0, shoppingProfitPercentage: 0, minProfit: -1, maxProfit: 10000000000)))
             .levelPivot;
         shopperSubWarehouseProfit = pivot.shoppingProfitPercentage / 100;
         increaseProfit = pivot.valueAddedPercentage / 100;
