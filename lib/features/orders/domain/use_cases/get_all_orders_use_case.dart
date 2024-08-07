@@ -19,6 +19,7 @@ class GetAllOrdersUseCase {
     String shopperId,
     int warehouseId,
     String supportedCityId,
+    int isAssigned,
   }) async {
     return await ordersRepository.getAllOrders(
       cancelToken: cancelToken,
@@ -30,6 +31,7 @@ class GetAllOrdersUseCase {
       orderStatusId: orderStatusId,
       fromDate: fromDate,
       shopperId: shopperId,
+      isAssigned: isAssigned,
     );
   }
 }

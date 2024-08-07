@@ -16,6 +16,7 @@ abstract class OrdersRepository {
     String shopperId,
     int warehouseId,
     String supportedCityId,
+    int isAssigned,
   });
 
   Future<Either<Failure, OrdersPageDataEntity>> getSupplierOrders(

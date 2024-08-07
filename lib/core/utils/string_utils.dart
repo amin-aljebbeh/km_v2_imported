@@ -107,7 +107,7 @@ List<String> productFilterApis = [
 
 List<String> productFilterParams = ['number_of_days', 'number_of_sale', 'number_of_visit'];
 
-List<String> orderTypes = ['جميع الطلبات', 'مسند لمتسوق', 'بحاجة لمتسوق'];
+List<String> orderTypes = ['جميع الطلبات', 'بحاجة لمتسوق', 'مسند لمتسوق'];
 
 List<String> orderStatus = [
   'فلترة الطلبات',

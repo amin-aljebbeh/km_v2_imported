@@ -51,38 +51,6 @@ Map<int, List<ProductEntity>> getSubWarehousesProducts(
   return sortedMap;
 }
 
-List<ProductEntity> orderProducts({List<ProductEntity> products, bool deleted, BuildContext context}) {
-  List<ProductEntity> productsAry = [];
-  productsAry.addAll(products);
-  if (deleted) {
-    productsAry.removeWhere((product) => product.pivot.deletedAt == 'null');
-  } else {
-    productsAry.removeWhere((product) => product.pivot.deletedAt != 'null');
-  }
-  if (StoreProvider.of<AppState>(context).state.generalInformationState.subWarehouses.length == 1) {
-    productsAry.sort((a, b) {
-      if (a.pivot.subWarehouseId > b.pivot.subWarehouseId) {
-        return -1;
-      } else if (a.pivot.subWarehouseId < b.pivot.subWarehouseId) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-  } else {
-    productsAry.sort((a, b) {
-      if (a.pivot.subWarehouseId > b.pivot.subWarehouseId) {
-        return 1;
-      } else if (a.pivot.subWarehouseId < b.pivot.subWarehouseId) {
-        return -1;
-      } else {
-        return 0;
-      }
-    });
-  }
-  return productsAry;
-}
-
 List<Widget> calculate({OrderEntity order, BuildContext context}) {
   List<Widget> subWarehouseTotal = [];
   subWarehouseTotal.add(KTableRow(
