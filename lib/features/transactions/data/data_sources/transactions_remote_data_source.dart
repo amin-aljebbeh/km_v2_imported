@@ -80,7 +80,7 @@ class TransactionsRemoteDataSourceImplement extends TransactionRemoteDataSource 
 
   @override
   Future<List<TransactionCategoryModel>> getTransactionCategories() async {
-    Response response = await ApiProvider.sendRequest(url: transactionCategoryApi, method: HttpMethods.get);
+    Response response = await ApiProvider.sendRequest(url: categoriesTransactionsApi, method: HttpMethods.get);
     try {
       if (response != null) {
         if (response.statusCode == successCode) {
