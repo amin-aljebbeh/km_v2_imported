@@ -84,8 +84,7 @@ class Services {
             shopper.admin?.warehouseId == store.state.adminsState.admin.warehouseId || hasRole(context, superAdminRole))
         .map((shopper) => DropdownMenuItem<String>(
             child: SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                child: Text(shopper.name.split('-')[0], style: dropdownItemStyle)),
+                width: MediaQuery.of(context).size.width / 4, child: Text(shopper.name, style: dropdownItemStyle)),
             value: shopper.name)));
 
     return list;
