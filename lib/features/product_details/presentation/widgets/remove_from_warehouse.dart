@@ -21,7 +21,7 @@ class RemoveFromWarehouse extends StatelessWidget {
               onTap: () async {
                 Navigator.of(context).pop();
                 bool result = await ProductsServices.unAttachProductsToSubWarehouseService(
-                    productsId: product.id.toString(), subWarehouse: product.subWarehouseId.toString());
+                    productsId: product.productId.toString(), subWarehouse: product.subWarehouseId.toString());
                 if (result) {
                   int count = 0;
                   Navigator.of(context).popUntil((_) => count++ >= 1);

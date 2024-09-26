@@ -251,7 +251,7 @@ class FinalCartPage extends StatelessWidget {
                                                   quantity: product.productCount,
                                                   price: int.parse(product.price.split('.')[0]) +
                                                       (product.pivot == null ? 0 : product.pivot.increaseValue),
-                                                  productId: product.id))
+                                                  productId: product.productId))
                                               .toList();
                                           int purchasePrices = state.cartState.cartProducts.fold(
                                               0,

@@ -85,7 +85,7 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProductDetailView(
-                      productId: int.parse(product.images[0].productId),
+                      productId: product.productId,
                       product: product,
                       onChangeSubWarehouse: (id) =>
                           {product.subWarehouseId = int.parse(id), widget.onChangeSubWarehouse(id)},
@@ -197,7 +197,7 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                                           value: value ? '1' : '0',
                                           subWarehouseId: widget.id,
                                           isForSubWarehouse: true,
-                                          productId: product.images[0].productId.toString(),
+                                          productId: product.productId.toString(),
                                         );
                                         snackBar(
                                             success: result,
@@ -271,7 +271,7 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                                         ? IconButton(
                                             icon: const Icon(Icons.add, color: Colors.green),
                                             onPressed: () {
-                                              if (product.id == 0) {
+                                              if (product.productId == 0) {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -324,7 +324,7 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                                                   bodyKey: 'under_check_availability',
                                                   value: '0',
                                                   subWarehouseId: widget.id,
-                                                  productId: product.id.toString());
+                                                  productId: product.productId.toString());
                                               if (result) {
                                                 snackBar(
                                                     success: result,

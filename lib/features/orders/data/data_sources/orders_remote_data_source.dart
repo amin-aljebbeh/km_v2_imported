@@ -16,6 +16,7 @@ abstract class OrdersRemoteDataSource {
     String shopperId,
     int warehouseId,
     String supportedCityId,
+    int isAssigned,
   });
 
   Future<OrdersPageDataModel> getSupplierOrders({int orderStatusId, int pageNumber, CancelToken cancelToken});
@@ -73,6 +74,7 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
     String shopperId,
     int warehouseId,
     String supportedCityId,
+    int isAssigned,
   }) async {
     Map<String, dynamic> params = {
       'page': pageNumber,
@@ -81,7 +83,8 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
       'from_date': fromDate,
       'shopper_id': shopperId,
       'warehouse_id': warehouseId,
-      'supported_city_id': supportedCityId
+      'supported_city_id': supportedCityId,
+      'is_assigned': isAssigned
     };
     if (orderStatusId == 0) {
       params['order_status_id[0]'] = 1;

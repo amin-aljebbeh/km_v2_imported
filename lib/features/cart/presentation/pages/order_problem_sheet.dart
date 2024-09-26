@@ -34,10 +34,10 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
     notActiveCards = [];
 
     for (int i = 0; i < widget.cartProducts.length; i++) {
-      if (widget.notActiveProducts.contains(widget.cartProducts[i].id)) {
+      if (widget.notActiveProducts.contains(widget.cartProducts[i].productId)) {
         notActiveCards.add(i);
       }
-      if (widget.pricesChangesProducts.contains(widget.cartProducts[i].id)) {
+      if (widget.pricesChangesProducts.contains(widget.cartProducts[i].productId)) {
         priceCards.add(i);
       }
     }

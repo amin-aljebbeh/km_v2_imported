@@ -21,7 +21,7 @@ class _PrimeProductWidgetState extends State<PrimeProductWidget> {
             onTap: () async {
               setState(() => loading = true);
               bool result = await ProductsServices.updateProductsDetails(
-                  productId: widget.product.id.toString(),
+                  productId: widget.product.productId.toString(),
                   bodyKey: 'is_prime_item',
                   isForSubWarehouse: false,
                   value: (widget.product.isPrimeItem == 1 ? 0 : 1).toString());

@@ -15,13 +15,15 @@ abstract class CartAction {
 }
 
 class GetCartAction extends CartAction {
-  GetCartAction();
+  final BuildContext context;
+  GetCartAction({this.context});
 
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
     List<int> counts = store.state.cartState.cartProducts.map((product) => product.productCount).toList();
-    String cart = store.state.cartState.cartProducts.fold('', (ids, product) => ids + product.id.toString() + ';');
+    String cart =
+        store.state.cartState.cartProducts.fold('', (ids, product) => ids + product.productId.toString() + ';');
     cart.replaceRange(cart.length - 1, cart.length, '');
 
     Either either = await store.state.cartState.cartUSeCases.getCartUseCase(cart: cart);
@@ -32,6 +34,27 @@ class GetCartAction extends CartAction {
           products[i].productCount = counts[i];
           products[i].pivot = OrderProductPivotEntity(increaseValue: products[i].increasePercentage);
         }
+      }
+      if (StoreProvider.of<AppState>(context).state.generalInformationState.subWarehouses.length == 1) {
+        products.sort((a, b) {
+          if (a.subWarehouseId > b.subWarehouseId) {
+            return -1;
+          } else if (a.subWarehouseId < b.subWarehouseId) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      } else {
+        products.sort((a, b) {
+          if (a.subWarehouseId > b.subWarehouseId) {
+            return 1;
+          } else if (a.subWarehouseId < b.subWarehouseId) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
       }
       store.dispatch(SetCartProducts(products: products));
     });
@@ -51,10 +74,10 @@ class UpdateCartProducts extends CartAction {
     List<ProductEntity> products = [];
     products.addAll(store.state.cartState.cartProducts);
     if (quantity == 0) {
-      products.removeWhere((product) => product.id == productId);
+      products.removeWhere((product) => product.productId == productId);
     } else {
-      if (products.map((product) => product.id).contains(productId)) {
-        products.firstWhere((product) => product.id == productId).productCount = quantity;
+      if (products.map((product) => product.productId).contains(productId)) {
+        products.firstWhere((product) => product.productId == productId).productCount = quantity;
       } else {
         products.add(product);
         if (StoreProvider.of<AppState>(context).state.generalInformationState.subWarehouses.length == 1) {
@@ -110,17 +133,17 @@ class UpdateOrderAction extends CartAction {
         List<int> priceId = [];
 
         notActiveId = store.state.cartState.cartProducts
-            .where((order) => response.inactiveProducts.contains(order.id.toString()))
+            .where((product) => response.inactiveProducts.contains(product.productId.toString()))
             .toList()
-            .map((order) => order.id)
+            .map((product) => product.productId)
             .toList();
         priceId = store.state.cartState.cartProducts
             .where((product) => response.changedPriceProducts
                 .map((priceProduct) => priceProduct.id.toString())
                 .toList()
-                .contains(product.id.toString()))
+                .contains(product.productId.toString()))
             .toList()
-            .map((product) => product.id)
+            .map((product) => product.productId)
             .toList();
         store.dispatch(StopLoading());
         showMaterialModalBottomSheet(
@@ -135,7 +158,7 @@ class UpdateOrderAction extends CartAction {
                 store.dispatch(UpdateOrderAction(context: context, submitOrderEntity: submitOrderEntity));
               } else {
                 Navigator.of(context).pop();
-                store.dispatch(GetCartAction());
+                store.dispatch(GetCartAction(context: context));
                 Navigator.of(context).pop();
                 Navigator.push(
                     context,

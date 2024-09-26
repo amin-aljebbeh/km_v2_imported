@@ -17,7 +17,7 @@ import 'core_importer.dart';
 class GeneralApis {
   static getShoppers({BuildContext context}) async {
     try {
-      var response = await ApiProvider.sendRequest(url: shopperApi, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: shoppersApi, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
         StoreProvider.of<AppState>(context)
@@ -87,7 +87,7 @@ class GeneralApis {
 
   static Future<List<ShopperLevelModel>> getLevels() async {
     try {
-      var response = await ApiProvider.sendRequest(url: levelApi, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: levelsApi, method: HttpMethods.get);
 
       if (response.statusCode == successCode) return levelsFromJson(jsonEncode(response.data)).levels;
       return null;
@@ -129,7 +129,7 @@ class GeneralApis {
 
   static Future<List<WarehouseEntity>> getWarehousesService({BuildContext context}) async {
     try {
-      var response = await ApiProvider.sendRequest(url: warehouse, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: warehousesApi, method: HttpMethods.get);
       List<WarehouseEntity> warehouses;
       if (response.statusCode == successCode && response.data['success'].toString() == 'true') {
         warehouses = List<WarehouseModel>.from(response.data['data'].map((x) => WarehouseModel.fromJson(x)));
@@ -148,13 +148,13 @@ class GeneralApis {
       await ApiProvider.sendRequest(url: updateFirebaseToken, method: HttpMethods.post, body: jsonEncode(body));
       return true;
     } catch (e) {
-      return null;
+      return false;
     }
   }
 
   static Future<bool> getSupportedCity(BuildContext context) async {
     try {
-      var response = await ApiProvider.sendRequest(url: supportedCityApi, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: supportedCitiesApi, method: HttpMethods.get);
       if (response.statusCode == successCode) {
         final supportedCitiesResponse = SupportedCitiesResponse.fromJson((response.data)).cities;
 
@@ -170,7 +170,7 @@ class GeneralApis {
 
   static Future<bool> getCategoryService(BuildContext context) async {
     try {
-      var response = await ApiProvider.sendRequest(url: getCategoryApi, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: getCategoriesApi, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
         final categories = categoryOriginalFromJson(jsonEncode(response.data)).data;

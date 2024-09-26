@@ -9,6 +9,7 @@ import '../../domain/entities/lock_order_response_entity.dart';
 import '../../domain/entities/order_entity.dart';
 import '../../domain/entities/orders_page_data_entity.dart';
 import '../../orders_services.dart';
+import 'orders_state.dart';
 
 abstract class OrdersAction {
   handle({@required Store<AppState> store});
@@ -119,23 +120,24 @@ class GetAllOrdersAction implements OrdersAction {
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
-    Either either = await store.state.ordersState.ordersUSeCases.getAllOrdersUseCase(
+    OrdersState state = store.state.ordersState;
+    Either either = await state.ordersUSeCases.getAllOrdersUseCase(
+      pageNumber: state.ordersPage,
       cancelToken: OrdersServices.cancelRequest,
-      filterEvaluatedOrders: store.state.ordersState.rateFilter,
-      orderStatusId: store.state.ordersState.statusFilter,
-      fromDate: store.state.ordersState.fromDateFilter == '' ? null : store.state.ordersState.fromDateFilter,
-      shopperId: store.state.ordersState.shopperFilter == '0' ? null : store.state.ordersState.shopperFilter,
-      supportedCityId:
-          store.state.ordersState.supportedCityFilter == '0' ? null : store.state.ordersState.supportedCityFilter,
-      toDate: store.state.ordersState.toDateFilter == '' ? null : store.state.ordersState.toDateFilter,
-      warehouseId: store.state.ordersState.warehouseFilter == 0 ? null : store.state.ordersState.warehouseFilter,
-      pageNumber: store.state.ordersState.ordersPage,
+      filterEvaluatedOrders: state.rateFilter,
+      orderStatusId: state.statusFilter,
+      isAssigned: state.assignFilter == 0 ? null : state.assignFilter - 1,
+      fromDate: state.fromDateFilter == '' ? null : state.fromDateFilter,
+      shopperId: state.shopperFilter == '0' ? null : state.shopperFilter,
+      supportedCityId: state.supportedCityFilter == '0' ? null : state.supportedCityFilter,
+      toDate: state.toDateFilter == '' ? null : state.toDateFilter,
+      warehouseId: state.warehouseFilter == 0 ? null : state.warehouseFilter,
     );
     either.fold((failure) {
       store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));
     }, (orders) {
       OrdersPageDataEntity ordersPage = orders;
-      store.dispatch(FilterOrders(orders: ordersPage.data));
+      store.dispatch(SetViewOrders(orders: ordersPage.data));
       store.dispatch(SetTotalOrdersNumber(totalNumber: ordersPage.total));
     });
     store.dispatch(StopLoading());
@@ -162,7 +164,7 @@ class GetShopperOrdersAction implements OrdersAction {
       });
       store.dispatch(SetTotalOrdersNumber(totalNumber: orders.total));
       store.dispatch(SetAuthenticatedSubWarehouses(authenticatedSubWarehouses: subWarehouseAuthCodes));
-      store.dispatch(FilterOrders(orders: orders.data));
+      store.dispatch(SetViewOrders(orders: orders.data));
     });
     store.dispatch(StopLoading());
   }
@@ -181,7 +183,7 @@ class GetSupplierOrdersAction implements OrdersAction {
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (orders) {
       OrdersPageDataEntity data = orders;
       store.dispatch(SetTotalOrdersNumber(totalNumber: data.total));
-      store.dispatch(FilterOrders(orders: data.data));
+      store.dispatch(SetViewOrders(orders: data.data));
     });
     store.dispatch(StopLoading());
   }
@@ -332,28 +334,4 @@ class SetSupportedCityFilter {
   final String supportedCityFilter;
 
   SetSupportedCityFilter({this.supportedCityFilter});
-}
-
-class FilterOrders extends OrdersAction {
-  final List<OrderEntity> orders;
-
-  FilterOrders({this.orders});
-
-  @override
-  handle({Store<AppState> store}) {
-    if (store.state.ordersState.rateFilter == 0) {
-      switch (store.state.ordersState.assignFilter) {
-        case (0):
-          break;
-        case (1):
-          orders.removeWhere((order) => order.shopper == null);
-          break;
-        case (2):
-          orders.removeWhere((order) => order.shopper != null);
-          break;
-      }
-    }
-    orders.removeWhere((order) => order.products.isEmpty);
-    store.dispatch(SetViewOrders(orders: orders));
-  }
 }

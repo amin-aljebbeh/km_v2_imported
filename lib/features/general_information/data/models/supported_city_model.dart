@@ -19,43 +19,22 @@ class SupportedCitiesResponse {
 }
 
 class SupportedCityModel extends SupportedCityEntity {
-  SupportedCityModel({
-    id,
-    name,
-    deliveryPrice,
-    warehouseId,
-    couponTypeId,
-    isActive,
-    supportPhoneNumber,
-    maintenanceMessages,
-    levelPivot,
-  }) : super(
+  SupportedCityModel({id, name, warehouseId, isActive, levelPivot})
+      : super(
           id: id,
           name: name,
-          deliveryPrice: deliveryPrice,
           warehouseId: warehouseId,
-          couponTypeId: couponTypeId,
           isActive: isActive,
-          supportPhoneNumber: supportPhoneNumber,
-          maintenanceMessages: maintenanceMessages,
           levelPivot: levelPivot,
         );
 
   factory SupportedCityModel.fromJson(Map<String, dynamic> json) => SupportedCityModel(
         id: json['id'].toString(),
         name: json['name'],
-        deliveryPrice: double.parse(json['delivery_price']),
         warehouseId: json['warehouse_id'].toString(),
-        couponTypeId: json['coupon_type_id'].toString(),
         isActive: json['is_active'].toString(),
-        supportPhoneNumber: json['support_phone_number'],
-        maintenanceMessages: json['maintenance_messages'],
         levelPivot: json['pivot'] == null ? null : SupportedCityLevelPivotModel.fromJson(json['pivot']),
       );
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'warehouse_id': warehouseId,
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'warehouse_id': warehouseId};
 }

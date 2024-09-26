@@ -53,7 +53,7 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
                   prefs.setString('FCM_token_v3', value);
                   if (prefs.getString('userToken') != null) GeneralApis.updateFirebaseTokenService(value);
                 }
-              });
+              }).catchError((e) => setState(() => initialized1 = true));
             }
             FirebaseMessaging.onMessage.listen((RemoteMessage message) {
               if (message.data['type'] != null) {
@@ -94,9 +94,11 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
                 prefs.setString('FCM_token_v3', value);
                 if (prefs.getString('userToken') != null) GeneralApis.updateFirebaseTokenService(value);
               }
-            });
+            }).catchError((e) => setState(() => initialized1 = true));
           }
-          FirebaseMessaging.instance.getToken();
+          FirebaseMessaging.instance.getToken().catchError((e) {
+            setState(() => initialized1 = true);
+          });
           FirebaseMessaging.onMessage.listen((RemoteMessage message) {
             if (message.notification != null) {
               if (message.data['type'] != null) {

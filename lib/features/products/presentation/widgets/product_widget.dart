@@ -67,7 +67,7 @@ class ProductWidgetState extends State<ProductWidget> {
               context,
               MaterialPageRoute(
                 builder: (context) => ProductDetailView(
-                  productId: int.parse(product.images[0].productId),
+                  productId: product.productId,
                   product: product,
                   onChangeSubWarehouse: (id) {
                     product.subWarehouseId = int.parse(id);
@@ -130,7 +130,7 @@ class ProductWidgetState extends State<ProductWidget> {
                                       BarcodeIcon(
                                         product: product,
                                         requestType: BarcodeRequestType.addBarcode,
-                                        productId: int.parse(product.id.toString()),
+                                        productId: int.parse(product.productId.toString()),
                                         scaffoldKey: widget.scaffoldKey,
                                         onAddBarcode: (result) => widget.onAddBarcode(result),
                                       ),
@@ -153,7 +153,7 @@ class ProductWidgetState extends State<ProductWidget> {
                                 width: MediaQuery.of(context).size.width * 0.17,
                                 preState: int.parse(product.isActive),
                                 subWarehouseId: product.subWarehouseId,
-                                productId: product.id.toString(),
+                                productId: product.productId.toString(),
                                 onChange: (int active, bool result) => setState(() {
                                   if (result) product.isActive = active.toString();
                                 }),

@@ -67,9 +67,9 @@ InventoryState changeSubWarehouseFilter(InventoryState state, ChangeSubWarehouse
       break;
     case 2:
       products.sort((a, b) {
-        if (a.id > b.id) {
+        if (a.productId > b.productId) {
           return -1;
-        } else if (a.id < b.id) {
+        } else if (a.productId < b.productId) {
           return 1;
         } else {
           return 0;

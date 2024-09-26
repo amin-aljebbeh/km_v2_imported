@@ -28,7 +28,7 @@ class RemoveProductWidget extends StatelessWidget {
                     text: yes,
                     onTap: () {
                       StoreProvider.of<AppState>(context)
-                          .dispatch(DeleteProductAction(productId: product.id, context: context));
+                          .dispatch(DeleteProductAction(productId: product.productId, context: context));
                     },
                   ),
                   DialogButton(text: no, onTap: () => Navigator.of(context).pop()),

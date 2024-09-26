@@ -59,6 +59,7 @@ class OrdersRepositoryImplement implements OrdersRepository {
     String shopperId,
     int warehouseId,
     String supportedCityId,
+    int isAssigned,
   }) async {
     try {
       OrdersPageDataEntity orders = await ordersRemoteDataSource.getAllOrders(
@@ -71,6 +72,7 @@ class OrdersRepositoryImplement implements OrdersRepository {
         supportedCityId: supportedCityId,
         toDate: toDate,
         warehouseId: warehouseId,
+        isAssigned: isAssigned,
       );
       return Right(orders);
     } on CacheException {

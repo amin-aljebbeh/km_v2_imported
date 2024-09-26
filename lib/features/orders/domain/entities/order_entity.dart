@@ -17,7 +17,6 @@ class OrderEntity {
   String supportedCityCost;
   String orderStatusId;
   String deliveryMethodId;
-  String warehouseId;
   String userId;
   String userDeliveryRating;
   String userPriceRating;
@@ -51,7 +50,6 @@ class OrderEntity {
       this.supportedCityCost,
       this.orderStatusId,
       this.deliveryMethodId,
-      this.warehouseId,
       this.userId,
       this.userDeliveryRating,
       this.total,
@@ -148,12 +146,7 @@ class OrderEntity {
             .firstWhere((subWarehouse) => subWarehouse.id == orderAccountingRows[i].subWarehouseId,
                 orElse: () => SubWarehouseModel(
                     levelPivot: SubWarehouseLevelPivotModel(
-                        subWarehouseId: 0,
-                        levelId: 0,
-                        valueAddedPercentage: 0,
-                        shoppingProfitPercentage: 0,
-                        minProfit: -1,
-                        maxProfit: 10000000000)))
+                        valueAddedPercentage: 0, shoppingProfitPercentage: 0, minProfit: -1, maxProfit: 10000000000)))
             .levelPivot;
         shopperSubWarehouseProfit = pivot.shoppingProfitPercentage / 100;
         increaseProfit = pivot.valueAddedPercentage / 100;
@@ -202,21 +195,7 @@ class OrderAccountingRow {
 }
 
 class OrderCodeEntity {
-  final int id;
-  final int orderId;
   final int subWarehouseId;
-  final int adminId;
-  final String code;
-  final DateTime createdAt;
-  final DateTime updatedAt;
 
-  OrderCodeEntity({
-    this.id,
-    this.orderId,
-    this.subWarehouseId,
-    this.adminId,
-    this.code,
-    this.createdAt,
-    this.updatedAt,
-  });
+  OrderCodeEntity({this.subWarehouseId});
 }

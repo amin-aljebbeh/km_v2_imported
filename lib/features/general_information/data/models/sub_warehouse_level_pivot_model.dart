@@ -1,11 +1,8 @@
 import '../../domain/entities/sub_warehouse_level_pivot_entity.dart';
 
 class SubWarehouseLevelPivotModel extends SubWarehouseLevelPivotEntity {
-  SubWarehouseLevelPivotModel(
-      {levelId, subWarehouseId, shoppingProfitPercentage, valueAddedPercentage, minProfit, maxProfit})
+  SubWarehouseLevelPivotModel({shoppingProfitPercentage, valueAddedPercentage, minProfit, maxProfit})
       : super(
-          levelId: levelId,
-          subWarehouseId: subWarehouseId,
           shoppingProfitPercentage: shoppingProfitPercentage,
           valueAddedPercentage: valueAddedPercentage,
           minProfit: minProfit,
@@ -13,8 +10,6 @@ class SubWarehouseLevelPivotModel extends SubWarehouseLevelPivotEntity {
         );
 
   factory SubWarehouseLevelPivotModel.fromJson(Map<String, dynamic> json) => SubWarehouseLevelPivotModel(
-        levelId: json['level_id'] == null ? null : json['admin_id'],
-        subWarehouseId: json['sub_warehouse_id'],
         shoppingProfitPercentage:
             json['shopping_profit_percentage'] == null ? null : double.parse(json['shopping_profit_percentage']),
         valueAddedPercentage:

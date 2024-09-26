@@ -135,7 +135,7 @@ class ProductsServices {
   static Future<bool> changeProductSubWarehouse(
       ProductEntity product, String productSubWarehouseId, bool remove) async {
     var subWarehouseBody = {
-      'product_id': product.id,
+      'product_id': product.productId,
       'sub_warehouse_id': productSubWarehouseId,
       'price': product.price,
       'is_featured': product.isFeatured,
@@ -151,7 +151,7 @@ class ProductsServices {
       bool removed;
       if (remove) {
         removed = await ProductsServices.unAttachProductsToSubWarehouseService(
-            productsId: product.id.toString(), subWarehouse: product.subWarehouseId.toString());
+            productsId: product.productId.toString(), subWarehouse: product.subWarehouseId.toString());
       } else {
         removed = true;
       }
@@ -161,7 +161,7 @@ class ProductsServices {
       }
       if (!add && removed) {
         var subWarehouseBody = {
-          'product_id': product.id,
+          'product_id': product.productId,
           'sub_warehouse_id': product.subWarehouseId,
           'price': product.price,
           'is_featured': product.isFeatured,
