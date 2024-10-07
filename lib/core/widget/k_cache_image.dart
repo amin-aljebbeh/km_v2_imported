@@ -10,15 +10,15 @@ class KCacheImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100.0,
-      height: 100.0,
+      width: MediaQuery.of(context).size.width / 4,
+      height: MediaQuery.of(context).size.width / 4,
       decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
       child: Hero(
         tag: tag,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(radius),
           child: Image(
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
             image: image.isNotEmpty
                 ? AdvImageCache(
                     StoreProvider.of<AppState>(context)
