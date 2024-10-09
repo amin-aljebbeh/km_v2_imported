@@ -35,11 +35,7 @@ class SubWarehouseModel extends SubWarehouseEntity {
         id: json['id'],
         requireAuthCodes: json['require_auth_codes'],
         name: json['name'],
-        levelPivot: json['pivot'] == null
-            ? null
-            : json['pivot']['level_id'] == null
-                ? null
-                : SubWarehouseLevelPivotModel.fromJson(json['pivot']),
+        levelPivot: json['pivot'] == null ? null : SubWarehouseLevelPivotModel.fromJson(json['pivot']),
         discountPercentage: json['discount_percentage'] == null ? null : double.parse(json['discount_percentage']),
         directDiscount: json['direct_discount'],
         products: json['products'] == null
