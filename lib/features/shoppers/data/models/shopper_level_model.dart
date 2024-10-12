@@ -53,7 +53,7 @@ class ShopperLevelModel extends ShopperLevelEntity {
         id: json['id'],
         pricePerKilo: json['price_per_kilo'],
         subWarehouses: json['sub_warehouses'] == null
-            ? null
+            ? []
             : List<SubWarehouseModel>.from(json['sub_warehouses'].map((x) => SubWarehouseModel.fromJson(x))),
         supportedCities: json['supported_cities'] == null
             ? null
