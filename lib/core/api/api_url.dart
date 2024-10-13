@@ -34,7 +34,6 @@ const String getMyRequestsApi = transactionRequestApi + 'get_my_requests/';
 const String orderApi = 'order/';
 const String shopperViewsHisOwnOrdersApi = orderApi + 'shopper_views_his_own_orders';
 const String unlockOrderApi = orderApi + 'unlock_order/';
-const String cancelOrderApi = orderApi + 'change_order_status/';
 const String lockOrderApi = orderApi + 'lock_order/';
 const String assignOrderToShopperApi = orderApi + 'assign_order_to_shopper';
 const String changeOrderStatusApi = orderApi + 'change_order_status/';

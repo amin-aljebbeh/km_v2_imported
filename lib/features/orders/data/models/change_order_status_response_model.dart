@@ -1,5 +1,3 @@
-import 'package:kammun_app/features/orders/data/models/order_model.dart';
-
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/change_order_status_response_entity.dart';
 
@@ -7,9 +5,8 @@ ChangeOrderStatusResponseModel changeStatusModelFromJson(String str) =>
     ChangeOrderStatusResponseModel.fromJson(json.decode(str));
 
 class ChangeOrderStatusResponseModel extends ChangeOrderStatusResponseEntity {
-  ChangeOrderStatusResponseModel({bool success, String data, order})
-      : super(success: success, data: data, order: order);
+  ChangeOrderStatusResponseModel({bool success, String data}) : super(success: success, data: data);
 
-  factory ChangeOrderStatusResponseModel.fromJson(Map<String, dynamic> json) => ChangeOrderStatusResponseModel(
-      success: json['success'], data: json['data'], order: OrderModel.fromJson(json['order']));
+  factory ChangeOrderStatusResponseModel.fromJson(Map<String, dynamic> json) =>
+      ChangeOrderStatusResponseModel(success: json['success'], data: json['data']);
 }

@@ -55,6 +55,9 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
                 }
               }).catchError((e) => setState(() => initialized1 = true));
             }
+            FirebaseMessaging.instance.getToken().catchError((e) {
+              setState(() => initialized1 = true);
+            });
             FirebaseMessaging.onMessage.listen((RemoteMessage message) {
               if (message.data['type'] != null) {
                 if (message.data['type'] == 1) {
