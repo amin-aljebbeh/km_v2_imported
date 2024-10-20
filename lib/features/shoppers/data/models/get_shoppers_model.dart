@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import '../../domain/entities/shopper_entity.dart';
 import 'shopper_model.dart';
 
 GetShoppersResponseModel shoppersFromJson(String str) => GetShoppersResponseModel.fromJson(json.decode(str));
@@ -12,7 +11,7 @@ class GetShoppersResponseModel {
   });
 
   bool success;
-  List<ShopperEntity> data;
+  List<ShopperModel> data;
 
   factory GetShoppersResponseModel.fromJson(Map<String, dynamic> json) => GetShoppersResponseModel(
         success: json["success"],
