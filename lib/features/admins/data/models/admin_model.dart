@@ -6,11 +6,23 @@ import '../../../shoppers/data/models/shopper_model.dart';
 
 class AdminModel extends AdminEntity {
   const AdminModel(
-      {id, username, name, phone, apiToken, subWarehouses, roles, shopper, permissions, balance, warehouseId})
+      {id,
+      username,
+      name,
+      firebaseToken,
+      phone,
+      apiToken,
+      subWarehouses,
+      roles,
+      shopper,
+      permissions,
+      balance,
+      warehouseId})
       : super(
           id: id,
           name: name,
           apiToken: apiToken,
+          firebaseToken: firebaseToken,
           phone: phone,
           shopper: shopper,
           roles: roles,
@@ -25,6 +37,7 @@ class AdminModel extends AdminEntity {
         id: json['id'],
         username: json['username'],
         warehouseId: json['warehouse_id'],
+        firebaseToken: json['firebase_token'],
         name: json['name'],
         balance: json['balance'],
         phone: json['phone'],

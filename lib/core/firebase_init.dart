@@ -5,6 +5,7 @@ import 'package:overlay_support/overlay_support.dart';
 
 import '../../core/core_importer.dart';
 import '../../firebase_options.dart';
+import '../features/admins/domain/entities/admins_entity.dart';
 
 class FirebaseInitPage extends StatefulWidget {
   final Widget child;
@@ -32,6 +33,7 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
 
     SharedPreferences prefs = sl<SharedPreferences>();
     try {
+      AdminEntity admin = StoreProvider.of<AppState>(context).state.adminsState.admin;
       Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) async {
         if (mounted) setState(() => initialized = true);
         String firebaseToken = prefs.getString('FCM_token_v3');
@@ -54,6 +56,8 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
                   if (prefs.getString('userToken') != null) GeneralApis.updateFirebaseTokenService(value);
                 }
               }).catchError((e) => setState(() => initialized1 = true));
+            } else {
+              if (firebaseToken != admin.firebaseToken) GeneralApis.updateFirebaseTokenService(firebaseToken);
             }
             FirebaseMessaging.instance.getToken().catchError((e) {
               setState(() => initialized1 = true);
@@ -98,6 +102,8 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
                 if (prefs.getString('userToken') != null) GeneralApis.updateFirebaseTokenService(value);
               }
             }).catchError((e) => setState(() => initialized1 = true));
+          } else {
+            if (firebaseToken != admin.firebaseToken) GeneralApis.updateFirebaseTokenService(firebaseToken);
           }
           FirebaseMessaging.instance.getToken().catchError((e) {
             setState(() => initialized1 = true);
