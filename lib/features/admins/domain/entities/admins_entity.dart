@@ -16,8 +16,10 @@ class AdminEntity extends Equatable {
   final List<String> permissions;
   final int balance;
   final int warehouseId;
+  final String firebaseToken;
 
   const AdminEntity({
+    this.firebaseToken,
     this.id,
     this.username,
     this.name,
@@ -32,5 +34,6 @@ class AdminEntity extends Equatable {
   });
 
   @override
-  List<Object> get props => [id, username, name, phone, apiToken, subWarehouses, roles, shopper, permissions, balance];
+  List<Object> get props =>
+      [id, username, name, firebaseToken, phone, apiToken, subWarehouses, roles, shopper, permissions, balance];
 }

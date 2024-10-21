@@ -1,7 +1,6 @@
-import 'package:kammun_app/features/general_information/domain/entities/warehouse_entity.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 import 'package:kammun_app/features/products_view/widgets/select_file.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../core/core_importer.dart';
 import '../../home/presentation/redux/home_action.dart';
@@ -13,11 +12,7 @@ class AddProductsView extends StatefulWidget {
   final int barcode;
 
   const AddProductsView(
-      {Key key,
-      @required this.categoryId,
-      this.barcode,
-      this.supplierCode,
-      this.productName = 'null'})
+      {Key key, @required this.categoryId, this.barcode, this.supplierCode, this.productName = 'null'})
       : super(key: key);
 
   @override
@@ -43,11 +38,8 @@ class _AddProductsViewState extends State<AddProductsView> {
   ];
 
   Future getImageCamera() async {
-    final pickedFile = await picker.pickImage(
-        source: ImageSource.camera,
-        imageQuality: 100,
-        maxHeight: 600,
-        maxWidth: 500);
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.camera, imageQuality: 100, maxHeight: 600, maxWidth: 500);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -56,11 +48,8 @@ class _AddProductsViewState extends State<AddProductsView> {
   }
 
   Future getImageGallery() async {
-    final pickedFile = await picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 100,
-        maxHeight: 600,
-        maxWidth: 500);
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 100, maxHeight: 600, maxWidth: 500);
     setState(() => {if (pickedFile != null) _image = File(pickedFile.path)});
   }
 
@@ -97,10 +86,7 @@ class _AddProductsViewState extends State<AddProductsView> {
         Navigator.of(context).pop();
       } else {
         setState(() => {isLoading = false, isError = true});
-        snackBar(
-            success: false,
-            message: 'فشلت عملية إضافة المنتج',
-            context: context);
+        snackBar(success: false, message: 'فشلت عملية إضافة المنتج', context: context);
         Navigator.of(context).pop();
       }
     } else if (productIds == null) {
@@ -135,10 +121,6 @@ class _AddProductsViewState extends State<AddProductsView> {
       converter: (store) => store.state,
       distinct: true,
       builder: (context, state) {
-        List<WarehouseEntity> warehouses = [
-          // WarehouseEntity(name: 'جميع المستودعات', id: 0)
-        ];
-        warehouses.addAll(state.generalInformationState.warehouses);
         return Scaffold(
           appBar: AppBar(
             backgroundColor: const Color.fromARGB(255, 210, 178, 2),
@@ -150,25 +132,18 @@ class _AddProductsViewState extends State<AddProductsView> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Opacity(
-                          opacity: 0.0,
-                          child:
-                              Icon(Icons.home, color: Colors.white, size: 40)),
+                      const Opacity(opacity: 0.0, child: Icon(Icons.home, color: Colors.white, size: 40)),
                       Padding(
                         padding: const EdgeInsets.only(top: 5.0),
                         child: Transform.scale(
                           scale: 2,
                           child: InkWell(
                             onTap: () {
-                              StoreProvider.of<AppState>(context)
-                                  .dispatch(SetPageIndex(index: 0));
+                              StoreProvider.of<AppState>(context).dispatch(SetPageIndex(index: 0));
                               Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  HomePage.routeName,
-                                  (Route<dynamic> route) => false);
+                                  context, HomePage.routeName, (Route<dynamic> route) => false);
                             },
-                            child: Image.asset('assets/logobw.png',
-                                width: 150, height: 50),
+                            child: Image.asset('assets/logobw.png', width: 150, height: 50),
                           ),
                         ),
                       ),
@@ -176,8 +151,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                         padding: const EdgeInsets.only(top: 5.0, left: 0),
                         child: IconButton(
                           onPressed: () => Navigator.of(context).pop(true),
-                          icon: const Icon(Icons.arrow_forward_ios,
-                              color: Colors.white, size: 40),
+                          icon: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 40),
                         ),
                       ),
                     ],
@@ -189,45 +163,32 @@ class _AddProductsViewState extends State<AddProductsView> {
           backgroundColor: Colors.white,
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 25.0, bottom: 8, left: 8, right: 8),
+              padding: const EdgeInsets.only(top: 25.0, bottom: 8, left: 8, right: 8),
               child: isLoading
                   ? const Center(child: Loader())
                   : ListView(
                       shrinkWrap: true,
                       children: [
-                        Text('يرجى إختيار المستودع التابع لهذه المادة',
-                            style: boldStyle),
-
+                        Text('يرجى إختيار المستودع التابع لهذه المادة', style: boldStyle),
                         ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 0.0),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                           title: Column(
                             children: state.generalInformationState.subWarehouses
                                 .map((data) => Container(
-                                      decoration: const BoxDecoration(
-                                          color: Colors.white),
+                                      decoration: const BoxDecoration(color: Colors.white),
                                       child: RadioListTile(
-                                        controlAffinity:
-                                            ListTileControlAffinity.trailing,
-                                        activeColor:
-                                            Theme.of(context).primaryColor,
-                                        title:
-                                            Text(data.name, style: mainStyle),
+                                        controlAffinity: ListTileControlAffinity.trailing,
+                                        activeColor: Theme.of(context).primaryColor,
+                                        title: Text(data.name, style: mainStyle),
                                         groupValue: _selectedSubWarehouseValue,
                                         value: data.id,
-                                        onChanged: (val) => setState(() =>
-                                            _selectedSubWarehouseValue =
-                                                data.id),
+                                        onChanged: (val) => setState(() => _selectedSubWarehouseValue = data.id),
                                       ),
                                     ))
                                 .toList(),
                           ),
                         ),
-                        ProductEntryField(
-                            controller: nameController,
-                            title: 'اسم المنتج',
-                            hint: 'زيت سولينا'),
+                        ProductEntryField(controller: nameController, title: 'اسم المنتج', hint: 'زيت سولينا'),
                         ProductEntryField(
                             controller: descriptionController,
                             title: descriptionString,
@@ -250,9 +211,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                                 controller: priceFactorController,
                                 title: priceFactorString,
                                 hint: '1',
-                                textInputType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: true),
+                                textInputType: const TextInputType.numberWithOptions(decimal: true),
                                 width: MediaQuery.of(context).size.width / 4),
                           ],
                         ),
@@ -268,82 +227,58 @@ class _AddProductsViewState extends State<AddProductsView> {
                                 controller: priceController,
                                 title: priceString,
                                 hint: '5000',
-                                textInputType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: true),
+                                textInputType: const TextInputType.numberWithOptions(decimal: true),
                                 width: MediaQuery.of(context).size.width / 3),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            TextButton(
-                                child: Icon(Icons.camera, color: kmColors),
-                                onPressed: () => getImageCamera()),
-                            TextButton(
-                                child: Icon(Icons.image, color: kmColors),
-                                onPressed: () => getImageGallery()),
+                            TextButton(child: Icon(Icons.camera, color: kmColors), onPressed: () => getImageCamera()),
+                            TextButton(child: Icon(Icons.image, color: kmColors), onPressed: () => getImageGallery()),
                             Container(
                               width: 80,
                               margin: const EdgeInsets.all(15.0),
                               padding: const EdgeInsets.all(3.0),
                               decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0)),
-                                  border: Border.all(
-                                      color: switchController
-                                          ? kmColors2
-                                          : searchGreyColor,
-                                      width: 2)),
+                                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                  border: Border.all(color: switchController ? kmColors2 : searchGreyColor, width: 2)),
                               child: Switch(
                                 value: switchController,
-                                onChanged: (value) =>
-                                    setState(() => switchController = value),
+                                onChanged: (value) => setState(() => switchController = value),
                                 activeTrackColor: kmColors2,
                                 activeColor: kmColors,
                               ),
                             ),
                           ],
                         ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text('السماح بتفعيل المنتاج تلقائيا',
-                                  style: boldStyle),
-                              Container(
-                                width: 80,
-                                margin: const EdgeInsets.all(15.0),
-                                padding: const EdgeInsets.all(3.0),
-                                decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10.0)),
-                                    border: Border.all(
-                                        color: autoActivationController
-                                            ? kmColors2
-                                            : searchGreyColor,
-                                        width: 2)),
-                                child: Switch(
-                                  value: autoActivationController,
-                                  onChanged: (value) => setState(
-                                      () => autoActivationController = value),
-                                  activeTrackColor: kmColors2,
-                                  activeColor: kmColors,
-                                ),
-                              ),
-                            ]),
+                        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                          Text('السماح بتفعيل المنتاج تلقائيا', style: boldStyle),
+                          Container(
+                            width: 80,
+                            margin: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsets.all(3.0),
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                border: Border.all(
+                                    color: autoActivationController ? kmColors2 : searchGreyColor, width: 2)),
+                            child: Switch(
+                              value: autoActivationController,
+                              onChanged: (value) => setState(() => autoActivationController = value),
+                              activeTrackColor: kmColors2,
+                              activeColor: kmColors,
+                            ),
+                          ),
+                        ]),
                         if (_image != null)
-                          SelectedFileToUpload(
-                              image: _image,
-                              name: '',
-                              close: () => setState(() => _image = null)),
+                          SelectedFileToUpload(image: _image, name: '', close: () => setState(() => _image = null)),
                         KammunButton(
                           height: 50,
                           text: save,
                           color: toastList() == 0 ? kmColors2 : searchGreyColor,
                           onTap: () {
                             if (toastList() == 0) {
-                              _addNewProduct(
-                                  barcode: widget.barcode, context: context);
+                              _addNewProduct(barcode: widget.barcode, context: context);
                             } else {
                               Toast.show(
                                   'يرجى ادخال البيانات التالية:\n' +

@@ -102,11 +102,11 @@ class OrdersFilterWidget extends StatelessWidget {
                     children: [
                       DropdownButton(
                         value: state.ordersState.warehouseFilter,
-                        items: warehouses.map((warehouse) {
-                          return DropdownMenuItem<int>(
-                              child: Center(child: Text(warehouse.name, style: dropdownItemStyle)),
-                              value: warehouse.id);
-                        }).toList(),
+                        items: warehouses
+                            .map((warehouse) => DropdownMenuItem<int>(
+                                child: Center(child: Text(warehouse.name, style: dropdownItemStyle)),
+                                value: warehouse.id))
+                            .toList(),
                         onChanged: (value) {
                           store.dispatch(SetWarehouseFilter(filter: value));
                           store.dispatch(SetOrdersPage(page: 1));
