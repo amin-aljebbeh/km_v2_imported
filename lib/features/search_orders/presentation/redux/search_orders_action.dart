@@ -19,6 +19,7 @@ class SearchOrderAction implements SearchOrdersAction {
   @override
   handle({Store<AppState> store}) {
     ApiProvider.cancelOrdersRequests();
+    store.dispatch(SetSearchOrders(orders: []));
     store.dispatch(StartLoading());
     store.dispatch(SetSearchOrdersType(searchOrdersType: searchOrdersType));
     switch (searchOrdersType) {
@@ -49,7 +50,6 @@ class GetOrderAction implements SearchOrdersAction {
     either.fold((failure) {}, (response) {
       GetOrderResponseEntity order = response;
       store.dispatch(SetSearchOrders(orders: [order.order]));
-
     });
     store.dispatch(StopLoading());
   }

@@ -30,6 +30,7 @@ class SearchOrdersFilterWidget extends StatelessWidget {
                 items: Services.dropdownStringList(phoneOrderStatus),
                 onChanged: (value) {
                   store.dispatch(SetSearchStatusFilter(filter: value));
+                  Navigator.pop(context);
                   store.dispatch(
                       SearchOrderAction(searchOrdersType: state.searchOrdersState.searchOrdersType, context: context));
                 },
@@ -43,6 +44,7 @@ class SearchOrdersFilterWidget extends StatelessWidget {
                     if (state.searchOrdersState.page < 14) {
                       store.dispatch(SetSearchPage(page: state.searchOrdersState.page + 1));
                     }
+                    Navigator.pop(context);
                     store.dispatch(SearchOrderAction(
                         context: context, searchOrdersType: state.searchOrdersState.searchOrdersType));
                   },
@@ -55,6 +57,7 @@ class SearchOrdersFilterWidget extends StatelessWidget {
                 items: Services.dropdownIntList(inputList: dropdownValues),
                 onChanged: (value) {
                   store.dispatch(SetSearchPage(page: value));
+                  Navigator.pop(context);
                   store.dispatch(
                       SearchOrderAction(context: context, searchOrdersType: state.searchOrdersState.searchOrdersType));
                 },
@@ -67,6 +70,7 @@ class SearchOrdersFilterWidget extends StatelessWidget {
                     if (state.searchOrdersState.page > 1) {
                       store.dispatch(SetSearchPage(page: state.searchOrdersState.page - 1));
                     }
+                    Navigator.pop(context);
                     store.dispatch(SearchOrderAction(
                         context: context, searchOrdersType: state.searchOrdersState.searchOrdersType));
                   },
