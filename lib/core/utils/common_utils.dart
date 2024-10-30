@@ -16,7 +16,6 @@ enum InventoryTypes {
   barcode,
   prices,
   subWarehouse,
-  shopper,
   error
 }
 
