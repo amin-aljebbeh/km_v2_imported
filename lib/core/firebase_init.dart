@@ -59,14 +59,13 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
             } else {
               if (firebaseToken != admin.firebaseToken) GeneralApis.updateFirebaseTokenService(firebaseToken);
             }
-            FirebaseMessaging.instance.getToken().catchError((e) {
-              setState(() => initialized1 = true);
+            FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+              prefs.setString('FCM_token_v3', newToken);
+              if (prefs.getString('userToken') != null) GeneralApis.updateFirebaseTokenService(newToken);
             });
             FirebaseMessaging.onMessage.listen((RemoteMessage message) {
               if (message.data['type'] != null) {
-                if (message.data['type'] == 1) {
-                  KammunRestart.restartApp(context);
-                }
+                if (message.data['type'] == 1) KammunRestart.restartApp(context);
               }
               if (message.notification != null) {
                 entry = showOverlayNotification(
@@ -105,8 +104,9 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
           } else {
             if (firebaseToken != admin.firebaseToken) GeneralApis.updateFirebaseTokenService(firebaseToken);
           }
-          FirebaseMessaging.instance.getToken().catchError((e) {
-            setState(() => initialized1 = true);
+          FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+            prefs.setString('FCM_token_v3', newToken);
+            if (prefs.getString('userToken') != null) GeneralApis.updateFirebaseTokenService(newToken);
           });
           FirebaseMessaging.onMessage.listen((RemoteMessage message) {
             if (message.notification != null) {
