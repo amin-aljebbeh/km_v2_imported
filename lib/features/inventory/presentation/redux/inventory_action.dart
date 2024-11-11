@@ -95,9 +95,6 @@ class GetInventory implements InventoryAction {
       case InventoryTypes.subWarehouse:
         store.dispatch(GetSubWarehouseProductsAction());
         break;
-      case InventoryTypes.shopper:
-        // TODO: Handle this case.
-        break;
       case InventoryTypes.error:
         store.dispatch(GetErrorProductsAction());
         break;
