@@ -21,7 +21,7 @@ class ProductEntity {
   int productCount;
   final List<CategoryEntity> categories;
   final List<WarehouseEntity> warehouses;
-  final int isFeatured;
+  int isFeatured;
   int priority;
   final double minThreshold;
   int increasePercentage;

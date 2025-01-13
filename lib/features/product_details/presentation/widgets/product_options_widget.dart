@@ -3,6 +3,7 @@ import 'package:kammun_app/features/products/domain/entities/product_entity.dart
 
 import '../../../../core/core_importer.dart';
 import '../../../products_view/services/products_services.dart';
+import 'featured_product_widget.dart';
 
 class ProductOptionsWidget extends StatelessWidget {
   final ProductEntity product;
@@ -80,6 +81,8 @@ class ProductOptionsWidget extends StatelessWidget {
           ),
         if (Services.hasRole(context, productsControllerRole))
           PrimeProductWidget(product: ProductEntity(productId: product.productId, isPrimeItem: product.isPrimeItem)),
+        if (Services.hasPermission(context, updateIncreasePercentagePermission))
+          FeaturedProductWidget(product: product),
         AddImageWidget(
           onSubmit: (image) async {
             bool result = await ProductsServices.setImageToProducts(productId: product.productId, image: image);
