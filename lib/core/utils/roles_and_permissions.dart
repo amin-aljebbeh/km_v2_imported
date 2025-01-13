@@ -16,6 +16,7 @@ String advancedTransactionPermission = 'advanced-transaction-view';
 String targetInventoryPermission = 'target-inventory';
 String updateIncreasePercentagePermission = 'update-increase-percentage';
 String viewAdminPanelPermission = 'view-admin-panel';
+String viewAllOrdersPermission = 'view-all-orders';
 String advancedAdminPanelPermission = 'advanced-admin-panel';
 String assignOrderPermission = 'assign-order-shopper';
 String upDateProductPermission = 'update-product-warehouse';
