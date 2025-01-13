@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/core_importer.dart';
 import '../../../products/domain/entities/category_products_pagination_entity.dart';
 import '../../data/models/special_products_model.dart';
+import '../../domain/entities/banner_entity.dart';
 import 'home_state.dart';
 
 abstract class HomeAction {
@@ -26,6 +27,24 @@ class SetHomeLoadingAction {
   SetHomeLoadingAction({this.loading});
 }
 
+class SetBannerAction {
+  final List<BannerEntity> banners;
+
+  SetBannerAction({this.banners});
+}
+
+class GetBannersAction extends HomeAction {
+  @override
+  handle({Store<AppState> store, HomeState state}) async {
+    Either either = await store.state.homeState.homeUseCases.getBannersUseCase();
+    either.fold((failure) {}, (response) {
+      List<BannerEntity> banners = response;
+      banners.removeWhere((banner) => banner.warehouseId!=store.state.adminsState.admin.warehouseId);
+      store.dispatch(SetBannerAction(banners: banners));
+    });
+  }
+}
+
 class GetSpecialProductsAction extends HomeAction {
   GetSpecialProductsAction();
 
@@ -39,16 +58,14 @@ class GetSpecialProductsAction extends HomeAction {
       CategoryProductsPaginationEntity page = response;
       if (page != null) {
         if (page.products.isNotEmpty) {
-          if (page.products.where((product) => product.isActive == '1').toList().isNotEmpty) {
             specialProducts.add(SpecialProductsModel(
                 title: 'المنتجات المميزة',
-                products: page.products.where((product) => product.isActive == '1').toList(),
+                products: page.products,
                 totalNumber: page.total.toString(),
                 productsViewTypes: ProductsViewTypes.featured,
                 url: featuredProductsApi,
                 nonActiveNumber: page.products.where((product) => product.isActive == '0').length,
                 hasNext: page.nextPageUrl != null));
-          }
         }
       }
     });
@@ -57,16 +74,14 @@ class GetSpecialProductsAction extends HomeAction {
       CategoryProductsPaginationEntity page = response;
       if (page != null) {
         if (page.products.isNotEmpty) {
-          if (page.products.where((product) => product.isActive == '1').toList().isNotEmpty) {
             specialProducts.add(SpecialProductsModel(
                 title: 'المضافة حديثاً',
-                products: page.products.where((product) => product.isActive == '1').toList(),
+                products: page.products,
                 totalNumber: page.total.toString(),
                 url: featuredProductsApi,
                 productsViewTypes: ProductsViewTypes.newlyAdded,
                 nonActiveNumber: page.products.where((product) => product.isActive == '0').length,
                 hasNext: page.nextPageUrl != null));
-          }
         }
       }
     });

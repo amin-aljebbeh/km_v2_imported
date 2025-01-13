@@ -224,9 +224,9 @@ class GeneralApis {
 
   static Future<bool> fetchStartInformation({BuildContext context}) async {
     try {
-      StoreProvider.of<AppState>(context).dispatch(CheckVersion(context: context));
-      SharedPreferences prefs = sl<SharedPreferences>();
       var store = StoreProvider.of<AppState>(context);
+      store.dispatch(CheckVersion(context: context));
+      SharedPreferences prefs = sl<SharedPreferences>();
       List responses;
       responses = await Future.wait([
         getSupportedCity(context),
@@ -235,6 +235,7 @@ class GeneralApis {
         GeneralApis.getWarehousesService(context: context),
         Services.initializeVariables(context)
       ]);
+      store.dispatch(GetBannersAction());
       if (Services.hasPermission(context, updateIncreasePercentagePermission)) {
         store.dispatch(GetSpecialProductsAction());
       }

@@ -50,6 +50,8 @@ class GetAdminAction implements AdminsAction {
     Either either = await store.state.adminsState.adminsUseCases.getAdminUseCase(adminId: adminId);
     either.fold((failure) {}, (response) async {
       AdminLoginResponseEntity result = response;
+      Tools.logToConsole('admin_warehouse_id');
+      Tools.logToConsole(result.admin.warehouseId);
       store.dispatch(SetAdmin(admin: result.admin));
       if (result.admin.roles.isNotEmpty) {
         if (result.admin.shopper != null) {

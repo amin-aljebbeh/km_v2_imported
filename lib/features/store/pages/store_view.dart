@@ -3,7 +3,7 @@ import 'package:kammun_app/features/store/widgets/store_view_category_grid.dart'
 import '../../../core/core_importer.dart';
 import '../../home/presentation/widgets/special_products_view.dart';
 import '../widgets/categories_title.dart';
-import '../widgets/image_carousel.dart';
+import '../widgets/k_banner.dart';
 import '../widgets/store_app_bar.dart';
 
 class StoreView extends StatelessWidget {
@@ -28,7 +28,7 @@ class StoreView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const ImageCarousel(),
+                  const KBanner(),
                   state.homeState.loading
                       ? SizedBox(
                           width: MediaQuery.of(context).size.width,

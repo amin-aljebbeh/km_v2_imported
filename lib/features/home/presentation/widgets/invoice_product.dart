@@ -3,21 +3,12 @@ import 'package:kammun_app/features/products/domain/entities/product_entity.dart
 import '../../../../core/core_importer.dart';
 import '../../../product_details/presentation/pages/product_detail_view.dart';
 
-class InvoiceProduct extends StatefulWidget {
+class InvoiceProduct extends StatelessWidget {
   final ProductEntity product;
   final int index;
   final bool forInvoice;
+
   const InvoiceProduct({Key key, this.product, this.index, this.forInvoice = true}) : super(key: key);
-
-  @override
-  _InvoiceProductState createState() => _InvoiceProductState();
-}
-
-class _InvoiceProductState extends State<InvoiceProduct> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +17,9 @@ class _InvoiceProductState extends State<InvoiceProduct> {
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: GestureDetector(
-            onTap: () => goToProduct(context: context, state: state),
+          child: InkWell(
+            onTap: () => Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ProductDetailView(product: product))),
             child: KCard(
               radius: const BorderRadius.all(Radius.circular(20)),
               child: Padding(
@@ -38,23 +30,23 @@ class _InvoiceProductState extends State<InvoiceProduct> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       KCacheImage(
-                          tag: widget.product.productId,
-                          image: widget.product.images.isNotEmpty ? widget.product.images[0].imageFileName : ''),
+                          tag: product.productId,
+                          image: product.images.isNotEmpty ? product.images[0].imageFileName : ''),
                       Text(
-                        widget.product.name.split(' ').length <= 2
-                            ? widget.product.name
-                            : widget.product.name.split(' ')[0] +
-                                ' ' +
-                                (widget.product.name.split(' ')[1] ?? ' ') +
-                                '...',
+                        product.name.split(' ').length <= 2
+                            ? product.name
+                            : product.name.split(' ')[0] +
+                            ' ' +
+                            (product.name.split(' ')[1] ?? ' ') +
+                            '...',
                         textAlign: TextAlign.center,
                         style: textFieldStyle,
                       ),
                       Text(
-                              widget.product.unit.toString() != 'null'
-                                  ? widget.product.quantity.split('.')[0] + ' ' + widget.product.unit
-                                  : widget.product.quantity.split('.')[0],
-                              style: invoiceProductStyle),
+                          product.unit.toString() != 'null'
+                              ? product.quantity.split('.')[0] + ' ' + product.unit
+                              : product.quantity.split('.')[0],
+                          style: invoiceProductStyle),
                     ],
                   ),
                 ),
@@ -64,9 +56,5 @@ class _InvoiceProductState extends State<InvoiceProduct> {
         );
       },
     );
-  }
-
-  goToProduct({BuildContext context, AppState state}) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailView(product: widget.product)));
   }
 }
