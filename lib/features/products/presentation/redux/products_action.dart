@@ -1,8 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
+import 'package:kammun_app/features/products/presentation/redux/products_state.dart';
 
 import '../../domain/entities/category_products_entity.dart';
+import '../../domain/entities/category_products_pagination_entity.dart';
 
 abstract class ProductsAction {
   handle({@required Store<AppState> store});
@@ -20,6 +22,12 @@ class GetProductsAction extends ProductsAction {
         break;
       case ProductsViewTypes.barcode:
         store.dispatch(GetBarcodeProductsAction());
+        break;
+      case ProductsViewTypes.featured:
+        store.dispatch(GetFeaturedProductsAction());
+        break;
+      case ProductsViewTypes.newlyAdded:
+        store.dispatch(GetNewlyAddedProductsAction());
         break;
     }
   }
@@ -59,8 +67,7 @@ class SearchProductsAction extends ProductsAction {
           query: store.state.productsState.searchString, pageNumber: store.state.productsState.productsPage);
       either.fold(
           (failure) => store.dispatch(
-              CatchError(errorMessage: 'عذراً المنتح الذي تبحث عنه غير موجود \n نأمل أن يتوفر بأقرب وقت')),
-          (response) {
+              CatchError(errorMessage: 'عذراً المنتح الذي تبحث عنه غير موجود \n نأمل أن يتوفر بأقرب وقت')), (response) {
         CategoryProductsEntity categoryProducts = response;
         List<ProductEntity> products = [];
         products.addAll(store.state.productsState.products);
@@ -88,6 +95,52 @@ class GetBarcodeProductsAction extends ProductsAction {
       List<ProductEntity> barcodeProducts = response;
       store.dispatch(SetProducts(products: barcodeProducts));
       store.dispatch(EndOfProducts(endOfProducts: true));
+    });
+    store.dispatch(StopLoading());
+  }
+}
+
+class GetFeaturedProductsAction extends ProductsAction {
+  @override
+  handle({Store<AppState> store, ProductsState state}) async {
+    store.dispatch(StartLoading());
+    Either either = await store.state.productsState.productsUSeCases
+        .getFeaturedProductsUseCase(pageNumber: store.state.productsState.productsPage);
+    either.fold(
+        (failure) => store
+            .dispatch(CatchError(errorMessage: 'حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت')),
+        (response) {
+          CategoryProductsPaginationEntity categoryProducts = response;
+      List<ProductEntity> products = [];
+      products.addAll(store.state.productsState.products);
+      products.addAll(categoryProducts.products);
+      store.dispatch(SetProducts(products: products));
+      if (categoryProducts.lastPage == store.state.productsState.productsPage) {
+        store.dispatch(EndOfProducts(endOfProducts: true));
+      }
+    });
+    store.dispatch(StopLoading());
+  }
+}
+
+class GetNewlyAddedProductsAction extends ProductsAction {
+  @override
+  handle({Store<AppState> store, ProductsState state}) async {
+    store.dispatch(StartLoading());
+    Either either = await store.state.productsState.productsUSeCases
+        .getNewlyAddedProductsUseCase(pageNumber: store.state.productsState.productsPage);
+    either.fold(
+        (failure) => store
+            .dispatch(CatchError(errorMessage: 'حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت')),
+        (response) {
+      CategoryProductsPaginationEntity categoryProducts = response;
+      List<ProductEntity> products = [];
+      products.addAll(store.state.productsState.products);
+      products.addAll(categoryProducts.products);
+      store.dispatch(SetProducts(products: products));
+      if (categoryProducts.lastPage == store.state.productsState.productsPage) {
+        store.dispatch(EndOfProducts(endOfProducts: true));
+      }
     });
     store.dispatch(StopLoading());
   }

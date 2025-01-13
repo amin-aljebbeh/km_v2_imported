@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/home/presentation/redux/home_action.dart';
+
 import '../features/admins/presentation/redux/admins_action.dart';
 import '../features/general_information/data/models/supported_city_model.dart';
 import '../features/general_information/data/models/warehouse_model.dart';
@@ -233,6 +235,9 @@ class GeneralApis {
         GeneralApis.getWarehousesService(context: context),
         Services.initializeVariables(context)
       ]);
+      if (Services.hasPermission(context, updateIncreasePercentagePermission)) {
+        store.dispatch(GetSpecialProductsAction());
+      }
       if (Services.hasRole(context, operationManagerRole) ||
           Services.hasRole(context, adminRole) ||
           Services.hasRole(context, accountingRole)) {

@@ -4,6 +4,8 @@ import '../features/products/data/repositories/products_repository_implement.dar
 import '../features/products/domain/repositories/products_repository.dart';
 import '../features/products/domain/use_cases/get_barcode_products_use_case.dart';
 import '../features/products/domain/use_cases/get_category_products_use_case.dart';
+import '../features/products/domain/use_cases/get_featured_products_use_case.dart';
+import '../features/products/domain/use_cases/get_newly_added_products_use_case.dart';
 import '../features/products/domain/use_cases/products_use_cases.dart';
 import '../features/products/domain/use_cases/search_products_use_case.dart';
 
@@ -11,8 +13,14 @@ Future<void> injectProducts() async {
   sl.registerLazySingleton(() => GetBarcodeProductsUseCase(productsRepository: sl()));
   sl.registerLazySingleton(() => GetCategoryProductsUseCase(productsRepository: sl()));
   sl.registerLazySingleton(() => SearchProductsUseCase(productsRepository: sl()));
-  sl.registerLazySingleton<ProductsUSeCases>(() =>
-      ProductsUSeCases(getBarcodeProductsUseCase: sl(), getCategoryProductsUseCase: sl(), searchProductsUseCase: sl()));
+  sl.registerLazySingleton(() => GetNewlyAddedProductsUseCase(productsRepository: sl()));
+  sl.registerLazySingleton(() => GetFeaturedProductsUseCase(productsRepository: sl()));
+  sl.registerLazySingleton<ProductsUSeCases>(() => ProductsUSeCases(
+      getBarcodeProductsUseCase: sl(),
+      getCategoryProductsUseCase: sl(),
+      searchProductsUseCase: sl(),
+      getFeaturedProductsUseCase: sl(),
+      getNewlyAddedProductsUseCase: sl()));
   sl.registerLazySingleton<ProductsRepository>(
       () => ProductsRepositoryImplement(productsRemoteDataSource: sl(), repositoryFactory: sl()));
   sl.registerLazySingleton<ProductsRemoteDataSource>(() => ProductsRemoteDataSourceImplement());

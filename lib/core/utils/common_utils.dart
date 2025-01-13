@@ -23,7 +23,7 @@ enum DateFilter { day, month, year }
 
 enum BarcodeRequestType { addBarcode, search, addProduct, attachProduct }
 
-enum ProductsViewTypes { search, category, barcode }
+enum ProductsViewTypes { search, category, barcode, featured, newlyAdded}
 
 enum FilteredProductsTypes { lastActivation, numberOfSales, numberOfVisits, deleted }
 

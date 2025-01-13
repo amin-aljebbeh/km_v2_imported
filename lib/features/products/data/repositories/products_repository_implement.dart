@@ -5,6 +5,8 @@ import 'package:kammun_app/features/products/domain/entities/category_products_e
 import 'package:kammun_app/features/products/domain/entities/product_entity.dart';
 import 'package:kammun_app/features/products/domain/repositories/products_repository.dart';
 
+import '../../domain/entities/category_products_pagination_entity.dart';
+
 class ProductsRepositoryImplement implements ProductsRepository {
   final ProductsRemoteDataSource productsRemoteDataSource;
   final RepositoryFactory repositoryFactory;
@@ -48,6 +50,40 @@ class ProductsRepositoryImplement implements ProductsRepository {
     try {
       CategoryProductsEntity products =
           await productsRemoteDataSource.searchProducts(query: query, pageNumber: pageNumber);
+      return Right(products);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
+  }
+
+
+
+  @override
+  Future<Either<Failure, CategoryProductsPaginationEntity>> getFeaturedProducts({int pageNumber}) async {
+    try {
+      CategoryProductsPaginationEntity products = await productsRemoteDataSource.getFeaturedProducts(pageNumber: pageNumber);
+      return Right(products);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, CategoryProductsPaginationEntity>> getNewlyAddedProducts({int pageNumber}) async {
+    try {
+      CategoryProductsPaginationEntity products = await productsRemoteDataSource.getNewlyAddedProducts(pageNumber: pageNumber);
       return Right(products);
     } on CacheException {
       return Left(CacheFailure());
