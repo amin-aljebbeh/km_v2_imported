@@ -47,3 +47,7 @@ TextStyle warningStyle = paragraphStyle.copyWith(color: Colors.red);
 TextStyle homeIconStyle = mainStyle.copyWith(color: primaryColor, fontSize: 15);
 
 TextStyle homeActiveIconStyle = homeIconStyle.copyWith(fontWeight: FontWeight.w500);
+
+TextStyle textFieldStyle = mainStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 16.0, color: Colors.black);
+
+TextStyle invoiceProductStyle = mainStyle.copyWith(color: primaryColor, fontWeight: FontWeight.w500, fontSize: 15);

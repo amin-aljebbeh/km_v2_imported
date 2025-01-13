@@ -96,7 +96,7 @@ class OrdersFilterWidget extends StatelessWidget {
                       store.dispatch(GetOrdersAction(context: context));
                     },
                   ),
-                if (Services.hasRole(context, agentRole))
+                if (Services.hasRole(context, agentRole)||Services.hasPermission(context, viewAllOrdersPermission))
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [

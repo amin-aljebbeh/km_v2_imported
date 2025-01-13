@@ -17,6 +17,7 @@ class CartRemoteDataSourceImplement implements CartRemoteDataSource {
         url: orderApi + orderId.toString(), method: HttpMethods.put, body: jsonEncode(submitOrderModel.toJson()));
     try {
       if (response != null) {
+        /// Why do we handle both [successCode] and [badRequestError] the same way?
         if (response.statusCode == successCode || response.statusCode == badRequestError) {
           return updateOrderModelFromJson(jsonEncode(response.data));
         }
