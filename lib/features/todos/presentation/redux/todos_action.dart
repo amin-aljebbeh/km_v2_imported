@@ -60,12 +60,8 @@ class ResolveTodoAction implements TodosAction {
 
     Either either = await store.state.todosState.todosUseCase
         .resolveTodoUseCase(note: note, todoTagResolverId: todoRagResolverId, todoId: todoId);
-    either.fold((failure) {
-      store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));
-    }, (response) {
-      Tools.logToConsole('message success');
-      snackBar(message: 'تم تحديث الحالة بنجاح', context: context, success: true);
-    });
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
+        (response) => snackBar(message: 'تم تحديث الحالة بنجاح', context: context, success: true));
     store.dispatch(StopLoading());
   }
 }

@@ -39,7 +39,6 @@ class GetBannersAction extends HomeAction {
     Either either = await store.state.homeState.homeUseCases.getBannersUseCase();
     either.fold((failure) {}, (response) {
       List<BannerEntity> banners = response;
-      banners.removeWhere((banner) => banner.warehouseId!=store.state.adminsState.admin.warehouseId);
       store.dispatch(SetBannerAction(banners: banners));
     });
   }
