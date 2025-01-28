@@ -56,7 +56,7 @@ class AdminOrderInfoWidget extends StatelessWidget {
                         store.dispatch(GetUserCouponsAction(userId: order.user.id));
                       },
                     ),
-                  if (Services.hasRole(context, operationManagerRole))
+                  if (Services.hasPermission(context, viewWhatsappIconPermission))
                     MediaIcon(
                         icon: Icons.whatsapp, url: 'customer_whatsapp', mobileNumber: order.user.phone),
                   if (Services.hasRole(context, operationManagerRole))
