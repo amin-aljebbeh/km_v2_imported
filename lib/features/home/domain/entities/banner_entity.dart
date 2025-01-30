@@ -8,7 +8,7 @@ class BannerEntity extends Equatable {
     this.imageFileName,
     this.expirationDate,
     this.warehouseId,
-    this.bannerLink
+    this.bannerLink,
   });
 
   final int id;

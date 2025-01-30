@@ -36,7 +36,7 @@ class BannerModel extends BannerEntity {
         title: json['title'],
         description: json['description'],
         imageFileName: json['image_file_name'],
-        expirationDate: DateTime.parse(json['expiration_date']),
+        expirationDate: json['expiration_date'] == null ? null : DateTime.parse(json['expiration_date']),
         warehouseId: json['warehouse_id'],
         bannerLink: json['banner_link'],
       );

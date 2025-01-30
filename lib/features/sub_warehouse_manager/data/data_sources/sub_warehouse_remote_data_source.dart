@@ -39,15 +39,15 @@ class ExcelInventoryRemoteDataSourceImplement implements SubWarehouseManagerRemo
   @override
   Future<PriceFileProductModel> importProductPricesInWarehouse({String subWarehouseId, File file}) async {
     http.StreamedResponse response;
-    Tools.logToConsole(baseUrl + '/api/' + importProductPricesInWareHouseApi);
+    // Tools.logToConsole(baseUrl + '/api/' + importProductPricesInWareHouseApi);
     var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
     var request = http.MultipartRequest('POST', Uri.parse(baseUrl + '/api/' + importProductPricesInWareHouseApi));
     request.fields.addAll({'sub_warehouse_id': subWarehouseId});
     request.files.add(await http.MultipartFile.fromPath('file', file.path));
     request.headers.addAll(headers);
     response = await request.send();
-    Tools.logToConsole('response');
-    Tools.logToConsole(response);
+    // Tools.logToConsole('response');
+    // Tools.logToConsole(response);
     try {
       // Tools.logToConsole(await response.stream.bytesToString());
       if (response.statusCode == successCode) {

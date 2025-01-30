@@ -101,4 +101,4 @@ const String monthlyShopperReportsApi = shopperApi + 'monthly_shopper_reports/';
 const String shopperReportApi = shopperApi + 'shopper_report/';
 const String shopperActivityHoursApi = shopperApi + 'shopper_activity_hours/';
 const String supplierAccountStatementApi = supplierApi + 'account_statement/';
-const String bannerApi = 'banner/';
+const String bannerApi = adminV3 + 'banners/';
