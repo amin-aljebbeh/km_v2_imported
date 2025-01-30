@@ -236,7 +236,9 @@ class GeneralApis {
         Services.initializeVariables(context)
       ]);
       store.dispatch(GetBannersAction());
-      store.dispatch(GetSpecialProductsAction());
+      if (!Services.hasRole(context, shopperRole)) {
+        store.dispatch(GetSpecialProductsAction());
+      }
       if (Services.hasRole(context, operationManagerRole) ||
           Services.hasRole(context, adminRole) ||
           Services.hasRole(context, accountingRole)) {
