@@ -100,6 +100,7 @@ class OrdersFilterWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      /// todo: add to new widget
                       DropdownButton(
                         value: state.ordersState.warehouseFilter,
                         items: warehouses

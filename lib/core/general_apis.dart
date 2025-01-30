@@ -236,7 +236,7 @@ class GeneralApis {
         Services.initializeVariables(context)
       ]);
       store.dispatch(GetBannersAction());
-      if (Services.hasPermission(context, updateIncreasePercentagePermission)) {
+      if (!Services.hasRole(context, shopperRole)) {
         store.dispatch(GetSpecialProductsAction());
       }
       if (Services.hasRole(context, operationManagerRole) ||
