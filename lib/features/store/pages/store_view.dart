@@ -29,14 +29,16 @@ class StoreView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   const KBanner(),
-                  state.homeState.loading
-                      ? SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 4,
-                          child: const Center(child: Loader()))
-                      : state.homeState.specialProducts.isNotEmpty
-                          ? const SpecialProductsView()
-                          : Container(),
+                  !Services.hasRole(context, shopperRole)
+                      ? state.homeState.loading
+                          ? SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height / 4,
+                              child: const Center(child: Loader()))
+                          : state.homeState.specialProducts.isNotEmpty
+                              ? const SpecialProductsView()
+                              : Container()
+                      : Container(),
                   const CategoriesTitle(),
                   const StoreViewCategory()
                 ],
