@@ -17,6 +17,7 @@ Reducer<OrdersState> ordersReducer = combineReducers<OrdersState>([
   TypedReducer<OrdersState, SetSupportedCityFilter>(setSupportedCityId),
   TypedReducer<OrdersState, SetShopperNameFilter>(setShopperNameFilter),
   TypedReducer<OrdersState, SetTotalOrdersNumber>(seTotalOrdersNumber),
+  TypedReducer<OrdersState, SetCancelReasons>(setCancelReasons),
 ]);
 
 OrdersState setViewOrders(OrdersState state, SetViewOrders action) {
@@ -69,4 +70,8 @@ OrdersState setShopperNameFilter(OrdersState state, SetShopperNameFilter action)
 
 OrdersState seTotalOrdersNumber(OrdersState state, SetTotalOrdersNumber action) {
   return state.copyWith(totalOrdersNumber: action.totalNumber);
+}
+
+OrdersState setCancelReasons(OrdersState state, SetCancelReasons action) {
+  return state.copyWith(cancelReasons: action.reasons);
 }

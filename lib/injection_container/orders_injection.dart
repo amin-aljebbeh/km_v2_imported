@@ -1,5 +1,6 @@
 import 'package:kammun_app/features/orders/data/data_sources/orders_remote_data_source.dart';
 import 'package:kammun_app/features/orders/domain/repositories/orders_repository.dart';
+import 'package:kammun_app/features/orders/domain/use_cases/get_cancel_reasons_use_case.dart';
 import 'package:kammun_app/features/orders/domain/use_cases/orders_use_cases.dart';
 import 'package:kammun_app/features/orders/domain/use_cases/re_assign_order_use_case.dart';
 
@@ -24,9 +25,11 @@ Future<void> injectOrders() async {
   sl.registerLazySingleton(() => GetSupplierOrdersUseCase(ordersRepository: sl()));
   sl.registerLazySingleton(() => LockOrderUseCase(ordersRepository: sl()));
   sl.registerLazySingleton(() => UnlockOrderUseCase(ordersRepository: sl()));
+  sl.registerLazySingleton(() => GetCancelReasonsUseCase(ordersRepository: sl()));
   sl.registerLazySingleton<OrdersUSeCases>(() => OrdersUSeCases(
         reAssignOrderUseCase: sl(),
         updateOrderRatingUseCase: sl(),
+        getCancelReasonsUseCase: sl(),
         assignOrderToShopperUseCase: sl(),
         changeOrderStatusUseCase: sl(),
         getAllOrdersUseCase: sl(),
