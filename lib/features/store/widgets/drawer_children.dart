@@ -219,13 +219,14 @@ List<Widget> getDrawerChildren(BuildContext context) {
               builder: (context) => ManagementView(
                     title: adminPanel,
                     children: [
-                      SideBarRow(
-                          onTap: () {
-                            store.dispatch(InitReport());
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SalesReport()));
-                          },
-                          icon: Icons.table_view_rounded,
-                          text: 'تقرير المبيعات'),
+                      if (Services.hasPermission(context, viewReportPermission))
+                        SideBarRow(
+                            onTap: () {
+                              store.dispatch(InitReport());
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const SalesReport()));
+                            },
+                            icon: Icons.table_view_rounded,
+                            text: 'تقرير المبيعات'),
                       if (Services.hasPermission(context, advancedAdminPanelPermission))
                         Column(
                           children: [
