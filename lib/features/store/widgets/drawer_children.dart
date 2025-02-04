@@ -14,6 +14,7 @@ import '../../reports/presentation/pages/financial_report_page.dart';
 import '../../reports/presentation/pages/sales_charts.dart';
 import '../../reports/presentation/pages/sales_report.dart';
 import '../../shoppers/presentation/pages/shoppers_management_page.dart';
+import '../../shoppers/presentation/redux/shoppers_action.dart';
 import '../../shoppers_reports/presentation/pages/shopper_information_view.dart';
 import '../../sub_warehouse_manager/presentation/pages/sub_warehouse_manager_page.dart';
 import '../../supplier/presentation/pages/supplier_remaining_statment.dart';
@@ -39,8 +40,14 @@ List<Widget> getDrawerChildren(BuildContext context) {
           icon: Icons.task_rounded,
           text: 'المهام'),
     if (Services.hasRole(context, operationManagerRole))
-      const SideBarRow(
-          pushedRoute: ShopperManagementPage(), icon: Icons.supervisor_account_sharp, text: 'فريق التوصيل'),
+      SideBarRow(
+          onTap: () async {
+            StoreProvider.of<AppState>(context).dispatch(SetShoppers(shoppers: []));
+            StoreProvider.of<AppState>(context).dispatch(SetShoppersSearchFilter(searchFilter: ''));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const ShopperManagementPage()));
+          },
+          icon: Icons.supervisor_account_sharp,
+          text: 'فريق التوصيل'),
     if (Services.hasPermission(context, transactionPermission))
       SideBarRow(
         text: financial,
