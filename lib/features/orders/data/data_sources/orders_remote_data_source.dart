@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/core_importer.dart';
+import '../models/cancel_reason_model.dart';
 import '../models/change_order_status_response_model.dart';
 import '../models/lock_order_response_model.dart';
 import '../models/orders_model.dart';
@@ -23,7 +24,7 @@ abstract class OrdersRemoteDataSource {
 
   Future<OrdersPageDataModel> getShopperOrders({int orderStatusId, int pageNumber, CancelToken cancelToken});
 
-  Future<ChangeOrderStatusResponseModel> changeOrderStatus({int orderId, int statusId});
+  Future<ChangeOrderStatusResponseModel> changeOrderStatus({int orderId, int statusId, int cancelReasonId, String comment});
 
   Future<LockOrderResponseModel> lockOrder({int orderId});
 
@@ -34,6 +35,8 @@ abstract class OrdersRemoteDataSource {
   Future<Unit> reAssignOrder({int orderId});
 
   Future<Unit> updateOrderRating({int orderId, int deliveryRating});
+
+  Future<List<CancelReasonModel>> getCancelReasons();
 }
 
 class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
@@ -179,12 +182,16 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
   }
 
   @override
-  Future<ChangeOrderStatusResponseModel> changeOrderStatus({int orderId, int statusId}) async {
+  Future<ChangeOrderStatusResponseModel> changeOrderStatus(
+      {int orderId, int statusId, int cancelReasonId, String comment}) async {
+    Map<String, dynamic> body = {
+      'order_status_id': statusId.toString(),
+      'order_cancel_reason_id': cancelReasonId,
+      'cancel_reason_other': comment
+    };
+    body.removeWhere((key, value) => value == null);
     Response response = await ApiProvider.sendRequest(
-      url: changeOrderStatusApi + orderId.toString(),
-      method: HttpMethods.post,
-      body: {'order_status_id': statusId.toString()},
-    );
+        url: changeOrderStatusApi + orderId.toString(), method: HttpMethods.post, body: body);
     try {
       if (response != null) {
         if (response.statusCode == successCode) return changeStatusModelFromJson(jsonEncode(response.data));
@@ -201,6 +208,19 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
     try {
       if (response != null) {
         if (response.statusCode == successCode) return lockOrderModelFromJson(jsonEncode(response.data));
+      }
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<List<CancelReasonModel>> getCancelReasons() async {
+    Response response = await ApiProvider.sendRequest(url: getCancelReasonsApi, method: HttpMethods.get);
+    try {
+      if (response != null) {
+        if (response.statusCode == successCode) return cancelReasonResponseFromJson(jsonEncode(response.data)).reasons;
       }
     } catch (e) {
       throw (InternalException(message: e.toString()));

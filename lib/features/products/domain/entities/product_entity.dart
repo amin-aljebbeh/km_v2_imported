@@ -31,6 +31,7 @@ class ProductEntity {
   final int rate;
   final List<BarcodeEntity> barcodes;
   final int deleteTimes;
+  final int discountValue;
 
   final String alertProductsCount;
 
@@ -38,6 +39,7 @@ class ProductEntity {
 
   ProductEntity({
     this.productId,
+    this.discountValue,
     this.name,
     this.description,
     this.unit,

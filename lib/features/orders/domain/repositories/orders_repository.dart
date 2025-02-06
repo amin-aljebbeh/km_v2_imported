@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
+import 'package:kammun_app/features/orders/domain/entities/cancel_reason_entity.dart';
 
 import '../entities/change_order_status_response_entity.dart';
 import '../entities/lock_order_response_entity.dart';
@@ -25,7 +26,8 @@ abstract class OrdersRepository {
   Future<Either<Failure, OrdersPageDataEntity>> getShopperOrders(
       {int orderStatusId, int pageNumber, CancelToken cancelToken});
 
-  Future<Either<Failure, ChangeOrderStatusResponseEntity>> changeOrderStatus({int orderId, int statusId});
+  Future<Either<Failure, ChangeOrderStatusResponseEntity>> changeOrderStatus(
+      {int orderId, int statusId, int cancelReasonId, String comment});
 
   Future<Either<Failure, LockOrderResponseEntity>> lockOrder({int orderId});
 
@@ -36,4 +38,6 @@ abstract class OrdersRepository {
   Future<Either<Failure, Unit>> reAssignOrder({int orderId});
 
   Future<Either<Failure, Unit>> updateOrderRating({int orderId, int deliveryRating});
+
+  Future<Either<Failure, List<CancelReasonEntity>>> getCancelReasons();
 }

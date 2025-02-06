@@ -6,6 +6,8 @@ Color searchGreyColor = HexColor('e6e6e6');
 Color kmColors = const Color.fromARGB(255, 210, 178, 2);
 
 Color kmColors2 = HexColor('e5cb37');
+Color kmRed = HexColor('D61C1C');
+
 List<Color> warehousesColors = [primaryColor, kmColors, kmColors2];
 List<Color> requestStatusColors = [kmColors, Colors.green, Colors.red];
 

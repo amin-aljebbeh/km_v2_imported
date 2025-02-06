@@ -51,23 +51,7 @@ class GetSpecialProductsAction extends HomeAction {
   handle({Store<AppState> store, HomeState state}) async {
     store.dispatch(SetHomeLoadingAction(loading: true));
     List<SpecialProductsModel> specialProducts = [];
-    Either either = await store.state.productsState.productsUSeCases.getFeaturedProductsUseCase(pageNumber: 1);
 
-    either.fold((failure) {}, (response) {
-      CategoryProductsPaginationEntity page = response;
-      if (page != null) {
-        if (page.products.isNotEmpty) {
-            specialProducts.add(SpecialProductsModel(
-                title: 'المنتجات المميزة',
-                products: page.products,
-                totalNumber: page.total.toString(),
-                productsViewTypes: ProductsViewTypes.featured,
-                url: featuredProductsApi,
-                nonActiveNumber: page.products.where((product) => product.isActive == '0').length,
-                hasNext: page.nextPageUrl != null));
-        }
-      }
-    });
     Either newEither = await store.state.productsState.productsUSeCases.getNewlyAddedProductsUseCase(pageNumber: 1);
     newEither.fold((failure) {}, (response) {
       CategoryProductsPaginationEntity page = response;
@@ -84,6 +68,24 @@ class GetSpecialProductsAction extends HomeAction {
         }
       }
     });
+
+    Either either = await store.state.productsState.productsUSeCases.getFeaturedProductsUseCase(pageNumber: 1);
+    either.fold((failure) {}, (response) {
+      CategoryProductsPaginationEntity page = response;
+      if (page != null) {
+        if (page.products.isNotEmpty) {
+          specialProducts.add(SpecialProductsModel(
+              title: 'المنتجات المميزة',
+              products: page.products,
+              totalNumber: page.total.toString(),
+              productsViewTypes: ProductsViewTypes.featured,
+              url: featuredProductsApi,
+              nonActiveNumber: page.products.where((product) => product.isActive == '0').length,
+              hasNext: page.nextPageUrl != null));
+        }
+      }
+    });
+
     store.dispatch(SetSpecialProducts(specialProducts: specialProducts));
     store.dispatch(SetHomeLoadingAction(loading: false));
   }

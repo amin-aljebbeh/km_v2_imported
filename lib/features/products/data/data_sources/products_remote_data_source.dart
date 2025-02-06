@@ -62,9 +62,7 @@ class ProductsRemoteDataSourceImplement implements ProductsRemoteDataSource {
         url: featuredProductsApi, method: HttpMethods.get, queryParameters: {"page":pageNumber});
     try {
       if (response != null) {
-        if (response.statusCode == successCode) {
-          return categoryProductsFromJson(jsonEncode(response.data)).page;
-        }
+        if (response.statusCode == successCode) return categoryProductsFromJson(jsonEncode(response.data)).page;
         if (response.data['reason'].toString().contains('discontinued')) throw (OfflineRegionException());
       }
     } catch (e) {

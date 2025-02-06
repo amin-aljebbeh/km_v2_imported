@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/core/core_importer.dart';
+import 'package:kammun_app/features/orders/domain/entities/cancel_reason_entity.dart';
 import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_action.dart';
 
 import '../../../../core/utils/toasta.dart';
@@ -88,16 +89,16 @@ class AssignOrderToShopperAction implements OrdersAction {
 }
 
 class ChangeOrderStatusAction implements OrdersAction {
-  final int orderId, statusId;
-  final BuildContext context;
+  final int orderId, statusId, cancelReasonId;
+  final String comment;
 
-  ChangeOrderStatusAction({this.orderId, this.statusId, this.context});
+  ChangeOrderStatusAction({this.cancelReasonId, this.comment, this.orderId, this.statusId});
 
   @override
   handle({Store<AppState> store}) async {
     store.dispatch(StartLoading());
-    Either either =
-        await store.state.ordersState.ordersUSeCases.changeOrderStatusUseCase(orderId: orderId, statusId: statusId);
+    Either either = await store.state.ordersState.ordersUSeCases.changeOrderStatusUseCase(
+        orderId: orderId, statusId: statusId, cancelReasonId: cancelReasonId, comment: comment);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) async {
       Utility.showToast(message: 'تم تغيير حالة الطلب بنجاح');
       if (store.state.searchOrdersState.searchOrdersType == SearchOrdersTypes.none) {
@@ -256,6 +257,20 @@ class UnLockOrderAction implements OrdersAction {
     });
     store.dispatch(StopLoading());
   }
+}
+
+class GetCancelReasonsAction implements OrdersAction {
+  @override
+  handle({Store<AppState> store}) async {
+    Either either = await store.state.ordersState.ordersUSeCases.getCancelReasonsUseCase();
+    either.fold((failure) {}, (reasons) => store.dispatch(SetCancelReasons(reasons: reasons)));
+  }
+}
+
+class SetCancelReasons {
+  final List<CancelReasonEntity> reasons;
+
+  SetCancelReasons({this.reasons});
 }
 
 class SetViewOrders {
