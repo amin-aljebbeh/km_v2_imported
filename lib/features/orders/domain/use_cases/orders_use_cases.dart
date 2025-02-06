@@ -1,3 +1,4 @@
+import 'package:kammun_app/features/orders/domain/use_cases/get_cancel_reasons_use_case.dart';
 import 'package:kammun_app/features/orders/domain/use_cases/re_assign_order_use_case.dart';
 import 'package:kammun_app/features/orders/domain/use_cases/unlock_order_use_case.dart';
 
@@ -20,6 +21,7 @@ class OrdersUSeCases {
   final GetSupplierOrdersUseCase getSupplierOrdersUseCase;
   final LockOrderUseCase lockOrderUseCase;
   final UnlockOrderUseCase unlockOrderUseCase;
+  final GetCancelReasonsUseCase getCancelReasonsUseCase;
 
   OrdersUSeCases({
     @required this.assignOrderToShopperUseCase,
@@ -31,6 +33,7 @@ class OrdersUSeCases {
     @required this.unlockOrderUseCase,
     @required this.reAssignOrderUseCase,
     @required this.updateOrderRatingUseCase,
+    @required this.getCancelReasonsUseCase,
   }) : assert(
             assignOrderToShopperUseCase != null &&
                 changeOrderStatusUseCase != null &&
@@ -40,6 +43,7 @@ class OrdersUSeCases {
                 lockOrderUseCase != null &&
                 unlockOrderUseCase != null &&
                 reAssignOrderUseCase != null &&
+                getCancelReasonsUseCase != null &&
                 updateOrderRatingUseCase != null,
             'All use cases should be initialized.');
 }

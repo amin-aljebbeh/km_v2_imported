@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/orders/domain/entities/cancel_reason_entity.dart';
+
 import '../../../../core/core_importer.dart';
 import '../../domain/entities/order_entity.dart';
 import '../../domain/use_cases/orders_use_cases.dart';
@@ -6,6 +8,7 @@ import '../../domain/use_cases/orders_use_cases.dart';
 class OrdersState extends Equatable {
   final OrdersUSeCases ordersUSeCases;
   final List<OrderEntity> orders;
+  final List<CancelReasonEntity> cancelReasons;
   final int statusFilter;
   final int warehouseFilter;
   final int assignFilter;
@@ -34,6 +37,7 @@ class OrdersState extends Equatable {
     this.ordersPage,
     this.limitedOrdersPage,
     this.rateFilter,
+    this.cancelReasons,
   });
 
   factory OrdersState.initial() {
@@ -41,6 +45,7 @@ class OrdersState extends Equatable {
       ordersUSeCases: sl<OrdersUSeCases>(),
       orders: const [],
       statusFilter: 0,
+      cancelReasons: const [],
       assignFilter: 0,
       warehouseFilter: 0,
       totalOrdersNumber: 0,
@@ -55,21 +60,21 @@ class OrdersState extends Equatable {
     );
   }
 
-  OrdersState copyWith({
-    List<OrderEntity> orders,
-    int statusFilter,
-    int warehouseFilter,
-    int assignFilter,
-    int ordersPage,
-    int limitedOrdersPage,
-    int rateFilter,
-    String toDateFilter,
-    String fromDateFilter,
-    String shopperFilter,
-    String supportedCityFilter,
-    String shopperNameFilter,
-    int totalOrdersNumber,
-  }) {
+  OrdersState copyWith(
+      {List<OrderEntity> orders,
+      List<CancelReasonEntity> cancelReasons,
+      int statusFilter,
+      int warehouseFilter,
+      int assignFilter,
+      int ordersPage,
+      int limitedOrdersPage,
+      int rateFilter,
+      String toDateFilter,
+      String fromDateFilter,
+      String shopperFilter,
+      String supportedCityFilter,
+      String shopperNameFilter,
+      int totalOrdersNumber}) {
     return OrdersState(
       ordersUSeCases: ordersUSeCases,
       orders: orders ?? this.orders,
@@ -80,6 +85,7 @@ class OrdersState extends Equatable {
       limitedOrdersPage: limitedOrdersPage ?? this.limitedOrdersPage,
       rateFilter: rateFilter ?? this.rateFilter,
       supportedCityFilter: supportedCityFilter ?? this.supportedCityFilter,
+      cancelReasons: cancelReasons ?? this.cancelReasons,
       fromDateFilter: fromDateFilter ?? this.fromDateFilter,
       shopperFilter: shopperFilter ?? this.shopperFilter,
       toDateFilter: toDateFilter ?? this.toDateFilter,
@@ -103,6 +109,7 @@ class OrdersState extends Equatable {
         shopperFilter,
         shopperNameFilter,
         toDateFilter,
+        cancelReasons,
         totalOrdersNumber
       ];
 }

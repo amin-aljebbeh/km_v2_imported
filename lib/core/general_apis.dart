@@ -5,6 +5,7 @@ import '../features/general_information/data/models/supported_city_model.dart';
 import '../features/general_information/data/models/warehouse_model.dart';
 import '../features/general_information/domain/entities/warehouse_entity.dart';
 import '../features/general_information/presentation/redux/general_information_action.dart';
+import '../features/orders/presentation/redux/orders_action.dart';
 import '../features/shoppers/data/models/get_shoppers_model.dart';
 import '../features/shoppers/data/models/shopper_level_model.dart';
 import '../features/shoppers/domain/entities/shopper_level_entity.dart';
@@ -239,6 +240,10 @@ class GeneralApis {
       if (!Services.hasRole(context, shopperRole)) {
         store.dispatch(GetSpecialProductsAction());
       }
+      if (Services.hasRole(context, operationManagerRole) || Services.hasRole(context, shopperRole)) {
+        store.dispatch(GetCancelReasonsAction());
+      }
+
       if (Services.hasRole(context, operationManagerRole) ||
           Services.hasRole(context, adminRole) ||
           Services.hasRole(context, accountingRole)) {

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:kammun_app/features/orders/domain/entities/cancel_reason_entity.dart';
 import 'package:kammun_app/features/orders/domain/entities/change_order_status_response_entity.dart';
 import 'package:kammun_app/features/orders/domain/entities/lock_order_response_entity.dart';
 
@@ -32,10 +33,11 @@ class OrdersRepositoryImplement implements OrdersRepository {
   }
 
   @override
-  Future<Either<Failure, ChangeOrderStatusResponseEntity>> changeOrderStatus({int orderId, int statusId}) async {
+  Future<Either<Failure, ChangeOrderStatusResponseEntity>> changeOrderStatus(
+      {int orderId, int statusId, int cancelReasonId, String comment}) async {
     try {
-      ChangeOrderStatusResponseEntity response =
-          await ordersRemoteDataSource.changeOrderStatus(orderId: orderId, statusId: statusId);
+      ChangeOrderStatusResponseEntity response = await ordersRemoteDataSource.changeOrderStatus(
+          orderId: orderId, statusId: statusId, cancelReasonId: cancelReasonId, comment: comment);
       return Right(response);
     } on CacheException {
       return Left(CacheFailure());
@@ -142,5 +144,21 @@ class OrdersRepositoryImplement implements OrdersRepository {
   Future<Either<Failure, Unit>> unlockOrder({int orderId}) async {
     return await repositoryFactory.failureUnitRepo(
         function: () => ordersRemoteDataSource.unlockOrder(orderId: orderId));
+  }
+
+  @override
+  Future<Either<Failure, List<CancelReasonEntity>>> getCancelReasons() async {
+    try {
+      List<CancelReasonEntity> reasons = await ordersRemoteDataSource.getCancelReasons();
+      return Right(reasons);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
   }
 }

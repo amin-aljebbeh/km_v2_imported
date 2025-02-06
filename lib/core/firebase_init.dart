@@ -17,8 +17,7 @@ class FirebaseInitPage extends StatefulWidget {
 }
 
 class _FirebaseInitPageState extends State<FirebaseInitPage> {
-  bool initialized = false;
-  bool initialized1 = false;
+  bool _firebaseInitDone = false;
   AudioPlayer player;
   OverlaySupportEntry entry;
 
@@ -28,137 +27,117 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
     super.dispose();
   }
 
-  void initializeFlutterFire() async {
-    await player.setAsset('assets/cool.mp3');
-
-    SharedPreferences prefs = sl<SharedPreferences>();
-    try {
-      AdminEntity admin = StoreProvider.of<AppState>(context).state.adminsState.admin;
-      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) async {
-        if (mounted) setState(() => initialized = true);
-        String firebaseToken = prefs.getString('FCM_token_v3');
-        FirebaseMessaging messaging = FirebaseMessaging.instance;
-        if (Platform.isIOS) {
-          NotificationSettings settings = await messaging.requestPermission(
-            alert: true,
-            announcement: false,
-            badge: true,
-            carPlay: false,
-            criticalAlert: false,
-            provisional: false,
-            sound: true,
-          );
-          if (initialized && settings.authorizationStatus == AuthorizationStatus.authorized) {
-            if (firebaseToken == null) {
-              FirebaseMessaging.instance.getToken().then((value) {
-                if (value != null) {
-                  prefs.setString('FCM_token_v3', value);
-                  if (prefs.getString('userToken') != null) GeneralApis.updateFirebaseTokenService(value);
-                }
-              }).catchError((e) => setState(() => initialized1 = true));
-            } else {
-              if (firebaseToken != admin.firebaseToken) GeneralApis.updateFirebaseTokenService(firebaseToken);
-            }
-            FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
-              prefs.setString('FCM_token_v3', newToken);
-              if (prefs.getString('userToken') != null) GeneralApis.updateFirebaseTokenService(newToken);
-            });
-            FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-              if (message.data['type'] != null) {
-                if (message.data['type'] == 1) KammunRestart.restartApp(context);
-              }
-              if (message.notification != null) {
-                entry = showOverlayNotification(
-                  (context) => Card(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    child: SafeArea(
-                      child: ListTile(
-                        onTap: () {},
-                        leading: SizedBox.fromSize(
-                            size: const Size(40, 40), child: ClipOval(child: Image.asset('assets/kmIcon.png'))),
-                        title: Text(message.notification.title ?? 'Kammun', style: mainStyle),
-                        subtitle: Text(message.notification.body ?? '', style: mainStyle),
-                        trailing: IconButton(
-                            icon: const Icon(Icons.close),
-                            onPressed: () {
-                              if (!Services.hasRole(context, shopperRole)) entry.dismiss();
-                            }),
-                      ),
-                    ),
-                  ),
-                  duration: const Duration(milliseconds: 5000),
-                );
-              }
-            });
-            FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) =>
-                showMyDialog(title: message.notification.title, text: message.notification.body, context: context));
-          }
-        } else {
-          if (firebaseToken == null) {
-            FirebaseMessaging.instance.getToken().then((value) {
-              if (value != null) {
-                prefs.setString('FCM_token_v3', value);
-                if (prefs.getString('userToken') != null) GeneralApis.updateFirebaseTokenService(value);
-              }
-            }).catchError((e) => setState(() => initialized1 = true));
-          } else {
-            if (firebaseToken != admin.firebaseToken) GeneralApis.updateFirebaseTokenService(firebaseToken);
-          }
-          FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
-            prefs.setString('FCM_token_v3', newToken);
-            if (prefs.getString('userToken') != null) GeneralApis.updateFirebaseTokenService(newToken);
-          });
-          FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-            if (message.notification != null) {
-              if (message.data['type'] != null) {
-                if (message.data['type'] == '1') {
-                  KammunRestart.restartApp(context);
-                }
-              }
-              player.play();
-              entry = showOverlayNotification(
-                (context) => Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  child: SafeArea(
-                    child: ListTile(
-                      onTap: () {},
-                      leading: SizedBox.fromSize(
-                          size: const Size(40, 40), child: ClipOval(child: Image.asset('assets/kmIcon.png'))),
-                      title: Text(message.notification.title ?? 'Kammun', style: mainStyle),
-                      subtitle: Text(message.notification.body ?? '', style: mainStyle),
-                      trailing: IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            if (!Services.hasRole(context, shopperRole)) entry.dismiss();
-                          }),
-                    ),
-                  ),
-                ),
-                duration: const Duration(milliseconds: 5000),
-              );
-            }
-          });
-          FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) =>
-              showMyDialog(title: message.notification.title, text: message.notification.body, context: context));
-        }
-      });
-    } catch (e) {
-      /**/
-    }
-    if (mounted) setState(() => initialized1 = true);
-  }
-
   @override
   void initState() {
     super.initState();
     player = AudioPlayer();
+    _initializeFirebaseMessaging();
+  }
 
-    initializeFlutterFire();
+  /// Initialize Firebase and set up messaging without blocking other app actions.
+  Future<void> _initializeFirebaseMessaging() async {
+    // Get SharedPreferences instance for storing tokens.
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    try {
+      // Initialize Firebase.
+      await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+      // Proceed to set up messaging services.
+      await _setupMessaging(prefs);
+    } catch (e, stack) {
+      // Log errors so they can be diagnosed; do not block further app usage.
+      Tools.logToConsole('Error during Firebase initialization: $e\n$stack');
+    } finally {
+      // Mark initialization as complete regardless of success/failure.
+      if (mounted) setState(() => _firebaseInitDone = true);
+    }
+  }
+
+  /// Sets up Firebase Messaging (permissions, token retrieval, and listeners).
+  Future<void> _setupMessaging(SharedPreferences prefs) async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    await player.setAsset('assets/cool.mp3');
+
+    // For iOS: request notification permissions.
+    if (Platform.isIOS) {
+      NotificationSettings settings = await messaging.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+        announcement: false,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+      );
+
+      if (settings.authorizationStatus != AuthorizationStatus.authorized) {
+        Tools.logToConsole('User declined or has not accepted notification permissions.');
+        // Exit early if permissions are not granted.
+        return;
+      }
+    }
+
+    // Retrieve the FCM token once and update if needed.
+    try {
+      AdminEntity admin = StoreProvider.of<AppState>(context).state.adminsState.admin;
+      String token = await messaging.getToken();
+      if (token != null) {
+        // Save token if it has changed or is not set.
+        if (prefs.getString('FCM_token_v3') != token) {
+          await prefs.setString('FCM_token_v3', token);
+          if (admin.apiToken != null) await GeneralApis.updateFirebaseTokenService(token);
+        }
+      }
+    } catch (e) {
+      Tools.logToConsole('Error getting FCM token: $e');
+    }
+
+    // Set up foreground message listener.
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (message.data['type'] != null) if (message.data['type'] == 1) KammunRestart.restartApp(context);
+      if (message.notification != null) _showOverlayNotification(message);
+    });
+
+    // Set up listener for when a notification is tapped/opened.
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) =>
+        showMyDialog(title: message.notification.title, text: message.notification.body, context: context));
+
+    // Optionally handle the case when the app is launched from a terminated state.
+    messaging.getInitialMessage().then((RemoteMessage message) {
+      if (message != null) _showOverlayNotification(message);
+    });
+  }
+
+  /// Displays a notification overlay using the overlay_support package.
+  void _showOverlayNotification(RemoteMessage message) {
+    final RemoteNotification notification = message.notification;
+    if (notification != null) {
+      entry = showOverlayNotification(
+        (context) => Card(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          child: SafeArea(
+            child: ListTile(
+              onTap: () {},
+              leading:
+                  SizedBox.fromSize(size: const Size(40, 40), child: ClipOval(child: Image.asset('assets/kmIcon.png'))),
+              title: Text(message.notification.title ?? 'Kammun', style: mainStyle),
+              subtitle: Text(message.notification.body ?? '', style: mainStyle),
+              trailing: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    if (!Services.hasRole(context, shopperRole)) entry.dismiss();
+                  }),
+            ),
+          ),
+        ),
+        duration: const Duration(milliseconds: 5000),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!initialized1) return Container();
+    if (!_firebaseInitDone) return Container();
     return widget.child;
   }
 }

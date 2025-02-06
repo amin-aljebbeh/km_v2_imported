@@ -4,6 +4,7 @@ import 'package:kammun_app/features/orders/domain/entities/order_entity.dart';
 import '../../../../core/core_importer.dart';
 import '../../orders_services.dart';
 import '../redux/orders_action.dart';
+import 'cancel_or_reject_order_widget.dart';
 
 class OperationButtonsWidget extends StatelessWidget {
   final OrderEntity order;
@@ -39,58 +40,12 @@ class OperationButtonsWidget extends StatelessWidget {
                             child: KammunButton(
                               text: changeStatusButtonText(order.orderStatusId),
                               color: changeStatusButtonColor(order.orderStatusId),
-                              onTap: () => StoreProvider.of<AppState>(context).dispatch(ChangeOrderStatusAction(
-                                  statusId: newStatus(order.orderStatusId), orderId: order.id, context: context)),
+                              onTap: () => StoreProvider.of<AppState>(context).dispatch(
+                                  ChangeOrderStatusAction(statusId: newStatus(order.orderStatusId), orderId: order.id)),
                             ),
                           ),
                         ),
-                        if (cancelOrderCondition)
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 2),
-                              child: KammunButton(
-                                onLongPress: () {
-                                  if (Services.hasRole(context, operationManagerRole)) {
-                                    List<DialogButton> decisionButton = [
-                                      DialogButton(
-                                          text: 'نعم',
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                            StoreProvider.of<AppState>(context).dispatch(ChangeOrderStatusAction(
-                                                orderId: order.id, statusId: 7, context: context));
-                                          }),
-                                      DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
-                                    ];
-                                    showMyDialog(
-                                        context: context,
-                                        title: 'رفض الطلب',
-                                        text: 'هل أنت متأكد انك تريد رفض الطلب ؟',
-                                        dialogButtons: decisionButton);
-                                  }
-                                },
-                                text: cancelOrder,
-                                width: MediaQuery.of(context).size.width * 0.4,
-                                color: Colors.red,
-                                onTap: () {
-                                  List<DialogButton> decisionButton = [
-                                    DialogButton(
-                                        text: 'نعم',
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                          StoreProvider.of<AppState>(context).dispatch(ChangeOrderStatusAction(
-                                              orderId: order.id, statusId: 6, context: context));
-                                        }),
-                                    DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
-                                  ];
-                                  showMyDialog(
-                                      context: context,
-                                      title: 'إلغاء الطلب',
-                                      text: 'هل أنت متأكد انك تريد إلغاء الطلب ؟',
-                                      dialogButtons: decisionButton);
-                                },
-                              ),
-                            ),
-                          ),
+                        if (cancelOrderCondition) Expanded(child: CancelOrRejectOrderWidget(orderId: order.id)),
                       ],
                     ),
                   if (['6', '7'].contains(order.orderStatusId) && Services.hasRole(context, operationManagerRole))
@@ -105,7 +60,7 @@ class OperationButtonsWidget extends StatelessWidget {
                             onTap: () {
                               Navigator.of(context).pop();
                               StoreProvider.of<AppState>(context)
-                                  .dispatch(ChangeOrderStatusAction(orderId: order.id, statusId: 1, context: context));
+                                  .dispatch(ChangeOrderStatusAction(orderId: order.id, statusId: 1));
                             },
                           ),
                           DialogButton(text: 'لا', onTap: () => Navigator.of(context).pop()),

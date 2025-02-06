@@ -9,7 +9,8 @@ class ChangeOrderStatusUseCase {
 
   ChangeOrderStatusUseCase({this.ordersRepository});
 
-  Future<Either<Failure, ChangeOrderStatusResponseEntity>> call({int orderId, int statusId}) async {
-    return await ordersRepository.changeOrderStatus(orderId: orderId, statusId: statusId);
-  }
+  Future<Either<Failure, ChangeOrderStatusResponseEntity>> call(
+          {int orderId, int statusId, int cancelReasonId, String comment}) async =>
+      await ordersRepository.changeOrderStatus(
+          orderId: orderId, statusId: statusId, comment: comment, cancelReasonId: cancelReasonId);
 }
