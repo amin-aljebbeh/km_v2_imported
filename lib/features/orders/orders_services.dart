@@ -6,12 +6,13 @@ import 'package:map_launcher/map_launcher.dart';
 
 import '../../core/core_importer.dart';
 import '../cart/presentation/redux/cart_action.dart';
+import 'data/models/cancel_reason_model.dart';
 
 class OrdersServices {
   static CancelToken cancelRequest = CancelToken();
 }
 
-String chooseOrderStatus(OrderEntity order) {
+String chooseOrderStatus(OrderEntity order, BuildContext context) {
   String orderStatus = 'طلبك قيد المعالجة ⌛️';
   switch (order.orderStatusId) {
     case '2':
@@ -27,10 +28,10 @@ String chooseOrderStatus(OrderEntity order) {
       orderStatus = 'تم توصيل الطلب بنجاح';
       break;
     case '6':
-      orderStatus = 'تم إلغاء الطلب من قبلكم 🚫';
+      orderStatus = cancelReason('تم إلغاء الطلب من قبلكم 🚫', order, context);
       break;
     case '7':
-      orderStatus = '😔 لم نستطع تأمين الطلب 😔';
+      orderStatus = cancelReason('😔 لم نستطع تأمين الطلب 😔', order, context);
       break;
     case '8':
       orderStatus = 'معلق بانتظار الدفع الإلكتروني';
@@ -47,6 +48,17 @@ String chooseOrderStatus(OrderEntity order) {
       orderStatus = 'الطلب معلق حتى تقوم بتأكيد التعديل';
       break;
   }
+  return orderStatus;
+}
+
+String cancelReason(String orderStatus, OrderEntity order, BuildContext context) {
+  String cancelReason = StoreProvider.of<AppState>(context)
+      .state
+      .ordersState
+      .cancelReasons
+      .firstWhere((reason) => reason.id == order.cancelReasonID, orElse: () => const CancelReasonModel(name: ''))
+      .name;
+  if (cancelReason != '') orderStatus += "، $cancelReason، ${order.cancelReasonOther}";
   return orderStatus;
 }
 
