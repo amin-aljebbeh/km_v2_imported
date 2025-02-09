@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:kammun_app/features/admins/data/data_sources/admins_remote_data_source.dart';
+import 'package:kammun_app/features/admins/data/models/create_admin_model.dart';
 import 'package:kammun_app/features/admins/domain/entities/admins_entity.dart';
+import 'package:kammun_app/features/admins/domain/entities/create_admin_entity.dart';
 import 'package:kammun_app/features/admins/domain/entities/role_entity.dart';
 import 'package:kammun_app/features/authentication/domain/entities/login_admin_entity.dart';
 
@@ -9,8 +11,9 @@ import '../../domain/repositories/admins_repository.dart';
 
 class AdminsRepositoryImplement implements AdminsRepository {
   final AdminsRemoteDataSource adminsRemoteDataSource;
+  final RepositoryFactory repositoryFactory;
 
-  AdminsRepositoryImplement({this.adminsRemoteDataSource});
+  AdminsRepositoryImplement({this.repositoryFactory, this.adminsRemoteDataSource});
 
   @override
   Future<Either<Failure, List<AdminEntity>>> getAdminsWithoutDetails(
@@ -76,5 +79,18 @@ class AdminsRepositoryImplement implements AdminsRepository {
     } catch (e) {
       return Left(InternalFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> createAdmin({CreateAdminEntity admin}) async {
+    return await repositoryFactory.failureUnitRepo(
+        function: () => adminsRemoteDataSource.createAdmin(
+                admin: CreateAdminModel(
+              warehouseId: admin.warehouseId,
+              isSuperUser: admin.isSuperUser,
+              name: admin.name,
+              password: admin.password,
+              userName: admin.userName,
+            )));
   }
 }

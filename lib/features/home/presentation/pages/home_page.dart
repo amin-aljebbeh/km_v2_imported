@@ -51,7 +51,7 @@ class HomePageState extends State<HomePage> {
               unselectedFontSize: 0,
               backgroundColor: Colors.white,
               items: <BottomNavigationBarItem>[
-                BottomBarItem.build(text: store, icon: Icons.store),
+                BottomBarItem.build(text: storeString, icon: Icons.store),
                 BottomBarItem.build(text: cart, icon: Icons.shopping_cart),
                 if (Services.hasRole(context, operationManagerRole) ||
                     Services.hasRole(context, shopperRole) ||

@@ -7,6 +7,7 @@ class EntryField extends StatefulWidget {
   final double width;
   final Function(bool) onSubmit;
   final Function onChange;
+  final FormFieldValidator<String> validator;
   final EdgeInsetsGeometry edgeInsetsGeometry;
 
   const EntryField({
@@ -18,6 +19,7 @@ class EntryField extends StatefulWidget {
     this.edgeInsetsGeometry,
     this.onChange,
     this.textInputType = TextInputType.text,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -38,6 +40,7 @@ class _EntryFieldState extends State<EntryField> {
       ),
       child: TextFormField(
         cursorColor: kmColors,
+        validator: widget.validator,
         onChanged: (value) {
           widget.onChange();
           setState(() {});
