@@ -14,7 +14,7 @@ class AdminOrderFoot extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LabelRow(rightSideText: chooseOrderStatus(order), leftSideText: '', leftSideStyle: informationStyle),
+        LabelRow(rightSideText: chooseOrderStatus(order,context), leftSideText: '', leftSideStyle: informationStyle),
         if (Services.hasRole(context, operationManagerRole) && order.orderStatusId == '5')
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -21,7 +21,7 @@ String phoneNumberString = 'الهاتف :';
 String entrance = 'المدخل: ';
 
 // Tabs
-String store = 'الرئيسية';
+String storeString = 'الرئيسية';
 String cart = 'السلة';
 String orders = 'الطلبات';
 String profile = 'الملف الشخصي';

@@ -1,8 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:kammun_app/features/admins/data/models/role_model.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../authentication/data/models/login_admin_model.dart';
 import '../models/admin_model.dart';
+import '../models/create_admin_model.dart';
 import '../models/get_admins_response_model.dart';
 import '../models/roles_response_model.dart';
 
@@ -14,6 +16,8 @@ abstract class AdminsRemoteDataSource {
   Future<List<RoleModel>> getRoles();
 
   Future<AdminLoginResponseModel> getAdmin({int adminId});
+
+  Future<Unit> createAdmin({CreateAdminModel admin});
 }
 
 class AdminsRemoteDataSourceImplement extends AdminsRemoteDataSource {
@@ -67,6 +71,18 @@ class AdminsRemoteDataSourceImplement extends AdminsRemoteDataSource {
       if (response != null) {
         if (response.statusCode == successCode) return adminLoginResponseFromJson(jsonEncode(response.data));
       }
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<Unit> createAdmin({CreateAdminModel admin}) async {
+    Response response = await ApiProvider.sendRequest(
+        url: registerAdminApi, method: HttpMethods.post, body: admin.toJson(), responseType: ResponseType.json);
+    try {
+      if (response != null) if (response.statusCode == successCode) return Future.value(unit);
     } catch (e) {
       throw (InternalException(message: e.toString()));
     }

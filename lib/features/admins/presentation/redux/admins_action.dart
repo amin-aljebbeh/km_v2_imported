@@ -7,6 +7,7 @@ import '../../../authentication/domain/entities/login_admin_entity.dart';
 import '../../../general_information/presentation/redux/general_information_action.dart';
 import '../../../shoppers/domain/entities/shopper_entity.dart';
 import '../../../shoppers/presentation/redux/shoppers_action.dart';
+import '../../domain/entities/create_admin_entity.dart';
 
 abstract class AdminsAction {
   handle({@required Store<AppState> store});
@@ -35,6 +36,22 @@ class GetRolesAction implements AdminsAction {
   handle({Store<AppState> store}) async {
     Either either = await store.state.adminsState.adminsUseCases.getRolesUseCase();
     either.fold((failure) => store.dispatch(SetRoles(roles: [])), (roles) => store.dispatch(SetRoles(roles: roles)));
+  }
+}
+
+class CreateAdminAction implements AdminsAction {
+  final CreateAdminEntity admin;
+  final BuildContext context;
+
+  CreateAdminAction({this.context, this.admin});
+
+  @override
+  handle({Store<AppState> store}) async {
+    store.dispatch(StartLoading());
+    Either either = await store.state.adminsState.adminsUseCases.createAdminUseCase(admin: admin);
+    either.fold((failure) => snackBar(context: context, message: 'حدث خطاء أثناء محاولة إضافة الأدمن', success: false),
+        (_) => snackBar(context: context, message: 'تم إضافة الادمن بنجاح', success: true));
+    store.dispatch(StopLoading());
   }
 }
 
