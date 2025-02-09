@@ -6,10 +6,17 @@ class ProductEntryField extends StatelessWidget {
   final TextInputType textInputType;
   final String title;
   final double width;
+  final FormFieldValidator<String> validator;
 
-  const ProductEntryField(
-      {Key key, this.controller, this.hint, @required this.title, this.width, this.textInputType = TextInputType.text})
-      : super(key: key);
+  const ProductEntryField({
+    Key key,
+    this.controller,
+    this.hint,
+    @required this.title,
+    this.width,
+    this.textInputType = TextInputType.text,
+    this.validator,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +28,7 @@ class ProductEntryField extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 20, top: 8),
           child: EntryField(
               controller: controller,
+              validator: validator,
               width: width,
               onSubmit: (notEmpty) {},
               hint: hint,

@@ -1,3 +1,4 @@
+import 'package:kammun_app/features/admins/domain/use_cases/create_admin_use_case.dart';
 import 'package:kammun_app/features/admins/domain/use_cases/get_transactions_actors_use_case.dart';
 
 import '../core/core_importer.dart';
@@ -12,6 +13,7 @@ import '../features/admins/domain/use_cases/get_roles_use_case.dart';
 Future<void> injectAdmins() async {
   sl.registerLazySingleton(() => GetAdminsWithoutDetailsUseCase(adminsRepository: sl()));
   sl.registerLazySingleton(() => GetTransactionsActorsUseCase(adminsRepository: sl()));
+  sl.registerLazySingleton(() => CreateAdminUseCase(adminsRepository: sl()));
   sl.registerLazySingleton(() => GetRolesUseCase(adminsRepository: sl()));
   sl.registerLazySingleton(() => GetAdminUseCase(adminsRepository: sl()));
   sl.registerLazySingleton<AdminsUseCases>(() => AdminsUseCases(
@@ -19,7 +21,9 @@ Future<void> injectAdmins() async {
         getTransactionsActorsUseCase: sl(),
         getRolesUseCase: sl(),
         getAdminUseCase: sl(),
+        createAdminUseCase: sl(),
       ));
-  sl.registerLazySingleton<AdminsRepository>(() => AdminsRepositoryImplement(adminsRemoteDataSource: sl()));
+  sl.registerLazySingleton<AdminsRepository>(
+      () => AdminsRepositoryImplement(adminsRemoteDataSource: sl(), repositoryFactory: sl()));
   sl.registerLazySingleton<AdminsRemoteDataSource>(() => AdminsRemoteDataSourceImplement());
 }

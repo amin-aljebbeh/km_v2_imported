@@ -1,3 +1,4 @@
+import 'package:kammun_app/features/admins/presentation/pages/create_admin_page.dart';
 import 'package:kammun_app/features/complaints/presentation/redux/complaints_action.dart';
 import 'package:kammun_app/features/inventory/presentation/redux/inventory_action.dart';
 import 'package:kammun_app/features/reports/presentation/redux/reports_action.dart';
@@ -257,6 +258,8 @@ List<Widget> getDrawerChildren(BuildContext context) {
                                     GoToInventoryPage(inventoryType: InventoryTypes.prices, context: context)),
                                 icon: Icons.attach_money,
                                 text: 'تغير الأسعار'),
+                            const SideBarRow(
+                                pushedRoute: CreateAdminPage(), icon: Icons.person_rounded, text: 'إضافة أدمن جديد'),
                           ],
                         ),
                     ],
