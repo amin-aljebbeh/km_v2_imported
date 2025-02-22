@@ -2,6 +2,7 @@ import '../../../../core/core_importer.dart';
 import '../../../orders/domain/entities/order_entity.dart';
 import '../../domain/use_cases/search_orders_use_cases.dart';
 
+//TODO should be merged into OrdersState
 @immutable
 class SearchOrdersState extends Equatable {
   final SearchOrdersUSeCases searchOrdersUSeCases;
