@@ -1,6 +1,7 @@
 import 'package:kammun_app/features/order_details/presentation/pages/order_accounting.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../../../core/widget/add_complaint_widget.dart';
 import '../../../orders/domain/entities/order_entity.dart';
 import 'search_order_products_page.dart';
 
@@ -44,6 +45,12 @@ class _OrderTabsPageState extends State<SearchOrderTabsPage> with SingleTickerPr
       child: DefaultTabController(
         length: screenList.length,
         child: Scaffold(
+          floatingActionButton: Services.hasRole(context, agentRole)
+              ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AddComplaintWidget(order: widget.order, color: primaryColor),
+          )
+              : const SizedBox(),floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
             child: Container(

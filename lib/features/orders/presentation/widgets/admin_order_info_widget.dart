@@ -1,5 +1,5 @@
+import 'package:kammun_app/core/widget/add_complaint_widget.dart';
 import 'package:kammun_app/features/search_orders/presentation/redux/search_orders_action.dart';
-// import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../../core/core_importer.dart';
 import '../../../coupons/presentation/redux/coupon_action.dart';
@@ -57,8 +57,7 @@ class AdminOrderInfoWidget extends StatelessWidget {
                       },
                     ),
                   if (Services.hasPermission(context, viewWhatsappIconPermission))
-                    MediaIcon(
-                        icon: Icons.whatsapp, url: 'customer_whatsapp', mobileNumber: order.user.phone),
+                    MediaIcon(icon: Icons.whatsapp, url: 'customer_whatsapp', mobileNumber: order.user.phone),
                   if (Services.hasRole(context, operationManagerRole))
                     InkWell(
                       child: Icon(Icons.search_rounded, color: kmColors, size: 30),
@@ -71,12 +70,7 @@ class AdminOrderInfoWidget extends StatelessWidget {
                             SearchOrderAction(context: context, searchOrdersType: SearchOrdersTypes.phoneNumber));
                       },
                     ),
-                  if (Services.hasRole(context, agentRole))
-                    InkWell(
-                      child: Icon(Icons.report_problem_rounded, color: kmColors, size: 30),
-                      onTap: () => Navigator.push(
-                          context, MaterialPageRoute(builder: (screenContext) => AddComplaintPage(orderData: order))),
-                    ),
+                  if (Services.hasRole(context, agentRole)) AddComplaintWidget(order: order, color: kmColors),
                   if (order.address.lat != -1 && order.address.lon != -1)
                     InkWell(
                         child: Icon(Icons.location_on, color: kmColors, size: 30),

@@ -117,6 +117,7 @@ class Services {
       .firstWhere((admin) => admin.name == name)
       .id
       .toString();
+
   static String selectedAdminTransction(String name, BuildContext context) => StoreProvider.of<AppState>(context)
       .state
       .adminsState
@@ -124,6 +125,7 @@ class Services {
       .firstWhere((admin) => admin.name == name)
       .id
       .toString();
+
   static int selectedShopperLevelId(String name, BuildContext context) => StoreProvider.of<AppState>(context)
       .state
       .shoppersState
@@ -148,6 +150,7 @@ class Services {
     }
   }
 
+//TODO: create an Enum
   static openUrl(String selected, BuildContext context, {String mobileNumber}) async {
     var info = StoreProvider.of<AppState>(context).state.generalInformationState.companyInformation;
 
@@ -178,6 +181,11 @@ class Services {
         break;
       case 'customer_whatsapp':
         url = 'whatsapp://send?phone=+963' + mobileNumber;
+        break;
+      case 'form':
+        url =
+            'https://docs.google.com/forms/d/e/1FAIpQLSf9dqdehKSoiuFyW-7xSHhH8GV5wEEfJl9OvRCWJxI36vzhtg/viewform?usp=pp_url' +
+                mobileNumber;
         break;
     }
     launch(url);
