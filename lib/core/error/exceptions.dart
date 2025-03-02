@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 
 class OfflineException implements Exception {}
 
-class ServerException implements Exception {}
+class ServerException implements Exception {
+  final String message;
+
+  ServerException({this.message});
+}
 
 class UpdateRequiredException implements Exception {
   final String message;

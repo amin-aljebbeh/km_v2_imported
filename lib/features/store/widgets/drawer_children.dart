@@ -267,7 +267,12 @@ List<Widget> getDrawerChildren(BuildContext context) {
         ),
       ),
     if (Services.hasRole(context, agentRole))
-      const SideBarRow(icon: Icons.report_problem_rounded, text: 'إضافة شكوى', pushedRoute: AddComplaintPage()),
+      SideBarRow(
+          icon: Icons.report_problem_rounded,
+          text: 'إضافة شكوى',
+          onTap: () => Services.openUrl('form', context,
+              mobileNumber:
+                  'https://docs.google.com/forms/d/e/1FAIpQLSf9dqdehKSoiuFyW-7xSHhH8GV5wEEfJl9OvRCWJxI36vzhtg/viewform')),
     if (Services.hasRole(context, agentRole))
       SideBarRow(
         icon: Icons.report_problem_rounded,

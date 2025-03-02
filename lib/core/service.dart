@@ -1,3 +1,4 @@
+import 'package:kammun_app/core/views/web_view.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -158,37 +159,43 @@ class Services {
     switch (selected) {
       case 'whatsapp':
         url = 'whatsapp://send?phone=' + info.whatsappNumber;
+        launch(url);
         break;
       case 'messenger':
         url = info.messengerUrl;
+        launch(url);
         break;
       case 'facebook':
         url = 'fb://page/' + info.facebookUrl;
+        launch(url);
         break;
       case 'instagram':
         url = info.instagramUrl;
+        launch(url);
         break;
       case 'website':
         url = info.websiteUrl;
+        launch(url);
         break;
       case 'email':
         String platform = 'Android';
         if (Platform.isIOS) platform = 'iPhone';
         url = 'mailto:${info.email}?subject=Support Request From $platform Application&body=';
+        launch(url);
         break;
       case 'number':
         url = 'tel:${info.supportNumber}';
+        launch(url);
         break;
       case 'customer_whatsapp':
         url = 'whatsapp://send?phone=+963' + mobileNumber;
+        launch(url);
         break;
       case 'form':
-        url =
-            'https://docs.google.com/forms/d/e/1FAIpQLSf9dqdehKSoiuFyW-7xSHhH8GV5wEEfJl9OvRCWJxI36vzhtg/viewform?usp=pp_url' +
-                mobileNumber;
+        url = mobileNumber;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewScreen(url: url)));
         break;
     }
-    launch(url);
   }
 
   static shareApp(BuildContext context) {

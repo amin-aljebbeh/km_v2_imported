@@ -10,10 +10,12 @@ class OfflineFailure extends Failure {
 }
 
 class ServerFailure extends Failure {
+  final String message;
+
   @override
   List<Object> get props => [];
 
-  ServerFailure();
+  ServerFailure({this.message});
 }
 
 class CacheFailure extends Failure {
@@ -40,7 +42,6 @@ class OfflineRegionFailure extends Failure {
 
   OfflineRegionFailure({this.message});
 }
-
 
 class UpdateRequiredFailure extends Failure {
   final String message;
