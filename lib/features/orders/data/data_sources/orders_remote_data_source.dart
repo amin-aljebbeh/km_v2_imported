@@ -24,7 +24,8 @@ abstract class OrdersRemoteDataSource {
 
   Future<OrdersPageDataModel> getShopperOrders({int orderStatusId, int pageNumber, CancelToken cancelToken});
 
-  Future<ChangeOrderStatusResponseModel> changeOrderStatus({int orderId, int statusId, int cancelReasonId, String comment});
+  Future<ChangeOrderStatusResponseModel> changeOrderStatus(
+      {int orderId, int statusId, int cancelReasonId, String comment});
 
   Future<LockOrderResponseModel> lockOrder({int orderId});
 
@@ -195,9 +196,13 @@ class OrdersRemoteDataSourceImplement implements OrdersRemoteDataSource {
     try {
       if (response != null) {
         if (response.statusCode == successCode) return changeStatusModelFromJson(jsonEncode(response.data));
+        if (response.statusCode == badRequestError) throw (ServerException(message: response.data['reason']));
       }
+    } on ServerException {
+      rethrow;
     } catch (e) {
-      throw (InternalException(message: e.toString()));
+      throw InternalException(
+          message: 'Failed to change order status for orderId=$orderId, statusId=$statusId. Error: ${e.toString()}');
     }
     throw (ServerException());
   }
