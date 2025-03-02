@@ -47,10 +47,14 @@ class _OrderTabsPageState extends State<OrderTabsPage> with SingleTickerProvider
         child: Scaffold(
           floatingActionButton: Services.hasRole(context, agentRole)
               ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AddComplaintWidget(order: widget.order, color: primaryColor),
-              )
-              : const SizedBox(),floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+                  padding: const EdgeInsets.all(8.0),
+                  child: FloatingActionButton(
+                      onPressed: () {},
+                      backgroundColor: primaryColor,
+                      child: AddComplaintWidget(order: widget.order, color: kmColors)),
+                )
+              : const SizedBox(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
             child: Container(
