@@ -41,8 +41,8 @@ class OrdersRepositoryImplement implements OrdersRepository {
       return Right(response);
     } on CacheException {
       return Left(CacheFailure());
-    } on ServerException {
-      return Left(ServerFailure());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
     } on OfflineException {
       return Left(OfflineFailure());
     } catch (e) {

@@ -99,7 +99,13 @@ class ChangeOrderStatusAction implements OrdersAction {
     store.dispatch(StartLoading());
     Either either = await store.state.ordersState.ordersUSeCases.changeOrderStatusUseCase(
         orderId: orderId, statusId: statusId, cancelReasonId: cancelReasonId, comment: comment);
-    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')), (_) async {
+    either.fold((failure) {
+      if (failure is ServerFailure) {
+        store.dispatch(CatchError(errorMessage: failure.message ?? 'حدث خطأ، يرجى المحاولة مجدداً'));
+      } else {
+        store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً'));
+      }
+    }, (_) {
       Utility.showToast(message: 'تم تغيير حالة الطلب بنجاح');
       if (store.state.searchOrdersState.searchOrdersType == SearchOrdersTypes.none) {
         List<OrderEntity> orders = store.state.ordersState.orders;
