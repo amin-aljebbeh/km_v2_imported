@@ -16,6 +16,7 @@ abstract class CartAction {
 
 class GetCartAction extends CartAction {
   final BuildContext context;
+
   GetCartAction({this.context});
 
   @override
@@ -174,7 +175,7 @@ class UpdateOrderAction extends CartAction {
         store.dispatch(SetOrderId(orderId: 0));
         store.dispatch(SetCartProducts(products: []));
         store.dispatch(SetRefund(refund: false));
-        store.dispatch(SetUserNote(note: ''));
+        store.dispatch(SetUserNote(note: '-1'));
         store.dispatch(StopLoading());
       } else {
         store.dispatch(StopLoading());

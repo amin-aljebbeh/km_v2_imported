@@ -88,7 +88,7 @@ class OperationButtonsWidget extends StatelessWidget {
                       },
                       color: Colors.green,
                     ),
-                  if (order.userNotes.toString() != 'null')
+                  if (order.userNotes.toString() != 'null' && order.userNotes.isNotEmpty)
                     KammunButton(
                       text: watchNote,
                       onTap: () => showMyDialog(
