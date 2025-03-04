@@ -66,7 +66,7 @@ class SearchOrderWidget extends StatelessWidget {
           if (Services.hasRole(context, operationManagerRole) || Services.hasRole(context, shopperRole))
             OperationButtonsWidget(order: order),
           if (Services.hasRole(context, supplierRole))
-            if (order.userNotes.toString() != 'null')
+            if (order.userNotes.toString() != 'null' && order.userNotes.isNotEmpty)
               KammunButton(
                 text: watchNote,
                 onTap: () {

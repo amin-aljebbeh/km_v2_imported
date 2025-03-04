@@ -60,7 +60,7 @@ class CartState extends Equatable {
       indexToEdit: indexToEdit ?? this.indexToEdit,
       refund: refund ?? this.refund,
       deliveryPrice: deliveryPrice ?? this.deliveryPrice,
-      userNote: userNote ?? this.userNote,
+      userNote: userNote == '-1' ? null : userNote ?? this.userNote,
       notActiveProducts: notActiveProducts ?? this.notActiveProducts,
       pricesChangesProducts: pricesChangesProducts ?? this.pricesChangesProducts,
       orderUnderUpdateStatus: orderUnderUpdateStatus ?? this.orderUnderUpdateStatus,
