@@ -10,10 +10,8 @@ import '../../../../core/core_importer.dart';
 import '../../../products_view/pages/add_products_to_sub_warehouse.dart';
 
 class InventoryProductWidget extends StatefulWidget {
-  final Function(bool) onChangeStatus;
   final int oldPrice;
   final ProductEntity productData;
-  final Function(bool) onDelete;
   final bool fromInventory;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final String barcode;
@@ -24,8 +22,10 @@ class InventoryProductWidget extends StatefulWidget {
   final bool attached;
   final int index;
   final int deleteTimes;
-  final Function(String) onChangePrice;
+  final Function(bool) onDelete;
+  final Function(bool) onChangeStatus;
   final Function(String) onChangeUnit;
+  final Function(String) onChangePrice;
   final Function(String) onChangeQuantity;
   final Function(String) onChangeSubWarehouse;
 
@@ -63,8 +63,17 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
     return result;
   }
 
+  bool loading;
+
+  @override
+  void initState() {
+    loading = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    var store = StoreProvider.of<AppState>(context);
     int active = widget.isActive;
     String productPrice = widget.price;
     ProductEntity product = widget.productData;
@@ -186,30 +195,32 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                                         borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                                         border: Border.all(color: active == 1 ? kmColors : searchGreyColor, width: 2)),
                                     margin: const EdgeInsets.only(left: 15.0),
-                                    child: Switch(
-                                      value: active == 1,
-                                      activeTrackColor: kmColors2,
-                                      activeColor: kmColors,
-                                      onChanged: (value) async {
-                                        StoreProvider.of<AppState>(context).dispatch(StartLoading());
-                                        bool result = await ProductsServices.updateProductsDetails(
-                                          bodyKey: 'is_active',
-                                          value: value ? '1' : '0',
-                                          subWarehouseId: widget.id,
-                                          isForSubWarehouse: true,
-                                          productId: product.productId.toString(),
-                                        );
-                                        snackBar(
-                                            success: result,
-                                            message: result
-                                                ? 'تم تحديث المنتج بنجاح'
-                                                : 'فشلت عملية تحديث المنتج يرجى المحاولة مجدداً',
-                                            context: context);
-                                        if (result) active = value ? 1 : 0;
-                                        widget.onChangeStatus(result);
-                                        StoreProvider.of<AppState>(context).dispatch(StopLoading());
-                                      },
-                                    ),
+                                    child: loading
+                                        ? const Loader()
+                                        : Switch(
+                                            value: active == 1,
+                                            activeTrackColor: kmColors2,
+                                            activeColor: kmColors,
+                                            onChanged: (value) async {
+                                              setState(() => loading = true);
+                                              bool result = await ProductsServices.updateProductsDetails(
+                                                bodyKey: 'is_active',
+                                                value: value ? '1' : '0',
+                                                subWarehouseId: widget.id,
+                                                isForSubWarehouse: true,
+                                                productId: product.productId.toString(),
+                                              );
+                                              snackBar(
+                                                  success: result,
+                                                  message: result
+                                                      ? 'تم تحديث المنتج بنجاح'
+                                                      : 'فشلت عملية تحديث المنتج يرجى المحاولة مجدداً',
+                                                  context: context);
+                                              if (result) active = value ? 1 : 0;
+                                              widget.onChangeStatus(result);
+                                              setState(() => loading = false);
+                                            },
+                                          ),
                                   )
                                 : const Loader(),
                           Row(
@@ -286,10 +297,9 @@ class _InventoryProductWidgetState extends State<InventoryProductWidget> {
                                                 );
                                               } else {
                                                 if (widget.barcode == null) {
-                                                  StoreProvider.of<AppState>(context).dispatch(SetBarcodeType(
+                                                  store.dispatch(SetBarcodeType(
                                                       barcodeRequestType: BarcodeRequestType.attachProduct));
-                                                  StoreProvider.of<AppState>(context)
-                                                      .dispatch(SetonIgnore(onIgnore: (barcode) async {
+                                                  store.dispatch(SetonIgnore(onIgnore: (barcode) async {
                                                     int param;
                                                     if (barcode == null) {
                                                       param = null;
