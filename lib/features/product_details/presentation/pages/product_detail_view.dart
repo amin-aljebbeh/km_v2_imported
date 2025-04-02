@@ -159,56 +159,64 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             Services.hasRole(context, adminRole) ||
                             (state.generalInformationState.subWarehouses
                                 .any((element) => element.id == product.subWarehouseId)))
-                          Column(
-                            children: [
-                              ProductSubWarehouseInfoWidget(
-                                  product: product,
-                                  onChangePrice: (price) {
-                                    setState(() => product.price = price);
-                                    widget.onChangePrice(price);
-                                  },
-                                  onChangePriceFactor: (priceFactor) => widget.onChangePriceFactor(priceFactor)),
-                              Services.hasPermission(context, upDateProductPermission) ||
-                                      (state.generalInformationState.subWarehouses
-                                          .any((element) => element.id == product.subWarehouseId))
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(bottom: 30),
-                                      child: Column(
-                                        children: [
-                                          ProductGeneralInfoWidget(
-                                              product: product,
-                                              onChangeQuantity: (quantity) => widget.onChangeQuantity(quantity),
-                                              onChangeUnit: (unit) => widget.onChangeUnit(unit)),
-                                          ChangeProductCategoryAndSubWarehouseWidget(
-                                              product: product,
-                                              onChangeCategory: (category) => selectedValueCategoryValue = category,
-                                              onChangeSubWarehouse: (subWarehouse) =>
-                                                  widget.onChangeSubWarehouse(subWarehouse)),
-                                          DeleteProductImageWidget(
-                                              product: product,
-                                              onAdd: () async => await ProductsServices.updateProductsDetails(
-                                                  bodyKey: 'category_id',
-                                                  value: selectedValueCategoryValue,
-                                                  productId: product.productId.toString()),
-                                              onDone: () => setState(() => product.categories.add(
-                                                  state.generalInformationState.categories.firstWhere((category) =>
-                                                      category.id.toString() == selectedValueCategoryValue)))),
-                                          ProductOptionsWidget(
-                                              product: product,
-                                              scaffoldKey: scaffoldKey,
-                                              onAddBarcode: (code) => widget.onAddBarcode(code)),
-                                          if (Services.hasRole(context, adminRole) ||
-                                              Services.hasRole(context, productsControllerRole))
-                                            RemoveProductWidget(product: product),
-                                        ],
-                                      ),
-                                    )
-                                  : Services.hasRole(context, supplierRole) &&
-                                          (state.generalInformationState.subWarehouses
-                                              .any((element) => element.id == product.subWarehouseId))
-                                      ? RemoveFromWarehouse(product: product)
-                                      : Container(),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30),
+                            child: Column(
+                              children: [
+                                if ((state.generalInformationState.subWarehouses
+                                    .any((element) => element.id == widget.product.subWarehouseId)))
+                                  ProductSubWarehouseInfoWidget(
+                                      product: product,
+                                      onChangePrice: (price) {
+                                        setState(() => product.price = price);
+                                        widget.onChangePrice(price);
+                                      },
+                                      onChangePriceFactor: (priceFactor) => widget.onChangePriceFactor(priceFactor)),
+                                ((Services.hasRole(context, productsControllerRole) &&
+                                            !Services.hasRole(context, supplierRole)) ||
+                                        ((Services.hasRole(context, productsControllerRole)) &&
+                                            (Services.hasPermission(context, updateProductPermission)) &&
+                                            (state.generalInformationState.subWarehouses
+                                                .any((element) => element.id == product.subWarehouseId))))
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(bottom: 30),
+                                        child: Column(
+                                          children: [
+                                            ProductGeneralInfoWidget(
+                                                product: product,
+                                                onChangeQuantity: (quantity) => widget.onChangeQuantity(quantity),
+                                                onChangeUnit: (unit) => widget.onChangeUnit(unit)),
+                                            ChangeProductCategoryAndSubWarehouseWidget(
+                                                product: product,
+                                                onChangeCategory: (category) => selectedValueCategoryValue = category,
+                                                onChangeSubWarehouse: (subWarehouse) =>
+                                                    widget.onChangeSubWarehouse(subWarehouse)),
+                                            DeleteProductImageWidget(
+                                                product: product,
+                                                onAdd: () async => await ProductsServices.updateProductsDetails(
+                                                    bodyKey: 'category_id',
+                                                    value: selectedValueCategoryValue,
+                                                    productId: product.productId.toString()),
+                                                onDone: () => setState(() => product.categories.add(
+                                                    state.generalInformationState.categories.firstWhere((category) =>
+                                                        category.id.toString() == selectedValueCategoryValue)))),
+                                            ProductOptionsWidget(
+                                                product: product,
+                                                scaffoldKey: scaffoldKey,
+                                                onAddBarcode: (code) => widget.onAddBarcode(code)),
+                                            if (Services.hasRole(context, adminRole) ||
+                                                Services.hasRole(context, productsControllerRole))
+                                              RemoveProductWidget(product: product),
+                                          ],
+                                        ),
+                                      )
+                                    : Services.hasRole(context, supplierRole) &&
+                                            (state.generalInformationState.subWarehouses
+                                                .any((element) => element.id == product.subWarehouseId))
+                                        ? RemoveFromWarehouse(product: product)
+                                        : Container(),
+                              ],
+                            ),
                           ),
                       ],
                     ),
