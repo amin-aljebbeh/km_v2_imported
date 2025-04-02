@@ -38,9 +38,9 @@ class ProductWidgetState extends State<ProductWidget> {
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
-    int subWarehouseId = product.subWarehouseId != -1
-        ? product.subWarehouseId
-        : int.parse(product.warehouses
+    int subWarehouseId = product.subWarehouseId == -1 ||
+            (Services.hasRole(context, supplierRole) && Services.hasRole(context, productsControllerRole))
+        ? int.parse(product.warehouses
             .firstWhere(
                 (element) => StoreProvider.of<AppState>(context)
                     .state
@@ -51,7 +51,8 @@ class ProductWidgetState extends State<ProductWidget> {
                     .contains(element.pivot.subWarehouseId),
                 orElse: () => WarehouseModel(pivot: WarehousePivotModel(subWarehouseId: '-1')))
             .pivot
-            .subWarehouseId);
+            .subWarehouseId)
+        : product.subWarehouseId;
     String price = product.price;
     if (Services.hasRole(context, supplierRole)) {
       price = (int.parse(product.price.split('.')[0]) - product.increasePercentage).toString();
@@ -121,7 +122,7 @@ class ProductWidgetState extends State<ProductWidget> {
                                         fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                               ],
                             ),
-                            Services.hasPermission(context, upDateProductPermission) ||
+                            Services.hasPermission(context, updateProductPermission) ||
                                     (state.generalInformationState.subWarehouses
                                         .any((element) => element.id == product.subWarehouseId))
                                 ? Row(
