@@ -53,7 +53,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(bottom: 30.w),
+      padding: EdgeInsets.only(bottom: 30.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,16 +70,14 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
               width: 150.w,
             ),
           ),
-          if (Services.hasPermission(context, upDateProductPermission))
+          if (Services.hasPermission(context, updateProductPermission))
             IconButton(
               icon: Icon(Icons.save, color: kmColors, size: 30),
               onPressed: () async {
                 if (textController.text.isNotEmpty) {
                   if (widget.isForPriceRate) {
-                    StoreProvider.of<AppState>(context).dispatch(
-                        UpdatePriceRateThresholdAction(
-                            threshold: textController.text,
-                            context: widget.ctx));
+                    StoreProvider.of<AppState>(context)
+                        .dispatch(UpdatePriceRateThresholdAction(threshold: textController.text, context: widget.ctx));
                   } else {
                     String newValue = textController.text;
                     if (widget.bodyKey == 'price') {
@@ -92,36 +90,24 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                         bodyKey: widget.bodyKey,
                         value: newValue,
                         isForSubWarehouse: widget.isForSubWarehouse,
-                        subWarehouseId:
-                            widget.productData.subWarehouseId.toString(),
+                        subWarehouseId: widget.productData.subWarehouseId.toString(),
                         productId: widget.productId.toString());
                     if (result) {
                       widget.onSavePressed(newValue, result);
-                      if (Services.hasRole(context, supplierRole) &&
-                          widget.bodyKey == 'price') {
-                        newValue = (int.parse(newValue.split('.')[0]) -
-                                    widget.increasePercentage ??
-                                0)
-                            .toString();
+                      if (Services.hasRole(context, supplierRole) && widget.bodyKey == 'price') {
+                        newValue = (int.parse(newValue.split('.')[0]) - widget.increasePercentage ?? 0).toString();
                       }
 
                       setState(() => textController.text = newValue);
                     }
                     if (result) {
-                      snackBar(
-                          success: result,
-                          message: 'تم التعديل بنجاح',
-                          context: context);
+                      snackBar(success: result, message: 'تم التعديل بنجاح', context: context);
                     } else {
-                      snackBar(
-                          success: result,
-                          message: 'فشلت عملية التعديل يرجى المحاولة مجدداً',
-                          context: context);
+                      snackBar(success: result, message: 'فشلت عملية التعديل يرجى المحاولة مجدداً', context: context);
                     }
                   }
                 } else {
-                  Toast.show('الحقل فارغ !', context,
-                      duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                  Toast.show('الحقل فارغ !', context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                 }
               },
             ),

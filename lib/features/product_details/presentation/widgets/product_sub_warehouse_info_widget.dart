@@ -6,6 +6,7 @@ class ProductSubWarehouseInfoWidget extends StatefulWidget {
   final ProductEntity product;
   final Function(String) onChangePrice;
   final Function(String) onChangePriceFactor;
+
   const ProductSubWarehouseInfoWidget({Key key, this.product, this.onChangePrice, this.onChangePriceFactor})
       : super(key: key);
 
@@ -22,9 +23,8 @@ class _ProductSubWarehouseInfoWidgetState extends State<ProductSubWarehouseInfoW
     }
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: UpdateProductInfoWidget(
+        if (Services.hasRole(context, productsControllerRole))
+          UpdateProductInfoWidget(
             title: priceString + ' :',
             inputType: TextInputType.text,
             bodyKey: 'price',
@@ -42,7 +42,6 @@ class _ProductSubWarehouseInfoWidgetState extends State<ProductSubWarehouseInfoW
               }
             },
           ),
-        ),
         UpdateProductInfoWidget(
           title: supplierCodeString + ':',
           inputType: TextInputType.text,
