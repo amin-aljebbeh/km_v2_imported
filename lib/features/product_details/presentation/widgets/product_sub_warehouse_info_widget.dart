@@ -23,7 +23,7 @@ class _ProductSubWarehouseInfoWidgetState extends State<ProductSubWarehouseInfoW
     }
     return Column(
       children: [
-        if (Services.hasRole(context, productsControllerRole))
+        if (Services.hasRole(context, productsControllerRole) || Services.hasRole(context, supplierRole))
           UpdateProductInfoWidget(
             title: priceString + ' :',
             inputType: TextInputType.text,
