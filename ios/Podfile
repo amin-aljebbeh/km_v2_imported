@@ -37,5 +37,31 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+    target.build_configurations.each do |config|
+      config.build_settings['ENABLE_BITCODE'] = 'NO'
+    end
+  end
+
+  def bitcode_strip_available?
+    system('xcrun', '--find', 'bitcode_strip', out: File::NULL, err: File::NULL)
+  end
+
+  if bitcode_strip_available?
+    app_framework = File.join(File.dirname(__FILE__), 'Flutter', 'Flutter.framework', 'Flutter')
+    if File.exist?(app_framework)
+      puts "Stripping bitcode from #{app_framework}"
+      system('xcrun', 'bitcode_strip', app_framework, '-r', '-o', app_framework) ||
+        warn("Failed to strip bitcode from #{app_framework}")
+    end
+
+    Dir.glob(File.join('Pods', '**', '*.framework')).each do |framework|
+      executable = File.join(framework, File.basename(framework, '.framework'))
+      next unless File.exist?(executable)
+      puts "Stripping bitcode from #{executable}"
+      system('xcrun', 'bitcode_strip', executable, '-r', '-o', executable) ||
+        warn("Failed to strip bitcode from #{executable}")
+    end
+  else
+    puts 'bitcode_strip not available; skipping bitcode removal.'
   end
 end
